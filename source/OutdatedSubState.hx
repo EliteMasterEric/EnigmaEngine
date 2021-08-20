@@ -52,8 +52,8 @@ class OutdatedSubState extends MusicBeatState {
     if (MainMenuState.nightly != "")
       txt.text = "You are on\n"
         + MainMenuState.kadeEngineVer
-        + "\nWhich is a PRE-RELEASE BUILD!"
-        + "\n\nReport all bugs to the author of the pre-release.\nSpace/Escape ignores this.";
+        + "\nWhich is a CUSTOM BUILD!"
+        + "\n\nReport all bugs to the mod author, and not KadeDev.\nPress Space/Escape to continue.";
 
     txt.setFormat("VCR OSD Mono", 32, FlxColor.fromRGB(200, 200, 200), CENTER);
     txt.borderColor = FlxColor.BLACK;

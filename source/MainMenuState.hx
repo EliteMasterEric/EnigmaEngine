@@ -37,7 +37,7 @@ class MainMenuState extends MusicBeatState {
 
   public static var firstStart:Bool = true;
 
-  public static var nightly:String = "";
+  public static final nightly:String = " CUSTOM (E2)";
 
   public static var kadeEngineVer:String = "1.6.2" + nightly;
   public static var gameVer:String = "0.2.7.1";
