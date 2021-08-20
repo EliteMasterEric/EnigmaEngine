@@ -1,20 +1,20 @@
 {
-	"lineEnds": {
-		"leftCurly": "after",
-		"rightCurly": "both",
-		"emptyCurly": "noBreak",
-		"objectLiteralCurly": {
-			"leftCurly": "after"
-		}
-	},
-	"sameLine": {
-		"ifElse": "same",
-		"doWhile": "next",
-		"tryBody": "next",
-		"tryCatch": "next"
-	},
-	"indentation": {
-		"character": "  ",
-		"trailingWhitespace": false
-	}
+  "lineEnds": {
+    "leftCurly": "after",
+    "rightCurly": "both",
+    "emptyCurly": "noBreak",
+    "objectLiteralCurly": {
+      "leftCurly": "after"
+    }
+  },
+  "sameLine": {
+    "ifElse": "same",
+    "doWhile": "next",
+    "tryBody": "next",
+    "tryCatch": "next"
+  },
+  "indentation": {
+    "character": "  ",
+    "trailingWhitespace": false
+  }
 }
