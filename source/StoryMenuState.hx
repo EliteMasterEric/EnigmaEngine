@@ -17,33 +17,9 @@ using StringTools;
 class StoryMenuState extends MusicBeatState {
   var scoreText:FlxText;
 
-  static function weekData():Array<Dynamic> {
-    return [
-      ['Tutorial'],
-      ['Bopeebo', 'Fresh', 'Dad Battle'],
-      ['Spookeez', 'South', "Monster"],
-      ['Pico', 'Philly Nice', "Blammed"],
-      ['Satin Panties', "High", "Milf"],
-      ['Cocoa', 'Eggnog', 'Winter Horrorland'],
-      ['Senpai', 'Roses', 'Thorns']
-    ];
-  }
-
   var curDifficulty:Int = 1;
 
   public static var weekUnlocked:Array<Bool> = [];
-
-  var weekCharacters:Array<Dynamic> = [
-    ['', 'bf', 'gf'],
-    ['dad', 'bf', 'gf'],
-    ['spooky', 'bf', 'gf'],
-    ['pico', 'bf', 'gf'],
-    ['mom', 'bf', 'gf'],
-    ['parents-christmas', 'bf', 'gf'],
-    ['senpai', 'bf', 'gf']
-  ];
-
-  var weekNames:Array<String> = CoolUtil.coolTextFile(Paths.txt('data/weekNames'));
 
   var txtWeekTitle:FlxText;
 
@@ -63,16 +39,23 @@ class StoryMenuState extends MusicBeatState {
 
   function unlockWeeks():Array<Bool> {
     var weeks:Array<Bool> = [];
+
     #if debug
-    for (i in 0...weekNames.length)
+    // In debug builds, unlock all weeks.
+    for (i in 0...WeekData.WEEK_DATA.length) {
       weeks.push(true);
+    }
     return weeks;
     #end
 
-    weeks.push(true);
+    // In prod builds, only unlock weeks if they're unlocked by default.
+    for (i in 0...WeekData.WEEK_DATA.length) {
+      weeks.push(WeekData.WEEK_DATA[i].unlocked);
+    }
 
+    // Unlock if save has unlocked it.
     for (i in 0...FlxG.save.data.weekUnlocked) {
-      weeks.push(true);
+      weeks[i] = true;
     }
     return weeks;
   }
@@ -126,7 +109,7 @@ class StoryMenuState extends MusicBeatState {
 
     trace("Line 70");
 
-    for (i in 0...weekData().length) {
+    for (i in 0...WeekData.WEEK_DATA.length) {
       var weekThing:MenuItem = new MenuItem(0, yellowBG.y + yellowBG.height + 10, i);
       weekThing.y += ((weekThing.height + 20) * i);
       weekThing.targetY = i;
@@ -222,7 +205,7 @@ class StoryMenuState extends MusicBeatState {
 
     scoreText.text = "WEEK SCORE:" + lerpScore;
 
-    txtWeekTitle.text = weekNames[curWeek].toUpperCase();
+    txtWeekTitle.text = WeekData.WEEK_DATA[curWeek].name.toUpperCase();
     txtWeekTitle.x = FlxG.width - (txtWeekTitle.width + 10);
 
     // FlxG.watch.addQuick('font', scoreText.font);
@@ -317,7 +300,7 @@ class StoryMenuState extends MusicBeatState {
         stopspamming = true;
       }
 
-      PlayState.storyPlaylist = weekData()[curWeek];
+      PlayState.storyPlaylist = WeekData.WEEK_DATA[curWeek].songs;
       PlayState.isStoryMode = true;
       selectedWeek = true;
 
@@ -388,10 +371,10 @@ class StoryMenuState extends MusicBeatState {
   function changeWeek(change:Int = 0):Void {
     curWeek += change;
 
-    if (curWeek >= weekData().length)
+    if (curWeek >= WeekData.WEEK_DATA.length)
       curWeek = 0;
     if (curWeek < 0)
-      curWeek = weekData().length - 1;
+      curWeek = WeekData.WEEK_DATA.length - 1;
 
     var bullShit:Int = 0;
 
@@ -410,12 +393,12 @@ class StoryMenuState extends MusicBeatState {
   }
 
   function updateText() {
-    grpWeekCharacters.members[0].setCharacter(weekCharacters[curWeek][0]);
-    grpWeekCharacters.members[1].setCharacter(weekCharacters[curWeek][1]);
-    grpWeekCharacters.members[2].setCharacter(weekCharacters[curWeek][2]);
+    grpWeekCharacters.members[0].setCharacter(WeekData.WEEK_DATA[curWeek].characters[0]);
+    grpWeekCharacters.members[1].setCharacter(WeekData.WEEK_DATA[curWeek].characters[1]);
+    grpWeekCharacters.members[2].setCharacter(WeekData.WEEK_DATA[curWeek].characters[2]);
 
     txtTracklist.text = "Tracks\n";
-    var stringThing:Array<String> = weekData()[curWeek];
+    var stringThing:Array<String> = WeekData.WEEK_DATA[curWeek].songs;
 
     for (i in stringThing)
       txtTracklist.text += "\n" + i;
@@ -433,7 +416,7 @@ class StoryMenuState extends MusicBeatState {
   }
 
   public static function unlockNextWeek(week:Int):Void {
-    if (week <= weekData().length - 1 && FlxG.save.data.weekUnlocked == week) {
+    if (week <= WeekData.WEEK_DATA.length - 1 && FlxG.save.data.weekUnlocked == week) {
       weekUnlocked.push(true);
       trace('Week ' + week + ' beat (Week ' + (week + 1) + ' unlocked)');
     }
