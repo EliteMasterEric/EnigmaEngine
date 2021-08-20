@@ -233,6 +233,22 @@ class ModchartState {
     PlayState.instance.iconP1.changeIcon(id);
   }
 
+  function changeBoyfriendHealthIcon(id:String) {
+    PlayState.instance.iconP1.changeIcon(id);
+  }
+
+  function changeDadHealthIcon(id:String) {
+    PlayState.instance.iconP2.changeIcon(id);
+  }
+
+  function changeGirlfriendCharacter(id:String) {
+    var oldgirlfriendx = PlayState.gf.x;
+    var oldgirlfriendy = PlayState.gf.y;
+    PlayState.instance.removeObject(PlayState.gf);
+    PlayState.gf = new Character(oldgirlfriendx, oldgirlfriendy, id);
+    PlayState.instance.addObject(PlayState.gf);
+  }
+
   function makeAnimatedLuaSprite(spritePath:String, names:Array<String>, prefixes:Array<String>, startAnim:String, id:String) {
     #if sys
     // pre lowercasing the song name (makeAnimatedLuaSprite)
@@ -259,23 +275,6 @@ class ModchartState {
     }
 
     luaSprites.set(id, sprite);
-	function changeBoyfriendHealthIcon(id:String)
-	{
-					PlayState.instance.iconP1.changeIcon(id);
-	}
-
-	function changeDadHealthIcon(id:String)
-	{
-					PlayState.instance.iconP2.changeIcon(id);
-	}
-
-	function changeGirlfriendCharacter(id:String) {
-						var oldgirlfriendx = PlayState.gf.x;
-						var oldgirlfriendy = PlayState.gf.y;
-						PlayState.instance.removeObject(PlayState.gf);
-						PlayState.gf = new Character(oldgirlfriendx, oldgirlfriendy, id);
-						PlayState.instance.addObject(PlayState.gf);
-	}
 
     PlayState.instance.addObject(sprite);
 
@@ -405,9 +404,6 @@ class ModchartState {
 
     setVar("followXOffset", 0);
     setVar("followYOffset", 0);
-				Lua_helper.add_callback(lua,"changeBoyfriendHealthIcon", changeBoyfriendHealthIcon);
-				Lua_helper.add_callback(lua,"changeDadHealthIcon", changeDadHealthIcon);
-				Lua_helper.add_callback(lua,"changeGirlfriendCharacter", changeGirlfriendCharacter);
 
     setVar("showOnlyStrums", false);
     setVar("strumLine1Visible", true);
@@ -433,6 +429,12 @@ class ModchartState {
     Lua_helper.add_callback(lua, "changeDadCharacter", changeDadCharacter);
 
     Lua_helper.add_callback(lua, "changeBoyfriendCharacter", changeBoyfriendCharacter);
+
+		Lua_helper.add_callback(lua, "changeBoyfriendHealthIcon", changeBoyfriendHealthIcon);
+
+    Lua_helper.add_callback(lua, "changeDadHealthIcon", changeDadHealthIcon);
+
+    Lua_helper.add_callback(lua, "changeGirlfriendCharacter", changeGirlfriendCharacter);
 
     Lua_helper.add_callback(lua, "getProperty", getPropertyByName);
 
