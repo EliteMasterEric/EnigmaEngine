@@ -8,86 +8,77 @@ import flixel.input.gamepad.FlxGamepad;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 
-class GameOverState extends FlxTransitionableState
-{
-	var bfX:Float = 0;
-	var bfY:Float = 0;
+class GameOverState extends FlxTransitionableState {
+  var bfX:Float = 0;
+  var bfY:Float = 0;
 
-	public function new(x:Float, y:Float)
-	{
-		super();
+  public function new(x:Float, y:Float) {
+    super();
 
-		bfX = x;
-		bfY = y;
-	}
+    bfX = x;
+    bfY = y;
+  }
 
-	override function create()
-	{
-		var loser:FlxSprite = new FlxSprite(100, 100);
-		var loseTex = Paths.getSparrowAtlas('lose');
-		loser.frames = loseTex;
-		loser.animation.addByPrefix('lose', 'lose', 24, false);
-		loser.animation.play('lose');
-		loser.antialiasing = FlxG.save.data.antialiasing;
-		add(loser);
+  override function create() {
+    var loser:FlxSprite = new FlxSprite(100, 100);
+    var loseTex = Paths.getSparrowAtlas('lose');
+    loser.frames = loseTex;
+    loser.animation.addByPrefix('lose', 'lose', 24, false);
+    loser.animation.play('lose');
+    loser.antialiasing = FlxG.save.data.antialiasing;
+    add(loser);
 
-		var bf:Boyfriend = new Boyfriend(bfX, bfY);
-		// bf.scrollFactor.set();
-		add(bf);
-		bf.playAnim('firstDeath');
+    var bf:Boyfriend = new Boyfriend(bfX, bfY);
+    // bf.scrollFactor.set();
+    add(bf);
+    bf.playAnim('firstDeath');
 
-		FlxG.camera.follow(bf, LOCKON, 0.001);
-		
-		var restart:FlxSprite = new FlxSprite(500, 50).loadGraphic(Paths.image('restart'));
-		restart.setGraphicSize(Std.int(restart.width * 0.6));
-		restart.updateHitbox();
-		restart.alpha = 0;
-		restart.antialiasing = FlxG.save.data.antialiasing;
-		add(restart);
+    FlxG.camera.follow(bf, LOCKON, 0.001);
 
-		FlxG.sound.music.fadeOut(2, FlxG.sound.music.volume * 0.6);
+    var restart:FlxSprite = new FlxSprite(500, 50).loadGraphic(Paths.image('restart'));
+    restart.setGraphicSize(Std.int(restart.width * 0.6));
+    restart.updateHitbox();
+    restart.alpha = 0;
+    restart.antialiasing = FlxG.save.data.antialiasing;
+    add(restart);
 
-		FlxTween.tween(restart, {alpha: 1}, 1, {ease: FlxEase.quartInOut});
-		FlxTween.tween(restart, {y: restart.y + 40}, 7, {ease: FlxEase.quartInOut, type: PINGPONG});
+    FlxG.sound.music.fadeOut(2, FlxG.sound.music.volume * 0.6);
 
-		super.create();
-	}
+    FlxTween.tween(restart, {alpha: 1}, 1, {ease: FlxEase.quartInOut});
+    FlxTween.tween(restart, {y: restart.y + 40}, 7, {ease: FlxEase.quartInOut, type: PINGPONG});
 
-	private var fading:Bool = false;
+    super.create();
+  }
 
-	override function update(elapsed:Float)
-	{
-		var pressed:Bool = FlxG.keys.justPressed.ANY;
+  private var fading:Bool = false;
 
-		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
+  override function update(elapsed:Float) {
+    var pressed:Bool = FlxG.keys.justPressed.ANY;
 
-		if(FlxG.save.data.InstantRespawn)
-		{
-			fading = true;
-			FlxG.sound.music.fadeOut(0.5, 0, function(twn:FlxTween)
-			{
-				FlxG.sound.music.stop();
-				LoadingState.loadAndSwitchState(new PlayState());
-			});
-		}
+    var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
-		if (gamepad != null)
-		{
-			if (gamepad.justPressed.ANY)
-				pressed = true;
-		}
+    if (FlxG.save.data.InstantRespawn) {
+      fading = true;
+      FlxG.sound.music.fadeOut(0.5, 0, function(twn:FlxTween) {
+        FlxG.sound.music.stop();
+        LoadingState.loadAndSwitchState(new PlayState());
+      });
+    }
 
-		pressed = false;
+    if (gamepad != null) {
+      if (gamepad.justPressed.ANY)
+        pressed = true;
+    }
 
-		if (pressed && !fading)
-		{
-			fading = true;
-			FlxG.sound.music.fadeOut(0.5, 0, function(twn:FlxTween)
-			{
-				FlxG.sound.music.stop();
-				LoadingState.loadAndSwitchState(new PlayState());
-			});
-		}
-		super.update(elapsed);
-	}
+    pressed = false;
+
+    if (pressed && !fading) {
+      fading = true;
+      FlxG.sound.music.fadeOut(0.5, 0, function(twn:FlxTween) {
+        FlxG.sound.music.stop();
+        LoadingState.loadAndSwitchState(new PlayState());
+      });
+    }
+    super.update(elapsed);
+  }
 }

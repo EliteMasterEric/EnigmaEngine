@@ -30,159 +30,142 @@ import flixel.text.FlxText;
 
 using StringTools;
 
-class Caching extends MusicBeatState
-{
-	var toBeDone = 0;
-	var done = 0;
+class Caching extends MusicBeatState {
+  var toBeDone = 0;
+  var done = 0;
 
-	var loaded = false;
+  var loaded = false;
 
-	var text:FlxText;
-	var kadeLogo:FlxSprite;
+  var text:FlxText;
+  var kadeLogo:FlxSprite;
 
-	public static var bitmapData:Map<String,FlxGraphic>;
+  public static var bitmapData:Map<String, FlxGraphic>;
 
-	var images = [];
-	var music = [];
-	var charts = [];
+  var images = [];
+  var music = [];
+  var charts = [];
 
+  override function create() {
+    FlxG.save.bind('funkin', 'ninjamuffin99');
 
-	override function create()
-	{
+    PlayerSettings.init();
 
-		FlxG.save.bind('funkin', 'ninjamuffin99');
+    KadeEngineData.initSave();
 
-		PlayerSettings.init();
+    FlxG.mouse.visible = false;
 
-		KadeEngineData.initSave();
+    FlxG.worldBounds.set(0, 0);
 
-		FlxG.mouse.visible = false;
+    bitmapData = new Map<String, FlxGraphic>();
 
-		FlxG.worldBounds.set(0,0);
+    text = new FlxText(FlxG.width / 2, FlxG.height / 2 + 300, 0, "Loading...");
+    text.size = 34;
+    text.alignment = FlxTextAlign.CENTER;
+    text.alpha = 0;
 
-		bitmapData = new Map<String,FlxGraphic>();
+    kadeLogo = new FlxSprite(FlxG.width / 2, FlxG.height / 2).loadGraphic(Paths.image('KadeEngineLogo'));
+    kadeLogo.x -= kadeLogo.width / 2;
+    kadeLogo.y -= kadeLogo.height / 2 + 100;
+    text.y -= kadeLogo.height / 2 - 125;
+    text.x -= 170;
+    kadeLogo.setGraphicSize(Std.int(kadeLogo.width * 0.6));
+    if (FlxG.save.data.antialiasing != null)
+      kadeLogo.antialiasing = FlxG.save.data.antialiasing;
+    else
+      kadeLogo.antialiasing = true;
 
-		text = new FlxText(FlxG.width / 2, FlxG.height / 2 + 300,0,"Loading...");
-		text.size = 34;
-		text.alignment = FlxTextAlign.CENTER;
-		text.alpha = 0;
+    kadeLogo.alpha = 0;
 
-		kadeLogo = new FlxSprite(FlxG.width / 2, FlxG.height / 2).loadGraphic(Paths.image('KadeEngineLogo'));
-		kadeLogo.x -= kadeLogo.width / 2;
-		kadeLogo.y -= kadeLogo.height / 2 + 100;
-		text.y -= kadeLogo.height / 2 - 125;
-		text.x -= 170;
-		kadeLogo.setGraphicSize(Std.int(kadeLogo.width * 0.6));
-		if(FlxG.save.data.antialiasing != null)
-			kadeLogo.antialiasing = FlxG.save.data.antialiasing;
-		else
-			kadeLogo.antialiasing = true;
-		
-		kadeLogo.alpha = 0;
+    FlxGraphic.defaultPersist = FlxG.save.data.cacheImages;
 
-		FlxGraphic.defaultPersist = FlxG.save.data.cacheImages;
+    #if cpp
+    if (FlxG.save.data.cacheImages) {
+      trace("caching images...");
 
-		#if cpp
-		if (FlxG.save.data.cacheImages)
-		{
-			trace("caching images...");
+      for (i in FileSystem.readDirectory(FileSystem.absolutePath("assets/shared/images/characters"))) {
+        if (!i.endsWith(".png"))
+          continue;
+        images.push(i);
+      }
+    }
 
-			for (i in FileSystem.readDirectory(FileSystem.absolutePath("assets/shared/images/characters")))
-			{
-				if (!i.endsWith(".png"))
-					continue;
-				images.push(i);
-			}
-		}
+    trace("caching music...");
 
-		trace("caching music...");
+    for (i in FileSystem.readDirectory(FileSystem.absolutePath("assets/songs"))) {
+      music.push(i);
+    }
+    #end
 
-		for (i in FileSystem.readDirectory(FileSystem.absolutePath("assets/songs")))
-		{
-			music.push(i);
-		}
-		#end
+    toBeDone = Lambda.count(images) + Lambda.count(music);
 
-		toBeDone = Lambda.count(images) + Lambda.count(music);
+    var bar = new FlxBar(10, FlxG.height - 50, FlxBarFillDirection.LEFT_TO_RIGHT, FlxG.width, 40, null, "done", 0, toBeDone);
+    bar.color = FlxColor.PURPLE;
 
-		var bar = new FlxBar(10,FlxG.height - 50,FlxBarFillDirection.LEFT_TO_RIGHT,FlxG.width,40,null,"done",0,toBeDone);
-		bar.color = FlxColor.PURPLE;
+    add(bar);
 
-		add(bar);
+    add(kadeLogo);
+    add(text);
 
-		add(kadeLogo);
-		add(text);
+    trace('starting caching..');
 
-		trace('starting caching..');
-		
-		#if cpp
-		// update thread
+    #if cpp
+    // update thread
 
-		sys.thread.Thread.create(() -> {
-			while(!loaded)
-			{
-				if (toBeDone != 0 && done != toBeDone)
-					{
-						var alpha = HelperFunctions.truncateFloat(done / toBeDone * 100,2) / 100;
-						kadeLogo.alpha = alpha;
-						text.alpha = alpha;
-						text.text = "Loading... (" + done + "/" + toBeDone + ")";
-					}
-			}
-		
-		});
+    sys.thread.Thread.create(() -> {
+      while (!loaded) {
+        if (toBeDone != 0 && done != toBeDone) {
+          var alpha = HelperFunctions.truncateFloat(done / toBeDone * 100, 2) / 100;
+          kadeLogo.alpha = alpha;
+          text.alpha = alpha;
+          text.text = "Loading... (" + done + "/" + toBeDone + ")";
+        }
+      }
+    });
 
-		// cache thread
+    // cache thread
 
-		sys.thread.Thread.create(() -> {
-			cache();
-		});
-		#end
+    sys.thread.Thread.create(() -> {
+      cache();
+    });
+    #end
 
-		super.create();
-	}
+    super.create();
+  }
 
-	var calledDone = false;
+  var calledDone = false;
 
-	override function update(elapsed) 
-	{
-		super.update(elapsed);
-	}
+  override function update(elapsed) {
+    super.update(elapsed);
+  }
 
+  function cache() {
+    trace("LOADING: " + toBeDone + " OBJECTS.");
 
-	function cache()
-	{
-		trace("LOADING: " + toBeDone + " OBJECTS.");
+    for (i in images) {
+      var replaced = i.replace(".png", "");
+      var data:BitmapData = BitmapData.fromFile("assets/shared/images/characters/" + i);
+      trace('id ' + replaced + ' file - assets/shared/images/characters/' + i + ' ${data.width}');
+      var graph = FlxGraphic.fromBitmapData(data);
+      graph.persist = true;
+      graph.destroyOnNoUse = false;
+      bitmapData.set(replaced, graph);
+      done++;
+    }
 
-		for (i in images)
-		{
-			var replaced = i.replace(".png","");
-			var data:BitmapData = BitmapData.fromFile("assets/shared/images/characters/" + i);
-			trace('id ' + replaced + ' file - assets/shared/images/characters/' + i + ' ${data.width}');
-			var graph = FlxGraphic.fromBitmapData(data);
-			graph.persist = true;
-			graph.destroyOnNoUse = false;
-			bitmapData.set(replaced,graph);
-			done++;
-		}
+    for (i in music) {
+      FlxG.sound.cache(Paths.inst(i));
+      FlxG.sound.cache(Paths.voices(i));
+      trace("cached " + i);
+      done++;
+    }
 
-		for (i in music)
-		{
-			FlxG.sound.cache(Paths.inst(i));
-			FlxG.sound.cache(Paths.voices(i));
-			trace("cached " + i);
-			done++;
-		}
+    trace("Finished caching...");
 
+    loaded = true;
 
-		trace("Finished caching...");
+    trace(Assets.cache.hasBitmapData('GF_assets'));
 
-		loaded = true;
-
-		trace(Assets.cache.hasBitmapData('GF_assets'));
-
-		FlxG.switchState(new TitleState());
-	}
-
+    FlxG.switchState(new TitleState());
+  }
 }
 #end
