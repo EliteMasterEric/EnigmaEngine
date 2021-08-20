@@ -1,7 +1,9 @@
 import Song.SwagSong;
 
-class SmallNote // basically Note.hx but small as fuck
-{
+/**
+ * Basically Note.hx but small AF.
+ */
+class SmallNote {
   public var strumTime:Float;
   public var noteData:Int;
 

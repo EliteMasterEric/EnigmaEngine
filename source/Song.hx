@@ -65,6 +65,28 @@ class Song {
     return parseJSONshit(rawJson);
   }
 
+  public static function validateSongs(songFolders:Array<String>, curDifficulty:Int):Bool {
+    // For each song in the list...
+    for (i in 0...songFolders.length) {
+      var songFolder = songFolders[i];
+      var songFolderFormat = StringTools.replace(songFolder, " ", "-");
+      var songJsonFile = Highscore.formatSong(songFolderFormat, curDifficulty);
+
+      var songFolderLowercase = songFolderFormat.toLowerCase();
+
+      var songDataPath = Paths.json(songFolderLowercase + '/' + songJsonFile.toLowerCase());
+
+      var songExists = Assets.exists(songDataPath);
+
+      // If any song doesn't exist, return false.
+      if (!songExists) {
+        return false;
+      }
+    }
+    // Validation completed.
+    return true;
+  }
+
   public static function loadFromJson(jsonInput:String, ?folder:String):SwagSong {
     // pre lowercasing the folder name
     var folderLowercase = StringTools.replace(folder, " ", "-").toLowerCase();
@@ -77,30 +99,19 @@ class Song {
 
     trace('loading ' + folderLowercase + '/' + jsonInput.toLowerCase());
 
-    var rawJson = Assets.getText(Paths.json(folderLowercase + '/' + jsonInput.toLowerCase())).trim();
+    try {
+      var rawJson = Assets.getText(Paths.json(folderLowercase + '/' + jsonInput.toLowerCase())).trim();
 
-    while (!rawJson.endsWith("}")) {
-      rawJson = rawJson.substr(0, rawJson.length - 1);
-      // LOL GOING THROUGH THE BULLSHIT TO CLEAN IDK WHATS STRANGE
-    }
-
-    // FIX THE CASTING ON WINDOWS/NATIVE
-    // Windows???
-    // trace(songData);
-
-    // trace('LOADED FROM JSON: ' + songData.notes);
-    /* 
-      for (i in 0...songData.notes.length)
-      {
-        trace('LOADED FROM JSON: ' + songData.notes[i].sectionNotes);
-        // songData.notes[i].sectionNotes = songData.notes[i].sectionNotes
+      while (!rawJson.endsWith("}")) {
+        rawJson = rawJson.substr(0, rawJson.length - 1);
       }
 
-        daNotes = songData.notes;
-        daSong = songData.song;
-        daBpm = songData.bpm; */
-
-    return parseJSONshit(rawJson);
+      return parseJSONshit(rawJson);
+    }
+    catch (err) {
+      trace("ERROR: Couldn't load song!");
+      return null;
+    }
   }
 
   public static function conversionChecks(song:SwagSong):SwagSong {

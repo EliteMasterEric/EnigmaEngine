@@ -3647,7 +3647,13 @@ class PlayState extends MusicBeatState {
     FlxG.stage.window.onFocusOut.add(focusOut);
     FlxG.stage.window.onFocusIn.add(focusIn);
 
+    /**
+     * ERIC: The background video player must be initialized
+     * with an empty WEBM first, then later replaced
+     * with the video we want. You can set this with a modchart.
+     */
     var ourSource:String = "assets/videos/daWeirdVid/dontDelete.webm";
+
     // WebmPlayer.SKIP_STEP_LIMIT = 90;
     var str1:String = "WEBM SHIT";
     webmHandler = new WebmHandler();
@@ -4107,7 +4113,8 @@ class PlayState extends MusicBeatState {
       gf.dance();
     }
 
-    if (!boyfriend.animation.curAnim.name.startsWith("sing") && (curBeat % idleBeat == 0 || !idleToBeat)) {
+    var bugfix = Math.floor(curStep / 16) < SONG.notes.length;
+    if (!boyfriend.animation.curAnim.name.startsWith("sing") && (curBeat % idleBeat == 0 || !idleToBeat) && bugfix) {
       boyfriend.playAnim('idle' + ((SONG.notes[Math.floor(curStep / 16)].p2AltAnim
         && boyfriend.animation.getByName('idle-alt') != null) ? '-alt' : ''),
         idleToBeat);
