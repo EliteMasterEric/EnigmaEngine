@@ -1,8 +1,5 @@
-package;
-
 import Section.SwagSection;
 import haxe.Json;
-import haxe.format.JsonParser;
 import lime.utils.Assets;
 
 using StringTools;

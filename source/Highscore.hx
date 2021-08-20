@@ -1,5 +1,3 @@
-package;
-
 import flixel.FlxG;
 
 using StringTools;

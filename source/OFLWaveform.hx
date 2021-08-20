@@ -1,6 +1,3 @@
-import lime.media.AudioSource;
-import lime.media.AudioBuffer;
-import openfl.media.Sound;
 import openfl.display.Graphics;
 import openfl.display.Sprite;
 

@@ -1,29 +1,14 @@
-package;
-
 /// Code created by Rozebud for FPS Plus (thanks rozebud)
 // modified by KadeDev for use in Kade Engine/Tricky
 import flixel.input.gamepad.FlxGamepad;
 import flixel.util.FlxAxes;
 import flixel.FlxSubState;
-import Options.Option;
-import flixel.input.FlxInput;
-import flixel.input.keyboard.FlxKey;
 import flixel.FlxG;
-import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.effects.FlxFlicker;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import io.newgrounds.NG;
-import lime.app.Application;
-import lime.utils.Assets;
-import flixel.math.FlxMath;
 import flixel.text.FlxText;
-import flixel.input.FlxKeyManager;
 
 using StringTools;
 
@@ -274,9 +259,12 @@ class KeyBindMenu extends FlxSubState {
     OptionsMenu.instance.acceptInput = true;
 
     FlxTween.tween(keyTextDisplay, {alpha: 0}, 1, {ease: FlxEase.expoInOut});
-    FlxTween.tween(blackBox, {alpha: 0}, 1.1, {ease: FlxEase.expoInOut, onComplete: function(flx:FlxTween) {
-      close();
-    }});
+    FlxTween.tween(blackBox, {alpha: 0}, 1.1, {
+      ease: FlxEase.expoInOut,
+      onComplete: function(flx:FlxTween) {
+        close();
+      }
+    });
     FlxTween.tween(infoText, {alpha: 0}, 1, {ease: FlxEase.expoInOut});
   }
 

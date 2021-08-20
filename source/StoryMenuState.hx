@@ -1,18 +1,13 @@
-package;
-
 import flixel.input.gamepad.FlxGamepad;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.transition.FlxTransitionableState;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import lime.net.curl.CURLCode;
 #if windows
 import Discord.DiscordClient;
 #end

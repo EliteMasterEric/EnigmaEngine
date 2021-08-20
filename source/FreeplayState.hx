@@ -1,9 +1,5 @@
-package;
-
 import lime.app.Application;
-import openfl.utils.Future;
 import openfl.media.Sound;
-import flixel.system.FlxSound;
 #if sys
 import smTools.SMFile;
 import sys.FileSystem;
@@ -11,15 +7,12 @@ import sys.io.File;
 #end
 import Song.SwagSong;
 import flixel.input.gamepad.FlxGamepad;
-import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.addons.display.FlxGridOverlay;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import lime.utils.Assets;
 #if windows
 import Discord.DiscordClient;
 #end

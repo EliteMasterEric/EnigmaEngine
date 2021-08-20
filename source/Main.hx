@@ -1,16 +1,11 @@
-package;
-
 import lime.app.Application;
 #if windows
 import Discord.DiscordClient;
 #end
-import openfl.display.BlendMode;
-import openfl.text.TextFormat;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxState;
-import openfl.Assets;
 import openfl.Lib;
 import openfl.display.FPS;
 import openfl.display.Sprite;

@@ -1,7 +1,3 @@
-package;
-
-import flixel.FlxG;
-import openfl.display.Sprite;
 #if desktop
 import webm.*;
 #end
