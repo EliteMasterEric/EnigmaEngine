@@ -1,16 +1,20 @@
 {
 	"lineEnds": {
-		"leftCurly": "both",
+		"leftCurly": "after",
 		"rightCurly": "both",
-		"emptyCurly": "break",
+		"emptyCurly": "noBreak",
 		"objectLiteralCurly": {
 			"leftCurly": "after"
 		}
 	},
 	"sameLine": {
-		"ifElse": "next",
+		"ifElse": "same",
 		"doWhile": "next",
 		"tryBody": "next",
 		"tryCatch": "next"
+	},
+	"indentation": {
+		"character": "  ",
+		"trailingWhitespace": false
 	}
 }
