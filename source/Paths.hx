@@ -113,15 +113,18 @@ class Paths {
     #if !cpp
     usecahce = false;
     #end
-    if (isCharacter)
-      if (usecahce)
+    // Characters use the image cache.
+    if (isCharacter) {
+      if (usecahce) {
         #if cpp
         return FlxAtlasFrames.fromSparrow(imageCached(key), file('images/characters/$key.xml', library));
         #else
         return null;
         #end
-      else
+      } else {
         return FlxAtlasFrames.fromSparrow(image('characters/$key', library), file('images/characters/$key.xml', library));
+      }
+    }
     return FlxAtlasFrames.fromSparrow(image(key, library), file('images/$key.xml', library));
   }
 

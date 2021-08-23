@@ -62,7 +62,16 @@ class Note extends FlxSprite {
 
   public var children:Array<Note> = [];
 
-  public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inCharter:Bool = false, ?isAlt:Bool = false) {
+  /**
+   * [Description]
+   * @param strumTime The time at which this note is at in the song.
+   * @param noteData Which note is pressed.
+   * @param prevNote 
+   * @param sustainNote 
+   * @param inCharter 
+   * @param isAlt 
+   */
+  public function new(strumTime:Float, rawNoteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inCharter:Bool = false, ?isAlt:Bool = false) {
     super();
 
     if (prevNote == null)
@@ -95,71 +104,33 @@ class Note extends FlxSprite {
     if (this.strumTime < 0)
       this.strumTime = 0;
 
-    this.noteData = noteData;
-
-    var daStage:String = PlayState.curStage;
+    this.noteData = Std.int(rawNoteData % 4);
 
     // defaults if no noteStyle was found in chart
     var noteTypeCheck:String = 'normal';
 
+		trace('IN CHARTER? ${inCharter}');
+
     if (inCharter) {
-      frames = Paths.getSparrowAtlas('NOTE_assets');
-
-      for (i in 0...4) {
-        animation.addByPrefix(dataColor[i] + 'Scroll', dataColor[i] + ' alone'); // Normal notes
-        animation.addByPrefix(dataColor[i] + 'hold', dataColor[i] + ' hold'); // Hold
-        animation.addByPrefix(dataColor[i] + 'holdend', dataColor[i] + ' tail'); // Tails
-      }
-
-      setGraphicSize(Std.int(width * 0.7));
-      updateHitbox();
-      antialiasing = FlxG.save.data.antialiasing;
+			// We are in the Song Editor tool!
+			noteTypeCheck = 'normal';
     } else {
-      if (PlayState.SONG.noteStyle == null) {
-        switch (PlayState.storyWeek) {
-          case 6:
-            noteTypeCheck = 'pixel';
-        }
-      } else {
-        noteTypeCheck = PlayState.SONG.noteStyle;
-      }
-
-      switch (noteTypeCheck) {
-        case 'pixel':
-          loadGraphic(Paths.image('weeb/pixelUI/arrows-pixels', 'week6'), true, 17, 17);
-          if (isSustainNote)
-            loadGraphic(Paths.image('weeb/pixelUI/arrowEnds', 'week6'), true, 7, 6);
-
-          for (i in 0...4) {
-            animation.add(dataColor[i] + 'Scroll', [i + 4]); // Normal notes
-            animation.add(dataColor[i] + 'hold', [i]); // Holds
-            animation.add(dataColor[i] + 'holdend', [i + 4]); // Tails
-          }
-
-          var widthSize = Std.int(PlayState.curStage.startsWith('school') ? (width * PlayState.daPixelZoom) : (isSustainNote ? (width * (PlayState.daPixelZoom
-            - 1.5)) : (width * PlayState.daPixelZoom)));
-
-          setGraphicSize(widthSize);
-          updateHitbox();
-        default:
-          frames = Paths.getSparrowAtlas('NOTE_assets');
-
-          for (i in 0...4) {
-            animation.addByPrefix(dataColor[i] + 'Scroll', dataColor[i] + ' alone'); // Normal notes
-            animation.addByPrefix(dataColor[i] + 'hold', dataColor[i] + ' hold'); // Hold
-            animation.addByPrefix(dataColor[i] + 'holdend', dataColor[i] + ' tail'); // Tails
-          }
-
-          setGraphicSize(Std.int(width * 0.7));
-          updateHitbox();
-
-          antialiasing = FlxG.save.data.antialiasing;
-      }
+			if (PlayState.SONG.noteStyle == null) {
+				switch (PlayState.storyWeek) {
+					case 6:
+						noteTypeCheck = 'pixel';
+				}
+			} else {
+				noteTypeCheck = PlayState.SONG.noteStyle;
+			}
     }
 
+		CustomNotes.loadNoteSprite(this, noteTypeCheck, rawNoteData, isSustainNote);
+
     x += swagWidth * noteData;
-    animation.play(dataColor[noteData] + 'Scroll');
-    originColor = noteData; // The note's origin color will be checked by its sustain notes
+
+    animation.play(CustomNotes.getDirectionName(rawNoteData) + ' Note');
+    originColor = rawNoteData; // The note's origin color will be checked by its sustain notes
 
     if (FlxG.save.data.stepMania && !isSustainNote) {
       var strumCheck:Float = rStrumTime;
@@ -173,7 +144,7 @@ class Note extends FlxSprite {
       var col:Int = 0;
       col = quantityColor[ind % 8]; // Set the color depending on the beats
 
-      animation.play(dataColor[col] + 'Scroll');
+      animation.play(CustomNotes.getDirectionName(col) + ' Note');
       localAngle -= arrowAngles[col];
       localAngle += arrowAngles[noteData];
       originColor = col;
@@ -198,7 +169,7 @@ class Note extends FlxSprite {
 
       originColor = prevNote.originColor;
 
-      animation.play(dataColor[originColor] + 'holdend'); // This works both for normal colors and quantization colors
+      animation.play(CustomNotes.getDirectionName(originColor) + ' End'); // This works both for normal colors and quantization colors
       updateHitbox();
 
       x -= width / 2;
@@ -209,7 +180,7 @@ class Note extends FlxSprite {
         x += 30;
 
       if (prevNote.isSustainNote) {
-        prevNote.animation.play(dataColor[prevNote.originColor] + 'hold');
+        prevNote.animation.play(CustomNotes.getDirectionName(originColor) + ' Sustain');
         prevNote.updateHitbox();
 
         prevNote.scale.y *= (stepHeight + 1) / prevNote.height; // + 1 so that there's no odd gaps as the notes scroll

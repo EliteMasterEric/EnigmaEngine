@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="DarkHaloNote.png">
+  <SubTexture name="DarkHaloNote Down 00" x="0" y="0" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Down 01" x="404" y="0" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Down 02" x="808" y="0" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Down 03" x="1212" y="0" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Down 04" x="0" y="224" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Down 05" x="404" y="224" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Down 06" x="808" y="224" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Left 00" x="1212" y="224" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Left 01" x="0" y="448" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Left 02" x="404" y="448" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Left 03" x="808" y="448" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Left 04" x="1212" y="448" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Left 05" x="0" y="672" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Left 06" x="404" y="672" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Right 00" x="808" y="672" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Right 01" x="1212" y="672" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Right 02" x="0" y="896" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Right 03" x="404" y="896" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Right 04" x="808" y="896" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Right 05" x="1212" y="896" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Right 06" x="0" y="1120" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Up 00" x="404" y="1120" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Up 01" x="808" y="1120" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Up 02" x="1212" y="1120" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Up 03" x="0" y="1344" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Up 04" x="404" y="1344" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Up 05" x="808" y="1344" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Up 06" x="1212" y="1344" width="404" height="224" frameX="0" frameY="0" frameWidth="404" frameHeight="224" />
+  <SubTexture name="DarkHaloNote Down Hit 00" x="0" y="1568" width="354" height="384" frameX="0" frameY="0" frameWidth="354" frameHeight="384" />
+  <SubTexture name="DarkHaloNote Down Hit 01" x="354" y="1568" width="354" height="384" frameX="0" frameY="0" frameWidth="354" frameHeight="384" />
+  <SubTexture name="DarkHaloNote Down Hit 02" x="708" y="1568" width="354" height="384" frameX="0" frameY="0" frameWidth="354" frameHeight="384" />
+  <SubTexture name="DarkHaloNote Down Hit 03" x="1062" y="1568" width="354" height="384" frameX="0" frameY="0" frameWidth="354" frameHeight="384" />
+  <SubTexture name="DarkHaloNote Left Hit 00" x="0" y="1952" width="354" height="384" frameX="0" frameY="0" frameWidth="354" frameHeight="384" />
+  <SubTexture name="DarkHaloNote Left Hit 01" x="354" y="1952" width="354" height="384" frameX="0" frameY="0" frameWidth="354" frameHeight="384" />
+  <SubTexture name="DarkHaloNote Left Hit 02" x="708" y="1952" width="354" height="384" frameX="0" frameY="0" frameWidth="354" frameHeight="384" />
+  <SubTexture name="DarkHaloNote Left Hit 03" x="1062" y="1952" width="354" height="384" frameX="0" frameY="0" frameWidth="354" frameHeight="384" />
+  <SubTexture name="DarkHaloNote Right Hit 00" x="0" y="2336" width="354" height="384" frameX="0" frameY="0" frameWidth="354" frameHeight="384" />
+  <SubTexture name="DarkHaloNote Right Hit 01" x="354" y="2336" width="354" height="384" frameX="0" frameY="0" frameWidth="354" frameHeight="384" />
+  <SubTexture name="DarkHaloNote Right Hit 02" x="708" y="2336" width="354" height="384" frameX="0" frameY="0" frameWidth="354" frameHeight="384" />
+  <SubTexture name="DarkHaloNote Right Hit 03" x="1062" y="2336" width="354" height="384" frameX="0" frameY="0" frameWidth="354" frameHeight="384" />
+  <SubTexture name="DarkHaloNote Up Hit 00" x="0" y="2720" width="354" height="384" frameX="0" frameY="0" frameWidth="354" frameHeight="384" />
+  <SubTexture name="DarkHaloNote Up Hit 01" x="354" y="2720" width="354" height="384" frameX="0" frameY="0" frameWidth="354" frameHeight="384" />
+  <SubTexture name="DarkHaloNote Up Hit 02" x="708" y="2720" width="354" height="384" frameX="0" frameY="0" frameWidth="354" frameHeight="384" />
+  <SubTexture name="DarkHaloNote Up Hit 03" x="1062" y="2720" width="354" height="384" frameX="0" frameY="0" frameWidth="354" frameHeight="384" />
+</TextureAtlas>

@@ -41,8 +41,61 @@ Add new callback functions to the Modchart API: `ModchartState.hx`
 See an example modchart: `assets/preload/data/tutorial/modchart.lua`
 Place modcharts in: `assets/preload/data/SONGNAME/modchart.lua`
 
+## Song charting
 
+Press 7 to display the chart.
 
+Toggling "camera points to P1" enables Section.mustHitSection.
+
+If mustHitSection is on, notes 0-3 are BF notes and 4-7 are Dad notes.
+If mustHitSection is off, notes 0-3 are Dad notes and 4-7 are BF notes.
+
+sectionNotes is:
+[STARTTIME, NOTEDATA, HOLDDURATION]
+
+Song attributes are:
+```
+{
+  "notes": <NOTES>,
+  // Starting BF character.
+  "player1": "bf-pixel",
+  // Starting Dad character.
+  "player2": "senpai",
+  // Starting GF character.
+  "gfVersion": "gf-pixel",
+  // Song Name
+  "song": "Senpai",
+  // Starting stage.
+  "stage": "school",
+  // Whether to load Voices.ogg
+  "needsVoices": true,
+  // The song's BPM.
+  "bpm": 144,
+  // The song's note scroll speed.
+  "speed": 1.2
+
+  // Events are currently used to control BPM changes.
+  "eventObjects": <EVENTS>
+
+  // Whether it's valid to save this song's high score.
+  // Defaults to true.
+  "validScore": true,
+  // Note style to use (normal or pixel)
+  // Defaults to normal.
+  "noteStyle": "pixel",
+
+  // CUSTOM VALUES
+  // Controls the number of notes in each player's strumline.
+  // 1 uses only the 9K Center note.
+  // 4 is the default.
+  // 5 adds the 9K Center note between left and right.
+  // 6 uses the vs Shaggy 6K layout (Left/Up/Right Alt Left/Down/Alt Right).
+  // 8 uses the vs Shaggy 9K layout excluding the Center key.
+  // 9 uses the vs Shaggy 9K layout.
+  // Other values are unsupported.
+  "strumlineSize": 4,
+}
+```
 
 ## Adding/Removing Weeks
 

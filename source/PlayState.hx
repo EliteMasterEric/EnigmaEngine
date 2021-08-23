@@ -1722,12 +1722,9 @@ class PlayState extends MusicBeatState {
         if (daStrumTime < 0)
           daStrumTime = 0;
         var daNoteData:Int = Std.int(songNotes[1] % 4);
+        var daRawNoteData:Int = Std.int(songNotes[1]);
 
-        var gottaHitNote:Bool = section.mustHitSection;
-
-        if (songNotes[1] > 3) {
-          gottaHitNote = !section.mustHitSection;
-        }
+        var gottaHitNote:Bool = CustomNotes.mustHitNote(daRawNoteData, section.mustHitSection);
 
         var oldNote:Note;
         if (unspawnNotes.length > 0)
@@ -1736,6 +1733,7 @@ class PlayState extends MusicBeatState {
           oldNote = null;
 
         var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote);
+        swagNote.rawNoteData = daRawNoteData;
 
         if (!gottaHitNote && PlayStateChangeables.Optimize)
           continue;
@@ -1759,6 +1757,7 @@ class PlayState extends MusicBeatState {
           oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 
           var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, oldNote, true);
+          sustainNote.rawNoteData = daRawNoteData;
           sustainNote.scrollFactor.set();
           unspawnNotes.push(sustainNote);
           sustainNote.isAlt = songNotes[3];
@@ -1797,110 +1796,7 @@ class PlayState extends MusicBeatState {
   }
 
   private function generateStaticArrows(player:Int):Void {
-    for (i in 0...4) {
-      // FlxG.log.add(i);
-      var babyArrow:FlxSprite = new FlxSprite(0, strumLine.y);
-
-      // defaults if no noteStyle was found in chart
-      var noteTypeCheck:String = 'normal';
-
-      if (PlayStateChangeables.Optimize && player == 0)
-        continue;
-
-      if (SONG.noteStyle == null) {
-        switch (storyWeek) {
-          case 6:
-            noteTypeCheck = 'pixel';
-        }
-      } else {
-        noteTypeCheck = SONG.noteStyle;
-      }
-
-      switch (noteTypeCheck) {
-        case 'pixel':
-          babyArrow.loadGraphic(Paths.image('weeb/pixelUI/arrows-pixels', 'week6'), true, 17, 17);
-          babyArrow.animation.add('green', [6]);
-          babyArrow.animation.add('red', [7]);
-          babyArrow.animation.add('blue', [5]);
-          babyArrow.animation.add('purplel', [4]);
-
-          babyArrow.setGraphicSize(Std.int(babyArrow.width * daPixelZoom));
-          babyArrow.updateHitbox();
-          babyArrow.antialiasing = false;
-
-          switch (Math.abs(i)) {
-            case 2:
-              babyArrow.x += Note.swagWidth * 2;
-              babyArrow.animation.add('static', [2]);
-              babyArrow.animation.add('pressed', [6, 10], 12, false);
-              babyArrow.animation.add('confirm', [14, 18], 12, false);
-            case 3:
-              babyArrow.x += Note.swagWidth * 3;
-              babyArrow.animation.add('static', [3]);
-              babyArrow.animation.add('pressed', [7, 11], 12, false);
-              babyArrow.animation.add('confirm', [15, 19], 24, false);
-            case 1:
-              babyArrow.x += Note.swagWidth * 1;
-              babyArrow.animation.add('static', [1]);
-              babyArrow.animation.add('pressed', [5, 9], 12, false);
-              babyArrow.animation.add('confirm', [13, 17], 24, false);
-            case 0:
-              babyArrow.x += Note.swagWidth * 0;
-              babyArrow.animation.add('static', [0]);
-              babyArrow.animation.add('pressed', [4, 8], 12, false);
-              babyArrow.animation.add('confirm', [12, 16], 24, false);
-          }
-
-        default:
-          babyArrow.frames = Paths.getSparrowAtlas('NOTE_assets');
-          for (j in 0...4) {
-            babyArrow.animation.addByPrefix(dataColor[j], 'arrow' + dataSuffix[j]);
-          }
-
-          var lowerDir:String = dataSuffix[i].toLowerCase();
-
-          babyArrow.animation.addByPrefix('static', 'arrow' + dataSuffix[i]);
-          babyArrow.animation.addByPrefix('pressed', lowerDir + ' press', 24, false);
-          babyArrow.animation.addByPrefix('confirm', lowerDir + ' confirm', 24, false);
-
-          babyArrow.x += Note.swagWidth * i;
-
-          babyArrow.antialiasing = FlxG.save.data.antialiasing;
-          babyArrow.setGraphicSize(Std.int(babyArrow.width * 0.7));
-      }
-
-      babyArrow.updateHitbox();
-      babyArrow.scrollFactor.set();
-
-      babyArrow.alpha = 0;
-      if (!isStoryMode) {
-        babyArrow.y -= 10;
-        // babyArrow.alpha = 0;
-        FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: 1}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
-      }
-
-      babyArrow.ID = i;
-
-      switch (player) {
-        case 0:
-          cpuStrums.add(babyArrow);
-        case 1:
-          playerStrums.add(babyArrow);
-      }
-
-      babyArrow.animation.play('static');
-      babyArrow.x += 50;
-      babyArrow.x += ((FlxG.width / 2) * player);
-
-      if (PlayStateChangeables.Optimize)
-        babyArrow.x -= 275;
-
-      cpuStrums.forEach(function(spr:FlxSprite) {
-        spr.centerOffsets(); // CPU arrows start out slightly off-center
-      });
-
-      strumLineNotes.add(babyArrow);
-    }
+    CustomNotes.buildStrumlines(player == 1, strumLine.y, SONG.strumlineSize);
   }
 
   private function appearStaticArrows():Void {
@@ -2754,7 +2650,7 @@ class PlayState extends MusicBeatState {
 
               #if cpp
               if (luaModchart != null)
-                luaModchart.executeState('playerTwoSing', [Math.abs(daNote.noteData), Conductor.songPosition]);
+                luaModchart.executeState('playerTwoSing', [Math.abs(daNote.noteData), Math.abs(daNote.rawNoteData), Conductor.songPosition]);
               #end
 
               dad.holdTimer = 0;
@@ -2782,7 +2678,7 @@ class PlayState extends MusicBeatState {
 
             #if cpp
             if (luaModchart != null)
-              luaModchart.executeState('playerTwoSing', [Math.abs(daNote.noteData), Conductor.songPosition]);
+              luaModchart.executeState('playerTwoSing', [Math.abs(daNote.noteData), Math.abs(daNote.rawNoteData), Conductor.songPosition]);
             #end
 
             dad.holdTimer = 0;
@@ -3751,7 +3647,7 @@ class PlayState extends MusicBeatState {
 
       #if cpp
       if (luaModchart != null)
-        luaModchart.executeState('playerOneMiss', [direction, Conductor.songPosition]);
+        luaModchart.executeState('playerOneMiss', [direction, Math.abs(daNote.rawNoteData), Conductor.songPosition]);
       #end
 
       updateAccuracy();
@@ -3891,7 +3787,7 @@ class PlayState extends MusicBeatState {
 
       #if cpp
       if (luaModchart != null)
-        luaModchart.executeState('playerOneSing', [note.noteData, Conductor.songPosition]);
+        luaModchart.executeState('playerOneSing', [note.noteData, Math.abs(note.rawNoteData), Conductor.songPosition]);
       #end
 
       if (!loadRep && note.mustPress) {

@@ -1,2 +1,5 @@
 Tutorial:gf:0
 Dad Battle:dad:1
+Senpai:senpai:6
+Roses:senpai:6
+Thorns:spirit:6
