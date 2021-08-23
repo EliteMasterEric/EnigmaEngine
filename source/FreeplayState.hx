@@ -440,8 +440,18 @@ class FreeplayState extends MusicBeatState {
     intendedScore = Highscore.getScore(songHighscore, curDifficulty);
     combo = Highscore.getCombo(songHighscore, curDifficulty);
     #end
-    diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songName)[curDifficulty])}';
-    diffText.text = CoolUtil.difficultyFromInt(curDifficulty).toUpperCase();
+    updateDifficultyText();
+  }
+
+  function updateDifficultyText() {
+    var songDataCurrentDiff = songData.get(songs[curSelected].songName)[curDifficulty];
+    if (songDataCurrentDiff != null) {
+      diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songDataCurrentDiff)}';
+      diffText.text = CoolUtil.difficultyFromInt(curDifficulty).toUpperCase();
+    } else {
+      diffCalcText.text = 'RATING: N/A';
+      diffText.text = '${CoolUtil.difficultyFromInt(curDifficulty).toUpperCase()} (NOT AVAILABLE)';
+    }
   }
 
   function changeSelection(change:Int = 0) {
@@ -488,8 +498,7 @@ class FreeplayState extends MusicBeatState {
     // lerpScore = 0;
     #end
 
-    diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songName)[curDifficulty])}';
-    diffText.text = CoolUtil.difficultyFromInt(curDifficulty).toUpperCase();
+    updateDifficultyText();
 
     #if PRELOAD_ALL
     if (songs[curSelected].songCharacter == "sm") {
@@ -503,11 +512,11 @@ class FreeplayState extends MusicBeatState {
       FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
     #end
 
-    var hmm;
     try {
-      hmm = songData.get(songs[curSelected].songName)[curDifficulty];
-      if (hmm != null)
-        Conductor.changeBPM(hmm.bpm);
+      var songDataCurrentDiff = songData.get(songs[curSelected].songName)[curDifficulty];
+      if (songDataCurrentDiff != null) {
+        Conductor.changeBPM(songDataCurrentDiff.bpm);
+      }
     }
     catch (ex) {}
 

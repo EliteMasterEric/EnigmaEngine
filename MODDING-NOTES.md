@@ -1,8 +1,10 @@
 # Modding Notes
 
 ## Resources
+1.7 Changelog: https://kadedev.github.io/Kade-Engine/changelogs/changelog-1.7
+1.7 Diffs: https://github.com/KadeDev/Kade-Engine/pull/1901/files
 
-https://gamebanana.com/tuts/13798
+Source Code Guide: https://gamebanana.com/tuts/13798
 
 ## Which asset folder to use?
 
@@ -14,6 +16,29 @@ https://gamebanana.com/tuts/13798
 * preload: 
 * shared: 
 * week#: 
+
+## Debug keys:
+
+- `0`: BF Animation Debugger
+- `1`: End Song (During bot play, hides UI)
+- `2`: Ten Seconds Time Travel
+- `6`: Dad Animation Debugger
+- `7`: Song Charter
+- `8`: Stage Positioner
+- `9`: Old BF Icon
+- `R`: Restart Song
+
+## Animation Debugger
+
+- `Q`: Zoom Out
+- `E`: Zoom In
+- `F`: Flip Character
+- `W`: Previous Animation
+- `S`: Previous Animation
+- `Space`: Replay Current Animation
+- `Arrow Keys`: Offset Animation by 1
+- `Shift + Arrow Keys`: Offset Animation by 10
+- `IJKL`: Pan the Camera
 
 ## Modcharts
 
@@ -41,9 +66,7 @@ Add new callback functions to the Modchart API: `ModchartState.hx`
 See an example modchart: `assets/preload/data/tutorial/modchart.lua`
 Place modcharts in: `assets/preload/data/SONGNAME/modchart.lua`
 
-## Song charting
-
-Press 7 to display the chart.
+## Song data
 
 Toggling "camera points to P1" enables Section.mustHitSection.
 
@@ -97,10 +120,6 @@ Song attributes are:
 }
 ```
 
-## Adding/Removing Weeks
-
-See `WeekData.hx`.
-
 ## Freeplay Song List
 
 See `assets/preload/data/freeplaySonglist.txt`
@@ -118,3 +137,15 @@ To repeat:
 * Edit hxformat.json
 * Edit Project.xml and remove example_mods
 * Perform "Start Format Files: By Glob" on "**/*.hx" and "**/*.json" and "**/*.xml"
+
+You will also need a mergetool that allows agressive ignoring of whitespace. p4merge does this, and is freely downloadable.
+
+## daWeirdVid.webm
+```
+/** 
+ * ERIC: The background video player must be initialized 
+ * with an empty WEBM first, then later replaced 
+ * with the video we want. You can set this with a modchart. 
+ */ 
+var ourSource:String = "assets/videos/daWeirdVid/dontDelete.webm"; 
+```

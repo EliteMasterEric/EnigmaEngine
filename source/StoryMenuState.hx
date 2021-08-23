@@ -313,6 +313,13 @@ class StoryMenuState extends MusicBeatState {
   var stopspamming:Bool = false;
 
   function selectWeek() {
+    if (!Song.validateSongs(WeekData.WEEK_DATA[curWeek].songs, curDifficulty)) {
+      // If any song doesn't exist, stop loading the week.
+      FlxG.sound.play(Paths.sound('cancelMenu'));
+      trace('CANCELLED loading week: one or more songs are missing on this difficulty!');
+      return;
+    }
+
     if (weekUnlocked[curWeek]) {
       if (stopspamming == false) {
         FlxG.sound.play(Paths.sound('confirmMenu'));
