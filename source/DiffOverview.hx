@@ -407,6 +407,7 @@ class DiffOverview extends FlxSubState {
           oldNote = null;
 
         var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote, false, true);
+        swagNote.rawNoteData = songNotes[1];
 
         if (!gottaHitNote)
           continue;
@@ -425,6 +426,7 @@ class DiffOverview extends FlxSubState {
           oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 
           var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, oldNote, true, true);
+          swagNote.rawNoteData = songNotes[1];
           sustainNote.scrollFactor.set();
           unspawnNotes.push(sustainNote);
 
