@@ -600,30 +600,32 @@ class PlayState extends MusicBeatState {
     }
 
     // REPOSITIONING PER STAGE
-    switch (Stage.curStage) {
-      case 'limo':
-        boyfriend.y -= 220;
-        boyfriend.x += 260;
-        if (FlxG.save.data.distractions) {
-          resetFastCar();
-        }
+    if (!PlayStateChangeables.Optimize) {
+      switch (Stage.curStage) {
+        case 'limo':
+          boyfriend.y -= 220;
+          boyfriend.x += 260;
+          if (FlxG.save.data.distractions) {
+            resetFastCar();
+          }
 
-      case 'mall':
-        boyfriend.x += 200;
+        case 'mall':
+          boyfriend.x += 200;
 
-      case 'mallEvil':
-        boyfriend.x += 320;
-        dad.y -= 80;
-      case 'school':
-        boyfriend.x += 200;
-        boyfriend.y += 220;
-        gf.x += 180;
-        gf.y += 300;
-      case 'schoolEvil':
-        boyfriend.x += 200;
-        boyfriend.y += 220;
-        gf.x += 180;
-        gf.y += 300;
+        case 'mallEvil':
+          boyfriend.x += 320;
+          dad.y -= 80;
+        case 'school':
+          boyfriend.x += 200;
+          boyfriend.y += 220;
+          gf.x += 180;
+          gf.y += 300;
+        case 'schoolEvil':
+          boyfriend.x += 200;
+          boyfriend.y += 220;
+          gf.x += 180;
+          gf.y += 300;
+      }
     }
 
     if (loadRep) {
@@ -1056,7 +1058,6 @@ class PlayState extends MusicBeatState {
       }
 
       switch (swagCounter) {
-
         case 0:
           FlxG.sound.play(Paths.sound('intro3' + altSuffix), 0.6);
         case 1:
@@ -2015,18 +2016,19 @@ class PlayState extends MusicBeatState {
 
     if (FlxG.keys.justPressed.NINE)
       iconP1.swapOldIcon();
+    if (!PlayStateChangeables.Optimize) {
+      switch (Stage.curStage) {
+        case 'philly':
+          if (trainMoving && !PlayStateChangeables.Optimize) {
+            trainFrameTiming += elapsed;
 
-    switch (Stage.curStage) {
-      case 'philly':
-        if (trainMoving && !PlayStateChangeables.Optimize) {
-          trainFrameTiming += elapsed;
-
-          if (trainFrameTiming >= 1 / 24) {
-            updateTrainPos();
-            trainFrameTiming = 0;
+            if (trainFrameTiming >= 1 / 24) {
+              updateTrainPos();
+              trainFrameTiming = 0;
+            }
           }
-        }
-        // phillyCityLights.members[curLight].alpha -= (Conductor.crochet / 1000) * FlxG.elapsed;
+          // phillyCityLights.members[curLight].alpha -= (Conductor.crochet / 1000) * FlxG.elapsed;
+      }
     }
 
     var lengthInPx = scoreTxt.textField.length * scoreTxt.frameHeight; // bad way but does more or less a better job
@@ -2132,18 +2134,20 @@ class PlayState extends MusicBeatState {
         FlxG.stage.window.onFocusIn.remove(focusIn);
         removedVideo = true;
       }
-      new FlxTimer().start(0.3, function(tmr:FlxTimer) {
-        for (bg in Stage.toAdd) {
-          remove(bg);
-        }
-        for (array in Stage.layInFront) {
-          for (bg in array)
+      if (!PlayStateChangeables.Optimize) {
+        new FlxTimer().start(0.3, function(tmr:FlxTimer) {
+          for (bg in Stage.toAdd) {
             remove(bg);
-        }
-        remove(boyfriend);
-        remove(dad);
-        remove(gf);
-      });
+          }
+          for (array in Stage.layInFront) {
+            for (bg in array)
+              remove(bg);
+          }
+          remove(boyfriend);
+          remove(dad);
+          remove(gf);
+        });
+      }
       FlxG.switchState(new StagePositioningDebug(SONG.stage, gf.curCharacter, boyfriend.curCharacter, dad.curCharacter));
       clean();
       FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, handleInput);
@@ -2359,18 +2363,19 @@ class PlayState extends MusicBeatState {
         if (luaModchart != null)
           luaModchart.executeState('playerOneTurn', []);
         #end
-
-        switch (Stage.curStage) {
-          case 'limo':
-            camFollow.x = boyfriend.getMidpoint().x - 300;
-          case 'mall':
-            camFollow.y = boyfriend.getMidpoint().y - 200;
-          case 'school':
-            camFollow.x = boyfriend.getMidpoint().x - 200;
-            camFollow.y = boyfriend.getMidpoint().y - 200;
-          case 'schoolEvil':
-            camFollow.x = boyfriend.getMidpoint().x - 200;
-            camFollow.y = boyfriend.getMidpoint().y - 200;
+        if (!PlayStateChangeables.Optimize) {
+          switch (Stage.curStage) {
+            case 'limo':
+              camFollow.x = boyfriend.getMidpoint().x - 300;
+            case 'mall':
+              camFollow.y = boyfriend.getMidpoint().y - 200;
+            case 'school':
+              camFollow.x = boyfriend.getMidpoint().x - 200;
+              camFollow.y = boyfriend.getMidpoint().y - 200;
+            case 'schoolEvil':
+              camFollow.x = boyfriend.getMidpoint().x - 200;
+              camFollow.y = boyfriend.getMidpoint().y - 200;
+          }
         }
       }
     }
@@ -3068,7 +3073,7 @@ class PlayState extends MusicBeatState {
     if (FlxG.save.data.accuracyMod == 1)
       totalNotesHit += wife;
 
-    var daRating = daNote.rating;
+    var daRating = Ratings.judgeNote(daNote);
 
     switch (daRating) {
       case 'shit':
@@ -3973,19 +3978,21 @@ class PlayState extends MusicBeatState {
       resyncVocals();
     }
 
-    for (step in Stage.slowBacks.keys()) {
-      if (step == curStep) {
-        if (Stage.hideLastBG) {
-          for (bg in Stage.swagBacks) {
-            if (!Stage.slowBacks[step].contains(bg))
-              FlxTween.tween(bg, {alpha: 0}, Stage.tweenDuration);
+    if (!PlayStateChangeables.Optimize) {
+      for (step in Stage.slowBacks.keys()) {
+        if (step == curStep) {
+          if (Stage.hideLastBG) {
+            for (bg in Stage.swagBacks) {
+              if (!Stage.slowBacks[step].contains(bg))
+                FlxTween.tween(bg, {alpha: 0}, Stage.tweenDuration);
+            }
+            for (bg in Stage.slowBacks[step]) {
+              FlxTween.tween(bg, {alpha: 1}, Stage.tweenDuration);
+            }
+          } else {
+            for (bg in Stage.slowBacks[step])
+              bg.visible = !bg.visible;
           }
-          for (bg in Stage.slowBacks[step]) {
-            FlxTween.tween(bg, {alpha: 1}, Stage.tweenDuration);
-          }
-        } else {
-          for (bg in Stage.slowBacks[step])
-            bg.visible = !bg.visible;
         }
       }
     }
@@ -4087,56 +4094,60 @@ class PlayState extends MusicBeatState {
         dad.playAnim('cheer', true);
       }
 
-      switch (Stage.curStage) {
-        case 'school':
-          if (FlxG.save.data.distractions && Stage.swagBacks['bgGirls'] != null) {
-            Stage.swagBacks['bgGirls'].dance();
-          }
+      if (!PlayStateChangeables.Optimize) {
+        switch (Stage.curStage) {
+          case 'school':
+            if (FlxG.save.data.distractions && Stage.swagBacks['bgGirls'] != null) {
+              Stage.swagBacks['bgGirls'].dance();
+            }
 
-        case 'mall':
-          if (FlxG.save.data.distractions) {
-            for (bg in Stage.animatedBacks)
-              bg.animation.play('idle');
-          }
+          case 'mall':
+            if (FlxG.save.data.distractions) {
+              for (bg in Stage.animatedBacks)
+                bg.animation.play('idle');
+            }
 
-        case 'limo':
-          if (FlxG.save.data.distractions) {
-            Stage.swagGroup['grpLimoDancers'].forEach(function(dancer:BackgroundDancer) {
-              dancer.dance();
-            });
-
-            if (FlxG.random.bool(10) && fastCarCanDrive)
-              fastCarDrive();
-          }
-        case "philly":
-          if (FlxG.save.data.distractions) {
-            if (!trainMoving)
-              trainCooldown += 1;
-
-            if (curBeat % 4 == 0) {
-              var phillyCityLights = Stage.swagGroup['phillyCityLights'];
-              phillyCityLights.forEach(function(light:FlxSprite) {
-                light.visible = false;
+          case 'limo':
+            if (FlxG.save.data.distractions) {
+              Stage.swagGroup['grpLimoDancers'].forEach(function(dancer:BackgroundDancer) {
+                dancer.dance();
               });
 
-              curLight = FlxG.random.int(0, phillyCityLights.length - 1);
-
-              phillyCityLights.members[curLight].visible = true;
-              // phillyCityLights.members[curLight].alpha = 1;
+              if (FlxG.random.bool(10) && fastCarCanDrive)
+                fastCarDrive();
             }
-          }
-
-          if (curBeat % 8 == 4 && FlxG.random.bool(Conductor.bpm > 320 ? 150 : 30) && !trainMoving && trainCooldown > 8) {
+          case "philly":
             if (FlxG.save.data.distractions) {
-              trainCooldown = FlxG.random.int(-4, 0);
-              trainStart();
+              if (!trainMoving)
+                trainCooldown += 1;
+
+              if (curBeat % 4 == 0) {
+                var phillyCityLights = Stage.swagGroup['phillyCityLights'];
+                phillyCityLights.forEach(function(light:FlxSprite) {
+                  light.visible = false;
+                });
+
+                curLight = FlxG.random.int(0, phillyCityLights.length - 1);
+
+                phillyCityLights.members[curLight].visible = true;
+                // phillyCityLights.members[curLight].alpha = 1;
+              }
             }
-          }
+
+            if (curBeat % 8 == 4 && FlxG.random.bool(Conductor.bpm > 320 ? 150 : 30) && !trainMoving && trainCooldown > 8) {
+              if (FlxG.save.data.distractions) {
+                trainCooldown = FlxG.random.int(-4, 0);
+                trainStart();
+              }
+            }
+        }
       }
 
-      if (Stage.halloweenLevel && FlxG.random.bool(Conductor.bpm > 320 ? 100 : 10) && curBeat > lightningStrikeBeat + lightningOffset) {
-        if (FlxG.save.data.distractions) {
-          lightningStrikeShit();
+      if (!PlayStateChangeables.Optimize) {
+        if (Stage.halloweenLevel && FlxG.random.bool(Conductor.bpm > 320 ? 100 : 10) && curBeat > lightningStrikeBeat + lightningOffset) {
+          if (FlxG.save.data.distractions) {
+            lightningStrikeShit();
+          }
         }
       }
     }
