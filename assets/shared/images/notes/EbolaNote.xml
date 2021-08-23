@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="EbolaNote.png">
+  <SubTexture name="EbolaNote Down 00" x="0" y="0" width="161" height="158" frameX="0" frameY="0" frameWidth="161" frameHeight="158" />
+  <SubTexture name="EbolaNote Up 00" x="161" y="0" width="161" height="158" frameX="0" frameY="0" frameWidth="161" frameHeight="158" />
+  <SubTexture name="EbolaNote Left 00" x="322" y="0" width="158" height="161" frameX="0" frameY="0" frameWidth="158" frameHeight="161" />
+  <SubTexture name="EbolaNote Right 00" x="480" y="0" width="158" height="161" frameX="0" frameY="0" frameWidth="158" frameHeight="161" />
+  <SubTexture name="EbolaNote Sustain 00" x="0" y="161" width="54" height="48" frameX="0" frameY="0" frameWidth="54" frameHeight="48" />
+  <SubTexture name="EbolaNote Tail 00" x="54" y="161" width="54" height="68" frameX="0" frameY="0" frameWidth="54" frameHeight="68" />
+</TextureAtlas>
