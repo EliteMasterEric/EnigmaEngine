@@ -13,7 +13,8 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import io.newgrounds.NG;
 import lime.app.Application;
-#if windows
+
+#if desktop
 import Discord.DiscordClient;
 #end
 
@@ -43,7 +44,7 @@ class MainMenuState extends MusicBeatState {
 
   override function create() {
     clean();
-    #if windows
+		#if desktop
     // Updating Discord Rich Presence
     DiscordClient.changePresence("In the Menus", null);
     #end

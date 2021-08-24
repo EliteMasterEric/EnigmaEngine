@@ -1,9 +1,15 @@
-#if windows
+package;
+
 import Sys.sleep;
 import discord_rpc.DiscordRpc;
 
 using StringTools;
 
+/**
+ * ERIC: This class handles Discord integration.
+ * Players will see that you are playing FNF,
+ * and what song is on.
+ */
 class DiscordClient {
   public function new() {
     trace("Discord Client starting...");
@@ -73,4 +79,3 @@ class DiscordClient {
     // trace('Discord RPC Updated. Arguments: $details, $state, $smallImageKey, $hasStartTimestamp, $endTimestamp');
   }
 }
-#end

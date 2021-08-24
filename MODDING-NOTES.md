@@ -148,7 +148,8 @@ To repeat:
 * Edit Project.xml and remove example_mods
 * Perform "Start Format Files: By Glob" on "**/*.hx" and "**/*.json" and "**/*.xml"
 
-You will also need a mergetool that allows agressive ignoring of whitespace. p4merge does this, and is freely downloadable.
+How to merge without shitting your pants:
+`git merge -Xignore-space-change -Xignore-all-space <BRANCH>`
 
 ## daWeirdVid.webm
 ```

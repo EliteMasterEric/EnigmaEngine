@@ -1,5 +1,5 @@
 import lime.app.Application;
-#if windows
+#if desktop
 import Discord.DiscordClient;
 #end
 import openfl.display.BlendMode;
@@ -76,7 +76,7 @@ class Main extends Sprite {
     game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
     #end
     addChild(game);
-    #if windows
+		#if desktop
     DiscordClient.initialize();
 
     Application.current.onExit.add(function(exitCode) {

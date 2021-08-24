@@ -24,7 +24,8 @@ import flixel.util.FlxTimer;
 import io.newgrounds.NG;
 import lime.app.Application;
 import openfl.Assets;
-#if windows
+
+#if desktop
 import Discord.DiscordClient;
 #end
 #if cpp

@@ -1,6 +1,6 @@
 import flixel.input.gamepad.FlxGamepad;
 import openfl.Lib;
-#if windows
+#if desktop
 import llua.Lua;
 #end
 import Controls.Control;
@@ -227,8 +227,9 @@ class PauseSubState extends MusicBeatSubstate {
             FlxG.save.data.downscroll = false;
           }
           PlayState.loadRep = false;
-          #if windows
-          if (PlayState.luaModchart != null) {
+					#if desktop
+					if (PlayState.luaModchart != null)
+					{
             PlayState.luaModchart.die();
             PlayState.luaModchart = null;
           }
