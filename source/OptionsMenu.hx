@@ -1,10 +1,9 @@
-package;
-
 import flixel.input.gamepad.FlxGamepad;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import openfl.Lib;
 import Options;
+import CustomKeyBindMenu;
 import Controls.Control;
 import flash.text.TextField;
 import flixel.FlxG;
@@ -26,6 +25,7 @@ class OptionsMenu extends MusicBeatState {
   var options:Array<OptionCategory> = [
     new OptionCategory("Gameplay", [
       new DFJKOption(controls),
+      Custom.USE_CUSTOM_KEYBINDS ? new CustomKeybindsOption(controls) : null,
       new DownscrollOption("Toggle making the notes scroll down rather than up."),
       new GhostTapOption("Toggle counting pressing a directional input when no arrow is there as a miss."),
       new Judgement("Customize your Hit Timings. (LEFT or RIGHT)"),

@@ -28,17 +28,33 @@ Source Code Guide: https://gamebanana.com/tuts/13798
 - `9`: Old BF Icon
 - `R`: Restart Song
 
+## Song Charter
+-
+
+
 ## Animation Debugger
 
-- `Q`: Zoom Out
-- `E`: Zoom In
+- `Q`: Zoom Camera Out
+- `E`: Zoom Camera In
+- `IJKL`: Pan the Camera
 - `F`: Flip Character
 - `W`: Previous Animation
 - `S`: Previous Animation
 - `Space`: Replay Current Animation
 - `Arrow Keys`: Offset Animation by 1
 - `Shift + Arrow Keys`: Offset Animation by 10
+PR:
+- `Escape` or `Enter`: Return to Main Menu
+- `V`: Copy Offsets
+
+## Stage Positioning Debugger
+
+- `Q`: Zoom Camera Out
+- `E`: Zoom Camera In
 - `IJKL`: Pan the Camera
+- `Space`: Cycle Characters
+- `Mouse`: Drag Active Character
+- `Escape`: Return to Main Menu
 
 ## Modcharts
 
@@ -109,13 +125,7 @@ Song attributes are:
 
   // CUSTOM VALUES
   // Controls the number of notes in each player's strumline.
-  // 1 uses only the 9K Center note.
-  // 4 is the default.
-  // 5 adds the 9K Center note between left and right.
-  // 6 uses the vs Shaggy 6K layout (Left/Up/Right Alt Left/Down/Alt Right).
-  // 8 uses the vs Shaggy 9K layout excluding the Center key.
-  // 9 uses the vs Shaggy 9K layout.
-  // Other values are unsupported.
+  // Allows 1, 2, 3, 4, 5, 6, 7, 8, or 9.
   "strumlineSize": 4,
 }
 ```

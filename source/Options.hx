@@ -1,5 +1,3 @@
-package;
-
 import lime.app.Application;
 import lime.system.DisplayMode;
 import flixel.util.FlxColor;
@@ -92,7 +90,7 @@ class DFJKOption extends Option {
   }
 
   private override function updateDisplay():String {
-    return "Key Bindings";
+    return "Basic Key Bindings";
   }
 }
 

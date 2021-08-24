@@ -1,5 +1,19 @@
-/// Code created by Rozebud for FPS Plus (thanks rozebud)
-// modified by KadeDev for use in Kade Engine/Tricky
+/**
+ * Apache License, Version 2.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at:
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import flixel.input.gamepad.FlxGamepad;
 import flixel.util.FlxAxes;
 import flixel.FlxSubState;
@@ -25,42 +39,63 @@ import flixel.input.FlxKeyManager;
 
 using StringTools;
 
-class KeyBindMenu extends FlxSubState {
+class CustomKeyBindMenu extends FlxSubState {
   var keyTextDisplay:FlxText;
   var keyWarning:FlxText;
   var warningTween:FlxTween;
-  var keyText:Array<String> = ["LEFT", "DOWN", "UP", "RIGHT"];
-  var defaultKeys:Array<String> = ["A", "S", "W", "D", "R"];
-  var defaultGpKeys:Array<String> = ["DPAD_LEFT", "DPAD_DOWN", "DPAD_UP", "DPAD_RIGHT"];
+  static final keyText:Array<String> = ["LEFT", "DOWN", "UP", "RIGHT", "CENTER", "ALTLEFT", "ALTDOWN", "ALTUP", "ALTRIGHT"];
+  static final defaultKeys:Array<String> = ["A", "S", "D", "F", "SPACE", "J", "K", "L", ";"];
+  static final defaultGpKeys:Array<String> = ["DPAD_LEFT", "DPAD_DOWN", "DPAD_UP", "DPAD_RIGHT"];
   var curSelected:Int = 0;
 
   var keys:Array<String> = [
-    FlxG.save.data.leftBind,
-    FlxG.save.data.downBind,
-    FlxG.save.data.upBind,
-    FlxG.save.data.rightBind
+    FlxG.save.data.left9KBind,
+    FlxG.save.data.down9KBind,
+    FlxG.save.data.up9KBind,
+    FlxG.save.data.right9KBind,
+    FlxG.save.data.centerBind,
+    FlxG.save.data.altLeftBind,
+    FlxG.save.data.altDownBind,
+    FlxG.save.data.altUpBind,
+    FlxG.save.data.altRightBind
   ];
   var gpKeys:Array<String> = [
-    FlxG.save.data.gpleftBind,
-    FlxG.save.data.gpdownBind,
-    FlxG.save.data.gpupBind,
-    FlxG.save.data.gprightBind
+    FlxG.save.data.gpleft9KBind,
+    FlxG.save.data.gpdown9KBind,
+    FlxG.save.data.gpup9KBind,
+    FlxG.save.data.gpright9KBind,
+    FlxG.save.data.gpcenterBind,
+    FlxG.save.data.gpaltLeftBind,
+    FlxG.save.data.gpaltDownBind,
+    FlxG.save.data.gpaltUpBind,
+    FlxG.save.data.gpaltRightBind
   ];
   var tempKey:String = "";
-  var blacklist:Array<String> = ["ESCAPE", "ENTER", "BACKSPACE", "SPACE", "TAB"];
+  var blacklist:Array<String> = ["ESCAPE", "ENTER", "BACKSPACE", "TAB"];
 
   var blackBox:FlxSprite;
   var infoText:FlxText;
 
   var state:String = "select";
 
+  /**
+   * This is normally keys9K - 1, but may be lower if some keys are hidden.
+   */
+  var lastKeybindIndex = keyText.length;
+
   override function create() {
+    while(!Custom.SHOW_CUSTOM_KEYBINDS[lastKeybindIndex]) {
+      lastKeybindIndex -= 1;
+    }
+
+    // Fill in default keybindings.
     for (i in 0...keys.length) {
       var k = keys[i];
       if (k == null)
         keys[i] = defaultKeys[i];
     }
 
+    // Fill in default gamepad keybindings.
     for (i in 0...gpKeys.length) {
       var k = gpKeys[i];
       if (k == null)
@@ -229,15 +264,25 @@ class KeyBindMenu extends FlxSubState {
     keyTextDisplay.text = "\n\n";
 
     if (KeyBinds.gamepad) {
-      for (i in 0...4) {
+      for (i in 0...gpKeys.length) {
+        if (!Custom.SHOW_CUSTOM_KEYBINDS[i]) {
+          // Skip this keybind.
+          continue;
+        }
+
         var textStart = (i == curSelected) ? "> " : "  ";
-        trace(gpKeys[i]);
         keyTextDisplay.text += textStart + keyText[i] + ": " + gpKeys[i] + "\n";
       }
     } else {
-      for (i in 0...4) {
+      for (i in 0...keys.length) {
+        if (!Custom.SHOW_CUSTOM_KEYBINDS[i]) {
+          // Skip this keybind.
+          continue;
+        }
+
         var textStart = (i == curSelected) ? "> " : "  ";
-        keyTextDisplay.text += textStart + keyText[i] + ": " + ((keys[i] != keyText[i]) ? (keys[i] + " / ") : "") + keyText[i] + " ARROW\n";
+        keyTextDisplay.text += textStart + keyText[i] + ": "
+          + ((keys[i] != keyText[i]) ? (keys[i] + " / ") : "") + keyText[i] + " ARROW\n";
       }
     }
 
@@ -245,15 +290,25 @@ class KeyBindMenu extends FlxSubState {
   }
 
   function save() {
-    FlxG.save.data.upBind = keys[2];
-    FlxG.save.data.downBind = keys[1];
-    FlxG.save.data.leftBind = keys[0];
-    FlxG.save.data.rightBind = keys[3];
+    FlxG.save.data.left9KBind = keys[0];
+    FlxG.save.data.down9KBind = keys[1];
+    FlxG.save.data.up9KBind = keys[2];
+    FlxG.save.data.right9KBind = keys[3];
+    FlxG.save.data.centerBind = keys[4];
+    FlxG.save.data.altLeftBind = keys[5];
+    FlxG.save.data.altDownBind = keys[6];
+    FlxG.save.data.altUpBind = keys[7];
+    FlxG.save.data.altRightBind = keys[8];
 
-    FlxG.save.data.gpupBind = gpKeys[2];
-    FlxG.save.data.gpdownBind = gpKeys[1];
-    FlxG.save.data.gpleftBind = gpKeys[0];
-    FlxG.save.data.gprightBind = gpKeys[3];
+    FlxG.save.data.gpleft9KBind = gpKeys[0];
+    FlxG.save.data.gpdown9KBind = gpKeys[1];
+    FlxG.save.data.gpup9KBind = gpKeys[2];
+    FlxG.save.data.gpright9KBind = gpKeys[3];
+    FlxG.save.data.gpcenterBind = gpKeys[4];
+    FlxG.save.data.gpaltLeftBind = gpKeys[5];
+    FlxG.save.data.gpaltDownBind = gpKeys[6];
+    FlxG.save.data.gpaltUpBind = gpKeys[7];
+    FlxG.save.data.gpaltRightBind = gpKeys[8];
 
     FlxG.save.flush();
 
@@ -261,7 +316,7 @@ class KeyBindMenu extends FlxSubState {
   }
 
   function reset() {
-    for (i in 0...5) {
+    for (i in 0...keys.length) {
       keys[i] = defaultKeys[i];
     }
     quit();
@@ -369,9 +424,40 @@ class KeyBindMenu extends FlxSubState {
   function changeItem(_amount:Int = 0) {
     curSelected += _amount;
 
-    if (curSelected > 3)
+    if (curSelected > lastKeybindIndex) {
       curSelected = 0;
-    if (curSelected < 0)
-      curSelected = 3;
+    }
+    if (curSelected < 0) {
+      curSelected = lastKeybindIndex;
+    }
+
+    /**
+     * If this goes before the lastKeybindIndex calls,
+     * you get a stack overflow LOL.
+     */
+    if (!Custom.SHOW_CUSTOM_KEYBINDS[curSelected]) {
+      // Skip this keybind and move to the next one.
+      // For example, if we hid the Center key, we'd go straight from index 3 to index 5 internally.
+      changeItem(_amount);
+    }
+  }
+}
+
+class CustomKeybindsOption extends Option {
+  private var controls:Controls;
+
+  public function new(controls:Controls) {
+    super();
+    this.controls = controls;
+  }
+
+  public override function press():Bool {
+    var test = FlxG.save.data;
+    OptionsMenu.instance.openSubState(new CustomKeyBindMenu());
+    return false;
+  }
+
+  private override function updateDisplay():String {
+    return "Custom Key Bindings";
   }
 }

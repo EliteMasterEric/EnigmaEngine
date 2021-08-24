@@ -1,5 +1,3 @@
-package;
-
 import lime.app.Application;
 #if windows
 import Discord.DiscordClient;

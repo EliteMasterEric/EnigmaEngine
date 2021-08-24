@@ -1,5 +1,3 @@
-package;
-
 import Controls;
 import flixel.FlxCamera;
 import flixel.FlxG;
@@ -23,18 +21,14 @@ class PlayerSettings {
 
   public var id(default, null):Int;
 
-  #if (haxe >= "4.0.0")
-  public final controls:Controls;
-  #else
-  public var controls:Controls;
-  #end
+  public final controls:CustomControls;
 
   // public var avatar:Player;
   // public var camera(get, never):PlayCamera;
 
   function new(id, scheme) {
     this.id = id;
-    this.controls = new Controls('player$id', scheme);
+    this.controls = new CustomControls('player$id', scheme);
   }
 
   public function setKeyboardScheme(scheme) {

@@ -1,5 +1,3 @@
-package;
-
 import Conductor.BPMChangeEvent;
 import flixel.FlxCamera;
 import flixel.math.FlxRect;
@@ -393,6 +391,7 @@ class DiffOverview extends FlxSubState {
         if (daStrumTime < 0)
           daStrumTime = 0;
         var daNoteData:Int = Std.int(songNotes[1] % 4);
+        var daRawNoteData:Int = Std.int(songNotes[1]);
 
         var gottaHitNote:Bool = section.mustHitSection;
 
@@ -406,8 +405,7 @@ class DiffOverview extends FlxSubState {
         else
           oldNote = null;
 
-        var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote, false, true);
-        swagNote.rawNoteData = songNotes[1];
+        var swagNote:Note = new Note(daStrumTime, daRawNoteData, oldNote, false, true);
 
         if (!gottaHitNote)
           continue;

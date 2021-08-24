@@ -1,5 +1,3 @@
-package;
-
 import flixel.addons.effects.FlxSkewedSprite;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -69,11 +67,12 @@ class Note extends FlxSprite {
 
   public var children:Array<Note> = [];
 
-  public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inCharter:Bool = false, ?isAlt:Bool = false, ?bet:Float = 0) {
+  public function new(strumTime:Float, rawNoteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inCharter:Bool = false, ?isAlt:Bool = false, ?bet:Float = 0) {
     super();
 
-    if (prevNote == null)
+    if (prevNote == null) {
       prevNote = this;
+    }
 
     beat = bet;
 
@@ -94,22 +93,24 @@ class Note extends FlxSprite {
       #if sys
       if (PlayState.isSM) {
         rStrumTime = strumTime;
-      } else
+      } else {
         rStrumTime = strumTime;
+      }
       #else
       rStrumTime = strumTime;
       #end
     }
 
-    if (this.strumTime < 0)
+    if (this.strumTime < 0) {
       this.strumTime = 0;
+    }
 
-    if (!inCharter)
+    if (!inCharter) {
       y += FlxG.save.data.offset + PlayState.songOffset;
+    }
 
-    this.noteData = noteData;
-
-    var daStage:String = PlayState.Stage.curStage;
+    this.rawNoteData = rawNoteData;
+    this.noteData = CustomNotes.getCorrectedNoteData(rawNoteData, PlayState.SONG.strumlineSize);
 
     // defaults if no noteStyle was found in chart
     var noteTypeCheck:String = 'normal';
@@ -130,11 +131,12 @@ class Note extends FlxSprite {
 
     // All the code that was in here has been moved to a different file.
     // That makes it really easy for me to add new notes.
-    CustomNotes.loadNoteSprite(this, noteTypeCheck, rawNoteData, isSustainNote); 
+    CustomNotes.loadNoteSprite(this, noteTypeCheck, this.rawNoteData, isSustainNote, PlayState.SONG.strumlineSize); 
  
-    x += swagWidth * noteData; 
-    animation.play(CustomNotes.getDirectionName(rawNoteData) + ' Note'); 
-    originColor = rawNoteData; // The note's origin color will be checked by its sustain notes 
+    x += CustomNotes.getNoteOffset(this.noteData, PlayState.SONG.strumlineSize);
+
+    animation.play(CustomNotes.getDirectionName(this.rawNoteData, true) + ' Note'); 
+    originColor = this.rawNoteData; // The note's origin color will be checked by its sustain notes 
 
     if (FlxG.save.data.stepMania && !isSustainNote && !PlayState.instance.executeModchart) {
       var col:Int = 0;
@@ -156,7 +158,7 @@ class Note extends FlxSprite {
       else if (beatRow % (192 / 32) == 0)
         col = quantityColor[4];
 
-      animation.play(CustomNotes.getDirectionName(col) + ' Note'); 
+      animation.play(CustomNotes.getDirectionName(col, true) + ' Note'); 
       localAngle -= arrowAngles[col];
       localAngle += arrowAngles[noteData];
       originAngle = localAngle;
@@ -186,7 +188,7 @@ class Note extends FlxSprite {
       originAngle = prevNote.originAngle;
 
       // This works both for normal colors and quantization colors
-      animation.play(CustomNotes.getDirectionName(originColor) + ' End'); 
+      animation.play(CustomNotes.getDirectionName(originColor, true) + ' End'); 
       updateHitbox();
 
       x -= width / 2;
@@ -197,7 +199,7 @@ class Note extends FlxSprite {
         x += 30;
 
       if (prevNote.isSustainNote) {
-        prevNote.animation.play(CustomNotes.getDirectionName(prevNote.originColor) + 'Sustain');
+        prevNote.animation.play(CustomNotes.getDirectionName(prevNote.originColor, true) + 'Sustain');
         prevNote.updateHitbox();
 
         prevNote.scale.y *= (stepHeight + 1) / prevNote.height; // + 1 so that there's no odd gaps as the notes scroll
@@ -224,32 +226,50 @@ class Note extends FlxSprite {
       }
     }
 
+    // ERIC: Every frame, each note tracks if it is in range of the strumline.
+    // This is done by song position. Did you really think it was based on sprite position?
+    // This also means that you don't need special handling to make moving the strumline
+    // with modcharts work properly.
+
+    // If the note is on our side of the board...
     if (mustPress) {
+      // If it's a sustain note...
       if (isSustainNote) {
+        // Check the strumtime. If it's close enough ahead or behind...
+        // There's slightly different logic for the sustain notes...
         if (strumTime - Conductor.songPosition <= (((166 * Conductor.timeScale) / (PlayState.songMultiplier < 1 ? PlayState.songMultiplier : 1) * 0.5))
-          && strumTime - Conductor.songPosition >= (((-166 * Conductor.timeScale) / (PlayState.songMultiplier < 1 ? PlayState.songMultiplier : 1))))
+          && strumTime - Conductor.songPosition >= (((-166 * Conductor.timeScale) / (PlayState.songMultiplier < 1 ? PlayState.songMultiplier : 1)))) {
+          // ...we can hit this note.
           canBeHit = true;
-        else
+        } else {
+          // ...we can't hit this note.
           canBeHit = false;
+        }
       } else {
+                // Check the strumtime. If it's close enough ahead or behind...
         if (strumTime - Conductor.songPosition <= (((166 * Conductor.timeScale) / (PlayState.songMultiplier < 1 ? PlayState.songMultiplier : 1)))
-          && strumTime - Conductor.songPosition >= (((-166 * Conductor.timeScale) / (PlayState.songMultiplier < 1 ? PlayState.songMultiplier : 1))))
+          && strumTime - Conductor.songPosition >= (((-166 * Conductor.timeScale) / (PlayState.songMultiplier < 1 ? PlayState.songMultiplier : 1)))) {
+          // ...we can hit this note.
           canBeHit = true;
-        else
+        } else {
+          // ...we can't hit this note.
           canBeHit = false;
+        }
       }
       /*if (strumTime - Conductor.songPosition < (-166 * Conductor.timeScale) && !wasGoodHit)
         tooLate = true; */
     } else {
       canBeHit = false;
 
-      if (strumTime <= Conductor.songPosition)
+      if (strumTime <= Conductor.songPosition) {
         wasGoodHit = true;
+      }
     }
 
     if (tooLate && !wasGoodHit) {
-      if (alpha > 0.3)
+      if (alpha > 0.3) {
         alpha = 0.3;
+      }
     }
   }
 }

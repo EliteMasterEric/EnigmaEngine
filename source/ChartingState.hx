@@ -1,5 +1,3 @@
-package;
-
 import openfl.system.System;
 import lime.app.Application;
 #if sys
@@ -71,6 +69,9 @@ class ChartingState extends MusicBeatState {
 
   public var beatsShown:Float = 1; // for the zoom factor
   public var zoomFactor:Float = 0.4;
+
+  public static final GRID_WIDTH_IN_CELLS = Custom.USE_CUSTOM_KEYBINDS ? 18 : 8;
+  public static final GRID_HEIGHT_IN_CELLS = 16;
 
   /**
    * Array of notes showing when each section STARTS in STEPS
@@ -161,6 +162,7 @@ class ChartingState extends MusicBeatState {
     TimingStruct.clearTimings();
 
     if (PlayState.SONG != null) {
+      // Load the song from JSON.
       if (PlayState.isSM)
         _song = Song.conversionChecks(Song.loadFromJsonRAW(File.getContent(PlayState.pathToSm + "/converted.json")));
       else {
@@ -177,6 +179,7 @@ class ChartingState extends MusicBeatState {
         _song = Song.conversionChecks(Song.loadFromJson(poop, PlayState.SONG.song));
       }
     } else {
+      // Create a test song.
       _song = {
         chartVersion: latestChartVersion,
         song: 'Test',
@@ -194,6 +197,7 @@ class ChartingState extends MusicBeatState {
       };
     }
 
+    // Render the note grid.
     addGrid(1);
 
     if (_song.chartVersion == null)
@@ -204,7 +208,8 @@ class ChartingState extends MusicBeatState {
 
     // blackBorder.alpha = 0.3;
 
-    snapText = new FlxText(60, 10, 0, "", 14);
+    // ERIC: Initialize the element that displays at the top left.
+    snapText = new FlxText(10, 10, 0, "", 14);
     snapText.scrollFactor.set();
 
     curRenderedNotes = new FlxTypedGroup<Note>();
@@ -332,6 +337,7 @@ class ChartingState extends MusicBeatState {
 
     trace(height);
 
+    // The black line bisecting the note grid between bf and dad notes.
     gridBlackLine = new FlxSprite(gridBG.width / 2).makeGraphic(2, height, FlxColor.BLACK);
 
     // leftIcon.scrollFactor.set();
@@ -353,7 +359,7 @@ class ChartingState extends MusicBeatState {
     bpmTxt.scrollFactor.set();
     add(bpmTxt);
 
-    strumLine = new FlxSprite(0, 0).makeGraphic(Std.int(GRID_SIZE * 8), 4);
+    strumLine = new FlxSprite(0, 0).makeGraphic(Std.int(GRID_SIZE * GRID_WIDTH_IN_CELLS), 4);
 
     dummyArrow = new FlxSprite().makeGraphic(GRID_SIZE, GRID_SIZE);
     var tabs = [
@@ -367,7 +373,9 @@ class ChartingState extends MusicBeatState {
 
     UI_box.scrollFactor.set();
     UI_box.resize(300, 400);
-    UI_box.x = FlxG.width / 2 + 40;
+    // UI_box.x = FlxG.width / 2 + 40;
+    // ERIC: Anchor to far right side.
+    UI_box.x = FlxG.width - 300;
     UI_box.y = 20;
 
     var opt_tabs = [{name: "Options", label: 'Song Options'}, {name: "Events", label: 'Song Events'}];
@@ -471,7 +479,7 @@ class ChartingState extends MusicBeatState {
         var type = i.type;
 
         var text = new FlxText(-190, pos, 0, i.name + "\n" + type + "\n" + i.value, 12);
-        var line = new FlxSprite(0, pos).makeGraphic(Std.int(GRID_SIZE * 8), 4, FlxColor.BLUE);
+        var line = new FlxSprite(0, pos).makeGraphic(Std.int(GRID_SIZE * GRID_WIDTH_IN_CELLS), 4, FlxColor.BLUE);
 
         line.alpha = 0.2;
 
@@ -486,7 +494,7 @@ class ChartingState extends MusicBeatState {
       var pos = getYfromStrum(i.section.startTime) * zoomFactor;
       i.icon.y = pos - 75;
 
-      var line = new FlxSprite(0, pos).makeGraphic(Std.int(GRID_SIZE * 8), 4, FlxColor.BLACK);
+      var line = new FlxSprite(0, pos).makeGraphic(Std.int(GRID_SIZE * GRID_WIDTH_IN_CELLS), 4, FlxColor.BLACK);
       line.alpha = 0.4;
       lines.add(line);
     }
@@ -499,8 +507,11 @@ class ChartingState extends MusicBeatState {
       h = GRID_SIZE;
 
     remove(gridBG);
-    gridBG = FlxGridOverlay.create(GRID_SIZE, Std.int(h), GRID_SIZE * 8, GRID_SIZE * 16);
+    // create(cellWidth, cellHeight, gridWidth, gridHeight)
+    gridBG = FlxGridOverlay.create(GRID_SIZE, Std.int(h), GRID_SIZE * GRID_WIDTH_IN_CELLS, GRID_SIZE * GRID_HEIGHT_IN_CELLS);
     trace(gridBG.height);
+    // ERIC: Reposition the grid.
+    gridBG.x = 0;
     // gridBG.scrollFactor.set();
     // gridBG.x += 358;
     // gridBG.y += 390;
@@ -547,6 +558,7 @@ class ChartingState extends MusicBeatState {
   public var Typeables:Array<FlxUIInputText> = [];
 
   function addEventsUI() {
+    // ERIC: This powers the Event UI at the bottom right!
     if (_song.eventObjects == null) {
       _song.eventObjects = [new Song.Event("Init BPM", 0, _song.bpm, "BPM Change")];
     }
@@ -1307,8 +1319,7 @@ class ChartingState extends MusicBeatState {
 
           var thing = ii.sectionNotes[ii.sectionNotes.length - 1];
 
-          var note:Note = new Note(strum, Math.floor(i[1] % 4), null, false, true, i[3], i[4]);
-          note.rawNoteData = i[1];
+          var note:Note = new Note(strum, i[1], null, false, true, i[3], i[4]);
           note.sustainLength = i[2];
           note.setGraphicSize(Math.floor(GRID_SIZE), Math.floor(GRID_SIZE));
           note.updateHitbox();
@@ -1670,9 +1681,13 @@ class ChartingState extends MusicBeatState {
       if (FlxG.sound.music.playing) {
         @:privateAccess
         {
-          lime.media.openal.AL.sourcef(FlxG.sound.music._channel.__source.__backend.handle, lime.media.openal.AL.PITCH, speed);
+          if (FlxG.sound.music._channel.__source.__backend.handle != null) {
+            lime.media.openal.AL.sourcef(FlxG.sound.music._channel.__source.__backend.handle, lime.media.openal.AL.PITCH, speed);
+          }
           try {
-            lime.media.openal.AL.sourcef(vocals._channel.__source.__backend.handle, lime.media.openal.AL.PITCH, speed);
+            if (vocals != null && vocals._channel.__source.__backend.handle != null) {
+              lime.media.openal.AL.sourcef(vocals._channel.__source.__backend.handle, lime.media.openal.AL.PITCH, speed);
+            }
           }
           catch (e) {
             // trace("failed to pitch vocals (probably cuz they don't exist)");
@@ -1975,6 +1990,7 @@ class ChartingState extends MusicBeatState {
     } else if (updateFrame != 5)
       updateFrame++;
 
+    // ERIC: Set the text that displays at the top left.
     snapText.text = "Snap: 1/"
       + snap
       + " ("
@@ -2089,6 +2105,7 @@ class ChartingState extends MusicBeatState {
     var upO = FlxG.keys.justPressed.SEVEN;
     var rightO = FlxG.keys.justPressed.EIGHT;
 
+    // ERIC: Add notes by pressing number keys.
     var pressArray = [left, down, up, right, leftO, downO, upO, rightO];
     var delete = false;
     if (doInput) {
@@ -2187,8 +2204,11 @@ class ChartingState extends MusicBeatState {
 
     FlxG.watch.addQuick('daBeat', curDecimalBeat);
 
+    // ERIC: Add notes by clicking.
+    // We just clicked.
     if (FlxG.mouse.justPressed && !waitingForRelease) {
       if (FlxG.mouse.overlaps(curRenderedNotes)) {
+        // We clicked on an existing note.
         curRenderedNotes.forEach(function(note:Note) {
           if (FlxG.mouse.overlaps(note)) {
             if (FlxG.keys.pressed.CONTROL) {
@@ -2199,6 +2219,7 @@ class ChartingState extends MusicBeatState {
           }
         });
       } else {
+        // We added a new note.
         if (FlxG.mouse.x > 0 && FlxG.mouse.x < 0 + gridBG.width && FlxG.mouse.y > 0 && FlxG.mouse.y < 0 + height) {
           FlxG.log.add('added note');
           addNote();
@@ -2523,19 +2544,21 @@ class ChartingState extends MusicBeatState {
 
     var currentSection = 0;
 
+    // Display all the sections of the song.
     for (section in _song.notes) {
+      // Display all the notes of the section.
       for (i in section.sectionNotes) {
         var seg = TimingStruct.getTimingAtTimestamp(i[0]);
         var daNoteInfo = i[1];
         var daStrumTime = i[0];
         var daSus = i[2];
 
-        var note:Note = new Note(daStrumTime, daNoteInfo % 4, null, false, true, i[3], i[4]);
-        note.rawNoteData = daNoteInfo;
+        var note:Note = new Note(daStrumTime, daNoteInfo, null, false, true, i[3], i[4]);
         note.sustainLength = daSus;
         note.setGraphicSize(Math.floor(GRID_SIZE), Math.floor(GRID_SIZE));
         note.updateHitbox();
-        note.x = Math.floor(daNoteInfo * GRID_SIZE);
+
+        note.x = Math.floor(CustomNotes.getCorrectedNoteData(daNoteInfo) * GRID_SIZE);
 
         note.y = Math.floor(getYfromStrum(daStrumTime) * zoomFactor);
 
@@ -2819,10 +2842,15 @@ class ChartingState extends MusicBeatState {
       return;
 
     var noteStrum = strum;
+    // Determine the note data by mouse position.
     var noteData = Math.floor(FlxG.mouse.x / GRID_SIZE);
+    // Fix values for 9K.
+    if (Custom.USE_CUSTOM_CHARTER) {
+      noteData = CustomNotes.getNoteDataFromCharterColumn(noteData);
+    }
     var noteSus = 0;
 
-    if (n != null)
+    if (n != null) {
       section.sectionNotes.push([
         n.strumTime,
         n.noteData,
@@ -2830,8 +2858,9 @@ class ChartingState extends MusicBeatState {
         false,
         TimingStruct.getBeatFromTime(n.strumTime)
       ]);
-    else
+    } else {
       section.sectionNotes.push([noteStrum, noteData, noteSus, false, TimingStruct.getBeatFromTime(noteStrum)]);
+    }
 
     var thingy = section.sectionNotes[section.sectionNotes.length - 1];
 
@@ -2840,8 +2869,7 @@ class ChartingState extends MusicBeatState {
     var seg = TimingStruct.getTimingAtTimestamp(noteStrum);
 
     if (n == null) {
-      var note:Note = new Note(noteStrum, noteData % 4, null, false, true, TimingStruct.getBeatFromTime(noteStrum));
-      note.rawNoteData = noteData;
+      var note:Note = new Note(noteStrum, noteData, null, false, true, TimingStruct.getBeatFromTime(noteStrum));
       note.sustainLength = noteSus;
       note.setGraphicSize(Math.floor(GRID_SIZE), Math.floor(GRID_SIZE));
       note.updateHitbox();
@@ -2867,9 +2895,8 @@ class ChartingState extends MusicBeatState {
 
       curRenderedNotes.add(note);
     } else {
-      var note:Note = new Note(n.strumTime, n.noteData % 4, null, false, true, n.isAlt, TimingStruct.getBeatFromTime(n.strumTime));
+      var note:Note = new Note(n.strumTime, n.noteData, null, false, true, n.isAlt, TimingStruct.getBeatFromTime(n.strumTime));
       note.beat = TimingStruct.getBeatFromTime(n.strumTime);
-      note.rawNoteData = n.noteData;
       note.sustainLength = noteSus;
       note.setGraphicSize(Math.floor(GRID_SIZE), Math.floor(GRID_SIZE));
       note.updateHitbox();

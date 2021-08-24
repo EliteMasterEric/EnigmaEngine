@@ -1,5 +1,3 @@
-package;
-
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSubState;

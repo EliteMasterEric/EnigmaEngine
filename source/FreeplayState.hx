@@ -1,5 +1,3 @@
-package;
-
 import lime.app.Application;
 import openfl.utils.Future;
 import openfl.media.Sound;

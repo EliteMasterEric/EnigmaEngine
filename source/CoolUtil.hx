@@ -1,5 +1,3 @@
-package;
-
 import lime.utils.Assets;
 
 using StringTools;

@@ -1,5 +1,3 @@
-package;
-
 typedef SwagSection = {
   var startTime:Float;
   var endTime:Float;

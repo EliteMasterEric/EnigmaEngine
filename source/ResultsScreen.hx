@@ -1,5 +1,3 @@
-package;
-
 import haxe.Exception;
 #if sys
 import smTools.SMFile;

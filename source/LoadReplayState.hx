@@ -1,5 +1,3 @@
-package;
-
 import haxe.Exception;
 import lime.app.Application;
 #if sys

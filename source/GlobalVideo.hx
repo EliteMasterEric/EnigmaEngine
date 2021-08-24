@@ -1,5 +1,3 @@
-package;
-
 import openfl.Lib;
 
 class GlobalVideo {

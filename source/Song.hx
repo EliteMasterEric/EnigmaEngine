@@ -1,5 +1,3 @@
-package;
-
 import Section.SwagSection;
 import haxe.Json;
 import haxe.format.JsonParser;
@@ -76,7 +74,8 @@ class Song {
     // For each song in the list...
     for (i in 0...songFolders.length) {
       // Check the song's JSON file exists.
-      if (!validateSong(songFolders[i], curDifficulty)) {
+      var songName = StoryMenuState.fixSongName(songFolders[i]);
+      if (!validateSong(songName, curDifficulty)) {
         return false;
       }
     }

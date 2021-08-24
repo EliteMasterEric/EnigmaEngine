@@ -1,5 +1,3 @@
-package;
-
 import flixel.input.gamepad.FlxGamepad;
 import Controls.KeyboardScheme;
 import flixel.FlxG;

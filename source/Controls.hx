@@ -1,5 +1,3 @@
-package;
-
 import flixel.input.gamepad.FlxGamepad;
 import flixel.FlxG;
 import flixel.input.FlxInput;
@@ -31,6 +29,18 @@ enum abstract Action(String) to String from String {
   var PAUSE = "pause";
   var RESET = "reset";
   var CHEAT = "cheat";
+  var UP_9K = "up-9k";
+  var LEFT_9K = "left-9k";
+  var RIGHT_9K = "right-9k";
+  var DOWN_9K = "down-9k";
+  var UP_9K_P = "up-9k-press";
+  var LEFT_9K_P = "left-9k-press";
+  var RIGHT_9K_P = "right-9k-press";
+  var DOWN_9K_P = "down-9k-press";
+  var UP_9K_R = "up-9k-release";
+  var LEFT_9K_R = "left-9k-release";
+  var RIGHT_9K_R = "right-9k-release";
+  var DOWN_9K_R = "down-9k-release";
 }
 #else
 @:enum
@@ -439,7 +449,7 @@ class Controls extends FlxActionSet {
     #end
   }
 
-  inline static function addKeys(action:FlxActionDigital, keys:Array<FlxKey>, state:FlxInputState) {
+  static function addKeys(action:FlxActionDigital, keys:Array<FlxKey>, state:FlxInputState) {
     for (key in keys)
       action.addKey(key, state);
   }

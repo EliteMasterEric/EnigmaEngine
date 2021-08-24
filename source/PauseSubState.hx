@@ -1,5 +1,3 @@
-package;
-
 import flixel.input.gamepad.FlxGamepad;
 import openfl.Lib;
 #if windows

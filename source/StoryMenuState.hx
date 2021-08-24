@@ -1,5 +1,3 @@
-package;
-
 import flixel.input.gamepad.FlxGamepad;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -312,6 +310,18 @@ class StoryMenuState extends MusicBeatState {
   var selectedWeek:Bool = false;
   var stopspamming:Bool = false;
 
+  public static function fixSongName(songName:String):String {
+    // adjusting the song name to be compatible
+    var songFormat = StringTools.replace(songName, " ", "-");
+    switch (songFormat) {
+      case 'Dad-Battle':
+        songFormat = 'Dadbattle';
+      case 'Philly-Nice':
+        songFormat = 'Philly';
+    }
+    return songFormat;
+  }
+
   function selectWeek() {
     if (!Song.validateSongs(weekData()[curWeek], curDifficulty)) {
       // If any song doesn't exist, stop loading the week.
@@ -336,14 +346,7 @@ class StoryMenuState extends MusicBeatState {
 
       PlayState.storyDifficulty = curDifficulty;
 
-      // adjusting the song name to be compatible
-      var songFormat = StringTools.replace(PlayState.storyPlaylist[0], " ", "-");
-      switch (songFormat) {
-        case 'Dad-Battle':
-          songFormat = 'Dadbattle';
-        case 'Philly-Nice':
-          songFormat = 'Philly';
-      }
+      var songFormat:String = fixSongName(PlayState.storyPlaylist[0]);
 
       var poop:String = Highscore.formatSong(songFormat, curDifficulty);
       PlayState.sicks = 0;

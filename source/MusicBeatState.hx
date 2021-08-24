@@ -1,5 +1,3 @@
-package;
-
 import flixel.FlxBasic;
 #if windows
 import Discord.DiscordClient;
@@ -17,9 +15,9 @@ class MusicBeatState extends FlxUIState {
   private var curStep:Int = 0;
   private var curBeat:Int = 0;
   private var curDecimalBeat:Float = 0;
-  private var controls(get, never):Controls;
+  private var controls(get, never):CustomControls;
 
-  inline function get_controls():Controls
+  inline function get_controls():CustomControls
     return PlayerSettings.player1.controls;
 
   private var assets:Array<FlxBasic> = [];

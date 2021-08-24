@@ -1,5 +1,3 @@
-package;
-
 import flixel.system.FlxBasePreloader;
 import openfl.display.Sprite;
 import flash.display.Bitmap;
