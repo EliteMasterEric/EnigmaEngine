@@ -1,0 +1,44 @@
+{
+  "defaultSeverity": "INFO",
+  "checks": [
+    {
+      "type": "EmptyPackage"
+    },
+    {
+      "type": "Indentation",
+      "props": {
+        "character": "  ",
+        "ignoreComments": true,
+        "conditionalPolicy": "aligned",
+        "wrapPolicy": "larger"
+      }
+    },
+    {
+      "type": "ModifierOrder",
+      "props": {
+        "modifiers": [
+          "MACRO",
+          "OVERRIDE",
+          "PUBLIC_PRIVATE",
+          "STATIC",
+          "INLINE",
+          "DYNAMIC"
+        ]
+      }
+    },
+    {
+      "type": "RedundantModifier"
+    },
+    {
+      "type": "StringLiteral",
+      "props": {
+        "policy": "doubleAndInterpolation",
+        "allowException": true,
+        "severity": "INFO"
+      }
+    },
+    {
+      "type": "UnusedImport"
+    }
+  ]
+}

@@ -39,43 +39,45 @@ class CustomNotes {
    */
   private function new() {}
 
-  private static final NOTE_BASE_LEFT:Int = 0;
-  private static final NOTE_BASE_DOWN:Int = 1;
-  private static final NOTE_BASE_UP:Int = 2;
-  private static final NOTE_BASE_RIGHT:Int = 3;
-  private static final NOTE_BASE_LEFT_ENEMY:Int = 4;
-  private static final NOTE_BASE_DOWN_ENEMY:Int = 5;
-  private static final NOTE_BASE_UP_ENEMY:Int = 6;
-  private static final NOTE_BASE_RIGHT_ENEMY:Int = 7;
+  public static final NOTE_BASE_LEFT:Int = 0;
+  public static final NOTE_BASE_DOWN:Int = 1;
+  public static final NOTE_BASE_UP:Int = 2;
+  public static final NOTE_BASE_RIGHT:Int = 3;
+  public static final NOTE_BASE_LEFT_ENEMY:Int = 4;
+  public static final NOTE_BASE_DOWN_ENEMY:Int = 5;
+  public static final NOTE_BASE_UP_ENEMY:Int = 6;
+  public static final NOTE_BASE_RIGHT_ENEMY:Int = 7;
 
-  private static final NOTE_9K_LEFT:Int = 10;
-  private static final NOTE_9K_DOWN:Int = 11;
-  private static final NOTE_9K_UP:Int = 12;
-  private static final NOTE_9K_RIGHT:Int = 13;
-  private static final NOTE_9K_CENTER:Int = 14;
-  private static final NOTE_9K_LEFT_ENEMY:Int = 15;
-  private static final NOTE_9K_DOWN_ENEMY:Int = 16;
-  private static final NOTE_9K_UP_ENEMY:Int = 17;
-  private static final NOTE_9K_RIGHT_ENEMY:Int = 18;
-  private static final NOTE_9K_CENTER_ENEMY:Int = 19;
+  public static final NOTE_9K_LEFT:Int = 10;
+  public static final NOTE_9K_DOWN:Int = 11;
+  public static final NOTE_9K_UP:Int = 12;
+  public static final NOTE_9K_RIGHT:Int = 13;
+  public static final NOTE_9K_CENTER:Int = 14;
+  public static final NOTE_9K_LEFT_ENEMY:Int = 15;
+  public static final NOTE_9K_DOWN_ENEMY:Int = 16;
+  public static final NOTE_9K_UP_ENEMY:Int = 17;
+  public static final NOTE_9K_RIGHT_ENEMY:Int = 18;
+  public static final NOTE_9K_CENTER_ENEMY:Int = 19;
 
   /**
    * Note offsets allow for using custom note types in particular lanes easily.
+   * This system was designed to easily combine 9K and custom note types.
+   * 
    * For example, 19 will spawn a normal note in the enemy center lane.
    * 119 will use a Fire note, 219 will use a Dark Halo, 319 will use a Ebola, etc.
    */
-  private static final NOTE_OFFSET = 100;
+  public static final NOTE_OFFSET = 100;
 
   // 100: Fire notes.
-  private static final NOTE_FIRE_OFFSET:Int = 0 + NOTE_OFFSET;
+  public static final NOTE_FIRE_OFFSET:Int = 0 + NOTE_OFFSET;
   // 200: Dark Halo notes.
-  private static final NOTE_DARKHALO_OFFSET:Int = NOTE_FIRE_OFFSET + NOTE_OFFSET;
+  public static final NOTE_DARKHALO_OFFSET:Int = NOTE_FIRE_OFFSET + NOTE_OFFSET;
   // 300: Ebola notes.
-  private static final NOTE_EBOLA_OFFSET:Int = NOTE_DARKHALO_OFFSET + NOTE_OFFSET;
+  public static final NOTE_EBOLA_OFFSET:Int = NOTE_DARKHALO_OFFSET + NOTE_OFFSET;
   // 400: Ice notes.
-  private static final NOTE_ICE_OFFSET:Int = NOTE_EBOLA_OFFSET + NOTE_OFFSET;
+  public static final NOTE_ICE_OFFSET:Int = NOTE_EBOLA_OFFSET + NOTE_OFFSET;
   // 500: Warning notes.
-  private static final NOTE_WARNING_OFFSET:Int = NOTE_ICE_OFFSET + NOTE_OFFSET;
+  public static final NOTE_WARNING_OFFSET:Int = NOTE_ICE_OFFSET + NOTE_OFFSET;
 
   /**
    * The note style used in most songs.
@@ -89,85 +91,19 @@ class CustomNotes {
 
   /**
    * Pixel notes are 6x bigger than their spritesheet.
-   * Divide by the base game's note scale.
+   * Divide by the base game's note scale. We remultiply later.
    */
   private static final PIXEL_ZOOM = 6 / 0.7;
 
   /**
-   * Provides values based on the current strumlineSize:
-   * [NOTE POSITION, NOTE SCALE, BASE OFFSET]
+   * From the raw note data, 
+   * @param rawNoteData 
+   * @param allowAltNames Set this to true to allow 
+   *   Set to false when building sprites for custom note types,
+   *   or when fetching character sing animations when the character doesn't
+   *   have separate animations for 9-key.
+   * @return String
    */
-  private static final NOTE_GEOMETRY_DATA:Map<Int, Array<Float>> = [
-    1 => [160 * 0.7, 0.70, 0],
-    2 => [160 * 0.7, 0.70, 0],
-    3 => [160 * 0.7, 0.70, 0],
-    4 => [160 * 0.7, 0.70, 0], // Base game.
-    5 => [160 * 0.6, 0.60, 0],
-    6 => [120 * 0.7, 0.60, 0], // Copied from vs Shaggy
-    7 => [120 * 0.7, 0.60, 0],
-    8 => [120 * 0.7, 0.60, 30],
-    9 => [90 * 0.7, 0.46, 30], // Copied from vs Shaggy
-  ];
-
-  private static final Z = -1;
-  private static final NOTE_DATA_TO_STRUMLINE_MAP:Map<Int, Array<Int>> = [
-    // No controls are 9Key
-    2 => [Z,0,1,Z, Z,2,3,Z], // Down/Up.
-    3 => [0,Z,1,2, 3,Z,4,5], // Left/Up/Right
-    4 => [0,1,2,3, 4,5,6,7], // Left/Down/Up/Right
-    // Some controls are 9Key
-    1 => [Z,Z,Z,Z, Z,Z,Z,Z,  Z,Z, Z,Z,Z,Z, 0, Z,Z,Z,Z, 1], // Center.
-    5 => [0,1,3,4, 5,6,8,9,  Z,Z, Z,Z,Z,Z, 2, Z,Z,Z,Z, 7], // Left/Down/Center/Up/Right
-    // All controls are 9Key
-    6 => [0,1,4,2, 6,7,10,8, Z,Z, 3,Z,Z,5, Z, 9,Z,Z,11, Z], // Left/Down/Right ALeft/Up/ARight
-    7 => [0,1,5,2, 7,8,12,9, Z,Z, 4,Z,Z,6, 3, 11,Z,Z,13, 10], // Left/Down/Right Center ALeft/Up/ARight
-    8 => [0,1,2,3, 8,9,10,11,  Z,Z, 4,5,6,7, Z, 12,13,14,15, Z], // Left/Down//Up/Right ALeft/ADown/AUp/ARight
-    9 => [0,1,2,3, 9,10,11,12, Z,Z, 5,6,7,8, 4, 14,15,16,17, 13], // Copied from vs Shaggy
-  ];
-
-  /**
-   * Stores which notes to use for the strumline for each strumlineSize value.
-   */
-  private static final STRUMLINE_DIR_NAMES:Map<Int, Array<String>> = [
-    1 => ["Center"],
-    2 => ["Down", "Up"],
-    3 => ["Left", "Up", "Right"],
-    4 => ["Left", "Down", "Up", "Right"],
-    5 => ["Left", "Down", "Center", "Up", "Right"],
-    6 => ["Left", "Down", "Right", "Left Alt", "Up", "Right Alt"],
-    7 => ["Left", "Down", "Right", "Center", "Left Alt", "Up", "Right Alt"],
-    8 => ["Left", "Down", "Up", "Right", "Left Alt", "Down Alt", "Up Alt", "Right Alt"],
-    9 => [
-      "Left",
-      "Down",
-      "Up",
-      "Right",
-      "Center",
-      "Left Alt",
-      "Down Alt",
-      "Up Alt",
-      "Right Alt"
-    ],
-  ];
-
-  /**
-   * Determine this note is mandatory to hit.
-   * @param rawNoteData The raw note data value (no modulus performed).
-   * @param mustHitSection The mustHitSection value from this note's section.
-   * @return Whether the note needs to be hit by the player.
-   */
-  public static function mustHitNote(rawNoteData:Int, mustHitSection:Bool):Bool {
-    var baseNoteData = rawNoteData % NOTE_OFFSET;
-    switch (baseNoteData) {
-      case NOTE_BASE_LEFT | NOTE_BASE_DOWN | NOTE_BASE_UP | NOTE_BASE_RIGHT:
-        return mustHitSection;
-      case NOTE_BASE_LEFT_ENEMY | NOTE_BASE_DOWN_ENEMY | NOTE_BASE_UP_ENEMY | NOTE_BASE_RIGHT_ENEMY:
-        return !mustHitSection;
-      default:
-        return mustHitSection;
-    }
-  }
-
   public static function getDirectionName(rawNoteData:Int, allowAltNames:Bool):String {
     var isCustomNoteType = rawNoteData >= NOTE_OFFSET;
     if (!allowAltNames || isCustomNoteType) {
@@ -232,7 +168,7 @@ class CustomNotes {
     instance.animation.addByPrefix(dirName + ' Sustain', dirName + ' Sustain'); // Hold
     instance.animation.addByPrefix(dirName + ' End', dirName + ' End'); // Tails
 
-    var noteScale = NOTE_GEOMETRY_DATA[strumlineSize][1];
+    var noteScale = CustomNoteUtils.NOTE_GEOMETRY_DATA[strumlineSize][1];
     switch (noteStyle) {
       case STYLE_PIXEL:
         var widthSize = Std.int(PlayState.Stage.curStage.startsWith('school') ? (instance.width * PlayState.daPixelZoom) : (isSustainNote ? (instance.width * (PlayState.daPixelZoom
@@ -249,15 +185,32 @@ class CustomNotes {
   }
 
   public static function buildStrumlines(isPlayer:Bool, yPos:Float, strumlineSize:Int = 4, noteStyle:String = 'normal'):Void {
-    if (!STRUMLINE_DIR_NAMES.exists(strumlineSize)) {
-      trace('Could not build strumline! Invalid size ' + strumlineSize);
+    if (!CustomNoteUtils.STRUMLINE_DIR_NAMES.exists(strumlineSize)) {
+      trace('Could not build strumline! Invalid size ${strumlineSize}');
       return;
     }
 
-    var strumlineDirs = STRUMLINE_DIR_NAMES[strumlineSize];
-    var strumlinePos = NOTE_GEOMETRY_DATA[strumlineSize][2];
-    var strumlineNoteWidth = NOTE_GEOMETRY_DATA[strumlineSize][0];
-    var noteScale = NOTE_GEOMETRY_DATA[strumlineSize][1];
+    /**
+     * The note directions to display for this strumline.
+     */
+    var strumlineDirs = CustomNoteUtils.STRUMLINE_DIR_NAMES[strumlineSize];
+
+    /**
+     * The offset to use for each strumline arrow.
+     * Setting this value too low will cause arrows to overlap somewhat.
+     */
+    var strumlineNoteWidth = CustomNoteUtils.NOTE_GEOMETRY_DATA[strumlineSize][0];
+    /**
+     * The size multiplier for each strumline arrow.
+     * Setting this value too high will cause arrows to be too big.
+     */
+    var noteGraphicScale = CustomNoteUtils.NOTE_GEOMETRY_DATA[strumlineSize][1];
+    /**
+     * The offset position of the strumline.
+     * Needs to be different if the strumline has more notes.
+     * Value is inverted for the Dad player's strumline.
+     */
+    var strumlinePos = CustomNoteUtils.NOTE_GEOMETRY_DATA[strumlineSize][2];
 
     // For each note in the strumline...
     for (i in 0...strumlineDirs.length) {
@@ -284,18 +237,15 @@ class CustomNotes {
       babyArrow.animation.addByPrefix('pressed', arrowDir + ' Press', 24, false);
       babyArrow.animation.addByPrefix('confirm', arrowDir + ' Hit', 24, false);
 
-      // Position the arrow properly. Should be the same for all note styles?
-      babyArrow.x += strumlineNoteWidth * i;
-
       // Cleanup the graphic.
       switch (noteStyle) {
         case STYLE_PIXEL:
-          babyArrow.setGraphicSize(Std.int(babyArrow.width * PIXEL_ZOOM * noteScale));
+          babyArrow.setGraphicSize(Std.int(babyArrow.width * PIXEL_ZOOM * noteGraphicScale));
           babyArrow.updateHitbox();
           babyArrow.antialiasing = false;
         default: // STYLE_NORMAL
           babyArrow.antialiasing = FlxG.save.data.antialiasing;
-          babyArrow.setGraphicSize(Std.int(babyArrow.width * noteScale));
+          babyArrow.setGraphicSize(Std.int(babyArrow.width * noteGraphicScale));
       }
 
       // Further setup.
@@ -303,22 +253,41 @@ class CustomNotes {
       babyArrow.scrollFactor.set();
       babyArrow.alpha = 0;
       babyArrow.ID = i;
-      babyArrow.animation.play('static');
-      babyArrow.x += 50;
-      babyArrow.x += ((FlxG.width / 2) * (isPlayer ? 1 : 0));
-      if (PlayStateChangeables.Optimize) {
-        babyArrow.x -= 275;
+      babyArrow.animation.play("static");
+      
+      /**
+       * Logic for positioning the arrows.
+       */
+       
+      if (isPlayer) {
+        // Set position to the far right side of the screen,
+        babyArrow.x = FlxG.width;
+        // then move left based on the full strumline size.
+        babyArrow.x -= (strumlineNoteWidth * strumlineSize);
+        // It ends up a little to far right unless we do this, for some reason.
+        babyArrow.x -= strumlineNoteWidth * 0.1;
+      } else {
+        // Set position to the far left side of the screen.
+        babyArrow.x = 0;
       }
-
-      // Base offset for longer strumlines.
-      babyArrow.x -= strumlinePos;
-
-      // In FreePlay, ease the arrows into frame.
+      // Based on the full size of the strumline,
+      // offset to the left if we are the player and to the right left if we are the CPU.
+      babyArrow.x += strumlinePos * (isPlayer ? 1 : -1);
+      // Move right based on the strumline position.
+      babyArrow.x += strumlineNoteWidth * i;
+      
+      if (PlayStateChangeables.Optimize) {
+        // Optimization option (in the game settings) hides characters and backgrounds.
+        // Forcibly disabled by modcharts.
+        // babyArrow.x -= 275;
+      }
+       
+      // In FreePlay, ease the arrows into frame vertically.
       if (!PlayState.isStoryMode) {
         babyArrow.y -= 10;
         FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: 1}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
       }
-
+       
       // Add the graphic to the strumline.
       if (isPlayer) {
         PlayState.playerStrums.add(babyArrow);
@@ -326,51 +295,33 @@ class CustomNotes {
         PlayState.cpuStrums.add(babyArrow);
       }
       PlayState.strumLineNotes.add(babyArrow);
-
-      PlayState.cpuStrums.forEach(function(spr:FlxSprite) {
-        spr.centerOffsets(); // CPU arrows start out slightly off-center
-      });
     }
-  }
 
-  /**
-   * Fetch a "corrected" note ID that matches its order in the strumline.
-   * For example, in 5-note, left returns 0, center returns 2, and right returns 4 (rather than 3).
-   *
-   * This is needed because otherwise data for different note types would be in very high lane numbers. 
-   * TODO: This is done manually with a map but I don't think there's a smarter method.
-   * @return Int
-   */
-  public static function getCorrectedNoteData(rawNoteData:Int, strumlineSize:Int = 4):Int {
-    var result = NOTE_DATA_TO_STRUMLINE_MAP[strumlineSize][rawNoteData % NOTE_OFFSET];
-    return result;
+    // CPU arrows start out slightly off-center
+    PlayState.cpuStrums.forEach(function(spr:FlxSprite) {
+      spr.centerOffsets();
+    });
+    // ERIC: I think this happens to Player arrows too.
+    PlayState.playerStrums.forEach(function(spr:FlxSprite) {
+      spr.centerOffsets();
+    });
   }
 
   /**
    * Get the animation to play when singing this note.
    * Used by both BF and Dad (and GF during the tutorial).
-   * @param note 
-   * @param strumlineSize 
+   * @param note The note being hit.
+   * @param strumlineSize The length of this song's strumline.
+   *   Not currently used for the logic.
+   * @param allowAltNames Set this to true if the character has special animations for 9-key.
    * @return Int
    */
-  public static function getSingAnim(note:Note, strumlineSize:Int = 4):String {
+  public static function getSingAnim(note:Note, strumlineSize:Int = 4, allowAltNames = false):String {
     // ERIC: Currently, singing alt left/down/up/right notes uses the same animations,
     // and the center note uses the up animation, on both players.
     // Use this code to override that if needed.
-    var directionName = getDirectionName(note.rawNoteData, false).toUpperCase();
+    var directionName = getDirectionName(note.rawNoteData, allowAltNames).toUpperCase();
     return 'sing' + directionName;
-  }
-
-  /**
-   * From a note's direction and the song's strumline size,
-   * get the distance to offset by, in notes.
-   * @param rawNoteData 
-   * @param strumlineSize 
-   */
-  public static function getNoteOffset(rawNoteData:Int, strumlineSize:Int = 4):Int {
-    var correctedNoteData = getCorrectedNoteData(rawNoteData, strumlineSize);
-    var strumlineNoteWidth = NOTE_GEOMETRY_DATA[strumlineSize][0];
-    return Std.int(correctedNoteData * strumlineNoteWidth);
   }
 
   /**
@@ -381,7 +332,7 @@ class CustomNotes {
   public static function swapNote(rawNoteData:Int):Int {
     var noteOffset = Math.floor(rawNoteData / NOTE_OFFSET);
     var baseNoteData = rawNoteData % 100;
-    return noteOffset + switch(baseNoteData) {
+    return noteOffset + switch (baseNoteData) {
       case NOTE_BASE_LEFT | NOTE_BASE_DOWN | NOTE_BASE_UP | NOTE_BASE_RIGHT: (baseNoteData + 4);
       case NOTE_BASE_LEFT_ENEMY | NOTE_BASE_DOWN_ENEMY | NOTE_BASE_UP_ENEMY | NOTE_BASE_RIGHT_ENEMY: (baseNoteData - 4);
       case NOTE_9K_LEFT | NOTE_9K_DOWN | NOTE_9K_UP | NOTE_9K_RIGHT | NOTE_9K_CENTER: (baseNoteData + 5);
@@ -556,16 +507,15 @@ class CustomNotes {
   }
 
   private static final CHARTER_COLUMN_MAP:Array<Int> = [
-    NOTE_BASE_LEFT, NOTE_BASE_DOWN, NOTE_BASE_UP, NOTE_BASE_RIGHT,
-    NOTE_9K_CENTER,
-    NOTE_9K_LEFT, NOTE_9K_DOWN, NOTE_9K_UP, NOTE_9K_RIGHT,
-    NOTE_BASE_LEFT_ENEMY, NOTE_BASE_DOWN_ENEMY, NOTE_BASE_UP_ENEMY, NOTE_BASE_RIGHT_ENEMY,
-    NOTE_9K_CENTER_ENEMY,
-    NOTE_9K_LEFT_ENEMY, NOTE_9K_DOWN_ENEMY, NOTE_9K_UP_ENEMY, NOTE_9K_RIGHT_ENEMY
+    NOTE_BASE_LEFT, NOTE_BASE_DOWN, NOTE_BASE_UP, NOTE_BASE_RIGHT, NOTE_9K_CENTER, NOTE_9K_LEFT, NOTE_9K_DOWN, NOTE_9K_UP, NOTE_9K_RIGHT,
+    NOTE_BASE_LEFT_ENEMY, NOTE_BASE_DOWN_ENEMY, NOTE_BASE_UP_ENEMY, NOTE_BASE_RIGHT_ENEMY, NOTE_9K_CENTER_ENEMY, NOTE_9K_LEFT_ENEMY, NOTE_9K_DOWN_ENEMY,
+    NOTE_9K_UP_ENEMY, NOTE_9K_RIGHT_ENEMY
   ];
+
   public static function getNoteDataFromCharterColumn(column:Int) {
     // Return -1 if value is invalid.
-    if (column >= CHARTER_COLUMN_MAP.length) return -1;
+    if (column >= CHARTER_COLUMN_MAP.length)
+      return -1;
     return CHARTER_COLUMN_MAP[column];
   }
 

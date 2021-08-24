@@ -1,5 +1,4 @@
 import flixel.util.FlxColor;
-import flixel.FlxG;
 import openfl.geom.Rectangle;
 import haxe.io.Bytes;
 import lime.media.AudioBuffer;

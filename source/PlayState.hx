@@ -1,56 +1,28 @@
 import LuaClass.LuaCamera;
 import LuaClass.LuaCharacter;
-import lime.media.openal.AL;
 import LuaClass.LuaNote;
-import Song.Event;
 import openfl.media.Sound;
 #if sys
 import sys.io.File;
 import smTools.SMFile;
 #end
-import openfl.ui.KeyLocation;
-import openfl.events.Event;
-import haxe.EnumTools;
-import openfl.ui.Keyboard;
 import openfl.events.KeyboardEvent;
 import Replay.Ana;
 import Replay.Analysis;
 #if cpp
-import webm.WebmPlayer;
 #end
 import flixel.input.keyboard.FlxKey;
-import haxe.Exception;
-import openfl.geom.Matrix;
-import openfl.display.BitmapData;
-import openfl.utils.AssetType;
-import lime.graphics.Image;
-import flixel.graphics.FlxGraphic;
-import openfl.utils.AssetManifest;
-import openfl.utils.AssetLibrary;
-import flixel.system.FlxAssets;
-import lime.app.Application;
-import lime.media.AudioContext;
-import lime.media.AudioManager;
 import openfl.Lib;
 import Section.SwagSection;
 import Song.SwagSong;
-import WiggleEffect.WiggleEffectType;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
-import flixel.FlxGame;
 import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.FlxState;
 import flixel.FlxSubState;
-import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.effects.FlxTrail;
-import flixel.addons.effects.FlxTrailArea;
-import flixel.addons.effects.chainable.FlxEffectSprite;
-import flixel.addons.effects.chainable.FlxWaveEffect;
 import flixel.addons.transition.FlxTransitionableState;
-import flixel.graphics.atlas.FlxAtlas;
-import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
@@ -60,21 +32,13 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.ui.FlxBar;
-import flixel.util.FlxCollision;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
-import flixel.util.FlxStringUtil;
 import flixel.util.FlxTimer;
-import haxe.Json;
-import lime.utils.Assets;
-import openfl.display.BlendMode;
-import openfl.display.StageQuality;
-import openfl.filters.ShaderFilter;
 #if desktop
 import Discord.DiscordClient;
 #end
 #if cpp
-import Sys;
 import sys.FileSystem;
 #end
 
@@ -267,6 +231,8 @@ class PlayState extends MusicBeatState {
   public static var startTime = 0.0;
 
   // API stuff
+  // TODO: Handle this better. Isn't there a normal stage loader?
+  public var BACK4NGAMES = new FlxSprite();
 
   public function addObject(object:FlxBasic) {
     add(object);
@@ -337,7 +303,7 @@ class PlayState extends MusicBeatState {
     if (executeModchart)
       songMultiplier = 1;
 
-		#if desktop
+    #if desktop
     // Making difficulty text for Discord Rich Presence.
     storyDifficultyText = CoolUtil.difficultyFromInt(storyDifficulty);
 
@@ -378,6 +344,9 @@ class PlayState extends MusicBeatState {
       + " | Misses: "
       + misses, iconRPC);
     #end
+
+    // TODO: Handle this better.
+    BACK4NGAMES.loadGraphic(Paths.image('m'));
 
     // var gameCam:FlxCamera = FlxG.camera;
     camGame = new FlxCamera();
@@ -623,6 +592,12 @@ class PlayState extends MusicBeatState {
           boyfriend.y += 220;
           gf.x += 180;
           gf.y += 300;
+        case 'nogames':
+          // add(dad);
+          // add(boyfriend);
+          dad.visible = false;
+          boyfriend.visible = false;
+          gf.visible = false;
       }
     }
 
@@ -743,7 +718,11 @@ class PlayState extends MusicBeatState {
 
     camFollow = new FlxObject(0, 0, 1, 1);
 
-    camFollow.setPosition(camPos.x, camPos.y);
+    if (Stage.curStage == 'nogames') {
+      camFollow.setPosition(1280 / 2, 720 / 2);
+    } else {
+      camFollow.setPosition(camPos.x, camPos.y);
+    }
 
     if (prevCamFollow != null) {
       camFollow = prevCamFollow;
@@ -1281,7 +1260,7 @@ class PlayState extends MusicBeatState {
     if (executeModchart)
       luaModchart.executeState("songStart", [null]);
 
-		#if desktop
+    #if desktop
     // Updating Discord Rich Presence (with Time Left)
     DiscordClient.changePresence(detailsText
       + " "
@@ -1479,9 +1458,9 @@ class PlayState extends MusicBeatState {
         if (daStrumTime < 0)
           daStrumTime = 0;
         var daNoteData:Int = Std.int(songNotes[1] % 4);
-        var daRawNoteData:Int = Std.int(songNotes[1]); 
+        var daRawNoteData:Int = Std.int(songNotes[1]);
 
-        var gottaHitNote:Bool = CustomNotes.mustHitNote(daRawNoteData, section.mustHitSection); 
+        var gottaHitNote:Bool = CustomNoteUtils.mustHitNote(daRawNoteData, section.mustHitSection);
 
         var oldNote:Note;
         if (unspawnNotes.length > 0)
@@ -1550,9 +1529,9 @@ class PlayState extends MusicBeatState {
     return FlxSort.byValues(FlxSort.ASCENDING, Obj1.strumTime, Obj2.strumTime);
   }
 
-  private function generateStaticArrows(player:Int):Void { 
-    CustomNotes.buildStrumlines(player == 1, strumLine.y, SONG.strumlineSize); 
-  } 
+  private function generateStaticArrows(player:Int):Void {
+    CustomNotes.buildStrumlines(player == 1, strumLine.y, SONG.strumlineSize);
+  }
 
   private function appearStaticArrows():Void {
     strumLineNotes.forEach(function(babyArrow:FlxSprite) {
@@ -1603,9 +1582,8 @@ class PlayState extends MusicBeatState {
         startTimer.active = true;
       paused = false;
 
-			#if desktop
-			if (startTimer.finished)
-			{
+      #if desktop
+      if (startTimer.finished) {
         DiscordClient.changePresence(detailsText
           + " "
           + SONG.song
@@ -1645,7 +1623,7 @@ class PlayState extends MusicBeatState {
         lime.media.openal.AL.sourcef(vocals._channel.__source.__backend.handle, lime.media.openal.AL.PITCH, songMultiplier);
     }
 
-		#if desktop
+    #if desktop
     DiscordClient.changePresence(detailsText
       + " "
       + SONG.song
@@ -1726,8 +1704,7 @@ class PlayState extends MusicBeatState {
         // Song ends abruptly on slow rate even with second condition being deleted,
         // and if it's deleted on songs like cocoa then it would end without finishing instrumental fully,
         // so no reason to delete it at all
-					if (unspawnNotes.length == 0 && FlxG.sound.music.length - Conductor.songPosition <= 100)
-					{
+        if (unspawnNotes.length == 0 && FlxG.sound.music.length - Conductor.songPosition <= 100) {
           endSong();
         }
       }
@@ -2196,6 +2173,10 @@ class PlayState extends MusicBeatState {
         luaModchart.setVar("mustHit", currentSection.mustHitSection);
       #end
 
+      if (Stage.curStage == 'nogames') {
+        camFollow.setPosition(1280 / 2, 720 / 2);
+      }
+
       if (camFollow.x != dad.getMidpoint().x + 150 && !currentSection.mustHitSection) {
         var offsetX = 0;
         var offsetY = 0;
@@ -2205,7 +2186,9 @@ class PlayState extends MusicBeatState {
           offsetY = luaModchart.getVar("followYOffset", "float");
         }
         #end
-        camFollow.setPosition(dad.getMidpoint().x + 150 + offsetX, dad.getMidpoint().y - 100 + offsetY);
+        if (Stage.curStage != 'nogames') {
+          camFollow.setPosition(dad.getMidpoint().x + 150 + offsetX, dad.getMidpoint().y - 100 + offsetY);
+        }
         #if cpp
         if (luaModchart != null)
           luaModchart.executeState('playerTwoTurn', []);
@@ -2230,7 +2213,9 @@ class PlayState extends MusicBeatState {
           offsetY = luaModchart.getVar("followYOffset", "float");
         }
         #end
-        camFollow.setPosition(boyfriend.getMidpoint().x - 100 + offsetX, boyfriend.getMidpoint().y - 100 + offsetY);
+        if (Stage.curStage != 'nogames') {
+          camFollow.setPosition(boyfriend.getMidpoint().x - 100 + offsetX, boyfriend.getMidpoint().y - 100 + offsetY);
+        }
 
         #if cpp
         if (luaModchart != null)
@@ -2327,7 +2312,7 @@ class PlayState extends MusicBeatState {
           openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
         }
 
-				#if desktop
+        #if desktop
         // Game Over doesn't get his own variable because it's only used here
         DiscordClient.changePresence("GAME OVER -- "
           + SONG.song
@@ -2364,7 +2349,7 @@ class PlayState extends MusicBeatState {
           openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
         }
 
-				#if desktop
+        #if desktop
         // Game Over doesn't get his own variable because it's only used here
         DiscordClient.changePresence("GAME OVER -- "
           + SONG.song
@@ -2433,24 +2418,44 @@ class PlayState extends MusicBeatState {
               }
             }
           } else {
-            if (daNote.mustPress)
-              daNote.y = (playerStrums.members[Math.floor(Math.abs(daNote.noteData))].y
+            if (daNote.mustPress) {
+              // If mustHitSection is true, notes 0/1/2/3 correspond with the player notes.
+              if (Math.floor(Math.abs(daNote.noteData)) >= playerStrums.members.length) {
+                trace("[ERROR] Note data was impossible for this NPC note! Couldn't generate a Y offset.");
+                // Return from this inline lambda function.
+                return;
+              }
+              // Render enemy notes properly in some niche cases?
+              if (Math.floor(Math.abs(daNote.noteData)) >= 4) {
+                daNote.y = (strumLineNotes.members[Math.floor(Math.abs(daNote.noteData) - 4)].y
+                  - 0.45 * ((Conductor.rawPosition - daNote.strumTime) / songMultiplier) * (FlxMath.roundDecimal(PlayStateChangeables.scrollSpeed == 1 ? SONG.speed : PlayStateChangeables.scrollSpeed,
+                    2)))
+                  + daNote.noteYOff;
+              } else {
+                daNote.y = (playerStrums.members[Math.floor(Math.abs(daNote.noteData))].y
+                  - 0.45 * ((Conductor.rawPosition - daNote.strumTime) / songMultiplier) * (FlxMath.roundDecimal(PlayStateChangeables.scrollSpeed == 1 ? SONG.speed : PlayStateChangeables.scrollSpeed,
+                    2)))
+                  + daNote.noteYOff;
+              }
+            } else {
+              // If mustHitSection is false, notes 0/1/2/3 correspond with the enemy notes.
+              if (Math.floor(Math.abs(daNote.noteData)) >= strumLineNotes.members.length) {
+                trace("[ERROR] Note data was impossible for this NPC note! Couldn't generate a Y offset.");
+              }
+              daNote.y = (strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].y
                 - 0.45 * ((Conductor.rawPosition - daNote.strumTime) / songMultiplier) * (FlxMath.roundDecimal(PlayStateChangeables.scrollSpeed == 1 ? SONG.speed : PlayStateChangeables.scrollSpeed,
                   2)))
                 + daNote.noteYOff;
-            else
-              daNote.y = (strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].y
-                - 0.45 * ((Conductor.rawPosition - daNote.strumTime) / songMultiplier) * (FlxMath.roundDecimal(PlayStateChangeables.scrollSpeed == 1 ? SONG.speed : PlayStateChangeables.scrollSpeed,
-									2))) + daNote.noteYOff;
-						if (daNote.isSustainNote)
-						{
-							daNote.y -= daNote.height / 2;
+            }
+            if (daNote.isSustainNote) {
+              daNote.y -= daNote.height / 2;
 
-							if (!PlayStateChangeables.botPlay)
-							{
-								if ((!daNote.mustPress || daNote.wasGoodHit || daNote.prevNote.wasGoodHit || holdArray[Math.floor(Math.abs(daNote.noteData))])
-									&& daNote.y + daNote.offset.y * daNote.scale.y <= (strumLine.y + Note.swagWidth / 2))
-								{
+              if (!PlayStateChangeables.botPlay) {
+                if ((!daNote.mustPress
+                  || daNote.wasGoodHit
+                  || daNote.prevNote.wasGoodHit
+                  || holdArray[Math.floor(Math.abs(daNote.noteData))])
+                  && daNote.y + daNote.offset.y * daNote.scale.y <= (strumLine.y + Note.swagWidth / 2)) {
                   // Clip to strumline
                   var swagRect = new FlxRect(0, 0, daNote.width / daNote.scale.x, daNote.height / daNote.scale.y);
                   swagRect.y = (strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].y + Note.swagWidth / 2 - daNote.y) / daNote.scale.y;
@@ -3207,18 +3212,20 @@ class PlayState extends MusicBeatState {
   private function keyShit():Void // I've invested in emma stocks
   {
     // control arrays, order L D R U
-    var holdArray:Array<Bool> = [controls.LEFT, controls.DOWN, controls.UP, controls.RIGHT,
-      controls.LEFT_9K,controls.LEFT_9K,controls.LEFT_9K,controls.LEFT_9K,controls.CENTER_9K,
-      controls.LEFT_ALT_9K,controls.DOWN_ALT_9K,controls.UP_ALT_9K,controls.RIGHT_ALT_9K,];
-    var pressArray:Array<Bool> = [controls.LEFT_P, controls.DOWN_P, controls.UP_P, controls.RIGHT_P,
-      controls.LEFT_9K,controls.LEFT_9K,controls.LEFT_9K,controls.LEFT_9K,controls.CENTER_9K,
-      controls.LEFT_ALT_9K,controls.DOWN_ALT_9K,controls.UP_ALT_9K,controls.RIGHT_ALT_9K,];
-    var releaseArray:Array<Bool> = [controls.LEFT_R, controls.DOWN_R, controls.UP_R, controls.RIGHT_R,
-      controls.LEFT_9K,controls.LEFT_9K,controls.LEFT_9K,controls.LEFT_9K,controls.CENTER_9K,
-      controls.LEFT_ALT_9K,controls.DOWN_ALT_9K,controls.UP_ALT_9K,controls.RIGHT_ALT_9K,];
-    var keynameArray:Array<String> = ['left', 'down', 'up', 'right',
-      'left9k', 'down9k', 'up9k', 'right9k', 'center9k',
-      'leftalt9k', 'downalt9k', 'upalt9k', 'rightalt9k'
+    var holdArray:Array<Bool> = [
+      controls.LEFT, controls.DOWN, controls.UP, controls.RIGHT, controls.LEFT_9K, controls.LEFT_9K, controls.LEFT_9K, controls.LEFT_9K, controls.CENTER_9K,
+      controls.LEFT_ALT_9K, controls.DOWN_ALT_9K, controls.UP_ALT_9K, controls.RIGHT_ALT_9K,
+    ];
+    var pressArray:Array<Bool> = [
+      controls.LEFT_P, controls.DOWN_P, controls.UP_P, controls.RIGHT_P, controls.LEFT_9K, controls.LEFT_9K, controls.LEFT_9K, controls.LEFT_9K,
+      controls.CENTER_9K, controls.LEFT_ALT_9K, controls.DOWN_ALT_9K, controls.UP_ALT_9K, controls.RIGHT_ALT_9K,
+    ];
+    var releaseArray:Array<Bool> = [
+      controls.LEFT_R, controls.DOWN_R, controls.UP_R, controls.RIGHT_R, controls.LEFT_9K, controls.LEFT_9K, controls.LEFT_9K, controls.LEFT_9K,
+      controls.CENTER_9K, controls.LEFT_ALT_9K, controls.DOWN_ALT_9K, controls.UP_ALT_9K, controls.RIGHT_ALT_9K,
+    ];
+    var keynameArray:Array<String> = [
+      'left', 'down', 'up', 'right', 'left9k', 'down9k', 'up9k', 'right9k', 'center9k', 'leftalt9k', 'downalt9k', 'upalt9k', 'rightalt9k'
     ];
     #if cpp
     if (luaModchart != null) {
@@ -3281,7 +3288,7 @@ class PlayState extends MusicBeatState {
         notes.forEachAlive(function(daNote:Note) {
           // Fetch the corrected ID.
           // This is needed because otherwise data for different note types would be in very high lane numbers.
-          var correctedNoteData = CustomNotes.getCorrectedNoteData(daNote.noteData);
+          var correctedNoteData = CustomNoteUtils.getStrumlineIndex(daNote.noteData);
 
           // ERIC: The below logic is pretty confusing, but it essentially retrieves a list
           // of notes that our keypress could have hit.
@@ -3380,7 +3387,7 @@ class PlayState extends MusicBeatState {
     if (PlayStateChangeables.botPlay) {
       notes.forEachAlive(function(daNote:Note) {
         var diff = -((daNote.strumTime - Conductor.songPosition) / songMultiplier);
-        
+
         daNote.rating = Ratings.judgeNote(daNote);
         if (daNote.mustPress && daNote.rating == "sick" || (diff > 0 && daNote.mustPress)) {
           // Force good note hit regardless if it's too late to hit it or not as a fail safe
@@ -3928,7 +3935,7 @@ class PlayState extends MusicBeatState {
 
       // Dad doesnt interupt his own notes
       if ((!dad.animation.curAnim.name.startsWith("sing")) && dad.curCharacter != 'gf') {
-        if ((curBeat % idleBeat == 0 || !idleToBeat) || dad.curCharacter == "spooky") {   
+        if ((curBeat % idleBeat == 0 || !idleToBeat) || dad.curCharacter == "spooky") {
           dad.dance(idleToBeat, currentSection.CPUAltAnim);
         }
       }
@@ -4135,4 +4142,4 @@ class PlayState extends MusicBeatState {
 
   var curLight:Int = 0;
 }
-//u looked :O -ides
+// u looked :O -ides

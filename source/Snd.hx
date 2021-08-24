@@ -160,7 +160,7 @@ class ChannelEventInstance extends Channel { // basically a sound instance
   public function getData()
     return data;
 
-  public override function dispose() {
+  override public function dispose() {
     super.dispose();
     if (data != null) {
       data.release();
@@ -168,30 +168,30 @@ class ChannelEventInstance extends Channel { // basically a sound instance
     }
   }
 
-  public override function poolBack() {
+  override public function poolBack() {
     super.poolBack();
     ChannelEventInstance.delete(this);
   }
 
-  public override function stop() {
+  override public function stop() {
     if (data != null)
       data.stop(FmodStudioStopMode.StopAllowFadeout());
     super.stop();
   }
 
-  public override function pause() {
+  override public function pause() {
     super.pause();
     if (data != null)
       data.setPaused(true);
   }
 
-  public override function resume() {
+  override public function resume() {
     super.resume();
     if (data != null)
       data.setPaused(false);
   }
 
-  public override function isPlaying() {
+  override public function isPlaying() {
     if (completed)
       return false;
 
@@ -211,7 +211,7 @@ class ChannelEventInstance extends Channel { // basically a sound instance
   }
 
   // returns in secs
-  public override function getPlayCursorSec():Float {
+  override public function getPlayCursorSec():Float {
     if (data == null)
       return 0.0;
 
@@ -222,7 +222,7 @@ class ChannelEventInstance extends Channel { // basically a sound instance
   }
 
   // returns in secs
-  public override function getPlayCursorMs():Float {
+  override public function getPlayCursorMs():Float {
     if (data == null)
       return 0.0;
 
@@ -231,7 +231,7 @@ class ChannelEventInstance extends Channel { // basically a sound instance
     return 1.0 * pos;
   }
 
-  public override function setPlayCursorMs(posMs:Float) {
+  override public function setPlayCursorMs(posMs:Float) {
     if (data == null)
       return;
 
@@ -251,9 +251,9 @@ class ChannelEventInstance extends Channel { // basically a sound instance
     #end
   }
 
-  public override function setNbLoops(nb:Int) {}
+  override public function setNbLoops(nb:Int) {}
 
-  public override function getVolume():Float {
+  override public function getVolume():Float {
     if (data == null)
       return 0.0;
 
@@ -268,7 +268,7 @@ class ChannelEventInstance extends Channel { // basically a sound instance
     return vol;
   }
 
-  public override function setVolume(v:Float) {
+  override public function setVolume(v:Float) {
     if (data == null) {
       // #if debug
       // trace("no data for "+name);
@@ -328,35 +328,35 @@ class ChannelLowLevel extends Channel {
     return data;
   }
 
-  public override function poolBack() {
+  override public function poolBack() {
     super.poolBack();
     ChannelLowLevel.delete(this);
   }
 
-  public override function stop() {
+  override public function stop() {
     if (data != null)
       data.stop();
     super.stop();
   }
 
-  public override function pause() {
+  override public function pause() {
     super.pause();
     if (data != null)
       data.setPaused(true);
   }
 
-  public override function resume() {
+  override public function resume() {
     super.resume();
     if (data != null)
       data.setPaused(false);
   }
 
-  public override function dispose() {
+  override public function dispose() {
     super.dispose();
     data = null;
   }
 
-  public override function isPlaying() {
+  override public function isPlaying() {
     if (completed)
       return false;
 
@@ -378,7 +378,7 @@ class ChannelLowLevel extends Channel {
   }
 
   // returns in secs
-  public override function getPlayCursorSec():Float {
+  override public function getPlayCursorSec():Float {
     if (data == null)
       return 0.0;
 
@@ -389,7 +389,7 @@ class ChannelLowLevel extends Channel {
   }
 
   // returns in secs
-  public override function getPlayCursorMs():Float {
+  override public function getPlayCursorMs():Float {
     if (data == null)
       return 0.0;
 
@@ -398,7 +398,7 @@ class ChannelLowLevel extends Channel {
     return 1.0 * pos;
   }
 
-  public override function setPlayCursorMs(posMs:Float) {
+  override public function setPlayCursorMs(posMs:Float) {
     if (data == null)
       return;
 
@@ -414,14 +414,14 @@ class ChannelLowLevel extends Channel {
     }
   }
 
-  public override function setNbLoops(nb:Int) {
+  override public function setNbLoops(nb:Int) {
     if (data == null)
       return;
     data.setMode(FmodMode.FMOD_LOOP_NORMAL);
     data.setLoopCount(nb);
   }
 
-  public override function getVolume():Float {
+  override public function getVolume():Float {
     if (data == null)
       return 0.0;
 
@@ -435,7 +435,7 @@ class ChannelLowLevel extends Channel {
     return vol;
   }
 
-  public override function setVolume(v:Float) {
+  override public function setVolume(v:Float) {
     if (data == null) {
       // if ( isDebug ){
       // #if !prod
@@ -517,7 +517,7 @@ class SoundLowLevel extends Sound {
     return data;
   }
 
-  public override function dispose() {
+  override public function dispose() {
     super.dispose();
 
     if (Snd.released) {
@@ -546,7 +546,7 @@ class SoundLowLevel extends Sound {
     return posF;
   }
 
-  public override function play(?offsetMs:Float = 0.0, ?nbLoops:Int = 1, ?volume:Float = 1.0):Channel {
+  override public function play(?offsetMs:Float = 0.0, ?nbLoops:Int = 1, ?volume:Float = 1.0):Channel {
     var nativeChan:FmodChannelRef = FaxeRef.playSoundWithHandle(data, false);
     var chan = ChannelLowLevel.alloc(nativeChan, name);
 
@@ -579,7 +579,7 @@ class SoundEvent extends Sound {
     this.data = data;
   }
 
-  public override function dispose() {
+  override public function dispose() {
     super.dispose();
 
     if (Snd.released) {
@@ -613,7 +613,7 @@ class SoundEvent extends Sound {
     return posF;
   }
 
-  public override function play(?offsetMs:Float = 0.0, ?nbLoops:Int = 1, ?volume:Float = 1.0):Channel {
+  override public function play(?offsetMs:Float = 0.0, ?nbLoops:Int = 1, ?volume:Float = 1.0):Channel {
     var nativeInstance:FmodStudioEventInstanceRef = data.createInstance();
     var chan = ChannelEventInstance.alloc(nativeInstance, name);
 

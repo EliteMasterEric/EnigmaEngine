@@ -32,7 +32,6 @@ typedef SwagSong = {
   var player2:String;
   var gfVersion:String;
   var stage:String;
-    
   var ?noteStyle:String;
   var ?validScore:Bool;
   var ?strumlineSize:Int;
@@ -49,11 +48,11 @@ class Song {
   public var eventObjects:Array<Event>;
   public var speed:Float = 1;
 
-  public var player1:String = 'bf';
-  public var player2:String = 'dad';
-  public var gfVersion:String = '';
-  public var noteStyle:String = '';
-  public var stage:String = '';
+  public var player1:String = "bf";
+  public var player2:String = "dad";
+  public var gfVersion:String = "";
+  public var noteStyle:String = "";
+  public var stage:String = "";
 
   public function new(song, notes, bpm) {
     this.song = song;
@@ -89,7 +88,7 @@ class Song {
 
     var songFolderLowercase = songFolderFormat.toLowerCase();
 
-    var songDataPath = Paths.json(songFolderLowercase + '/' + songJsonFile.toLowerCase());
+    var songDataPath = Paths.json(songFolderLowercase + "/" + songJsonFile.toLowerCase());
 
     var songExists = Assets.exists(songDataPath);
 
@@ -101,16 +100,16 @@ class Song {
     // pre lowercasing the folder name
     var folderLowercase = StringTools.replace(folder, " ", "-").toLowerCase();
     switch (folderLowercase) {
-      case 'dad-battle':
-        folderLowercase = 'dadbattle';
-      case 'philly-nice':
-        folderLowercase = 'philly';
+      case "dad-battle":
+        folderLowercase = "dadbattle";
+      case "philly-nice":
+        folderLowercase = "philly";
     }
 
-    trace('loading ' + folderLowercase + '/' + jsonInput.toLowerCase());
+    trace("loading " + folderLowercase + "/" + jsonInput.toLowerCase());
 
     try {
-      var rawJson = Assets.getText(Paths.json(folderLowercase + '/' + jsonInput.toLowerCase())).trim();
+      var rawJson = Assets.getText(Paths.json(folderLowercase + "/" + jsonInput.toLowerCase())).trim();
 
       while (!rawJson.endsWith("}")) {
         rawJson = rawJson.substr(0, rawJson.length - 1);
@@ -219,11 +218,11 @@ class Song {
     if (swagShit.noteStyle == null) {
       swagShit.noteStyle = "normal";
     }
-    
+
     if (swagShit.validScore == null) {
       swagShit.validScore = true;
     }
-    
+
     if (swagShit.strumlineSize == null) {
       swagShit.strumlineSize = 4;
     }

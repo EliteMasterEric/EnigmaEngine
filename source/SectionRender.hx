@@ -1,6 +1,4 @@
 import flixel.FlxG;
-import flixel.util.FlxColor;
-import flixel.group.FlxGroup.FlxTypedGroup;
 import Section.SwagSection;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.FlxSprite;
@@ -20,10 +18,7 @@ class SectionRender extends FlxSprite {
       h = GRID_SIZE;
 
     if (FlxG.save.data.editorBG)
-      FlxGridOverlay.overlay(
-        this, GRID_SIZE, Std.int(h),
-        GRID_SIZE * ChartingState.GRID_WIDTH_IN_CELLS, GRID_SIZE * Height
-      );
+      FlxGridOverlay.overlay(this, GRID_SIZE, Std.int(h), GRID_SIZE * ChartingState.GRID_WIDTH_IN_CELLS, GRID_SIZE * Height);
   }
 
   override function update(elapsed) {}

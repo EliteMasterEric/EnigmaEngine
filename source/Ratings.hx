@@ -1,8 +1,8 @@
 import flixel.FlxG;
 
 class Ratings {
-  public static function GenerateLetterRank(accuracy:Float) // generate a letter ranking
-  {
+  public static function GenerateLetterRank(accuracy:Float) {
+    // generate a letter ranking
     var ranking:String = "N/A";
     if (FlxG.save.data.botplay && !PlayState.loadRep)
       ranking = "BotPlay";

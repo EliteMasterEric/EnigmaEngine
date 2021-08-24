@@ -27,7 +27,7 @@ class TweenV {
   var onEnd:Null<TweenV->Void>;
   var isDebug = false;
 
-  public inline function new(parent:Snd, n:Float, ln:Float, varType:TVVar, speed:Float, from:Float, to:Float, type:h2d.Tweenie.TType, plays, onUpdate, onEnd) {
+  inline function new(parent:Snd, n:Float, ln:Float, varType:TVVar, speed:Float, from:Float, to:Float, type:h2d.Tweenie.TType, plays, onUpdate, onEnd) {
     this.parent = parent;
     this.n = n;
     this.ln = ln;
@@ -41,7 +41,7 @@ class TweenV {
     this.onEnd = onEnd;
   }
 
-  public inline function reset(parent:Snd, n:Float, ln:Float, varType:TVVar, speed:Float, from:Float, to:Float, type:TType, plays:Int, onUpdate, onEnd) {
+  inline function reset(parent:Snd, n:Float, ln:Float, varType:TVVar, speed:Float, from:Float, to:Float, type:TType, plays:Int, onUpdate, onEnd) {
     this.parent = parent;
     this.n = n;
     this.ln = ln;
@@ -57,7 +57,7 @@ class TweenV {
     uid = GUID++;
   }
 
-  public function clear() {
+  function clear() {
     n = 0.0;
     ln = 0.0;
     speed = 0.0;
@@ -71,7 +71,7 @@ class TweenV {
     uid = GUID++;
   }
 
-  public inline function apply(val) {
+  inline function apply(val) {
     switch (varType) {
       case TVVVolume:
         {

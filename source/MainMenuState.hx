@@ -13,7 +13,6 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import io.newgrounds.NG;
 import lime.app.Application;
-
 #if desktop
 import Discord.DiscordClient;
 #end
@@ -32,7 +31,7 @@ class MainMenuState extends MusicBeatState {
 
   public static var firstStart:Bool = true;
 
-  public static var nightly:String = " CUSTOM (E2)";
+  public static var nightly:String = " (ENIGMA)";
 
   public static var kadeEngineVer:String = "1.7" + nightly;
   public static var gameVer:String = "0.2.7.1";
@@ -44,7 +43,7 @@ class MainMenuState extends MusicBeatState {
 
   override function create() {
     clean();
-		#if desktop
+    #if desktop
     // Updating Discord Rich Presence
     DiscordClient.changePresence("In the Menus", null);
     #end

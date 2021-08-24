@@ -1,15 +1,8 @@
 #if sys
 import sys.io.File;
 #end
-import Controls.Control;
 import flixel.FlxG;
-import openfl.events.IOErrorEvent;
-import openfl.events.Event;
-import openfl.net.FileReference;
-import lime.utils.Assets;
 import haxe.Json;
-import flixel.input.keyboard.FlxKey;
-import openfl.utils.Dictionary;
 
 class Ana {
   public var hitTime:Float;
@@ -79,7 +72,7 @@ class Replay {
 
     rep.LoadFromJSON();
 
-    trace('basic replay data:\nSong Name: ' + rep.replay.songName + '\nSong Diff: ' + rep.replay.songDiff);
+    trace("basic replay data:\nSong Name: " + rep.replay.songName + '\nSong Diff: ' + rep.replay.songDiff);
 
     return rep;
   }

@@ -84,7 +84,7 @@ class DFJKOption extends Option {
     this.controls = controls;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     OptionsMenu.instance.openSubState(new KeyBindMenu());
     return false;
   }
@@ -100,7 +100,7 @@ class CpuStrums extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.cpuStrums = !FlxG.save.data.cpuStrums;
 
     display = updateDisplay();
@@ -118,7 +118,7 @@ class GraphicLoading extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.cacheImages = !FlxG.save.data.cacheImages;
 
     display = updateDisplay();
@@ -136,7 +136,7 @@ class EditorRes extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.editorBG = !FlxG.save.data.editorBG;
 
     display = updateDisplay();
@@ -154,7 +154,7 @@ class DownscrollOption extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.downscroll = !FlxG.save.data.downscroll;
     display = updateDisplay();
     return true;
@@ -171,7 +171,7 @@ class GhostTapOption extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.ghost = !FlxG.save.data.ghost;
     display = updateDisplay();
     return true;
@@ -188,7 +188,7 @@ class AccuracyOption extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.accuracyDisplay = !FlxG.save.data.accuracyDisplay;
     display = updateDisplay();
     return true;
@@ -205,7 +205,7 @@ class SongPositionOption extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.songPosition = !FlxG.save.data.songPosition;
     display = updateDisplay();
     return true;
@@ -222,7 +222,7 @@ class DistractionsAndEffectsOption extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.distractions = !FlxG.save.data.distractions;
     display = updateDisplay();
     return true;
@@ -239,7 +239,7 @@ class Colour extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.colour = !FlxG.save.data.colour;
     display = updateDisplay();
     return true;
@@ -256,7 +256,7 @@ class StepManiaOption extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.stepMania = !FlxG.save.data.stepMania;
     display = updateDisplay();
     return true;
@@ -273,7 +273,7 @@ class ResetButtonOption extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.resetButton = !FlxG.save.data.resetButton;
     display = updateDisplay();
     return true;
@@ -290,7 +290,7 @@ class InstantRespawn extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.InstantRespawn = !FlxG.save.data.InstantRespawn;
     display = updateDisplay();
     return true;
@@ -307,7 +307,7 @@ class FlashingLightsOption extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.flashing = !FlxG.save.data.flashing;
     display = updateDisplay();
     return true;
@@ -324,7 +324,7 @@ class AntialiasingOption extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.antialiasing = !FlxG.save.data.antialiasing;
     display = updateDisplay();
     return true;
@@ -341,7 +341,7 @@ class MissSoundsOption extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.missSounds = !FlxG.save.data.missSounds;
     display = updateDisplay();
     return true;
@@ -358,7 +358,7 @@ class ShowInput extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.inputShow = !FlxG.save.data.inputShow;
     display = updateDisplay();
     return true;
@@ -376,7 +376,7 @@ class Judgement extends Option {
     acceptValues = true;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     return true;
   }
 
@@ -429,7 +429,7 @@ class FPSOption extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.fps = !FlxG.save.data.fps;
     (cast(Lib.current.getChildAt(0), Main)).toggleFPS(FlxG.save.data.fps);
     display = updateDisplay();
@@ -447,7 +447,7 @@ class ScoreScreen extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.scoreScreen = !FlxG.save.data.scoreScreen;
     display = updateDisplay();
     return true;
@@ -465,7 +465,7 @@ class FPSCapOption extends Option {
     acceptValues = true;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     return false;
   }
 
@@ -509,7 +509,7 @@ class ScrollSpeedOption extends Option {
     acceptValues = true;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     return false;
   }
 
@@ -551,7 +551,7 @@ class RainbowFPSOption extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.fpsRain = !FlxG.save.data.fpsRain;
     (cast(Lib.current.getChildAt(0), Main)).changeFPSColor(FlxColor.WHITE);
     display = updateDisplay();
@@ -569,7 +569,7 @@ class Optimization extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.optimize = !FlxG.save.data.optimize;
     display = updateDisplay();
     return true;
@@ -586,7 +586,7 @@ class NPSDisplayOption extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.npsDisplay = !FlxG.save.data.npsDisplay;
     display = updateDisplay();
     return true;
@@ -603,7 +603,7 @@ class ReplayOption extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     trace("switch");
     FlxG.switchState(new LoadReplayState());
     return false;
@@ -620,7 +620,7 @@ class AccuracyDOption extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.accuracyMod = FlxG.save.data.accuracyMod == 1 ? 0 : 1;
     display = updateDisplay();
     return true;
@@ -637,7 +637,7 @@ class CustomizeGameplay extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     trace("switch");
     FlxG.switchState(new GameplayCustomizeState());
     return false;
@@ -654,7 +654,7 @@ class WatermarkOption extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     Main.watermarks = !Main.watermarks;
     FlxG.save.data.watermark = Main.watermarks;
     display = updateDisplay();
@@ -672,7 +672,7 @@ class OffsetMenu extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     trace("switch");
     var poop:String = Highscore.formatSong("Tutorial", 1);
 
@@ -697,7 +697,7 @@ class BotPlay extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.botplay = !FlxG.save.data.botplay;
     trace('BotPlay : ' + FlxG.save.data.botplay);
     display = updateDisplay();
@@ -714,7 +714,7 @@ class CamZoomOption extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     FlxG.save.data.camzoom = !FlxG.save.data.camzoom;
     display = updateDisplay();
     return true;
@@ -733,7 +733,7 @@ class LockWeeksOption extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     if (!confirm) {
       confirm = true;
       display = updateDisplay();
@@ -760,7 +760,7 @@ class ResetScoreOption extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     if (!confirm) {
       confirm = true;
       display = updateDisplay();
@@ -793,7 +793,7 @@ class ResetSettings extends Option {
     description = desc;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     if (!confirm) {
       confirm = true;
       display = updateDisplay();

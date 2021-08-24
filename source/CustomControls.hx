@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import flixel.input.gamepad.FlxGamepad;
 import flixel.FlxG;
 import flixel.input.FlxInput;
@@ -35,35 +36,27 @@ enum abstract CustomAction(String) to String from String {
   var LEFT_9K = "left-9k";
   var LEFT_9K_P = "left-9k-press";
   var LEFT_9K_R = "left-9k-release";
-  
   var DOWN_9K = "down-9k";
   var DOWN_9K_P = "down-9k-press";
   var DOWN_9K_R = "down-9k-release";
-
   var UP_9K = "up-9k";
   var UP_9K_P = "up-9k-press";
   var UP_9K_R = "up-9k-release";
-
   var RIGHT_9K = "right-9k";
   var RIGHT_9K_P = "right-9k-press";
   var RIGHT_9K_R = "right-9k-release";
-
   var CENTER_9K = "center-9k";
   var CENTER_9K_P = "center-9k-press";
   var CENTER_9K_R = "center-9k-release";
-  
   var LEFT_ALT_9K = "left-9k";
   var LEFT_ALT_9K_P = "left-9k-press";
   var LEFT_ALT_9K_R = "left-9k-release";
-
   var DOWN_ALT_9K = "down-9k";
   var DOWN_ALT_9K_P = "down-9k-press";
   var DOWN_ALT_9K_R = "down-9k-release";
-
   var UP_ALT_9K = "up-alt-9k";
   var UP_ALT_9K_P = "up-alt-9k-press";
   var UP_ALT_9K_R = "up-alt-9k-release";
-  
   var RIGHT_ALT_9K = "right-alt-9k";
   var RIGHT_ALT_9K_P = "right-alt-9k-press";
   var RIGHT_ALT_9K_R = "right-alt-9k-release";
@@ -122,38 +115,47 @@ class CustomControls extends Controls {
   var _rightAlt9KR = new FlxActionDigital(CustomAction.RIGHT_ALT_9K_R);
 
   public var LEFT_9K(get, never):Bool;
+
   inline function get_LEFT_9K()
     return _left9K.check();
 
   public var DOWN_9K(get, never):Bool;
+
   inline function get_DOWN_9K()
     return _down9K.check();
 
   public var UP_9K(get, never):Bool;
+
   inline function get_UP_9K()
     return _up9K.check();
 
   public var RIGHT_9K(get, never):Bool;
+
   inline function get_RIGHT_9K()
     return _right9K.check();
 
   public var CENTER_9K(get, never):Bool;
+
   inline function get_CENTER_9K()
     return _center9K.check();
 
   public var LEFT_ALT_9K(get, never):Bool;
+
   inline function get_LEFT_ALT_9K()
     return _leftAlt9K.check();
 
   public var DOWN_ALT_9K(get, never):Bool;
+
   inline function get_DOWN_ALT_9K()
     return _downAlt9K.check();
 
   public var UP_ALT_9K(get, never):Bool;
+
   inline function get_UP_ALT_9K()
     return _upAlt9K.check();
 
   public var RIGHT_ALT_9K(get, never):Bool;
+
   inline function get_RIGHT_ALT_9K()
     return _rightAlt9K.check();
 
@@ -266,7 +268,7 @@ class CustomControls extends Controls {
    * Sets all actions that pertain to the binder to trigger when the supplied keys are used.
    * If binder is a literal you can inline this
    */
-   public function bindCustomKeys(control:CustomControl, keys:Array<FlxKey>) {
+  public function bindCustomKeys(control:CustomControl, keys:Array<FlxKey>) {
     inline forEachCustomBound(control, (action, state) -> addCustomKeys(action, keys, state));
   }
 
@@ -294,7 +296,7 @@ class CustomControls extends Controls {
     }
   }
 
-  public override function loadKeyBinds() {
+  override public function loadKeyBinds() {
     super.loadKeyBinds();
 
     var buttons = new Map<CustomControl, Array<FlxGamepadInputID>>();
@@ -338,13 +340,12 @@ class CustomControls extends Controls {
   inline function addGamepadCustomLiteral(id:Int, ?buttonMap:Map<CustomControl, Array<FlxGamepadInputID>>):Void {
     gamepadsAdded.push(id);
 
-
     for (control => buttons in buttonMap) {
       inline bindCustomButtons(control, id, buttons);
     }
   }
 
-  public override function addDefaultGamepad(id):Void {
+  override public function addDefaultGamepad(id):Void {
     // Call the base class.
     super.addDefaultGamepad(id);
 

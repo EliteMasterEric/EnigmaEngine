@@ -43,9 +43,21 @@ class CustomKeyBindMenu extends FlxSubState {
   var keyTextDisplay:FlxText;
   var keyWarning:FlxText;
   var warningTween:FlxTween;
-  static final keyText:Array<String> = ["LEFT", "DOWN", "UP", "RIGHT", "CENTER", "ALTLEFT", "ALTDOWN", "ALTUP", "ALTRIGHT"];
+
+  static final keyText:Array<String> = [
+    "LEFT",
+    "DOWN",
+    "UP",
+    "RIGHT",
+    "CENTER",
+    "ALTLEFT",
+    "ALTDOWN",
+    "ALTUP",
+    "ALTRIGHT"
+  ];
   static final defaultKeys:Array<String> = ["A", "S", "D", "F", "SPACE", "J", "K", "L", ";"];
   static final defaultGpKeys:Array<String> = ["DPAD_LEFT", "DPAD_DOWN", "DPAD_UP", "DPAD_RIGHT"];
+
   var curSelected:Int = 0;
 
   var keys:Array<String> = [
@@ -84,7 +96,7 @@ class CustomKeyBindMenu extends FlxSubState {
   var lastKeybindIndex = keyText.length;
 
   override function create() {
-    while(!Custom.SHOW_CUSTOM_KEYBINDS[lastKeybindIndex]) {
+    while (!Custom.SHOW_CUSTOM_KEYBINDS[lastKeybindIndex]) {
       lastKeybindIndex -= 1;
     }
 
@@ -281,8 +293,7 @@ class CustomKeyBindMenu extends FlxSubState {
         }
 
         var textStart = (i == curSelected) ? "> " : "  ";
-        keyTextDisplay.text += textStart + keyText[i] + ": "
-          + ((keys[i] != keyText[i]) ? (keys[i] + " / ") : "") + keyText[i] + " ARROW\n";
+        keyTextDisplay.text += textStart + keyText[i] + ": " + ((keys[i] != keyText[i]) ? (keys[i] + " / ") : "") + keyText[i] + " ARROW\n";
       }
     }
 
@@ -330,9 +341,12 @@ class CustomKeyBindMenu extends FlxSubState {
     OptionsMenu.instance.acceptInput = true;
 
     FlxTween.tween(keyTextDisplay, {alpha: 0}, 1, {ease: FlxEase.expoInOut});
-    FlxTween.tween(blackBox, {alpha: 0}, 1.1, {ease: FlxEase.expoInOut, onComplete: function(flx:FlxTween) {
-      close();
-    }});
+    FlxTween.tween(blackBox, {alpha: 0}, 1.1, {
+      ease: FlxEase.expoInOut,
+      onComplete: function(flx:FlxTween) {
+        close();
+      }
+    });
     FlxTween.tween(infoText, {alpha: 0}, 1, {ease: FlxEase.expoInOut});
   }
 
@@ -451,7 +465,7 @@ class CustomKeybindsOption extends Option {
     this.controls = controls;
   }
 
-  public override function press():Bool {
+  override public function press():Bool {
     var test = FlxG.save.data;
     OptionsMenu.instance.openSubState(new CustomKeyBindMenu());
     return false;

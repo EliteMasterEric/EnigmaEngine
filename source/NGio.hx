@@ -131,7 +131,7 @@ class NGio {
     // more info on scores --- http://www.newgrounds.io/help/components/#scoreboard-getscores
   }
 
-  inline static public function postScore(score:Int = 0, song:String) {
+  inline public static function postScore(score:Int = 0, song:String) {
     if (isLoggedIn) {
       for (id in NG.core.scoreBoards.keys()) {
         var board = NG.core.scoreBoards.get(id);
@@ -163,12 +163,12 @@ class NGio {
     // NGio.scoreboardArray = NG.core.scoreBoards.get(8004).scores;
   }
 
-  inline static public function logEvent(event:String) {
+  inline public static function logEvent(event:String) {
     NG.core.calls.event.logEvent(event).send();
     trace('should have logged: ' + event);
   }
 
-  inline static public function unlockMedal(id:Int) {
+  inline public static function unlockMedal(id:Int) {
     if (isLoggedIn) {
       var medal = NG.core.medals.get(id);
       if (!medal.unlocked)

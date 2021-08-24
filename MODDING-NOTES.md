@@ -6,6 +6,17 @@
 
 Source Code Guide: https://gamebanana.com/tuts/13798
 
+## To Do
+
+- [] Add support for custom notes.
+  - Warning, Fire, Death Halo
+- [] Add ability to chart custom notes.
+- [] Add auditory feedback tools
+  - https://www.youtube.com/watch?v=xVOwJObepTA
+  - https://github.com/doggy-dentures/Funkin/tree/drums
+- [] Check out FPS Plus charting
+  - https://github.com/ThatRozebudDude/FPS-Plus-Public
+
 ## Which asset folder to use?
 
 * exclude: These files aren't in the build at all.
@@ -144,12 +155,36 @@ See `assets/preload/data/freeplaySonglist.txt`
 ## Formatting
 
 To repeat:
-* Edit hxformat.json
+* Edit hxformat.json and checkstyle.json
 * Edit Project.xml and remove example_mods
 * Perform "Start Format Files: By Glob" on "**/*.hx" and "**/*.json" and "**/*.xml"
 
 How to merge without shitting your pants:
 `git merge -Xignore-space-change -Xignore-all-space <BRANCH>`
+
+## Haxe checkStyle
+
+* Note: Only use rules that can be auto-fixed! Other rules are annoying to resolve since they are manual.
+
+* Dynamic: Checks for the use of the unchecked Dynamic class.
+  * DISABLED: Dynamic is used when loading JSON data.
+* EmptyPackage: Checks for file with an empty package.
+  * AUTOFIX: Remove the package specifier.
+* Final: Checks that all static variables are final.
+  * DISABLED: Globally accessible variables are often used.
+* Indentation: Ensures the file is indented properly.
+  * AUTOFIX: Re-indent the file.
+* ModifierOrder: Enforce the specified modifier order for all variables.
+  * AUTOFIX: Re-order the modifiers.
+* RedundantModifier: Check for redundant modifiers. For example, don't specify private for variables that would already be private.
+  * AUTOFIX: Remove the modifier.
+* StringLiteral: Ensure strings are wrapped in double quotes, except if they contain interpolation or double quotes.
+  * AUTOFIX: Replace the single quotes.
+* Trace: Check for and remove trace calls.
+  * DISABLED: We need this for debugging.
+* UnusedImport: Check for unused and duplicate imports.
+  * AUTOFIX: Remove the duplicate import.
+
 
 ## daWeirdVid.webm
 ```

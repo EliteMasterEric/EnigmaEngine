@@ -1,7 +1,6 @@
 import flixel.FlxState;
 import flixel.FlxG;
 import flixel.FlxObject;
-import flixel.group.FlxGroup;
 import flixel.text.FlxText;
 import flixel.FlxCamera;
 import flixel.FlxSprite;

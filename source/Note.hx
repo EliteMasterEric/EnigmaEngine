@@ -111,7 +111,7 @@ class Note extends FlxSprite {
     }
 
     this.rawNoteData = rawNoteData;
-    this.noteData = CustomNotes.getCorrectedNoteData(rawNoteData, PlayState.SONG.strumlineSize);
+    this.noteData = CustomNoteUtils.getStrumlineIndex(rawNoteData, PlayState.SONG.strumlineSize);
 
     // defaults if no noteStyle was found in chart
     var noteTypeCheck:String = 'normal';
@@ -138,7 +138,7 @@ class Note extends FlxSprite {
     // That makes it really easy for me to add new notes.
     CustomNotes.loadNoteSprite(this, noteTypeCheck, this.rawNoteData, isSustainNote, PlayState.SONG.strumlineSize);
 
-    x += CustomNotes.getNoteOffset(this.noteData, PlayState.SONG.strumlineSize);
+    x += CustomNoteUtils.getNoteOffset(this.noteData, PlayState.SONG.strumlineSize);
 
     animation.play(CustomNotes.getDirectionName(this.rawNoteData, true) + ' Note');
     originColor = this.rawNoteData; // The note's origin color will be checked by its sustain notes

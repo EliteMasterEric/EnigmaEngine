@@ -18,8 +18,6 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
-
-
 #if desktop
 import Discord.DiscordClient;
 #end
@@ -52,11 +50,13 @@ class FreeplayState extends MusicBeatState {
 
   public static var openedPreview = false;
 
-  public static var songData:Map<String, Array<SwagSong>> = [];
+  // ERIC: Replace songData array with a map.
+  // This allows a song in free play to have no Easy difficulty.
+  public static var songData:Map<String, Map<Int, SwagSong>> = [];
 
-  public static function loadDiff(diff:Int, format:String, name:String, array:Array<SwagSong>) {
+  public static function loadDiff(diff:Int, format:String, name:String, array:Map<Int, SwagSong>) {
     try {
-      array.push(Song.loadFromJson(Highscore.formatSong(format, diff), name));
+      array.set(diff, Song.loadFromJson(Highscore.formatSong(format, diff), name));
     }
     catch (ex) {
       // do nada
@@ -83,16 +83,16 @@ class FreeplayState extends MusicBeatState {
           format = 'Philly';
       }
 
-      var diffs = [];
-      var diffsThatExist = [];
+      var diffs:Map<Int, SwagSong> = [];
+      var diffsThatExist:Array<String> = [];
 
       #if sys
-      if (FileSystem.exists('assets/data/${format}/${format}-hard.json'))
-        diffsThatExist.push("Hard");
       if (FileSystem.exists('assets/data/${format}/${format}-easy.json'))
         diffsThatExist.push("Easy");
       if (FileSystem.exists('assets/data/${format}/${format}.json'))
         diffsThatExist.push("Normal");
+      if (FileSystem.exists('assets/data/${format}/${format}-hard.json'))
+        diffsThatExist.push("Hard");
 
       if (diffsThatExist.length == 0) {
         Application.current.window.alert("No difficulties found for chart, skipping.", meta.songName + " Chart");
@@ -101,12 +101,15 @@ class FreeplayState extends MusicBeatState {
       #else
       diffsThatExist = ["Easy", "Normal", "Hard"];
       #end
-      if (diffsThatExist.contains("Easy"))
+      if (diffsThatExist.contains("Easy")) {
         FreeplayState.loadDiff(0, format, meta.songName, diffs);
-      if (diffsThatExist.contains("Normal"))
+      }
+      if (diffsThatExist.contains("Normal")) {
         FreeplayState.loadDiff(1, format, meta.songName, diffs);
-      if (diffsThatExist.contains("Hard"))
+      }
+      if (diffsThatExist.contains("Hard")) {
         FreeplayState.loadDiff(2, format, meta.songName, diffs);
+      }
 
       meta.diffs = diffsThatExist;
 
@@ -136,7 +139,7 @@ class FreeplayState extends MusicBeatState {
             var meta = new SongMetadata(file.header.TITLE, 0, "sm", file, "assets/sm/" + i);
             songs.push(meta);
             var song = Song.loadFromJsonRAW(data);
-            songData.set(file.header.TITLE, [song, song, song]);
+            songData.set(file.header.TITLE, [0 => song, 1 => song, 2 => song]);
           } else if (FileSystem.exists("assets/sm/" + i + "/converted.json") && file.endsWith(".sm")) {
             trace("reading " + file);
             var file:SMFile = SMFile.loadFile("assets/sm/" + i + "/" + file.replace(" ", "_"));
@@ -146,7 +149,7 @@ class FreeplayState extends MusicBeatState {
             songs.push(meta);
             var song = Song.loadFromJsonRAW(File.getContent("assets/sm/" + i + "/converted.json"));
             trace("got content lol");
-            songData.set(file.header.TITLE, [song, song, song]);
+            songData.set(file.header.TITLE, [0 => song, 1 => song, 2 => song]);
           }
         }
       }
@@ -163,7 +166,7 @@ class FreeplayState extends MusicBeatState {
       }
      */
 
-		 #if desktop
+    #if desktop
     // Updating Discord Rich Presence
     DiscordClient.changePresence("In the Freeplay Menu", null);
     #end

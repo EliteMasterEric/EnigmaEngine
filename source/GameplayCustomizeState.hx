@@ -37,8 +37,8 @@ class GameplayCustomizeState extends MusicBeatState {
   var playerStrums:FlxTypedGroup<FlxSprite>;
   private var camHUD:FlxCamera;
 
-  public override function create() {
-        #if desktop
+  override public function create() {
+    #if desktop
     // Updating Discord Rich Presence
     DiscordClient.changePresence("Customizing Gameplay Modules", null);
     #end
@@ -222,7 +222,7 @@ class GameplayCustomizeState extends MusicBeatState {
     trace('beat');
   }
 
-  private function generateStaticArrows(player:Int):Void { 
-    CustomNotes.buildStrumlines(player == 1, strumLine.y, Custom.USE_CUSTOM_KEYBINDS ? 9 : 4); 
+  private function generateStaticArrows(player:Int):Void {
+    CustomNotes.buildStrumlines(player == 1, strumLine.y, Custom.USE_CUSTOM_KEYBINDS ? 9 : 4);
   }
 }

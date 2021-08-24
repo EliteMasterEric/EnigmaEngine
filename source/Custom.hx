@@ -28,16 +28,18 @@ class Custom {
    * Change this to false to hide the "Custom Keybinds"
    * option from the start menu.
    */
-   public static final USE_CUSTOM_KEYBINDS = true;
+  public static final USE_CUSTOM_KEYBINDS = true;
+
   /**
    * Controls whether the charter uses 9K.
    */
-   public static final USE_CUSTOM_CHARTER = true;
+  public static final USE_CUSTOM_CHARTER = true;
+
   /**
    * Change these options to hide individual keybinds
    * from the "Custom Keybinds" menu.
    */
-  public static final SHOW_CUSTOM_KEYBINDS: Map<Int, Bool> = [
+  public static final SHOW_CUSTOM_KEYBINDS:Map<Int, Bool> = [
     0 => true, // Left 9K
     1 => true, // Down 9K
     2 => true, // Up 9K
