@@ -109,22 +109,20 @@ class CustomNotes {
     9 => [90 * 0.7, 0.46, 30], // Copied from vs Shaggy
   ];
 
-  /**
-   * TODO: This seems clumsy.
-   */
+  private static final Z = -1;
   private static final NOTE_DATA_TO_STRUMLINE_MAP:Map<Int, Array<Int>> = [
     // No controls are 9Key
-    2 => [0,0,1,0, 0,0,0,0], // Down/Up.
-    3 => [0,0,1,2, 0,0,0,0], // Left/Up/Right
-    4 => [0,1,2,3, 0,0,0,0], // Left/Down/Up/Right
+    2 => [Z,0,1,Z, Z,2,3,Z], // Down/Up.
+    3 => [0,Z,1,2, 3,Z,4,5], // Left/Up/Right
+    4 => [0,1,2,3, 4,5,6,7], // Left/Down/Up/Right
     // Some controls are 9Key
-    1 => [0,0,0,0, 0,0,0,0, 0,0, 0,0,0,0, 0, 0,0,0,0, 0], // Center.
-    5 => [0,1,3,4, 0,0,0,0, 0,0, 0,0,0,0, 2, 0,0,0,0, 0], // Left/Down/Center/Up/Right
+    1 => [Z,Z,Z,Z, Z,Z,Z,Z,  Z,Z, Z,Z,Z,Z, 0, Z,Z,Z,Z, 1], // Center.
+    5 => [0,1,3,4, 5,6,8,9,  Z,Z, Z,Z,Z,Z, 2, Z,Z,Z,Z, 7], // Left/Down/Center/Up/Right
     // All controls are 9Key
-    6 => [0,1,4,2, 0,0,0,0, 0,0, 3,0,0,5, 0, 0,0,0,0, 0], // Left/Down/Right ALeft/Up/ARight
-    7 => [0,1,5,2, 0,0,0,0, 0,0, 0,0,0,0, 3, 0,0,0,0, 0],
-    8 => [0,0,0,0, 0,0,0,0, 0,0, 0,0,0,0, 0, 0,0,0,0, 0],
-    9 => [0,1,2,3, 0,0,0,0, 0,0, 5,6,7,8, 4, 0,0,0,0, 0], // Copied from vs Shaggy
+    6 => [0,1,4,2, 6,7,10,8, Z,Z, 3,Z,Z,5, Z, 9,Z,Z,11, Z], // Left/Down/Right ALeft/Up/ARight
+    7 => [0,1,5,2, 7,8,12,9, Z,Z, 4,Z,Z,6, 3, 11,Z,Z,13, 10], // Left/Down/Right Center ALeft/Up/ARight
+    8 => [0,1,2,3, 8,9,10,11,  Z,Z, 4,5,6,7, Z, 12,13,14,15, Z], // Left/Down//Up/Right ALeft/ADown/AUp/ARight
+    9 => [0,1,2,3, 9,10,11,12, Z,Z, 5,6,7,8, 4, 14,15,16,17, 13], // Copied from vs Shaggy
   ];
 
   /**
@@ -184,7 +182,7 @@ class CustomNotes {
           return "Up";
         case NOTE_BASE_RIGHT | NOTE_9K_RIGHT | NOTE_BASE_RIGHT_ENEMY | NOTE_9K_RIGHT_ENEMY:
           return "Right";
-        case NOTE_9K_CENTER:
+        case NOTE_9K_CENTER | NOTE_9K_CENTER_ENEMY:
           // Use the up animation for the center note.
           return "Up";
         default:
@@ -211,7 +209,7 @@ class CustomNotes {
           return "Right";
         case NOTE_9K_RIGHT | NOTE_9K_RIGHT_ENEMY:
           return "Right Alt";
-        case NOTE_9K_CENTER:
+        case NOTE_9K_CENTER | NOTE_9K_CENTER_ENEMY:
           return "Center";
         default:
           trace("Couldn't determine what animation to use for this basic note!");
@@ -373,6 +371,23 @@ class CustomNotes {
     var correctedNoteData = getCorrectedNoteData(rawNoteData, strumlineSize);
     var strumlineNoteWidth = NOTE_GEOMETRY_DATA[strumlineSize][0];
     return Std.int(correctedNoteData * strumlineNoteWidth);
+  }
+
+  /**
+   * Swap this note from a Player note to an Enemy note or vice versa.
+   * @param rawNoteData 
+   * @return Int
+   */
+  public static function swapNote(rawNoteData:Int):Int {
+    var noteOffset = Math.floor(rawNoteData / NOTE_OFFSET);
+    var baseNoteData = rawNoteData % 100;
+    return noteOffset + switch(baseNoteData) {
+      case NOTE_BASE_LEFT | NOTE_BASE_DOWN | NOTE_BASE_UP | NOTE_BASE_RIGHT: (baseNoteData + 4);
+      case NOTE_BASE_LEFT_ENEMY | NOTE_BASE_DOWN_ENEMY | NOTE_BASE_UP_ENEMY | NOTE_BASE_RIGHT_ENEMY: (baseNoteData - 4);
+      case NOTE_9K_LEFT | NOTE_9K_DOWN | NOTE_9K_UP | NOTE_9K_RIGHT | NOTE_9K_CENTER: (baseNoteData + 5);
+      case NOTE_9K_LEFT_ENEMY | NOTE_9K_DOWN_ENEMY | NOTE_9K_UP_ENEMY | NOTE_9K_RIGHT_ENEMY | NOTE_9K_CENTER_ENEMY: (baseNoteData - 5);
+      default: baseNoteData;
+    }
   }
 
   private static function getKeyBinds(strumlineSize:Int = 4):Array<String> {

@@ -67,7 +67,8 @@ class Note extends FlxSprite {
 
   public var children:Array<Note> = [];
 
-  public function new(strumTime:Float, rawNoteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inCharter:Bool = false, ?isAlt:Bool = false, ?bet:Float = 0) {
+  public function new(strumTime:Float, rawNoteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inCharter:Bool = false, ?isAlt:Bool = false,
+      ?bet:Float = 0) {
     super();
 
     if (prevNote == null) {
@@ -115,28 +116,32 @@ class Note extends FlxSprite {
     // defaults if no noteStyle was found in chart
     var noteTypeCheck:String = 'normal';
 
-    if (inCharter) { 
-			// We are in the Song Editor tool! 
-			noteTypeCheck = 'normal'; 
-    } else { 
-			if (PlayState.SONG.noteStyle == null) { 
-				switch (PlayState.storyWeek) { 
-					case 6: 
-						noteTypeCheck = 'pixel'; 
-				} 
-			} else { 
-				noteTypeCheck = PlayState.SONG.noteStyle; 
-			} 
+    if (inCharter) {
+      // We are in the Song Editor tool!
+
+      // Add special handling to get the current note type from there.
+      if (ChartingState._song != null) {
+        noteTypeCheck = ChartingState._song.noteStyle;
+      }
+    } else {
+      if (PlayState.SONG.noteStyle == null) {
+        switch (PlayState.storyWeek) {
+          case 6:
+            noteTypeCheck = 'pixel';
+        }
+      } else {
+        noteTypeCheck = PlayState.SONG.noteStyle;
+      }
     }
 
     // All the code that was in here has been moved to a different file.
     // That makes it really easy for me to add new notes.
-    CustomNotes.loadNoteSprite(this, noteTypeCheck, this.rawNoteData, isSustainNote, PlayState.SONG.strumlineSize); 
- 
+    CustomNotes.loadNoteSprite(this, noteTypeCheck, this.rawNoteData, isSustainNote, PlayState.SONG.strumlineSize);
+
     x += CustomNotes.getNoteOffset(this.noteData, PlayState.SONG.strumlineSize);
 
-    animation.play(CustomNotes.getDirectionName(this.rawNoteData, true) + ' Note'); 
-    originColor = this.rawNoteData; // The note's origin color will be checked by its sustain notes 
+    animation.play(CustomNotes.getDirectionName(this.rawNoteData, true) + ' Note');
+    originColor = this.rawNoteData; // The note's origin color will be checked by its sustain notes
 
     if (FlxG.save.data.stepMania && !isSustainNote && !PlayState.instance.executeModchart) {
       var col:Int = 0;
@@ -158,7 +163,7 @@ class Note extends FlxSprite {
       else if (beatRow % (192 / 32) == 0)
         col = quantityColor[4];
 
-      animation.play(CustomNotes.getDirectionName(col, true) + ' Note'); 
+      animation.play(CustomNotes.getDirectionName(col, true) + ' Note');
       localAngle -= arrowAngles[col];
       localAngle += arrowAngles[noteData];
       originAngle = localAngle;
@@ -188,7 +193,7 @@ class Note extends FlxSprite {
       originAngle = prevNote.originAngle;
 
       // This works both for normal colors and quantization colors
-      animation.play(CustomNotes.getDirectionName(originColor, true) + ' End'); 
+      animation.play(CustomNotes.getDirectionName(originColor, true) + ' End');
       updateHitbox();
 
       x -= width / 2;
@@ -199,7 +204,7 @@ class Note extends FlxSprite {
         x += 30;
 
       if (prevNote.isSustainNote) {
-        prevNote.animation.play(CustomNotes.getDirectionName(prevNote.originColor, true) + 'Sustain');
+        prevNote.animation.play(CustomNotes.getDirectionName(prevNote.originColor, true) + ' Sustain');
         prevNote.updateHitbox();
 
         prevNote.scale.y *= (stepHeight + 1) / prevNote.height; // + 1 so that there's no odd gaps as the notes scroll
@@ -246,7 +251,7 @@ class Note extends FlxSprite {
           canBeHit = false;
         }
       } else {
-                // Check the strumtime. If it's close enough ahead or behind...
+        // Check the strumtime. If it's close enough ahead or behind...
         if (strumTime - Conductor.songPosition <= (((166 * Conductor.timeScale) / (PlayState.songMultiplier < 1 ? PlayState.songMultiplier : 1)))
           && strumTime - Conductor.songPosition >= (((-166 * Conductor.timeScale) / (PlayState.songMultiplier < 1 ? PlayState.songMultiplier : 1)))) {
           // ...we can hit this note.
