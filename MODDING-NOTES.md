@@ -16,6 +16,8 @@ Source Code Guide: https://gamebanana.com/tuts/13798
   - https://github.com/doggy-dentures/Funkin/tree/drums
 - [] Check out FPS Plus charting
   - https://github.com/ThatRozebudDude/FPS-Plus-Public
+- [] Check out PsychEngine.
+  - https://github.com/ShadowMario/FNF-PsychEngine
 
 ## Which asset folder to use?
 
@@ -24,9 +26,10 @@ Source Code Guide: https://gamebanana.com/tuts/13798
 
 * fonts: Use for any fonts to display in-game.
 * songs: Use for song instrumentals and voice files.
-* preload: 
-* shared: 
-* week#: 
+* preload: Stuff needed for the main menu (including chart data).
+* shared: Stuff needed for several weeks.
+* week#: Stuff needed for only a specific week.
+* <CUSTOM>: You can also create a custom week in this folder, as long as you specify the folder name as the Path library.
 
 ## Debug keys:
 

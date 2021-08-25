@@ -2,15 +2,29 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+      "label": "Build Windows (Debug)",
 			"type": "lime",
-			"command": "test",
+      "targetConfiguration": "Build Windows (Debug)",
+			"command": "build",
 			"group": {
 				"kind": "build",
 				"isDefault": true
 			}
 		},
 		{
+      "label": "Build Windows (Release)",
 			"type": "lime",
+      "targetConfiguration": "Build Windows (Release)",
+			"command": "build",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+      "label": "Build Windows (Release Bundle)",
+			"type": "lime",
+      "targetConfiguration": "Build Windows (Release Bundle)",
 			"command": "build",
 			"group": {
 				"kind": "build",

@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Enigma Engine",
+      "type": "hxcpp",
+      "preLaunchTask": "lime: build windows -debug",
+      "request": "launch",
+      "program": "${workspaceFolder}/export/debug/windows/bin/Enigma Engine.exe"
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin': Kade Engine" file="Kade Engine" packageName="com.kadedev.kadeengine" package="com.kadedev.kadeengine" main="Main" version="0.2.7.1" company="kadedev" />
+	<app title="Friday Night Funkin': Enigma Engine" file="Enigma Engine" packageName="com.mastereric.enigmaengine" package="com.mastereric.enigmaengine" main="Main" version="0.2.7.1" company="mastereric" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
@@ -50,6 +50,7 @@
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL" />
 
 	<section if="PRELOAD_ALL">
+		<library name="enigma" preload="true" />
 		<library name="songs" preload="true" />
 		<library name="shared" preload="true" />
 		<library name="tutorial" preload="true" />
@@ -63,6 +64,7 @@
 	</section>
 
 	<section if="NO_PRELOAD_ALL">
+		<library name="enigma" preload="false" />
 		<library name="songs" preload="false" />
 		<library name="shared" preload="false" />
 		<library name="tutorial" preload="false" />
@@ -75,6 +77,12 @@
 		<library name="sm" preload="false" />
 	</section>
 
+	<!--
+		ERIC: Here I added a custom library. It's named enigma.
+		Attempting to load assets from enigma:assets/enigma/<folder>/<file> will load from here.
+	-->
+	<assets path="assets/enigma" library="enigma" exclude="*.ogg" if="web" />
+	<assets path="assets/enigma" library="enigma" exclude="*.mp3" unless="web" />
 	<assets path="assets/songs" library="songs" exclude="*.ogg" if="web" />
 	<assets path="assets/songs" library="songs" exclude="*.mp3" unless="web" />
 	<assets path="assets/shared" library="shared" exclude="*.ogg" if="web" />
@@ -96,7 +104,7 @@
 	<assets path="assets/sm" library="sm" exclude="*.ogg" if="web" />
 	<assets path="assets/sm" library="sm" exclude="*.mp3" unless="web" />
 
-	<assets path='art/readme.txt' rename='do NOT readme.txt' />
+	<assets path='art/readme.txt' rename='actually readme.txt' />
 	<assets path='LICENSE' rename='LICENSE.txt' />
 	<!-- <template path='mods' /> -->
 
@@ -108,6 +116,7 @@
 		NOT USING A DIRECT THING TO THE ASSET!!!
 	-->
 	<assets path="assets/fonts" embed='true' />
+	<assets path="assets/enigma/fonts" embed='true' />
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />

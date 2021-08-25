@@ -1,0 +1,25 @@
+{
+  "[haxe]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true
+  },
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "lime.targetConfigurations": [
+    {
+      "label": "Build Windows (Debug)",
+      "target": "windows",
+      "args": ["-debug", "-Dtelemetry"]
+    },
+    {
+      "label": "Build Windows (Release)",
+      "target": "windows",
+      "args": ["-release"]
+    },
+    {
+      "label": "Build Windows (Release Bundle)",
+      "target": "windows",
+      "args": ["-release", "-Dbundle", "-static"]
+    }
+  ]
+}

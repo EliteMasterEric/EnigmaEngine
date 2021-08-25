@@ -32,7 +32,7 @@
     {
       "type": "StringLiteral",
       "props": {
-        "policy": "doubleAndInterpolation",
+        "policy": "onlySingle",
         "allowException": true,
         "severity": "INFO"
       }
