@@ -18,7 +18,6 @@ import flixel.input.keyboard.FlxKey;
 import openfl.events.KeyboardEvent;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxG;
 import flixel.FlxSprite;
 
@@ -37,7 +36,7 @@ class CustomNotes {
    * [Description] Private constructor,
    *   to prevent unintentional initialization.
    */
-  private function new() {}
+  function new() {}
 
   public static final NOTE_BASE_LEFT:Int = 0;
   public static final NOTE_BASE_DOWN:Int = 1;
@@ -82,12 +81,12 @@ class CustomNotes {
   /**
    * The note style used in most songs.
    */
-  private static final STYLE_NORMAL = "normal";
+  static final STYLE_NORMAL = 'normal';
 
   /**
    * The note style used in Week 6 - vs Senpai.
    */
-  private static final STYLE_PIXEL = "pixel";
+  static final STYLE_PIXEL = 'pixel';
 
   /**
    * Pixel notes are 6x bigger than their spritesheet.
@@ -111,16 +110,16 @@ class CustomNotes {
       var baseNoteData = rawNoteData % NOTE_OFFSET;
       switch (baseNoteData) {
         case NOTE_BASE_LEFT | NOTE_9K_LEFT | NOTE_BASE_LEFT_ENEMY | NOTE_9K_LEFT_ENEMY:
-          return "Left";
+          return 'Left';
         case NOTE_BASE_DOWN | NOTE_9K_DOWN | NOTE_BASE_DOWN_ENEMY | NOTE_9K_DOWN_ENEMY:
-          return "Down";
+          return 'Down';
         case NOTE_BASE_UP | NOTE_9K_UP | NOTE_BASE_UP_ENEMY | NOTE_9K_UP_ENEMY:
-          return "Up";
+          return 'Up';
         case NOTE_BASE_RIGHT | NOTE_9K_RIGHT | NOTE_BASE_RIGHT_ENEMY | NOTE_9K_RIGHT_ENEMY:
-          return "Right";
+          return 'Right';
         case NOTE_9K_CENTER | NOTE_9K_CENTER_ENEMY:
           // Use the up animation for the center note.
-          return "Up";
+          return 'Up';
         default:
           trace("Couldn't determine what animation to use for this special note!");
           return 'UNKNOWN';
@@ -130,23 +129,23 @@ class CustomNotes {
       // Used only for building 9K notes and the strumline.
       switch (rawNoteData) {
         case NOTE_BASE_LEFT | NOTE_BASE_LEFT_ENEMY:
-          return "Left";
+          return 'Left';
         case NOTE_9K_LEFT | NOTE_9K_LEFT_ENEMY:
-          return "Left Alt";
+          return 'Left Alt';
         case NOTE_BASE_DOWN | NOTE_BASE_DOWN_ENEMY:
-          return "Down";
+          return 'Down';
         case NOTE_9K_DOWN | NOTE_9K_DOWN_ENEMY:
-          return "Down Alt";
+          return 'Down Alt';
         case NOTE_BASE_UP | NOTE_BASE_UP_ENEMY:
-          return "Up";
+          return 'Up';
         case NOTE_9K_UP | NOTE_9K_UP_ENEMY:
-          return "Up Alt";
+          return 'Up Alt';
         case NOTE_BASE_RIGHT | NOTE_BASE_RIGHT_ENEMY:
-          return "Right";
+          return 'Right';
         case NOTE_9K_RIGHT | NOTE_9K_RIGHT_ENEMY:
-          return "Right Alt";
+          return 'Right Alt';
         case NOTE_9K_CENTER | NOTE_9K_CENTER_ENEMY:
-          return "Center";
+          return 'Center';
         default:
           trace("Couldn't determine what animation to use for this basic note!");
           return 'UNKNOWN';
@@ -200,11 +199,13 @@ class CustomNotes {
      * Setting this value too low will cause arrows to overlap somewhat.
      */
     var strumlineNoteWidth = CustomNoteUtils.NOTE_GEOMETRY_DATA[strumlineSize][0];
+
     /**
      * The size multiplier for each strumline arrow.
      * Setting this value too high will cause arrows to be too big.
      */
     var noteGraphicScale = CustomNoteUtils.NOTE_GEOMETRY_DATA[strumlineSize][1];
+
     /**
      * The offset position of the strumline.
      * Needs to be different if the strumline has more notes.
@@ -253,12 +254,12 @@ class CustomNotes {
       babyArrow.scrollFactor.set();
       babyArrow.alpha = 0;
       babyArrow.ID = i;
-      babyArrow.animation.play("static");
-      
+      babyArrow.animation.play('static');
+
       /**
        * Logic for positioning the arrows.
        */
-       
+
       if (isPlayer) {
         // Set position to the far right side of the screen,
         babyArrow.x = FlxG.width;
@@ -275,19 +276,19 @@ class CustomNotes {
       babyArrow.x += strumlinePos * (isPlayer ? 1 : -1);
       // Move right based on the strumline position.
       babyArrow.x += strumlineNoteWidth * i;
-      
+
       if (PlayStateChangeables.Optimize) {
         // Optimization option (in the game settings) hides characters and backgrounds.
         // Forcibly disabled by modcharts.
         // babyArrow.x -= 275;
       }
-       
+
       // In FreePlay, ease the arrows into frame vertically.
       if (!PlayState.isStoryMode) {
         babyArrow.y -= 10;
         FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: 1}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
       }
-       
+
       // Add the graphic to the strumline.
       if (isPlayer) {
         PlayState.playerStrums.add(babyArrow);

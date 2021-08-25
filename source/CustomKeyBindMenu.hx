@@ -18,24 +18,12 @@ import flixel.input.gamepad.FlxGamepad;
 import flixel.util.FlxAxes;
 import flixel.FlxSubState;
 import Options.Option;
-import flixel.input.FlxInput;
-import flixel.input.keyboard.FlxKey;
 import flixel.FlxG;
-import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.effects.FlxFlicker;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import io.newgrounds.NG;
-import lime.app.Application;
-import lime.utils.Assets;
-import flixel.math.FlxMath;
 import flixel.text.FlxText;
-import flixel.input.FlxKeyManager;
 
 using StringTools;
 
@@ -45,18 +33,18 @@ class CustomKeyBindMenu extends FlxSubState {
   var warningTween:FlxTween;
 
   static final keyText:Array<String> = [
-    "LEFT",
-    "DOWN",
-    "UP",
-    "RIGHT",
-    "CENTER",
-    "ALTLEFT",
-    "ALTDOWN",
-    "ALTUP",
-    "ALTRIGHT"
+    'LEFT',
+    'DOWN',
+    'UP',
+    'RIGHT',
+    'CENTER',
+    'ALTLEFT',
+    'ALTDOWN',
+    'ALTUP',
+    'ALTRIGHT'
   ];
-  static final defaultKeys:Array<String> = ["A", "S", "D", "F", "SPACE", "J", "K", "L", ";"];
-  static final defaultGpKeys:Array<String> = ["DPAD_LEFT", "DPAD_DOWN", "DPAD_UP", "DPAD_RIGHT"];
+  static final defaultKeys:Array<String> = ['A', 'S', 'D', 'F', 'SPACE', 'J', 'K', 'L', ';'];
+  static final defaultGpKeys:Array<String> = ['DPAD_LEFT', 'DPAD_DOWN', 'DPAD_UP', 'DPAD_RIGHT'];
 
   var curSelected:Int = 0;
 
@@ -82,13 +70,13 @@ class CustomKeyBindMenu extends FlxSubState {
     FlxG.save.data.gpaltUpBind,
     FlxG.save.data.gpaltRightBind
   ];
-  var tempKey:String = "";
-  var blacklist:Array<String> = ["ESCAPE", "ENTER", "BACKSPACE", "TAB"];
+  var tempKey:String = '';
+  var blacklist:Array<String> = ['ESCAPE', 'ENTER', 'BACKSPACE', 'TAB'];
 
   var blackBox:FlxSprite;
   var infoText:FlxText;
 
-  var state:String = "select";
+  var state:String = 'select';
 
   /**
    * This is normally keys9K - 1, but may be lower if some keys are hidden.
@@ -118,9 +106,9 @@ class CustomKeyBindMenu extends FlxSubState {
 
     persistentUpdate = true;
 
-    keyTextDisplay = new FlxText(-10, 0, 1280, "", 72);
+    keyTextDisplay = new FlxText(-10, 0, 1280, '', 72);
     keyTextDisplay.scrollFactor.set(0, 0);
-    keyTextDisplay.setFormat("VCR OSD Mono", 42, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    keyTextDisplay.setFormat('VCR OSD Mono', 42, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
     keyTextDisplay.borderSize = 2;
     keyTextDisplay.borderQuality = 3;
 
@@ -131,7 +119,7 @@ class CustomKeyBindMenu extends FlxSubState {
       'Current Mode: ${KeyBinds.gamepad ? 'GAMEPAD' : 'KEYBOARD'}. Press TAB to switch\n(${KeyBinds.gamepad ? 'RIGHT Trigger' : 'Escape'} to save, ${KeyBinds.gamepad ? 'LEFT Trigger' : 'Backspace'} to leave without saving. ${KeyBinds.gamepad ? 'START To change a keybind' : ''})',
       72);
     infoText.scrollFactor.set(0, 0);
-    infoText.setFormat("VCR OSD Mono", 24, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    infoText.setFormat('VCR OSD Mono', 24, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
     infoText.borderSize = 2;
     infoText.borderQuality = 3;
     infoText.alpha = 0;
@@ -164,7 +152,7 @@ class CustomKeyBindMenu extends FlxSubState {
     infoText.text = 'Current Mode: ${KeyBinds.gamepad ? 'GAMEPAD' : 'KEYBOARD'}. Press TAB to switch\n(${KeyBinds.gamepad ? 'RIGHT Trigger' : 'Escape'} to save, ${KeyBinds.gamepad ? 'LEFT Trigger' : 'Backspace'} to leave without saving. ${KeyBinds.gamepad ? 'START To change a keybind' : ''})\n${lastKey != "" ? lastKey + " is blacklisted!" : ""}';
 
     switch (state) {
-      case "select":
+      case 'select':
         if (FlxG.keys.justPressed.UP) {
           FlxG.sound.play(Paths.sound('scrollMenu'));
           changeItem(-1);
@@ -182,7 +170,7 @@ class CustomKeyBindMenu extends FlxSubState {
 
         if (FlxG.keys.justPressed.ENTER) {
           FlxG.sound.play(Paths.sound('scrollMenu'));
-          state = "input";
+          state = 'input';
         } else if (FlxG.keys.justPressed.ESCAPE) {
           quit();
         } else if (FlxG.keys.justPressed.BACKSPACE) {
@@ -203,7 +191,7 @@ class CustomKeyBindMenu extends FlxSubState {
 
           if (gamepad.justPressed.START && frames > 10) {
             FlxG.sound.play(Paths.sound('scrollMenu'));
-            state = "input";
+            state = 'input';
           } else if (gamepad.justPressed.LEFT_TRIGGER) {
             quit();
           } else if (gamepad.justPressed.RIGHT_TRIGGER) {
@@ -211,59 +199,59 @@ class CustomKeyBindMenu extends FlxSubState {
           }
         }
 
-      case "input":
+      case 'input':
         if (KeyBinds.gamepad) {
           tempKey = gpKeys[curSelected];
-          gpKeys[curSelected] = "?";
+          gpKeys[curSelected] = '?';
         } else {
           tempKey = keys[curSelected];
-          keys[curSelected] = "?";
+          keys[curSelected] = '?';
         }
         textUpdate();
-        state = "waiting";
+        state = 'waiting';
 
-      case "waiting":
+      case 'waiting':
         if (gamepad != null && KeyBinds.gamepad) // GP Logic
         {
           if (FlxG.keys.justPressed.ESCAPE) { // just in case you get stuck
             gpKeys[curSelected] = tempKey;
-            state = "select";
+            state = 'select';
             FlxG.sound.play(Paths.sound('confirmMenu'));
           }
 
           if (gamepad.justPressed.START) {
             addKeyGamepad(defaultKeys[curSelected]);
             save();
-            state = "select";
+            state = 'select';
           }
 
           if (gamepad.justPressed.ANY) {
             trace(gamepad.firstJustPressedID());
             addKeyGamepad(gamepad.firstJustPressedID());
             save();
-            state = "select";
+            state = 'select';
             textUpdate();
           }
         } else {
           if (FlxG.keys.justPressed.ESCAPE) {
             keys[curSelected] = tempKey;
-            state = "select";
+            state = 'select';
             FlxG.sound.play(Paths.sound('confirmMenu'));
           } else if (FlxG.keys.justPressed.ENTER) {
             addKey(defaultKeys[curSelected]);
             save();
-            state = "select";
+            state = 'select';
           } else if (FlxG.keys.justPressed.ANY) {
             addKey(FlxG.keys.getIsDown()[0].ID.toString());
             save();
-            state = "select";
+            state = 'select';
           }
         }
 
-      case "exiting":
+      case 'exiting':
 
       default:
-        state = "select";
+        state = 'select';
     }
 
     if (FlxG.keys.justPressed.ANY)
@@ -273,7 +261,7 @@ class CustomKeyBindMenu extends FlxSubState {
   }
 
   function textUpdate() {
-    keyTextDisplay.text = "\n\n";
+    keyTextDisplay.text = '\n\n';
 
     if (KeyBinds.gamepad) {
       for (i in 0...gpKeys.length) {
@@ -282,8 +270,8 @@ class CustomKeyBindMenu extends FlxSubState {
           continue;
         }
 
-        var textStart = (i == curSelected) ? "> " : "  ";
-        keyTextDisplay.text += textStart + keyText[i] + ": " + gpKeys[i] + "\n";
+        var textStart = (i == curSelected) ? '> ' : '  ';
+        keyTextDisplay.text += textStart + keyText[i] + ': ' + gpKeys[i] + '\n';
       }
     } else {
       for (i in 0...keys.length) {
@@ -292,8 +280,8 @@ class CustomKeyBindMenu extends FlxSubState {
           continue;
         }
 
-        var textStart = (i == curSelected) ? "> " : "  ";
-        keyTextDisplay.text += textStart + keyText[i] + ": " + ((keys[i] != keyText[i]) ? (keys[i] + " / ") : "") + keyText[i] + " ARROW\n";
+        var textStart = (i == curSelected) ? '> ' : '  ';
+        keyTextDisplay.text += textStart + keyText[i] + ': ' + ((keys[i] != keyText[i]) ? (keys[i] + ' / ') : '') + keyText[i] + ' ARROW\n';
       }
     }
 
@@ -334,7 +322,7 @@ class CustomKeyBindMenu extends FlxSubState {
   }
 
   function quit() {
-    state = "exiting";
+    state = 'exiting';
 
     save();
 
@@ -353,7 +341,7 @@ class CustomKeyBindMenu extends FlxSubState {
   function addKeyGamepad(r:String) {
     var shouldReturn:Bool = true;
 
-    var notAllowed:Array<String> = ["START"];
+    var notAllowed:Array<String> = ['START'];
     var swapKey:Int = -1;
 
     for (x in 0...gpKeys.length) {
@@ -387,7 +375,7 @@ class CustomKeyBindMenu extends FlxSubState {
     }
   }
 
-  public var lastKey:String = "";
+  public var lastKey:String = '';
 
   function addKey(r:String) {
     var shouldReturn:Bool = true;
@@ -420,7 +408,7 @@ class CustomKeyBindMenu extends FlxSubState {
       return;
     }
 
-    lastKey = "";
+    lastKey = '';
 
     if (shouldReturn) {
       // Swap keys instead of setting the other one as null
@@ -458,7 +446,7 @@ class CustomKeyBindMenu extends FlxSubState {
 }
 
 class CustomKeybindsOption extends Option {
-  private var controls:Controls;
+  var controls:Controls;
 
   public function new(controls:Controls) {
     super();
@@ -472,6 +460,6 @@ class CustomKeybindsOption extends Option {
   }
 
   private override function updateDisplay():String {
-    return "Custom Key Bindings";
+    return 'Custom Key Bindings';
   }
 }

@@ -50,4 +50,6 @@ class Custom {
     7 => false, // Alt Up 9K
     8 => false, // Alt Right 9K
   ];
+
+  public static final ENABLE_PROFILER = true;
 }

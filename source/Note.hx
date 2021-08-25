@@ -1,13 +1,8 @@
-import flixel.addons.effects.FlxSkewedSprite;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.math.FlxMath;
-import flixel.util.FlxColor;
 #if polymod
-import polymod.format.ParseRules.TargetSignatureElement;
 #end
-import PlayState;
 
 using StringTools;
 

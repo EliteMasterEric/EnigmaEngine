@@ -2787,7 +2787,7 @@ class PlayState extends MusicBeatState {
     }
 
     if (offsetTesting) {
-      FlxG.sound.playMusic(Paths.music('freakyMenu'));
+      CustomMainMenu.playMenuMusic();
       offsetTesting = false;
       LoadingState.loadAndSwitchState(new OptionsMenu());
       clean();
@@ -2817,7 +2817,7 @@ class PlayState extends MusicBeatState {
               inResults = true;
             });
           } else {
-            FlxG.sound.playMusic(Paths.music('freakyMenu'));
+            CustomMainMenu.playMenuMusic();
             Conductor.changeBPM(102);
             FlxG.switchState(new StoryMenuState());
             clean();

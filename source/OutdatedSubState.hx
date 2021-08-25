@@ -88,7 +88,7 @@ class OutdatedSubState extends MusicBeatState {
 
   override function update(elapsed:Float) {
     if (controls.ACCEPT && MainMenuState.nightly == "") {
-      fancyOpenURL("https://kadedev.github.io/Kade-Engine/changelogs/changelog-" + needVer);
+      CustomFunne.goToURL('https://kadedev.github.io/Kade-Engine/changelogs/changelog-' + needVer);
     } else if (controls.ACCEPT) {
       leftState = true;
       FlxG.switchState(new MainMenuState());

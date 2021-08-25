@@ -156,16 +156,6 @@ class FreeplayState extends MusicBeatState {
     }
     #end
 
-    // trace("\n" + diffList);
-
-    /* 
-      if (FlxG.sound.music != null)
-      {
-        if (!FlxG.sound.music.playing)
-          FlxG.sound.playMusic(Paths.music('freakyMenu'));
-      }
-     */
-
     #if desktop
     // Updating Discord Rich Presence
     DiscordClient.changePresence("In the Freeplay Menu", null);

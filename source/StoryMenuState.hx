@@ -90,7 +90,7 @@ class StoryMenuState extends MusicBeatState {
 
     if (FlxG.sound.music != null) {
       if (!FlxG.sound.music.playing) {
-        FlxG.sound.playMusic(Paths.music('freakyMenu'));
+        CustomMainMenu.playMenuMusic();
         Conductor.changeBPM(102);
       }
     }

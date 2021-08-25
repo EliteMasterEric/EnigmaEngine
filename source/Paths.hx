@@ -104,8 +104,9 @@ class Paths {
     return getPath('images/$key.png', IMAGE, library);
   }
 
-  public static inline function font(key:String) {
-    return 'assets/fonts/$key';
+  public static inline function font(key:String, ?library:String) {
+    return (library == null) ? 'assets/fonts/$key'
+    : getPath('fonts/$key.otf', FONT, library);
   }
 
   public static inline function getSparrowAtlas(key:String, ?library:String, ?isCharacter:Bool = false) {
