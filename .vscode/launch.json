@@ -4,7 +4,7 @@
     {
       "name": "Enigma Engine",
       "type": "hxcpp",
-      "preLaunchTask": "lime: build windows -debug",
+      "preLaunchTask": "Build Windows (Debug)",
       "request": "launch",
       "program": "${workspaceFolder}/export/debug/windows/bin/Enigma Engine.exe"
     }

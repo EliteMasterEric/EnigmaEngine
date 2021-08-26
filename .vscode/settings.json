@@ -15,11 +15,6 @@
       "label": "Build Windows (Release)",
       "target": "windows",
       "args": ["-release"]
-    },
-    {
-      "label": "Build Windows (Release Bundle)",
-      "target": "windows",
-      "args": ["-release", "-Dbundle", "-static"]
     }
   ]
 }

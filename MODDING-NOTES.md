@@ -31,6 +31,16 @@ Source Code Guide: https://gamebanana.com/tuts/13798
 * week#: Stuff needed for only a specific week.
 * <CUSTOM>: You can also create a custom week in this folder, as long as you specify the folder name as the Path library.
 
+## Flixel Debug Console
+
+The
+
+Commands:
+- `state`: The current game state.
+- `selected`: Gets the selected object.
+- `viewCache()`: Loads the internal BitmapData cache into the bitmapLog window.
+- `step()`:
+
 ## Debug keys:
 
 - `0`: BF Animation Debugger
