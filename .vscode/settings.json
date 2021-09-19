@@ -33,6 +33,48 @@
       ]
     },
     {
+      "label": "Build MacOS (Debug)",
+      "target": "mac",
+      "args": [
+        "-debug"
+      ]
+    },
+    {
+      "label": "Build MacOS (Release)",
+      "target": "mac",
+      "args": [
+        "-release"
+      ]
+    },
+    {
+      "label": "Build iOS (Debug)",
+      "target": "ios",
+      "args": [
+        "-debug"
+      ]
+    },
+    {
+      "label": "Build iOS (Release)",
+      "target": "ios",
+      "args": [
+        "-debug"
+      ]
+    },
+    {
+      "label": "Build Android (Debug)",
+      "target": "android",
+      "args": [
+        "-debug"
+      ]
+    },
+    {
+      "label": "Build Android (Release)",
+      "target": "android",
+      "args": [
+        "-release"
+      ]
+    },
+    {
       "label": "Build HTML5 (Debug)",
       "target": "html5",
       "args": [
@@ -42,6 +84,34 @@
     {
       "label": "Build HTML5 (Release)",
       "target": "html5",
+      "args": [
+        "-release"
+      ]
+    },
+    {
+      "label": "Build Adobe Flash (Debug)",
+      "target": "flash",
+      "args": [
+        "-debug"
+      ]
+    },
+    {
+      "label": "Build Adobe Flash (Release)",
+      "target": "flash",
+      "args": [
+        "-release"
+      ]
+    },
+    {
+      "label": "Build Adobe AIR (Debug)",
+      "target": "air",
+      "args": [
+        "-debug"
+      ]
+    },
+    {
+      "label": "Build Adobe AIR (Release)",
+      "target": "air",
       "args": [
         "-release"
       ]

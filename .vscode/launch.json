@@ -43,5 +43,19 @@
       "request": "launch",
       "program": "${workspaceFolder}/export/debug/linux/bin/Kade Engine"
     },
+    {
+      "name": "MacOS (Debug)",
+      "type": "hxcpp",
+      "preLaunchTask": "Build MacOS (Debug)",
+      "request": "launch",
+      "program": "${workspaceFolder}/export/debug/mac/bin/Kade Engine"
+    },
+    {
+      "name": "MacOS (Release)",
+      "type": "hxcpp",
+      "preLaunchTask": "Build MacOS (Release)",
+      "request": "launch",
+      "program": "${workspaceFolder}/export/debug/mac/bin/Kade Engine"
+    }
   ],
 }
