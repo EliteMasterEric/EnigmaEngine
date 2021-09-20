@@ -322,7 +322,7 @@ class Debug
 		{
 			inArray = ['<NULL>'];
 		}
-		else if (!Std.is(input, Array))
+		else if (!Std.isOfType(input, Array))
 		{
 			inArray = [input];
 		}
