@@ -127,8 +127,17 @@ class TitleState extends MusicBeatState
 
 		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
 		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
-		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
+
+		// Make the gfDance always work regardless of the number of frames in the animation,
+		// by scaling the frame rate to match.
+		var frameArrays = buildDanceFrameArrays(gfDance.frames.numFrames);
+		trace(frameArrays[0] + ' : ' + Math.round(24 / 16 * gfDance.frames.numFrames / 2));
+		trace(frameArrays[1] + ' : ' + Math.round(24 / 15 * gfDance.frames.numFrames / 2));
+		gfDance.animation.addByIndices('danceLeft', 'gfDance', frameArrays[0], "", Math.round(24 / 16 * gfDance.frames.numFrames / 2), false);
+		gfDance.animation.addByIndices('danceRight', 'gfDance', frameArrays[1], "", Math.round(24 / 15 * gfDance.frames.numFrames / 2), false);
+		// gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
+		// gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
+
 		gfDance.antialiasing = FlxG.save.data.antialiasing;
 		add(gfDance);
 		add(logoBl);
@@ -209,6 +218,26 @@ class TitleState extends MusicBeatState
 		}
 
 		// credGroup.add(credTextShit);
+	}
+
+	static function buildDanceFrameArrays(frameCount:Int):Array<Array<Int>>
+	{
+		// This is part of the code that makes the gfDance animation dynamic.
+		// You don't need to match the number of frames in the original gfDance animation
+		// in order for the title animation to dance on beat, thanks to this code.
+
+		var lastFrame:Int = frameCount - 1;
+		var halfway:Int = Math.ceil(lastFrame / 2);
+
+		var left = [];
+		for (i in 0...halfway)
+			left.push(i);
+
+		var right = [];
+		for (i in (halfway + 1)...lastFrame)
+			right.push(i);
+
+		return [left, right];
 	}
 
 	function getIntroTextShit():Array<Array<String>>
