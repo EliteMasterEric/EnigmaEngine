@@ -1,84 +1,74 @@
 
-![Kade Engine logo](assets/preload/images/KadeEngineLogo.png)
+![Enigma Engine logo](assets/preload/images/EngimaEngineLogo.png)
 
-[![AppVeyor](https://img.shields.io/appveyor/build/KadeDev/Kade-Engine-Windows?label=windows%20build)](https://ci.appveyor.com/project/KadeDev/kade-engine-windows/branch/master/artifacts) [![AppVeyor](https://img.shields.io/appveyor/build/KadeDev/Kade-Engine-Macos?label=macOS%20build)](https://ci.appveyor.com/project/KadeDev/kade-engine-macos/branch/master/artifacts)  [![AppVeyor](https://img.shields.io/appveyor/build/KadeDev/Kade-Engine-Linux?label=linux%20build)](https://ci.appveyor.com/project/KadeDev/kade-engine-linux/branch/master/artifacts) [![AppVeyor](https://img.shields.io/appveyor/build/daniel11420/KadeEngineWeb?label=html5&20build)](https://ci.appveyor.com/project/daniel11420/KadeEngineWeb) [![Discord](https://img.shields.io/discord/808039740464300104?label=discord)](https://discord.gg/MG6GQFh52U) [![GitHub issues](https://img.shields.io/github/issues/KadeDev/Kade-Engine)](https://github.com/KadeDev/Kade-Engine/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr/KadeDev/Kade-Engine)](https://github.com/KadeDev/Kade-Engine/pulls) []() []()
+# Friday Night Funkin': Engima Engine
 
-![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/KadeDev/Kade-Engine/latest) ![GitHub repo size](https://img.shields.io/github/repo-size/KadeDev/Kade-Engine) ![Lines of code](https://img.shields.io/tokei/lines/github/KadeDev/Kade-Engine) ![Supported platforms](https://img.shields.io/badge/supported%20platforms-windows%2C%20macOS%2C%20linux%2C%20html5-blue) ![GitHub all releases](https://img.shields.io/github/downloads/KadeDev/Kade-Engine/total) ![GitHub](https://img.shields.io/github/license/KadeDev/Kade-Engine) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/KadeDev/Kade-Engine?include_prereleases&label=latest%20version) 
+### If you want to report an issue with Enigma Engine, read [this](https://github.com/KadeDev/Kade-Engine/blob/stable/docs/BUILDING.md).
+### If you want to contribute to Engima Engine, read [this](https://github.com/KadeDev/Kade-Engine/blob/stable/CONTRIBUTING.md) first.
+### If you want to build Enigma Engine, read [this](https://github.com/KadeDev/Kade-Engine/blob/stable/docs/BUILDING.md).
 
-# Friday Night Funkin': Kade Engine
+## What is Enigma Engine?
 
-### If you want to contribute to Kade Engine, read [this](https://github.com/KadeDev/Kade-Engine/blob/stable/CONTRIBUTING.md) first.
-### If you want to build Kade Engine, read [this](https://github.com/KadeDev/Kade-Engine/blob/stable/docs/building.md).
+Enigma Engine is a project developed as a love letter to the open source game development community, and to the many talented people who have been developing mods for Friday Night Funkin'.
 
-## Friday Night Funkin'
-**Friday Night Funkin'** is a rhythm game originally made for Ludum Dare 47 "Stuck In a Loop".
+Built on Kade Engine v1.7.0, Engima is striving to provide features to help hardcore players improve, casual players have more fun with the game, 
 
-Links: **[itch.io page](https://ninja-muffin24.itch.io/funkin) ⋅ [Newgrounds](https://www.newgrounds.com/portal/view/770371) ⋅ [source code on GitHub](https://github.com/ninjamuffin99/Funkin)**
-> Uh oh! Your tryin to kiss ur hot girlfriend, but her MEAN and EVIL dad is trying to KILL you! He's an ex-rockstar, the only way to get to his heart? The power of music... 
+## What is ModCore?
 
-## Kade Engine
-**Kade Engine** is a mod for Friday Night Funkin', including a full engine rework, replays, and more.
+Engima's flagstone feature is its ModCore feature. Utilizing new improvements made to the Polymod library for Haxe, Enigma Engine boasts true mod support. No, not like the literal tens of thousands of people rebuilding the game with edited code to include new characters and songs, and no, not like Psych Engine which reads image files that you put in a folder.
 
-Links: **[GameBanana mod page](https://gamebanana.com/gamefiles/16761) ⋅ [play in browser](https://funkin.puyo.xyz) ⋅ [latest stable release](https://github.com/KadeDev/Kade-Engine/releases/latest) ⋅ [latest development build (windows)](https://ci.appveyor.com/project/KadeDev/kade-engine-windows/branch/master/artifacts) ⋅ [latest development build (macOS)](https://ci.appveyor.com/project/KadeDev/kade-engine-macos/branch/master/artifacts) ⋅ [latest development build (linux)](https://ci.appveyor.com/project/KadeDev/kade-engine-linux/branch/master/artifacts)**
+I mean atomic, data driven, user configurable, flexible, scriptable, MODS. I mean being able to make full custom weeks without a single line of code, and add them to an existing install without having to redownload the WHOLE game executable and without risk of conflicts. I mean using the mod menu to easily reorder, enable, or disable mods with as much ease as managing texture packs in Minecraft.
 
-**REMEMBER**: This is a **mod**. This is not the vanilla game and should be treated as a **modification**. This is not and probably will never be official, so don't get confused.
+Mods can currently do the following:
+* Replace existing songs (music, charts, and song name).
+* Replace any existing graphics.
+	* It's easier than in vanilla to make new skins for existing characters, especially ones that are a different size or shape, since character offsets and animation prefixes are not hardcoded.
+* Add new songs to Free Play.
+* Add new characters to use in existing or custom songs.
+* Add new animations to existing characters.
+	* If you add new animations to the spritesheet and XML, then reference them in the character metadata JSON with the animation name `singDOWN-alt`, they should appear when using alt notes in the charter.
+* Have song names include symbols without breaking stuff.
+	* Add a `name` attribute to the `_meta.json` file of a `data/songs` folder to use a name that doesn't match the folder name.
+* Modify existing dialog on songs that already have it.
 
-## Website ([KadeDev.github.io/kade-engine/](https://KadeDev.github.io/Kade-Engine/))
-If you're looking for documentation, changelogs, or guides, you can find those on the Kade Engine website.
+Upcoming plans for modding support include:
+* Add support for new weeks to Story Mode.
+* Modifying existing weeks.
+* Migrating existing weeks to mods (so they can be easily disabled or used as examples).
+* Add support for custom stages with custom props.
+* More song events.
+* Custom dialogue for songs.
+* Fully-fledged scripting support in HScript, 100 times more powerful than Lua modcharts. 
+* Custom note types via scripting.
 
-# Previews ([skip](#features))
+## Other Features
 
-![Title Screen](art/readme/KadeEngineTitleScreen.png)
+Enigma Engine also has the following features:
+* All the features of Kade v1.7, including custom keybinds, togglable anti-mash, better input detection, and more.
 
-![Week Select](art/readme/KadeEngineWeekSelect.png)
+## Media
 
-![Freeplay](art/readme/KadeEngineFreeplay.png)
+Check out this demonstration, which showcases adding a new character and song to an existing installation without modifying the code:
 
-![Options](art/readme/KadeEngineOptions.png)
+Also check out these screenshots:
 
-![Senpai Gameplay (Hard, Upscroll)](art/readme/KadeEnginePixelGameplay.png)
+## Contributing
 
-![Roses Dialogue](art/readme/KadeEngineDialogue.png)
+Feature requests, bug reports and ESPECIALLY pull requests are highly appreciated and can be provided on this repo.
 
-![Pause Screen](art/readme/KadeEnginePauseScreen.png)
+More info on providing feature requests: LINK
 
-![Results Screen](art/readme/KadeEngineResultsScreen.png)
+More info on providing bug reports: LINK
 
-![Replay Loader](art/readme/KadeEngineReplayLoader.png)
+More info on making contributions and pull requests: LINK
 
-# Features
+## Credits and Thanks
 
- - **New Input System**
-	 - An improved input system, similar to Quaver or Etterna, with less delays, less dropped inputs and other improvements.
- - **More information during gameplay**
-	 - While you're playing, we show you information about how you're doing, such as your accuracy, combo break count, notes per second, and your grade/rating.
- - **Customizable keybinds**
-	 - Instead of being forced to use WASD and the arrow keys, you can set any keybinds you want!
- - **Replays** (in beta)
-	 - Have you ever gotten a crazy score but didn't record? The replay system solves that: it automatically saves a "replay" of your gameplay every time you complete a song, which you can play back inside of the game. 
-	 - Replays just store information about what you're doing, they don't actually record the screen -- so they take up way less space on your disk than videos.
- - **Audio offset**
-	 - If your speakers or headphones are delayed, you can set an offset in the options menu to line the game up with the delay and play with synced audio like intended!
- - **And much, much more!**
-	 - There's so much more in store than just what's listed here! If you can imagine a quality of life feature, it's probably
-	 either already included in Kade Engine or is being worked on!
+Enigma Engine would not be possible without these fine people:
 
-# Credits
-### Friday Night Funkin'
- - [ninjamuffin99](https://twitter.com/ninja_muffin99) - Programming
- - [PhantomArcade3K](https://twitter.com/phantomarcade3k) and [Evilsk8r](https://twitter.com/evilsk8r) - Art
- - [Kawai Sprite](https://twitter.com/kawaisprite) - Music
+* The developers of Haxe, OpenFL, Lime, and HaxeFlixel, who have built a powerful and open source framework for cross-platform game development.
+* NinjaMuffin99 and the developers of Friday Night Funkin', for deciding not to wait for the online instant game ecosystem to resurrect itself.
+* KadeDev and the contributors to Kade Engine, for developing its awesome features and the foundation upon which the skyscraper of Enigma is built.
+* Lars Doucet, the game developer who has sunk loads of time, effort, and love into creating and maintaining [Polymod](https://github.com/larsiusprime/polymod), and especially for making the changes that allowed this project to exist.
 
-This game was made with love to Newgrounds and its community. Extra love to Tom Fulp.
-### Kade Engine
-- [KadeDeveloper](https://twitter.com/KadeDeveloper) - Maintainer and lead programmer
-- [The contributors](https://github.com/KadeDev/Kade-Engine/graphs/contributors)
-
-
-
-### Shoutouts
-- [GWebDev](https://github.com/GrowtopiaFli) - Video Code
-- [Rozebud](https://github.com/ThatRozebudDude) - Ideas (that I stole)
-- [Puyo](https://github.com/puyoxyz) - Setting up appveyor and a lot of other help
-- [Smokey](https://github.com/Smokey555) - telling me that I should do the tricky asset loading
-- [Poco](https://github.com/poco0317) - math degree (aka most of the fucking math in this project)
+ undefined reference to `lua_type'
