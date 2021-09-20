@@ -1,0 +1,38 @@
+{
+  "name": "Tricky (Unmasked)",
+  "asset": "characters/tricky",
+  "barColor": "#308B4E",
+  "startingAnim": "idle",
+  "animations": [
+    {
+      "name": "idle",
+      "prefix": "Idle",
+      "looped": true,
+      "offsets": [0, -75]
+    },
+    {
+      "name": "singLEFT",
+      "prefix": "Sing Left",
+      "looped": true,
+      "offsets": [103, -72]
+    },
+    {
+      "name": "singRIGHT",
+      "prefix": "Sing Right",
+      "looped": true,
+      "offsets": [16, -176]
+    },
+    {
+      "name": "singUP",
+      "prefix": "Sing Up",
+      "looped": true,
+      "offsets": [93, -76]
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "Sing Down",
+      "looped": true,
+      "offsets": [6, -84]
+    }
+  ]
+}
