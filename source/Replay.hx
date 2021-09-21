@@ -120,9 +120,9 @@ class Replay
 		var time = Date.now().getTime();
 
 		#if FEATURE_FILESYSTEM
-		File.saveContent("assets/replays/replay-" + PlayState.SONG.songId + "-time" + time + ".kadeReplay", data);
+		File.saveContent("assets/replays/replay-" + PlayState.SONG.songId + "-time" + time + ".enigmaReplay", data);
 
-		path = "replay-" + PlayState.SONG.songId + "-time" + time + ".kadeReplay"; // for score screen shit
+		path = "replay-" + PlayState.SONG.songId + "-time" + time + ".enigmaReplay"; // for score screen shit
 
 		LoadFromJSON();
 

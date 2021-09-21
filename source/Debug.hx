@@ -205,8 +205,8 @@ class Debug
 		logInfo("This is a RELEASE build.");
 		#end
 		logInfo('HaxeFlixel version: ${Std.string(FlxG.VERSION)}');
-		logInfo('Friday Night Funkin\' version: ${MainMenuState.gameVer}');
-		logInfo('KadeEngine version: ${MainMenuState.kadeEngineVer}');
+		logInfo('Friday Night Funkin\' version: ${Enigma.GAME_VERSION}');
+		logInfo('Enigma Engine version: ${Enigma.ENGINE_VERSION}');
 	}
 
 	/**

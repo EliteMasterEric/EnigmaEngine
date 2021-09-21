@@ -1,10 +1,5 @@
-# More Information on Contributing to Kade Engine
+# More Information on Contributing to Enigma Engine
 
-## Branches
-`stable` is the repository's main branch, so people can clone a stable Kade Engine to work on their mods. However, this means that Pull Requests will default to merge into
-`stable` instead of `master`.
+Enigma Engine utilizes a GitFlow style. New features are developed in `feature/<name>` branches and merged into `develop` via pull requests. `stable` regularly fast-forward to the latest commit of `develop` when a new release is pushed.
 
-### If your pull request changes the engine, it merges into MASTER.
-### If your pull request changes the website, it merges into STABLE.
-
-This really took this long to document. Why?
+The default repository is set to `stable`; this means that users who first come to the repos see the guaranteed working branch. However, this means that Pull Requests will default to merge into `stable` instead of `develop`, and these will be broken unless you select `develop` as the target branch when making the pull request.

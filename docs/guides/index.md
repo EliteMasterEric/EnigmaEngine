@@ -3,7 +3,7 @@
 - [Using The Chart Editor]({{site.url}}guides/charting)
 
 ### Contributing
-If you can write, I'd love it if you made a guide to put here. Simply make a [pull request](https://github.com/M/Kade-Engine/pulls) to add a file to this folder, and make sure it's written in Markdown.
+If you can write, I'd love it if you made a guide. Simply make a [pull request](https://github.com/EnigmaEngine/EnigmaEngine/pulls) to add a file to this folder, and make sure it's written in Markdown.
 
 Guides that need to be written:
 - ModCore stuff.

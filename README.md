@@ -1,12 +1,13 @@
 # Hello, friend!
 
-![Enigma Engine logo](assets/preload/images/EngimaEngineLogo.png)
+![Enigma Engine logo](assets/preload/images/logo.png)
 
 # Friday Night Funkin': Engima Engine
 
-### If you want to report an issue with Enigma Engine, read [this](https://github.com/KadeDev/Kade-Engine/blob/stable/docs/BUILDING.md).
-### If you want to contribute to Engima Engine, read [this](https://github.com/KadeDev/Kade-Engine/blob/stable/CONTRIBUTING.md) first.
-### If you want to build Enigma Engine, read [this](https://github.com/KadeDev/Kade-Engine/blob/stable/docs/BUILDING.md).
+### If you want to report an issue with Enigma Engine, read [this](https://github.com/EnigmaEngine/EnigmaEngine/issues/1).
+### If you want to contribute to Engima Engine, read [this](https://github.com/EnigmaEngine/EnigmaEngine/issues/1) and scroll down to the Pull Requests section first.
+### If you want to make mods using Enigma Engine, read [this](https://github.com/EnigmaEngine/EnigmaEngine/wiki/Modding-Guide).
+### If you want to build Enigma Engine (DISCLAIMER: You shouldn't need to do this to create mods, read the above guide instead), read [this](https://github.com/EnigmaEngine/EnigmaEngine/wiki/building-enigma-engine).
 
 ## What is Enigma Engine?
 
@@ -71,5 +72,3 @@ Enigma Engine would not be possible without these fine people:
 * NinjaMuffin99 and the developers of Friday Night Funkin', for deciding not to wait for the online instant game ecosystem to resurrect itself.
 * KadeDev and the contributors to Kade Engine, for developing its awesome features and the foundation upon which the skyscraper of Enigma is built.
 * Lars Doucet, the game developer who has sunk loads of time, effort, and love into creating and maintaining [Polymod](https://github.com/larsiusprime/polymod), and especially for making the changes that allowed this project to exist.
-
- undefined reference to `lua_type'

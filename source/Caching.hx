@@ -38,7 +38,7 @@ class Caching extends MusicBeatState
 	var loaded = false;
 
 	var text:FlxText;
-	var kadeLogo:FlxSprite;
+	var gameLogo:FlxSprite;
 
 	public static var bitmapData:Map<String, FlxGraphic>;
 
@@ -52,7 +52,7 @@ class Caching extends MusicBeatState
 
 		PlayerSettings.init();
 
-		KadeEngineData.initSave();
+		GameEngineData.initSave();
 
 		FlxG.mouse.visible = false;
 
@@ -63,20 +63,20 @@ class Caching extends MusicBeatState
 		text = new FlxText(FlxG.width / 2, FlxG.height / 2 + 300, 0, "Loading...");
 		text.size = 34;
 		text.alignment = FlxTextAlign.CENTER;
-		text.alpha = 0;
+		text.alpha = 0
 
-		kadeLogo = new FlxSprite(FlxG.width / 2, FlxG.height / 2).loadGraphic(Paths.loadImage('KadeEngineLogo'));
-		kadeLogo.x -= kadeLogo.width / 2;
-		kadeLogo.y -= kadeLogo.height / 2 + 100;
-		text.y -= kadeLogo.height / 2 - 125;
+		gameLogo = new FlxSprite(FlxG.width / 2, FlxG.height / 2).loadGraphic(Paths.loadImage('logo'));
+		gameLogo.x -= gameLogo.width / 2;
+		gameLogo.y -= gameLogo.height / 2 + 100;
+		text.y -= gameLogo.height / 2 - 125;
 		text.x -= 170;
-		kadeLogo.setGraphicSize(Std.int(kadeLogo.width * 0.6));
+		gameLogo.setGraphicSize(Std.int(gameLogo.width * 0.6));
 		if (FlxG.save.data.antialiasing != null)
-			kadeLogo.antialiasing = FlxG.save.data.antialiasing;
+			gameLogo.antialiasing = FlxG.save.data.antialiasing;
 		else
-			kadeLogo.antialiasing = true;
+			gameLogo.antialiasing = true;
 
-		kadeLogo.alpha = 0;
+		gameLogo.alpha = 0;
 
 		FlxGraphic.defaultPersist = FlxG.save.data.cacheImages;
 
@@ -107,7 +107,7 @@ class Caching extends MusicBeatState
 
 		add(bar);
 
-		add(kadeLogo);
+		add(gameLogo);
 		add(text);
 
 		trace('starting caching..');
@@ -122,7 +122,7 @@ class Caching extends MusicBeatState
 				if (toBeDone != 0 && done != toBeDone)
 				{
 					var alpha = HelperFunctions.truncateFloat(done / toBeDone * 100, 2) / 100;
-					kadeLogo.alpha = alpha;
+					gameLogo.alpha = alpha;
 					text.alpha = alpha;
 					text.text = "Loading... (" + done + "/" + toBeDone + ")";
 				}

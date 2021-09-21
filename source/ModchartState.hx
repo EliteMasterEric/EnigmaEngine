@@ -429,7 +429,7 @@ class ModchartState
 
 		if (result != 0)
 		{
-			Application.current.window.alert("LUA COMPILE ERROR:\n" + Lua.tostring(lua, result), "Kade Engine Modcharts");
+			Application.current.window.alert("LUA COMPILE ERROR:\n" + Lua.tostring(lua, result), "Enigma Engine Modcharts");
 			FlxG.switchState(new FreeplayState());
 			return;
 		}

@@ -5,5 +5,5 @@ Changes marked with 💖 will be listed in the short version of the changelog in
 Initial release.
 
 ### Changes
-- Forked Enigma from Kade Engine v1.7.0.
+- Forked Enigma from Kade Engine v1.7.1-prerelease.
 - 

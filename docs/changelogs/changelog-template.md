@@ -4,10 +4,10 @@ Changes marked with 💖 will be listed in the short version of the changelog in
 
 ### Additions
 - New thing without issue
-- [#1](https://github.com/KadeDev/Kade-Engine/issues/1): New thing with issue
-- [#1](https://github.com/KadeDev/Kade-Engine/issues/1) ([PR #1](https://github.com/KadeDev/Kade-Engine/pulls/1)): New thing with issue and pull request
-- [PR #1](https://github.com/KadeDev/Kade-Engine/pulls/1): New thing with pull request but no issue
-- 💖 [PR #1](https://github.com/KadeDev/Kade-Engine/pulls/1): New thing with pull request but no issue and it's going in the short changelog
+- [#1](https://github.com/EnigmaEngine/EnigmaEngine/issues/1): New thing with issue
+- [#1](https://github.com/EnigmaEngine/EnigmaEngine/issues/1) ([PR #1](https://github.com/EnigmaEngine/EnigmaEngine/pulls/1)): New thing with issue and pull request
+- [PR #1](https://github.com/EnigmaEngine/EnigmaEngine/pulls/1): New thing with pull request but no issue
+- 💖 [PR #1](https://github.com/EnigmaEngine/EnigmaEngine/pulls/1): New thing with pull request but no issue and it's going in the short changelog
 
 ### Changes
 - Use same templates as additions
@@ -18,7 +18,7 @@ Changes marked with 💖 will be listed in the short version of the changelog in
 - This is for when bugs get fixed. This should, like, always have an issue link, most of the time (if it has one)
 
 ## Links
-[GitHub Release](https://github.com/KadeDev/Kade-Engine/releases/tag/1.4.2) · [Last Windows CI build]() · [Last macOS CI build]() · [Last Linux CI build]()
+[GitHub Release](https://github.com/EnigmaEngine/EnigmaEngine/releases/tag/1.4.2) · [Last Windows CI build]() · [Last macOS CI build]() · [Last Linux CI build]()
 
 // Only include links section after it is no longer "latest changelog"
 // "Last x CI build" links should link to a specific build, the last one for the version

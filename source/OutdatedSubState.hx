@@ -30,18 +30,18 @@ class OutdatedSubState extends MusicBeatState
 		bg.antialiasing = FlxG.save.data.antialiasing;
 		add(bg);
 
-		var kadeLogo:FlxSprite = new FlxSprite(FlxG.width, 0).loadGraphic(Paths.loadImage('KadeEngineLogo'));
-		kadeLogo.scale.y = 0.3;
-		kadeLogo.scale.x = 0.3;
-		kadeLogo.x -= kadeLogo.frameHeight;
-		kadeLogo.y -= 180;
-		kadeLogo.alpha = 0.8;
-		kadeLogo.antialiasing = FlxG.save.data.antialiasing;
-		add(kadeLogo);
+		var gameLogo:FlxSprite = new FlxSprite(FlxG.width, 0).loadGraphic(Paths.loadImage('logo'));
+		gameLogo.scale.y = 0.3;
+		gameLogo.scale.x = 0.3;
+		gameLogo.x -= gameLogo.frameHeight;
+		gameLogo.y -= 180;
+		gameLogo.alpha = 0.8;
+		gameLogo.antialiasing = FlxG.save.data.antialiasing;
+		add(gameLogo);
 
 		var txt:FlxText = new FlxText(0, 0, FlxG.width,
-			"Your Kade Engine is outdated!\nYou are on "
-			+ MainMenuState.kadeEngineVer
+			"Your Enigma Engine is outdated!\nYou are on "
+			+ Enigma.ENGINE_VERSION
 			+ "\nwhile the most recent version is "
 			+ needVer
 			+ "."
@@ -53,9 +53,9 @@ class OutdatedSubState extends MusicBeatState
 
 		if (MainMenuState.nightly != "")
 			txt.text = "You are on\n"
-				+ MainMenuState.kadeEngineVer
-				+ "\nWhich is a PRE-RELEASE BUILD!"
-				+ "\n\nReport all bugs to the author of the pre-release.\nSpace/Escape ignores this.";
+				+ Enigma.ENGINE_VERSION
+				+ "\nWhich is a DEVELOPMENT BUILD!"
+				+ "\n\nReport all bugs to the author of the build.\nSpace/Escape ignores this.";
 
 		txt.setFormat("VCR OSD Mono", 32, FlxColor.fromRGB(200, 200, 200), CENTER);
 		txt.borderColor = FlxColor.BLACK;
@@ -65,7 +65,7 @@ class OutdatedSubState extends MusicBeatState
 		add(txt);
 
 		FlxTween.color(bg, 2, bg.color, FlxColor.fromString(bgColors[colorRotation]));
-		FlxTween.angle(kadeLogo, kadeLogo.angle, -10, 2, {ease: FlxEase.quartInOut});
+		FlxTween.angle(gameLogo, gameLogo.angle, -10, 2, {ease: FlxEase.quartInOut});
 
 		new FlxTimer().start(2, function(tmr:FlxTimer)
 		{
@@ -78,26 +78,26 @@ class OutdatedSubState extends MusicBeatState
 
 		new FlxTimer().start(2, function(tmr:FlxTimer)
 		{
-			if (kadeLogo.angle == -10)
-				FlxTween.angle(kadeLogo, kadeLogo.angle, 10, 2, {ease: FlxEase.quartInOut});
+			if (gameLogo.angle == -10)
+				FlxTween.angle(gameLogo, gameLogo.angle, 10, 2, {ease: FlxEase.quartInOut});
 			else
-				FlxTween.angle(kadeLogo, kadeLogo.angle, -10, 2, {ease: FlxEase.quartInOut});
+				FlxTween.angle(gameLogo, gameLogo.angle, -10, 2, {ease: FlxEase.quartInOut});
 		}, 0);
 
 		new FlxTimer().start(0.8, function(tmr:FlxTimer)
 		{
-			if (kadeLogo.alpha == 0.8)
-				FlxTween.tween(kadeLogo, {alpha: 1}, 0.8, {ease: FlxEase.quartInOut});
+			if (gameLogo.alpha == 0.8)
+				FlxTween.tween(gameLogo, {alpha: 1}, 0.8, {ease: FlxEase.quartInOut});
 			else
-				FlxTween.tween(kadeLogo, {alpha: 0.8}, 0.8, {ease: FlxEase.quartInOut});
+				FlxTween.tween(gameLogo, {alpha: 0.8}, 0.8, {ease: FlxEase.quartInOut});
 		}, 0);
 	}
 
 	override function update(elapsed:Float)
 	{
-		if (controls.ACCEPT && MainMenuState.nightly == "")
+		if (controls.ACCEPT && Enigma.ENGINE_SUFFIX == "")
 		{
-			fancyOpenURL("https://kadedev.github.io/Kade-Engine/changelogs/changelog-" + needVer);
+			fancyOpenURL('https://github.com/EnigmaEngine/EnigmaEngine/blob/stable/docs/changelogs/changelog-${needVer}.md');
 		}
 		else if (controls.ACCEPT)
 		{
