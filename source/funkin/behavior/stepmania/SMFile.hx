@@ -5,7 +5,7 @@ import sys.io.File;
 import haxe.Exception;
 import lime.app.Application;
 import Section.SwagSection;
-import haxe.Json;
+import tjson.TJSON;
 
 class SMFile
 {
@@ -146,7 +146,7 @@ class SMFile
 				"song": song
 			};
 
-			var data:String = Json.stringify(json, null, " ");
+			var data:String = TJSON.encode(json, "fancy");
 			File.saveContent(saveTo, data);
 			return data;
 		}
@@ -331,7 +331,7 @@ class SMFile
 			"song": song
 		};
 
-		var data:String = Json.stringify(json, null, " ");
+		var data:String = TJSON.encode(json, "fancy");
 		File.saveContent(saveTo, data);
 		return data;
 	}

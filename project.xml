@@ -139,6 +139,9 @@
 	<!-- A library providing a consistent set of user interface widgets. -->
 	<haxelib name="flixel-ui" />
 
+	<!-- A library for tolerant JSON parsing. Fewer bugs caused by typos means fewer issues on GitHub. -->
+	<haxelib name="tjson" />
+
 	<!-- FMOD audio engine for Haxe. -->
 	<haxelib name="faxe" if='switch'/>
 

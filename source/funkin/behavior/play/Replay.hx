@@ -8,7 +8,7 @@ import flixel.FlxG;
 import openfl.events.IOErrorEvent;
 import openfl.events.Event;
 import openfl.net.FileReference;
-import haxe.Json;
+import tjson.TJSON;
 import flixel.input.keyboard.FlxKey;
 import openfl.utils.Dictionary;
 
@@ -117,7 +117,7 @@ class Replay
 			"ana": ana
 		};
 
-		var data:String = Json.stringify(json, null, "");
+		var data:String = TJSON.encode(json, "fancy");
 
 		var time = Date.now().getTime();
 
@@ -138,7 +138,7 @@ class Replay
 		trace('loading ' + Sys.getCwd() + 'assets/replays/' + path + ' replay...');
 		try
 		{
-			var repl:ReplayJSON = cast Json.parse(File.getContent(Sys.getCwd() + "assets/replays/" + path));
+			var repl:ReplayJSON = cast TJSON.parse(File.getContent(Sys.getCwd() + "assets/replays/" + path));
 			replay = repl;
 		}
 		catch (e)

@@ -37,7 +37,7 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.ui.FlxSpriteButton;
 import flixel.util.FlxColor;
-import haxe.Json;
+import tjson.TJSON;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
 import openfl.events.IOErrorEvent;
@@ -3508,7 +3508,7 @@ class ChartingState extends MusicBeatState
 			curRenderedSustains.remove(curRenderedSustains.members[0], true);
 		}
 
-		var autoSaveData = Json.parse(FlxG.save.data.autosave);
+		var autoSaveData = TJSON.parse(FlxG.save.data.autosave);
 
 		var data:SongData = cast autoSaveData.song;
 		var meta:SongMeta = {};
@@ -3551,13 +3551,13 @@ class ChartingState extends MusicBeatState
 
 	function autosaveSong():Void
 	{
-		FlxG.save.data.autosave = Json.stringify({
+		FlxG.save.data.autosave = TJSON.encode({
 			"song": _song,
 			"songMeta": {
 				"name": _song.songId,
 				"offset": 0,
 			}
-		});
+		}, "fancy");
 		FlxG.save.flush();
 	}
 
@@ -3582,7 +3582,7 @@ class ChartingState extends MusicBeatState
 			"song": _song
 		};
 
-		var data:String = Json.stringify(json, null, " ");
+		var data:String = TJSON.stringify(json, "fancy");
 
 		if ((data != null) && (data.length > 0))
 		{

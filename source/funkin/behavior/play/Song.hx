@@ -1,8 +1,6 @@
 package funkin.behavior.play;
 
 import funkin.behavior.play.Section.SwagSection;
-import haxe.Json;
-import haxe.format.JsonParser;
 import openfl.utils.Assets as OpenFlAssets;
 
 using hx.strings.Strings;

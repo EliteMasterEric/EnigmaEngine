@@ -5,7 +5,7 @@ import flixel.FlxG;
 import flixel.graphics.frames.FlxAtlasFrames;
 import openfl.utils.AssetType;
 import openfl.utils.Assets as OpenFlAssets;
-import haxe.Json;
+import tjson.TJSON;
 
 using StringTools;
 
@@ -87,7 +87,8 @@ class Paths
 		try
 		{
 			// Attempt to parse and return the JSON data.
-			return Json.parse(rawJson);
+			// Use TJSON, which is much more flexible (allows comments and missing commas).
+			return TJSON.parse(rawJson);
 		}
 		catch (e)
 		{
