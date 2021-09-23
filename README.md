@@ -17,6 +17,8 @@ Built on Kade Engine v1.7.0, Engima is striving to provide features to help hard
 
 ## What is ModCore?
 
+**DISCLAIMER: MODCORE HAS BEEN SUBMITTED TO AND APPROVED FOR A FUTURE VERSION OF KADE ENGINE. IT WAS ORIGINALLY DEVELOPED HERE.**
+
 Engima's flagstone feature is its ModCore feature. Utilizing new improvements made to the Polymod library for Haxe, Enigma Engine boasts true mod support. No, not like the literal tens of thousands of people rebuilding the game with edited code to include new characters and songs, and no, not like Psych Engine which reads image files that you put in a folder.
 
 I mean atomic, data driven, user configurable, flexible, scriptable, MODS. I mean being able to make full custom weeks without a single line of code, and add them to an existing install without having to redownload the WHOLE game executable and without risk of conflicts. I mean using the mod menu to easily reorder, enable, or disable mods with as much ease as managing texture packs in Minecraft.
