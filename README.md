@@ -34,6 +34,7 @@ Mods can currently do the following:
 * Have song names include symbols without breaking stuff.
 	* Add a `name` attribute to the `_meta.json` file of a `data/songs` folder to use a name that doesn't match the folder name.
 * Modify existing dialog on songs that already have it.
+* Redo the title sequence and intro credits (including support for custom graphics, check out the [Tricky Mod](https://github.com/EnigmaEngine/ModCore-Tricky-Mod) example).
 
 Upcoming plans for modding support include:
 * Add support for new weeks to Story Mode.
@@ -73,4 +74,4 @@ Enigma Engine would not be possible without these fine people:
 * The developers of Haxe, OpenFL, Lime, and HaxeFlixel, who have built a powerful and open source framework for cross-platform game development.
 * NinjaMuffin99 and the developers of Friday Night Funkin', for deciding not to wait for the online instant game ecosystem to resurrect itself.
 * KadeDev and the contributors to Kade Engine, for developing its awesome features and the foundation upon which the skyscraper of Enigma is built.
-* Lars Doucet, the game developer who has sunk loads of time, effort, and love into creating and maintaining [Polymod](https://github.com/larsiusprime/polymod), and especially for making the changes that allowed this project to exist.
+* Lars Doucet, the game developer who has sunk loads of time, effort, and love into creating and maintaining [Polymod](https://github.com/larsiusprime/polymod) and other libraries for Haxe and HaxeFlixel, and especially for making the changes to Polymod that allowed this project to exist.
