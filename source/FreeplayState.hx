@@ -256,24 +256,9 @@ class FreeplayState extends MusicBeatState
 		trace('Loaded diffs for ${FreeplayState.songs.length} songs.');
 	}
 
-	public function addSong(songName:String, weekNum:Int, songCharacter:String)
+	public function addSong(songId:String, weekNum:Int, songCharacter:String)
 	{
-		songs.push(new FreeplaySongMetadata(songName, weekNum, songCharacter));
-	}
-
-	public function addWeek(songs:Array<String>, weekNum:Int, ?songCharacters:Array<String>)
-	{
-		if (songCharacters == null)
-			songCharacters = ['dad'];
-
-		var num:Int = 0;
-		for (song in songs)
-		{
-			addSong(song, weekNum, songCharacters[num]);
-
-			if (songCharacters.length != 1)
-				num++;
-		}
+		songs.push(new FreeplaySongMetadata(songId, weekNum, songCharacter));
 	}
 
 	override function update(elapsed:Float)
@@ -345,23 +330,23 @@ class FreeplayState extends MusicBeatState
 			if (FlxG.keys.justPressed.LEFT)
 			{
 				rate -= 0.05;
-				diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songName)[curDifficulty])}';
+				diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songId)[curDifficulty])}';
 			}
 			if (FlxG.keys.justPressed.RIGHT)
 			{
 				rate += 0.05;
-				diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songName)[curDifficulty])}';
+				diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songId)[curDifficulty])}';
 			}
 
 			if (rate > 3)
 			{
 				rate = 3;
-				diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songName)[curDifficulty])}';
+				diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songId)[curDifficulty])}';
 			}
 			else if (rate < 0.5)
 			{
 				rate = 0.5;
-				diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songName)[curDifficulty])}';
+				diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songId)[curDifficulty])}';
 			}
 
 			previewtext.text = "Rate: " + FlxMath.roundDecimal(rate, 2) + "x";
@@ -403,10 +388,10 @@ class FreeplayState extends MusicBeatState
 	/**
 	 * Load into a song in free play, by name.
 	 * This is a static function, so you can call it anywhere.
-	 * @param songName The name of the song to load. Use the human readable name, with spaces.
+	 * @param songId The id of the song to load. Use the internal ID, with dashes.
 	 * @param isCharting If true, load into the Chart Editor instead.
 	 */
-	public static function loadSongInFreePlay(songName:String, difficulty:Int, isCharting:Bool, reloadSong:Bool = false)
+	public static function loadSongInFreePlay(songId:String, difficulty:Int, isCharting:Bool, reloadSong:Bool = false)
 	{
 		// Make sure song data is initialized first.
 		if (songData == null || Lambda.count(songData) == 0)
@@ -415,10 +400,10 @@ class FreeplayState extends MusicBeatState
 		var currentSongData;
 		try
 		{
-			if (songData.get(songName) == null)
+			if (songData.get(songId) == null)
 				return;
-			currentSongData = songData.get(songName)[difficulty];
-			if (songData.get(songName)[difficulty] == null)
+			currentSongData = songData.get(songId)[difficulty];
+			if (songData.get(songId)[difficulty] == null)
 				return;
 		}
 		catch (ex)
@@ -430,7 +415,7 @@ class FreeplayState extends MusicBeatState
 		PlayState.isStoryMode = false;
 		PlayState.storyDifficulty = difficulty;
 		PlayState.storyWeek = songs[curSelected].week;
-		Debug.logInfo('Loading song ${PlayState.SONG.songName} from week ${PlayState.storyWeek} into Free Play...');
+		Debug.logInfo('Loading song ${PlayState.SONG.songId} from week ${PlayState.storyWeek} into Free Play...');
 		#if FEATURE_STEPMANIA
 		if (songs[curSelected].songCharacter == "sm")
 		{
@@ -481,7 +466,7 @@ class FreeplayState extends MusicBeatState
 		intendedScore = Highscore.getScore(songHighscore, curDifficulty);
 		combo = Highscore.getCombo(songHighscore, curDifficulty);
 		#end
-		diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songName)[curDifficulty])}';
+		diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songId)[curDifficulty])}';
 		diffText.text = CoolUtil.difficultyFromInt(curDifficulty).toUpperCase();
 	}
 
@@ -530,7 +515,7 @@ class FreeplayState extends MusicBeatState
 		// lerpScore = 0;
 		#end
 
-		diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songName)[curDifficulty])}';
+		diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songId)[curDifficulty])}';
 		diffText.text = CoolUtil.difficultyFromInt(curDifficulty).toUpperCase();
 
 		#if PRELOAD_ALL
@@ -544,13 +529,13 @@ class FreeplayState extends MusicBeatState
 			FlxG.sound.playMusic(sound);
 		}
 		else
-			FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
+			FlxG.sound.playMusic(Paths.inst(songs[curSelected].songId), 0);
 		#end
 
 		var hmm;
 		try
 		{
-			hmm = songData.get(songs[curSelected].songName)[curDifficulty];
+			hmm = songData.get(songs[curSelected].songId)[curDifficulty];
 			if (hmm != null)
 				Conductor.changeBPM(hmm.bpm);
 		}
@@ -593,6 +578,7 @@ class FreeplayState extends MusicBeatState
 class FreeplaySongMetadata
 {
 	public var songName:String = "";
+	public var songId:String = "";
 	public var week:Int = 0;
 	#if FEATURE_STEPMANIA
 	public var sm:SMFile;
@@ -605,6 +591,7 @@ class FreeplaySongMetadata
 	#if FEATURE_STEPMANIA
 	public function new(song:String, week:Int, songCharacter:String, ?sm:SMFile = null, ?path:String = "")
 	{
+		this.songId = song;
 		this.songName = song;
 		this.week = week;
 		this.songCharacter = songCharacter;
@@ -614,6 +601,7 @@ class FreeplaySongMetadata
 	#else
 	public function new(song:String, week:Int, songCharacter:String)
 	{
+		this.songId = song;
 		this.songName = song;
 		this.week = week;
 		this.songCharacter = songCharacter;

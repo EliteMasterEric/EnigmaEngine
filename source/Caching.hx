@@ -52,7 +52,7 @@ class Caching extends MusicBeatState
 
 		PlayerSettings.init();
 
-		GameEngineData.initSave();
+		SaveData.initSave();
 
 		FlxG.mouse.visible = false;
 
@@ -63,7 +63,7 @@ class Caching extends MusicBeatState
 		text = new FlxText(FlxG.width / 2, FlxG.height / 2 + 300, 0, "Loading...");
 		text.size = 34;
 		text.alignment = FlxTextAlign.CENTER;
-		text.alpha = 0
+		text.alpha = 0;
 
 		gameLogo = new FlxSprite(FlxG.width / 2, FlxG.height / 2).loadGraphic(Paths.loadImage('logo'));
 		gameLogo.x -= gameLogo.width / 2;

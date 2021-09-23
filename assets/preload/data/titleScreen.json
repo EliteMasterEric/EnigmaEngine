@@ -1,0 +1,106 @@
+{
+  "_comment": [
+    "You can replace this file in your own mods.",
+    "'bpm' specifies the animation speed of the logo bumping and GF dancing.",
+    "'background' specifies the color (if starting with #) or image used in the background.",
+    "'beatDropMs' is the time in thousand-ths of a second, to skip to in the song if the user skips the intro text.",
+    "'credits' specifies what things to display in the intro credits and in what order.",
+    "You can add a nested array to 'credits' to perform multiple actions on one frame."
+  ],
+  "creditsBackground": "#000000",
+  "titleBackground": "#000000",
+  "beatDropMs": 9400,
+  "bpm": 102,
+  "gf": {
+    "x": 512,
+    "y": 50,
+    "scale": 1
+  },
+  "logo": {
+    "_comment": "The logo moves over time. It takes <duration> seconds to rotate, and moves from -<angle> to +<angle>.",
+    "x": -200,
+    "y": -160,
+    "scale": 1,
+    "angle": 4,
+    "duration": 4
+  },
+  "credits": [
+    {
+      "_comment": "'clearText' removes all existing text, if any.",
+      "action": "clearText"
+    },
+    {
+      "_comment": "'addText' creates new text, or adds new lines to existing text. 'values' is an array of one or more lines.",
+      "action": "addText",
+      "values": ["ninjamuffin99", "phantomArcade", "kawaisprite", "evilsk8er"]
+    },
+    {
+      "_comment": "'wait' just does nothing for a beat.",
+      "action": "wait"
+    },
+    {
+      "_comment": "To wait a beat, skip an index.",
+      "action": "addText",
+      "values": ["present"]
+    },
+    [
+      {
+        "_comment": "Use a nested array to form a group of actions that occur in the same beat.",
+        "action": "clearText"
+      },
+      {
+        "action": "addText",
+        "values": ["Enigma Engine", "by MasterEric"]
+      },
+      {
+        "action": "setGraphic",
+        "value": "creditsMasterEric"
+      }
+    ],
+    {
+      "_comment": "Using 'wait' actions rather than beat indexes makes rearranging lines far easier.",
+      "action": "wait"
+    },
+    {
+      "action": "addText",
+      "values": ["Based on Kade Engine"]
+    },
+    [
+      {
+        "action": "clearText"
+      },
+      {
+        "action": "clearGraphic"
+      }
+    ],
+    {
+      "_comment": "'addWackyText' chooses an entry from 'introText.txt' if it hasn't already, and adds one or more lines from it.",
+      "action": "addWackyText",
+      "values": [0]
+    },
+    {
+      "action": "wait"
+    },
+    {
+      "_comment": "Counting starts at zero. You can add more than one line at once and more than two lines total.",
+      "action": "addWackyText",
+      "values": [1, 2]
+    },
+    {
+      "action": "clearText"
+    },
+    {
+      "action": "addText",
+      "values": ["Friday"]
+    },
+    {
+      "action": "addText",
+      "values": ["Night"]
+    },
+    {
+      "_comment": "The game will move to the title screen one beat after the last entry. Add a 'wait' if you want to hold for another beat.",
+      "action": "addText",
+      "values": ["Funkin"]
+    }
+  ]
+}

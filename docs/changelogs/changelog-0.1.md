@@ -6,4 +6,4 @@ Initial release.
 
 ### Changes
 - Forked Enigma from Kade Engine v1.7.1-prerelease.
-- 
+- 💖Added initial ModCore support.

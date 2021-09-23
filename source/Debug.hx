@@ -83,7 +83,7 @@ class Debug
 		if (input == null)
 			return;
 		var output = formatOutput(input, pos);
-		writeToFlxGLog(output, LOG_STYLE_TRACE);
+		// writeToFlxGLog(output, LOG_STYLE_TRACE);
 		writeToLogFile(output, 'TRACE');
 	}
 

@@ -68,31 +68,16 @@ class MusicBeatState extends FlxUIState
 
 	override function update(elapsed:Float)
 	{
-		// everyStep();
-		/*var nextStep:Int = updateCurStep();
-
-			if (nextStep >= 0)
-			{
-				if (nextStep > curStep)
-				{
-					for (i in curStep...nextStep)
-					{
-						curStep++;
-						updateBeat();
-						stepHit();
-					}
-				}
-				else if (nextStep < curStep)
-				{
-					//Song reset?
-					curStep = nextStep;
-					updateBeat();
-					stepHit();
-				}
-		}*/
+		// You can now press F on most screens to move to fullscreen, not just the title.
+		if (FlxG.keys.justPressed.F)
+		{
+			FlxG.fullscreen = !FlxG.fullscreen;
+		}
 
 		if (Conductor.songPosition < 0)
+		{
 			curDecimalBeat = 0;
+		}
 		else
 		{
 			if (TimingStruct.AllTimings.length > 1)
@@ -198,23 +183,19 @@ class MusicBeatState extends FlxUIState
 		return lastChange.stepTime + Math.floor((Conductor.songPosition - lastChange.songTime) / Conductor.stepCrochet);
 	}
 
+	/**
+	 * Function called during the song four times every beat, sixteen times a section.
+	 */
 	public function stepHit():Void
 	{
 		if (curStep % 4 == 0)
 			beatHit();
 	}
 
+	/**
+	 * Function called during the song once every beat, four times a section.
+	 */
 	public function beatHit():Void
 	{
-		// do literally nothing dumbass
-	}
-
-	public function fancyOpenURL(schmancy:String)
-	{
-		#if linux
-		Sys.command('/usr/bin/xdg-open', [schmancy, "&"]);
-		#else
-		FlxG.openURL(schmancy);
-		#end
 	}
 }

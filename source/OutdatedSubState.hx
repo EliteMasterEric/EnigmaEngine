@@ -51,7 +51,7 @@ class OutdatedSubState extends MusicBeatState
 			+ "\n\nPress Space to view the full changelog and update\nor ESCAPE to ignore this",
 			32);
 
-		if (MainMenuState.nightly != "")
+		if (Enigma.ENGINE_SUFFIX != "")
 			txt.text = "You are on\n"
 				+ Enigma.ENGINE_VERSION
 				+ "\nWhich is a DEVELOPMENT BUILD!"
@@ -97,7 +97,7 @@ class OutdatedSubState extends MusicBeatState
 	{
 		if (controls.ACCEPT && Enigma.ENGINE_SUFFIX == "")
 		{
-			fancyOpenURL('https://github.com/EnigmaEngine/EnigmaEngine/blob/stable/docs/changelogs/changelog-${needVer}.md');
+			FunneUtil.openURL('https://github.com/EnigmaEngine/EnigmaEngine/blob/stable/docs/changelogs/changelog-${needVer}.md');
 		}
 		else if (controls.ACCEPT)
 		{
