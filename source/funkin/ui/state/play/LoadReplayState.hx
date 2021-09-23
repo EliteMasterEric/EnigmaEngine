@@ -1,4 +1,4 @@
-package;
+package funkin.ui.state.play;
 
 import haxe.Exception;
 import lime.app.Application;

@@ -1,4 +1,4 @@
-package;
+package funkin.ui.state.play;
 
 #if FEATURE_LUAMODCHART
 import LuaClass.LuaCamera;

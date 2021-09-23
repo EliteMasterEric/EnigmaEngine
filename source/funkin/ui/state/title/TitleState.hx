@@ -1,4 +1,4 @@
-package;
+package funkin.ui.state.title;
 
 import haxe.extern.EitherType;
 #if FEATURE_STEPMANIA

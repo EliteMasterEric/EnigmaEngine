@@ -1,3 +1,5 @@
+package funkin.ui.video;
+
 import faxe.Faxe;
 import SndTV;
 

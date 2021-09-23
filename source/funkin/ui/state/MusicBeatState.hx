@@ -1,4 +1,4 @@
-package;
+package funkin.ui.state;
 
 import flixel.FlxBasic;
 #if FEATURE_DISCORD

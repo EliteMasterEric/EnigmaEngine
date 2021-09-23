@@ -1,4 +1,4 @@
-package;
+package funkin.ui.state.play;
 
 import flixel.input.gamepad.FlxGamepad;
 import openfl.Lib;

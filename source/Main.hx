@@ -15,6 +15,9 @@ import openfl.Lib;
 import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.events.Event;
+import funkin.ui.state.modding.ModSplashState;
+import funkin.ui.state.title.Caching;
+import funkin.ui.state.title.TitleState;
 
 class Main extends Sprite
 {

@@ -1,4 +1,4 @@
-package;
+package funkin.ui.video;
 
 import openfl.Lib;
 

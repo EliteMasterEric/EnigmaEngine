@@ -1,7 +1,8 @@
+package funkin.util;
+
 /**
  * Static utility function used for doing funny weird stuff.
  */
-
 import flixel.FlxG;
 
 class FunneUtil

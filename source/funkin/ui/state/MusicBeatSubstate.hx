@@ -1,4 +1,4 @@
-package;
+package funkin.ui.state;
 
 import Conductor.BPMChangeEvent;
 import flixel.FlxG;

@@ -7,7 +7,7 @@
 ### If you want to report an issue with Enigma Engine, read [this](https://github.com/EnigmaEngine/EnigmaEngine/issues/1).
 ### If you want to contribute to Engima Engine, read [this](https://github.com/EnigmaEngine/EnigmaEngine/issues/1) and scroll down to the Pull Requests section first.
 ### If you want to make mods using Enigma Engine, read [this](https://github.com/EnigmaEngine/EnigmaEngine/wiki/Modding-Guide).
-### If you want to build Enigma Engine (DISCLAIMER: You shouldn't need to do this to create mods, read the above guide instead), read [this](https://github.com/EnigmaEngine/EnigmaEngine/wiki/building-enigma-engine).
+### If you want to build Enigma Engine (DISCLAIMER: You shouldn't need to do this to create mods, read the above guide instead), read [this](https://github.com/EnigmaEngine/EnigmaEngine/wiki/building-enigma-engine). If you've already built the game before, you'll probably need to follow these steps anyway.
 
 ## What is Enigma Engine?
 
@@ -68,6 +68,11 @@ More info on providing bug reports: LINK
 More info on making contributions and pull requests: LINK
 
 ## Credits and Thanks
+
+Enigma Engine was developed by:
+
+* [MasterEric](https://github.com/MasterEric) developed the main engine based on the Kade Engine codebase.
+* You! Seriously if you want to contribute assets or code, it would be greatly appreciated.
 
 Enigma Engine would not be possible without these fine people:
 

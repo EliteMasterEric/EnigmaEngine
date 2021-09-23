@@ -1,4 +1,4 @@
-package;
+package funkin.ui.state.title;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
