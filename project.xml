@@ -213,5 +213,9 @@
 	<haxedef name="FEATURE_MULTITHREADING" if="cpp" />
   	<!-- Defines whether mods are supported on this platform. -->
   	<haxedef name="FEATURE_MODCORE" if="desktop" />
+	<!-- Defines whether GameJolt integration is supported on this platform. -->
+  	<haxedef name="FEATURE_GAMEJOLT" if="html5" />
+	<!-- Defines whether Kongregate integration is supported on this platform. -->
+	<haxedef name="FEATURE_KONGREGATE" if="html5" />
 
 </project>
