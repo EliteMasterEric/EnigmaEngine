@@ -83,10 +83,17 @@ class Main extends Sprite
 		Debug.onInitProgram();
 
 		// Gotta run this before any assets get loaded.
-		ModCore.initialize();
+		// ModCore.loadAllMods();
 
 		#if FEATURE_FILESYSTEM
-		initialState = Caching;
+		if (ModCore.hasMods())
+		{
+			initialState = ModSplashState;
+		}
+		else
+		{
+			initialState = Caching;
+		}
 		game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
 		#else
 		game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);

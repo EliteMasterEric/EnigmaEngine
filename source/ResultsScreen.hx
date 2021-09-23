@@ -2,7 +2,7 @@ package;
 
 import haxe.Exception;
 #if FEATURE_STEPMANIA
-import smTools.SMFile;
+import stepmania.SMFile;
 #end
 #if FEATURE_FILESYSTEM
 import sys.FileSystem;

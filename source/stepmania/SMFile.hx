@@ -1,5 +1,5 @@
 #if FEATURE_STEPMANIA
-package smTools;
+package stepmania;
 
 import sys.io.File;
 import haxe.Exception;

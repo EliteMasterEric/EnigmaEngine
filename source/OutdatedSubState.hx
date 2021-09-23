@@ -54,7 +54,7 @@ class OutdatedSubState extends MusicBeatState
 		if (Enigma.ENGINE_SUFFIX != "")
 			txt.text = "You are on\n"
 				+ Enigma.ENGINE_VERSION
-				+ "\nWhich is a DEVELOPMENT BUILD!"
+				+ '\nWhich is a DEVELOPMENT BUILD (${Enigma.ENGINE_SUFFIX})!'
 				+ "\n\nReport all bugs to the author of the build.\nSpace/Escape ignores this.";
 
 		txt.setFormat("VCR OSD Mono", 32, FlxColor.fromRGB(200, 200, 200), CENTER);

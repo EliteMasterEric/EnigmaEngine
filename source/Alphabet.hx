@@ -14,7 +14,8 @@ import openfl.Lib;
 using StringTools;
 
 /**
- * Loosley based on FlxTypeText lolol
+ * Alphabet manually creates text from individual letters off a spritesheet.
+ * This spritesheet is located at `assets/preload/images/alphabet.png`.
  */
 class Alphabet extends FlxSpriteGroup
 {

@@ -1,9 +1,10 @@
+import flixel.FlxG;
+import polymod.Polymod;
 #if FEATURE_MODCORE
 import polymod.backends.OpenFLBackend;
 import polymod.backends.PolymodAssets.PolymodAssetType;
 import polymod.format.ParseRules.LinesParseFormat;
 import polymod.format.ParseRules.TextFileFormat;
-import polymod.Polymod;
 #end
 
 /**
@@ -19,21 +20,62 @@ class ModCore
 	 */
 	static final API_VERSION = "0.1.0";
 
+	static final API_MATCH_VERSION = "0.1.*";
+
 	static final MOD_DIRECTORY = "mods";
 
-	public static function initialize()
+	public static function loadAllMods()
 	{
 		#if FEATURE_MODCORE
-		Debug.logInfo("Initializing ModCore...");
+		Debug.logInfo("Initializing ModCore (using all mods)...");
 		loadModsById(getModIds());
 		#else
 		Debug.logInfo("ModCore not initialized; not supported on this platform.");
 		#end
 	}
 
-	#if FEATURE_MODCORE
+	public static function loadConfiguredMods()
+	{
+		#if FEATURE_MODCORE
+		Debug.logInfo("Initializing ModCore (using user config)...");
+		Debug.logTrace('  User mod config: ${FlxG.save.data.modConfig}');
+		var userModConfig = loadModListFromSave();
+		loadModsById(userModConfig);
+		#else
+		Debug.logInfo("ModCore not initialized; not supported on this platform.");
+		#end
+	}
+
+	/**
+	 * If the user has configured an order of mods to load, returns the list of mod IDs in order.
+	 * Otherwise, returns a list of ALL installed mods in alphabetical order.
+	 * @return The mod order to load.
+	 */
+	public static function loadModListFromSave():Array<String>
+	{
+		var rawSaveData = FlxG.save.data.modConfig;
+
+		if (rawSaveData != null)
+		{
+			var modIds = rawSaveData.split('~');
+			return modIds;
+		}
+		else
+		{
+			// Mod list not in save!
+			return null;
+		}
+	}
+
+	public static function saveModList(loadedMods:Array<String>)
+	{
+		var rawSaveData = loadedMods.join('~');
+		FlxG.save.data.modConfig = rawSaveData;
+	}
+
 	public static function loadModsById(ids:Array<String>)
 	{
+		#if FEATURE_MODCORE
 		Debug.logInfo('Attempting to load ${ids.length} mods...');
 		var loadedModList = polymod.Polymod.init({
 			// Root directory for all mods.
@@ -88,8 +130,26 @@ class ModCore
 		Debug.logInfo('Installed mods have replaced ${fileList.length} sound files.');
 		for (item in fileList)
 			Debug.logTrace('  * $item');
+		#else
+		Debug.logWarn("Attempted to load mods when Polymod was not supported!");
+		#end
 	}
 
+	/**
+	 * Returns true if there are mods to load in the mod folder,
+	 * and false if there aren't (or mods aren't supported).
+	 * @return A boolean value.
+	 */
+	public static function hasMods():Bool
+	{
+		#if FEATURE_MODCORE
+		return getModIds().length > 0;
+		#else
+		return false;
+		#end
+	}
+
+	#if FEATURE_MODCORE
 	static function getModIds():Array<String>
 	{
 		Debug.logInfo('Scanning the mods folder...');

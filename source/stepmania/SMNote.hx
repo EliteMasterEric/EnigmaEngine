@@ -1,5 +1,5 @@
 #if FEATURE_STEPMANIA
-package smTools;
+package stepmania;
 
 class SMNote
 {

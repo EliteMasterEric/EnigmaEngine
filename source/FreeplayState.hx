@@ -4,7 +4,7 @@ import openfl.utils.Future;
 import openfl.media.Sound;
 import flixel.system.FlxSound;
 #if FEATURE_STEPMANIA
-import smTools.SMFile;
+import stepmania.SMFile;
 #end
 #if FEATURE_FILESYSTEM
 import sys.FileSystem;

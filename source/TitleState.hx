@@ -2,7 +2,7 @@ package;
 
 import haxe.extern.EitherType;
 #if FEATURE_STEPMANIA
-import smTools.SMFile;
+import stepmania.SMFile;
 #end
 import flixel.FlxG;
 import flixel.FlxSprite;

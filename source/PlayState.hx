@@ -9,7 +9,7 @@ import lime.media.openal.AL;
 import Song.Event;
 import openfl.media.Sound;
 #if FEATURE_STEPMANIA
-import smTools.SMFile;
+import stepmania.SMFile;
 #end
 #if FEATURE_FILESYSTEM
 import sys.io.File;

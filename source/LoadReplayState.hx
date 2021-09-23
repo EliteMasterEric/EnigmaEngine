@@ -3,7 +3,7 @@ package;
 import haxe.Exception;
 import lime.app.Application;
 #if FEATURE_STEPMANIA
-import smTools.SMFile;
+import stepmania.SMFile;
 #end
 import Controls.KeyboardScheme;
 import Controls.Control;
