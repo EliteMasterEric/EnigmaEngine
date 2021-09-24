@@ -1418,12 +1418,14 @@ class ChartingState extends MusicBeatState
 				{
 					trace("new strum " + strum + " - at section " + section);
 					// alright we're in this section lets paste the note here.
-					var newData = [strum, i[1], i[2], i[3], i[4]];
+					var newData = [strum, i[1], i[2], i[3]];
 					ii.sectionNotes.push(newData);
 
 					var thing = ii.sectionNotes[ii.sectionNotes.length - 1];
 
-					var note:Note = new Note(strum, Math.floor(i[1] % 4), null, false, true, i[3], i[4]);
+					var note:Note = new Note(strum, Math.floor(i[1] % 4), null, false, true);
+					note.isAlt = i[3];
+					note.beat = TimingStruct.getBeatFromTime(strum);
 					note.rawNoteData = i[1];
 					note.sustainLength = i[2];
 					note.setGraphicSize(Math.floor(GRID_SIZE), Math.floor(GRID_SIZE));
@@ -1479,13 +1481,7 @@ class ChartingState extends MusicBeatState
 				if (ii.startTime <= strum && ii.endTime > strum)
 				{
 					// alright we're in this section lets paste the note here.
-					var newData:Array<Dynamic> = [
-						strum,
-						originalNote.rawNoteData,
-						originalNote.sustainLength,
-						originalNote.isAlt,
-						originalNote.beat
-					];
+					var newData:Array<Dynamic> = [strum, originalNote.rawNoteData, originalNote.sustainLength, originalNote.isAlt];
 					ii.sectionNotes.push(newData);
 
 					var thing = ii.sectionNotes[ii.sectionNotes.length - 1];
@@ -1760,8 +1756,7 @@ class ChartingState extends MusicBeatState
 			for (note in section.sectionNotes)
 			{
 				// commit suicide
-				var old = note[0];
-				note[0] = TimingStruct.getTimeFromBeat(note[4]);
+				note[0] = TimingStruct.getTimeFromBeat(TimingStruct.getBeatFromTime(note[0]));
 				note[2] = TimingStruct.getTimeFromBeat(TimingStruct.getBeatFromTime(note[2]));
 				if (note[0] < section.startTime)
 				{
@@ -3009,7 +3004,9 @@ class ChartingState extends MusicBeatState
 				var daStrumTime = i[0];
 				var daSus = i[2];
 
-				var note:Note = new Note(daStrumTime, daNoteInfo % 4, null, false, true, i[3], i[4]);
+				var note:Note = new Note(daStrumTime, daNoteInfo % 4, null, false, true);
+				note.isAlt = i[3];
+				note.beat = TimingStruct.getBeatFromTime(daStrumTime);
 				note.rawNoteData = daNoteInfo;
 				note.sustainLength = daSus;
 				note.setGraphicSize(Math.floor(GRID_SIZE), Math.floor(GRID_SIZE));
@@ -3337,15 +3334,9 @@ class ChartingState extends MusicBeatState
 		var noteSus = 0;
 
 		if (n != null)
-			section.sectionNotes.push([
-				n.strumTime,
-				n.noteData,
-				n.sustainLength,
-				false,
-				TimingStruct.getBeatFromTime(n.strumTime)
-			]);
+			section.sectionNotes.push([n.strumTime, n.noteData, n.sustainLength, n.isAlt]);
 		else
-			section.sectionNotes.push([noteStrum, noteData, noteSus, false, TimingStruct.getBeatFromTime(noteStrum)]);
+			section.sectionNotes.push([noteStrum, noteData, noteSus, false]);
 
 		var thingy = section.sectionNotes[section.sectionNotes.length - 1];
 
@@ -3355,7 +3346,8 @@ class ChartingState extends MusicBeatState
 
 		if (n == null)
 		{
-			var note:Note = new Note(noteStrum, noteData % 4, null, false, true, TimingStruct.getBeatFromTime(noteStrum));
+			var note:Note = new Note(noteStrum, noteData % 4, null, false, true);
+			note.beat = TimingStruct.getBeatFromTime(noteStrum);
 			note.rawNoteData = noteData;
 			note.sustainLength = noteSus;
 			note.setGraphicSize(Math.floor(GRID_SIZE), Math.floor(GRID_SIZE));
@@ -3385,7 +3377,8 @@ class ChartingState extends MusicBeatState
 		}
 		else
 		{
-			var note:Note = new Note(n.strumTime, n.noteData % 4, null, false, true, n.isAlt, TimingStruct.getBeatFromTime(n.strumTime));
+			var note:Note = new Note(n.strumTime, n.noteData % 4, null, false, true);
+			note.isAlt = n.isAlt;
 			note.beat = TimingStruct.getBeatFromTime(n.strumTime);
 			note.rawNoteData = n.noteData;
 			note.sustainLength = noteSus;
