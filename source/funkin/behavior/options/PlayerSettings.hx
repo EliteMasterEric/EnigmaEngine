@@ -4,6 +4,7 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.util.FlxSignal;
 import funkin.behavior.options.Controls;
+import funkin.behavior.options.CustomControls;
 
 class PlayerSettings
 {
@@ -17,12 +18,12 @@ class PlayerSettings
 
 	public var id(default, null):Int;
 
-	public final controls:Controls;
+	public final controls:CustomControls;
 
 	function new(id, scheme)
 	{
 		this.id = id;
-		this.controls = new Controls('player$id', scheme);
+		this.controls = new CustomControls('player$id', scheme);
 	}
 
 	public function setKeyboardScheme(scheme)

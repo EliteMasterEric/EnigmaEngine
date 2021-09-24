@@ -1,5 +1,6 @@
 package funkin.ui.state.debug;
 
+import funkin.behavior.play.TimingStruct;
 import funkin.behavior.play.Conductor;
 import funkin.util.HelperFunctions;
 import funkin.assets.Paths;

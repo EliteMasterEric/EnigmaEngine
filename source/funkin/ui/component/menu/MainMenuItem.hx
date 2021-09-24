@@ -3,6 +3,7 @@ package funkin.ui.component.menu;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxG;
 import funkin.ui.state.menu.MainMenuState;
 import flixel.FlxSprite;
@@ -17,9 +18,10 @@ class MainMenuItem
 
 	public static function buildMainMenu(menuItemGroup:FlxTypedGroup<FlxSprite>, onFinishFirstStart:TweenCallback)
 	{
-		for (i in 0...MAIN_MENU_ITEMS.length)
+		var mainMenuItems = ['story mode', 'freeplay', 'options'];
+		for (i in 0...mainMenuItems.length)
 		{
-			var sprite = buildMainMenuItem(MAIN_MENU_ITEMS[i], i, onFinishFirstStart);
+			var sprite = buildMainMenuItem(mainMenuItems[i], i, onFinishFirstStart);
 
 			menuItemGroup.add(sprite);
 		}

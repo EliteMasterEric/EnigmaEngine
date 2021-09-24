@@ -70,14 +70,14 @@ class FreeplayState extends MusicBeatState
 
 	// ERIC: Replace songData array with a map.
 	// This allows a song in free play to have no Easy difficulty.
-	public static var songData:Map<String, Map<Int, SwagSong>> = [];
+	public static var songData:Map<String, Map<Int, SongData>> = [];
 
-	public static function loadDiff(diff:Int, format:String, name:String, array:Map<Int, SwagSong>)
+	public static function loadDiff(diff:Int, format:String, array:Map<Int, SongData>)
 	{
 		try
 		{
 			var diffName:String = ["-easy", "", "-hard"][PlayState.storyDifficulty];
-			array.set(diff, Song.loadFromJson(Highscore.formatSong(format, diff), name));
+			array.set(diff, Song.loadFromJson(Highscore.formatSong(format, diff), diffName));
 		}
 		catch (ex)
 		{
@@ -159,7 +159,7 @@ class FreeplayState extends MusicBeatState
 
 		for (i in 0...songs.length)
 		{
-			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i].songName, true, false, true);
+			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i].songName, true, false);
 			songText.isMenuItem = true;
 			songText.targetY = i;
 			grpSongs.add(songText);
@@ -226,7 +226,7 @@ class FreeplayState extends MusicBeatState
 			var songId = data[0];
 			var meta = new FreeplaySongMetadata(songId, Std.parseInt(data[2]), data[1]);
 
-			var diffs:Map<Int, SwagSong> = [];
+			var diffs:Map<Int, SongData> = [];
 			var diffsThatExist:Array<String> = [];
 
 			#if FEATURE_FILESYSTEM
@@ -401,12 +401,12 @@ class FreeplayState extends MusicBeatState
 		if (songDataCurrentDiff != null)
 		{
 			diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songDataCurrentDiff)}';
-			diffText.text = CoolUtil.difficultyFromInt(curDifficulty).toUpperCase();
+			diffText.text = Util.difficultyFromInt(curDifficulty).toUpperCase();
 		}
 		else
 		{
 			diffCalcText.text = 'RATING: N/A';
-			diffText.text = '${CoolUtil.difficultyFromInt(curDifficulty).toUpperCase()} (NOT AVAILABLE)';
+			diffText.text = '${Util.difficultyFromInt(curDifficulty).toUpperCase()} (NOT AVAILABLE)';
 		}
 	}
 

@@ -31,6 +31,9 @@ enum abstract Action(String) to String from String
 	var PAUSE = "pause";
 	var RESET = "reset";
 	var CHEAT = "cheat";
+	// Press a key to switch to fullscreen.
+	var FULLSCREEN = "fullscreen";
+	//
 	var UP_9K = "up-9k";
 	var LEFT_9K = "left-9k";
 	var RIGHT_9K = "right-9k";
@@ -67,6 +70,7 @@ enum Control
 	BACK;
 	PAUSE;
 	CHEAT;
+	FULLSCREEN;
 }
 
 enum KeyboardScheme
@@ -100,6 +104,7 @@ class Controls extends FlxActionSet
 	var _pause = new FlxActionDigital(Action.PAUSE);
 	var _reset = new FlxActionDigital(Action.RESET);
 	var _cheat = new FlxActionDigital(Action.CHEAT);
+	var _fullscreen = new FlxActionDigital(Action.FULLSCREEN);
 
 	var byName:Map<String, FlxActionDigital> = [];
 
@@ -191,6 +196,11 @@ class Controls extends FlxActionSet
 	inline function get_CHEAT()
 		return _cheat.check();
 
+	public var FULLSCREEN(get, never):Bool;
+
+	inline function get_FULLSCREEN()
+		return _fullscreen.check();
+
 	public function new(name, scheme = None)
 	{
 		super(name);
@@ -212,6 +222,7 @@ class Controls extends FlxActionSet
 		add(_pause);
 		add(_reset);
 		add(_cheat);
+		add(_fullscreen);
 
 		for (action in digitalActions)
 			byName[action.name] = action;
@@ -263,6 +274,7 @@ class Controls extends FlxActionSet
 			case PAUSE: _pause;
 			case RESET: _reset;
 			case CHEAT: _cheat;
+			case FULLSCREEN: _fullscreen;
 		}
 	}
 
@@ -308,6 +320,8 @@ class Controls extends FlxActionSet
 				func(_reset, JUST_PRESSED);
 			case CHEAT:
 				func(_cheat, JUST_PRESSED);
+			case FULLSCREEN:
+				func(_fullscreen, JUST_PRESSED);
 		}
 	}
 
@@ -445,7 +459,9 @@ class Controls extends FlxActionSet
 		inline bindKeys(Control.ACCEPT, [Z, SPACE, ENTER]);
 		inline bindKeys(Control.BACK, [BACKSPACE, ESCAPE]);
 		inline bindKeys(Control.PAUSE, [ENTER, ESCAPE]);
+		inline bindKeys(Control.CHEAT, [GRAVEACCENT]);
 		inline bindKeys(Control.RESET, [FlxKey.fromString(FlxG.save.data.killBind)]);
+		inline bindKeys(Control.FULLSCREEN, [FlxKey.fromString(FlxG.save.data.fullscreenBind)]);
 	}
 
 	function removeKeyboard()

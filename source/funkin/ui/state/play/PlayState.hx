@@ -1,10 +1,12 @@
 package funkin.ui.state.play;
 
+import funkin.util.NoteUtil;
 import funkin.ui.audio.MainMenuMusic;
 import funkin.util.Util;
 import funkin.ui.state.charting.ChartingState;
 import funkin.ui.component.WaveformTestState;
 import funkin.ui.video.GlobalVideo;
+import funkin.behavior.play.EnigmaNote;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.effects.chainable.FlxEffectSprite;
 import flixel.addons.effects.chainable.FlxWaveEffect;

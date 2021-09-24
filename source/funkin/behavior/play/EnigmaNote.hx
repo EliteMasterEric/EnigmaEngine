@@ -1,4 +1,20 @@
-package funkin.ui.component.play;
+package funkin.behavior.play;
+
+import funkin.ui.component.play.StaticArrow;
+import funkin.ui.component.play.Note;
+import funkin.util.NoteUtil;
+import funkin.assets.Paths;
+import flixel.tweens.FlxEase;
+import flixel.input.keyboard.FlxKey;
+import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.tweens.FlxTween;
+import funkin.ui.state.play.PlayState;
+import funkin.behavior.play.PlayStateChangeables;
+import funkin.behavior.options.CustomControls;
+import openfl.events.KeyboardEvent;
+
+using StringTools;
 
 class EnigmaNote
 {
@@ -23,6 +39,16 @@ class EnigmaNote
 	public static final NOTE_9K_CENTER_ENEMY:Int = 19;
 
 	/**
+	 * The note style used in most songs.
+	 */
+	static final STYLE_NORMAL = 'normal';
+
+	/**
+	 * The note style used in Week 6 - vs Senpai.
+	 */
+	static final STYLE_PIXEL = 'pixel';
+
+	/**
 	 * Pixel notes are 6x bigger than their spritesheet.
 	 		* Divide by the base game's note scale. We remultiply later.
 	 */
@@ -39,11 +65,10 @@ class EnigmaNote
 	 */
 	public static function getDirectionName(rawNoteData:Int, allowAltNames:Bool):String
 	{
-		var isCustomNoteType = rawNoteData >= NOTE_OFFSET;
-		if (!allowAltNames || isCustomNoteType)
+		if (!allowAltNames)
 		{
 			// Don't return 'Alt' direction names.
-			var baseNoteData = rawNoteData % NOTE_OFFSET;
+			var baseNoteData = rawNoteData;
 			switch (baseNoteData)
 			{
 				case NOTE_BASE_LEFT | NOTE_9K_LEFT | NOTE_BASE_LEFT_ENEMY | NOTE_9K_LEFT_ENEMY:
@@ -55,7 +80,7 @@ class EnigmaNote
 				case NOTE_BASE_RIGHT | NOTE_9K_RIGHT | NOTE_BASE_RIGHT_ENEMY | NOTE_9K_RIGHT_ENEMY:
 					return "Right";
 				case NOTE_9K_CENTER | NOTE_9K_CENTER_ENEMY:
-					return "Center";
+					return "Up";
 				default:
 					trace("Couldn't determine what animation to use for this special note!");
 					return 'UNKNOWN';
@@ -91,15 +116,9 @@ class EnigmaNote
 		}
 	}
 
-	public static function loadNoteSprite(instance:FlxSprite, noteStyle:String, noteData:Int, isSustainNote:Bool, strumlineSize:Int):Void
+	public static function loadNoteSprite(instance:FlxSprite, noteStyle:String, noteType:String, noteData:Int, isSustainNote:Bool, strumlineSize:Int):Void
 	{
-		switch (noteStyle)
-		{
-			case STYLE_PIXEL:
-				instance.frames = Paths.getSparrowAtlas('notes/Pixel9KNote', 'shared');
-			default: // STYLE_NORMAL
-				instance.frames = Paths.getSparrowAtlas('notes/9KNote', 'shared');
-		}
+		instance.frames = Paths.getSparrowAtlas('notes/${noteStyle}/note${noteType}', 'shared');
 
 		// Only add the animation for the note we are using.
 		var dirName = getDirectionName(noteData, true);
@@ -110,7 +129,7 @@ class EnigmaNote
 		var noteScale = NoteUtil.NOTE_GEOMETRY_DATA[strumlineSize][1];
 		switch (noteStyle)
 		{
-			case STYLE_PIXEL:
+			case 'pixel':
 				var widthSize = Std.int(PlayState.Stage.curStage.startsWith('school') ? (instance.width * PlayState.daPixelZoom) : (isSustainNote ? (instance.width * (PlayState.daPixelZoom
 					- 1.5)) : (instance.width * PlayState.daPixelZoom)) * noteScale);
 
@@ -126,7 +145,7 @@ class EnigmaNote
 
 	public static function buildStrumlines(isPlayer:Bool, yPos:Float, strumlineSize:Int = 4, noteStyle:String = 'normal'):Void
 	{
-		if (!CustomNoteUtils.STRUMLINE_DIR_NAMES.exists(strumlineSize))
+		if (!NoteUtil.STRUMLINE_DIR_NAMES.exists(strumlineSize))
 		{
 			trace('Could not build strumline! Invalid size ${strumlineSize}');
 			return;
@@ -135,26 +154,26 @@ class EnigmaNote
 		/**
 		 * The note directions to display for this strumline.
 		 */
-		var strumlineDirs = CustomNoteUtils.STRUMLINE_DIR_NAMES[strumlineSize];
+		var strumlineDirs = NoteUtil.STRUMLINE_DIR_NAMES[strumlineSize];
 
 		/**
 		 * The offset to use for each strumline arrow.
 		 * Setting this value too low will cause arrows to overlap somewhat.
 		 */
-		var strumlineNoteWidth = CustomNoteUtils.NOTE_GEOMETRY_DATA[strumlineSize][0];
+		var strumlineNoteWidth = NoteUtil.NOTE_GEOMETRY_DATA[strumlineSize][0];
 
 		/**
 		 * The size multiplier for each strumline arrow.
 		 * Setting this value too high will cause arrows to be too big.
 		 */
-		var noteGraphicScale = CustomNoteUtils.NOTE_GEOMETRY_DATA[strumlineSize][1];
+		var noteGraphicScale = NoteUtil.NOTE_GEOMETRY_DATA[strumlineSize][1];
 
 		/**
 		 * The offset position of the strumline.
 		 * Needs to be different if the strumline has more notes.
 		 * Value is inverted for the Dad player's strumline.
 		 */
-		var strumlinePos = CustomNoteUtils.NOTE_GEOMETRY_DATA[strumlineSize][2];
+		var strumlinePos = NoteUtil.NOTE_GEOMETRY_DATA[strumlineSize][2];
 
 		// For each note in the strumline...
 		for (i in 0...strumlineDirs.length)
@@ -170,13 +189,7 @@ class EnigmaNote
 
 			// Load the spritesheet.
 			// With my reworked sprite sheets, the animation names are the same.
-			switch (noteStyle)
-			{
-				case STYLE_PIXEL:
-					babyArrow.frames = Paths.getSparrowAtlas('notes/Pixel9KNote', 'shared');
-				default: // STYLE_NORMAL
-					babyArrow.frames = Paths.getSparrowAtlas('notes/9KNote', 'shared');
-			}
+			babyArrow.frames = Paths.getSparrowAtlas('notes/${noteStyle}/noteNormal', 'shared');
 
 			// Add the proper animations to the strumline item.
 			babyArrow.animation.addByPrefix('static', arrowDir + ' Strumline');
@@ -291,7 +304,7 @@ class EnigmaNote
 	 */
 	public static function swapNote(rawNoteData:Int):Int
 	{
-		var noteOffset = Math.floor(rawNoteData / NOTE_OFFSET);
+		var noteOffset = Math.floor(rawNoteData);
 		var baseNoteData = rawNoteData % 100;
 		return noteOffset + switch (baseNoteData)
 		{

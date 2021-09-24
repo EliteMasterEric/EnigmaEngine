@@ -1,5 +1,6 @@
 package funkin.ui.state.menu;
 
+import funkin.const.Enigma;
 import funkin.ui.audio.MainMenuMusic;
 import funkin.behavior.play.Highscore;
 import funkin.behavior.play.Song;
@@ -33,7 +34,7 @@ class StoryMenuState extends MusicBeatState
 {
 	var scoreText:FlxText;
 
-	static function weekData():Array<Dynamic>
+	static function weekData():Array<Array<String>>
 	{
 		return [
 			['tutorial'],
@@ -338,7 +339,7 @@ class StoryMenuState extends MusicBeatState
 
 	function selectWeek()
 	{
-		if (!Song.validateSongs(weekData(), curDifficulty))
+		if (!Song.validateSongs(weekData()[curWeek], curDifficulty))
 		{
 			// If any song doesn't exist, stop loading the week.
 			FlxG.sound.play(Paths.sound('cancelMenu'));

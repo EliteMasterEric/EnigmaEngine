@@ -4,6 +4,7 @@ import funkin.behavior.play.TimingStruct;
 import funkin.behavior.options.PlayerSettings;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.options.Controls;
+import funkin.behavior.options.CustomControls;
 import flixel.addons.ui.FlxUIState;
 import flixel.FlxBasic;
 import flixel.FlxG;
@@ -22,10 +23,12 @@ class MusicBeatState extends FlxUIState
 	private var curStep:Int = 0;
 	private var curBeat:Int = 0;
 	private var curDecimalBeat:Float = 0;
-	private var controls(get, never):Controls;
+	private var controls(get, never):CustomControls;
 
-	inline function get_controls():Controls
-		return PlayerSettings.player1.controls;
+	inline function get_controls():CustomControls
+	{
+		return PlayerSettings.player1 == null ? null : PlayerSettings.player1.controls;
+	}
 
 	private var assets:Array<FlxBasic> = [];
 
@@ -72,8 +75,8 @@ class MusicBeatState extends FlxUIState
 
 	override function update(elapsed:Float)
 	{
-		// You can now press F on most screens to move to fullscreen, not just the title.
-		if (FlxG.keys.justPressed.F)
+		// You can now press F11 on most screens to move to fullscreen, not just the title.
+		if (controls != null && controls.FULLSCREEN)
 		{
 			FlxG.fullscreen = !FlxG.fullscreen;
 		}

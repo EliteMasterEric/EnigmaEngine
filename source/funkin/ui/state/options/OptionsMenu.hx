@@ -1,6 +1,8 @@
 package funkin.ui.state.options;
 
+import funkin.const.Enigma;
 import funkin.assets.Paths;
+import funkin.ui.state.options.EnigmaKeyBindMenu;
 import funkin.ui.state.menu.MainMenuState;
 import funkin.util.HelperFunctions;
 import funkin.assets.Paths;
@@ -104,7 +106,7 @@ class OptionsMenu extends MusicBeatState
 
 		for (i in 0...options.length)
 		{
-			var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, options[i].getName(), true, false, true);
+			var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, options[i].getName(), true, false);
 			controlLabel.isMenuItem = true;
 			controlLabel.targetY = i;
 			grpControls.add(controlLabel);

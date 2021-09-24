@@ -2,6 +2,8 @@ package funkin.ui.state.options;
 
 import funkin.ui.component.play.Note;
 import funkin.behavior.play.Conductor;
+import funkin.behavior.play.EnigmaNote;
+import funkin.const.Enigma;
 import funkin.assets.Paths;
 import funkin.ui.component.play.Character;
 import funkin.ui.component.play.Boyfriend;
@@ -246,6 +248,6 @@ class GameplayCustomizeState extends MusicBeatState
 
 	private function generateStaticArrows(player:Int):Void
 	{
-		EnigmaNote.buildStrumlines(player == 1, strumLine.y, Custom.USE_CUSTOM_KEYBINDS ? 9 : 4);
+		EnigmaNote.buildStrumlines(player == 1, strumLine.y, Enigma.USE_CUSTOM_KEYBINDS ? 9 : 4);
 	}
 }

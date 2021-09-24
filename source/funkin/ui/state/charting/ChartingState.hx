@@ -1,9 +1,11 @@
 package funkin.ui.state.charting;
 
+import funkin.util.NoteUtil;
 import funkin.assets.Paths;
 import funkin.util.Util;
 import funkin.util.HelperFunctions;
 import funkin.behavior.play.Song;
+import funkin.behavior.play.EnigmaNote;
 #if FEATURE_DISCORD
 import funkin.behavior.api.Discord.DiscordClient;
 #end
@@ -40,6 +42,7 @@ import funkin.behavior.play.Song.SongData;
 import funkin.behavior.play.Song.SongEvent;
 import funkin.behavior.play.Song.SongMeta;
 import funkin.behavior.play.TimingStruct;
+import funkin.const.Enigma;
 import funkin.ui.component.play.Boyfriend;
 import funkin.ui.component.play.Character;
 import funkin.ui.component.play.HealthIcon;
@@ -89,14 +92,14 @@ class ChartingState extends MusicBeatState
 	public var beatsShown:Float = 1; // for the zoom factor
 	public var zoomFactor:Float = 0.4;
 
-	public static final GRID_WIDTH_IN_CELLS = Custom.USE_CUSTOM_KEYBINDS ? 18 : 8;
+	public static final GRID_WIDTH_IN_CELLS = Enigma.USE_CUSTOM_KEYBINDS ? 18 : 8;
 	public static final GRID_HEIGHT_IN_CELLS = 16;
 
 	/** 
 	 * We need to make room for all these extra arrows. 
 	 * Should be a multiple of GRID_SIZE to make sure the grid doesn't break. 
 	 */
-	public static final GRID_X_OFFSET = Custom.USE_CUSTOM_KEYBINDS ? -120 : 0;
+	public static final GRID_X_OFFSET = Enigma.USE_CUSTOM_KEYBINDS ? -120 : 0;
 
 	/**
 	 * Array of notes showing when each section STARTS in STEPS
@@ -2879,7 +2882,7 @@ class ChartingState extends MusicBeatState
 				var daStrumTime = i[0];
 				var daSus = i[2];
 
-				var note:Note = new Note(daStrumTime, daNoteInfo, null, false, true, i[3], i[4]);
+				var note:Note = new Note(daStrumTime, daNoteInfo, null, false, true, i[3]);
 				note.isAlt = i[3];
 				note.beat = TimingStruct.getBeatFromTime(daStrumTime);
 				note.rawNoteData = daNoteInfo;
@@ -3204,7 +3207,7 @@ class ChartingState extends MusicBeatState
 		// Offset by the current chart position. Make sure we use parenthesis, math is hard!
 		var noteData = Math.floor((FlxG.mouse.x - GRID_X_OFFSET) / GRID_SIZE);
 		// Fix values for 9K.
-		if (Custom.USE_CUSTOM_CHARTER)
+		if (Enigma.USE_CUSTOM_CHARTER)
 		{
 			noteData = EnigmaNote.getNoteDataFromCharterColumn(noteData);
 		}
@@ -3228,7 +3231,7 @@ class ChartingState extends MusicBeatState
 			note.sustainLength = noteSus;
 			note.setGraphicSize(Math.floor(GRID_SIZE), Math.floor(GRID_SIZE));
 			note.updateHitbox();
-			note.x = Math.floor(CustomNoteUtils.getStrumlineIndex(noteData, Custom.USE_CUSTOM_CHARTER ? 9 : 4) * GRID_SIZE);
+			note.x = Math.floor(NoteUtil.getStrumlineIndex(noteData, Enigma.USE_CUSTOM_CHARTER ? 9 : 4) * GRID_SIZE);
 			note.x += GRID_X_OFFSET;
 
 			if (curSelectedNoteObject != null)
@@ -3260,7 +3263,7 @@ class ChartingState extends MusicBeatState
 			note.sustainLength = noteSus;
 			note.setGraphicSize(Math.floor(GRID_SIZE), Math.floor(GRID_SIZE));
 			note.updateHitbox();
-			note.x = Math.floor(CustomNoteUtils.getStrumlineIndex(n.noteData, Custom.USE_CUSTOM_CHARTER ? 9 : 4) * GRID_SIZE);
+			note.x = Math.floor(NoteUtil.getStrumlineIndex(n.noteData, Enigma.USE_CUSTOM_CHARTER ? 9 : 4) * GRID_SIZE);
 			note.x += GRID_X_OFFSET;
 
 			if (curSelectedNoteObject != null)

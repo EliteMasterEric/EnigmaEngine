@@ -1,5 +1,6 @@
 package funkin.ui.component.charting;
 
+import funkin.ui.state.charting.ChartingState;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.FlxG;
 import flixel.FlxSprite;

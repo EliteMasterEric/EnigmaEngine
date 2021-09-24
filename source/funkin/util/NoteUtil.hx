@@ -20,6 +20,8 @@ package funkin.util;
  * such as `startsWith`.
  * @see: https://api.haxe.org/StringTools.html
  */
+import funkin.behavior.play.EnigmaNote;
+
 using StringTools;
 
 /**
@@ -102,19 +104,18 @@ class NoteUtil
 	 */
 	public static function mustHitNote(rawNoteData:Int, mustHitSection:Bool):Bool
 	{
-		var baseNoteData = rawNoteData % CustomNotes.NOTE_OFFSET;
-		return switch (baseNoteData)
+		return switch (rawNoteData)
 		{
 			// Example, if mustHitSection is true, notes 0/1/2/3 appear on BF's side,
 			// but if mustHitSection is false, notes 0/1/2/3 apepar on Dad's side, and 4/5/6/7 appear on BF's side.
-			case CustomNotes.NOTE_BASE_LEFT | CustomNotes.NOTE_BASE_DOWN | CustomNotes.NOTE_BASE_UP | CustomNotes.NOTE_BASE_RIGHT:
+			case EnigmaNote.NOTE_BASE_LEFT | EnigmaNote.NOTE_BASE_DOWN | EnigmaNote.NOTE_BASE_UP | EnigmaNote.NOTE_BASE_RIGHT:
 				mustHitSection;
-			case CustomNotes.NOTE_9K_LEFT | CustomNotes.NOTE_9K_DOWN | CustomNotes.NOTE_9K_UP | CustomNotes.NOTE_9K_RIGHT | CustomNotes.NOTE_9K_CENTER:
+			case EnigmaNote.NOTE_9K_LEFT | EnigmaNote.NOTE_9K_DOWN | EnigmaNote.NOTE_9K_UP | EnigmaNote.NOTE_9K_RIGHT | EnigmaNote.NOTE_9K_CENTER:
 				mustHitSection;
-			case CustomNotes.NOTE_BASE_LEFT_ENEMY | CustomNotes.NOTE_BASE_DOWN_ENEMY | CustomNotes.NOTE_BASE_UP_ENEMY | CustomNotes.NOTE_BASE_RIGHT_ENEMY:
-				mustHitSection;
-			case CustomNotes.NOTE_9K_LEFT_ENEMY | CustomNotes.NOTE_9K_DOWN_ENEMY | CustomNotes.NOTE_9K_UP_ENEMY | CustomNotes.NOTE_9K_RIGHT_ENEMY | CustomNotes.NOTE_9K_CENTER_ENEMY:
-				mustHitSection;
+			case EnigmaNote.NOTE_BASE_LEFT_ENEMY | EnigmaNote.NOTE_BASE_DOWN_ENEMY | EnigmaNote.NOTE_BASE_UP_ENEMY | EnigmaNote.NOTE_BASE_RIGHT_ENEMY:
+				!mustHitSection;
+			case EnigmaNote.NOTE_9K_LEFT_ENEMY | EnigmaNote.NOTE_9K_DOWN_ENEMY | EnigmaNote.NOTE_9K_UP_ENEMY | EnigmaNote.NOTE_9K_RIGHT_ENEMY | EnigmaNote.NOTE_9K_CENTER_ENEMY:
+				!mustHitSection;
 			default:
 				mustHitSection;
 		}
@@ -130,7 +131,7 @@ class NoteUtil
 	 */
 	public static function getStrumlineIndex(rawNoteData:Int, strumlineSize:Int = 4):Int
 	{
-		var result = NOTE_DATA_TO_STRUMLINE_MAP[strumlineSize][rawNoteData % CustomNotes.NOTE_OFFSET];
+		var result = NOTE_DATA_TO_STRUMLINE_MAP[strumlineSize][rawNoteData];
 		return result;
 	}
 

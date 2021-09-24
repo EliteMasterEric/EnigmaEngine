@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+package funkin.behavior.options;
+
 import flixel.input.gamepad.FlxGamepad;
 import flixel.FlxG;
 import flixel.input.FlxInput;

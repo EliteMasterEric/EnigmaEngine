@@ -58,14 +58,14 @@ class Enigma extends MusicBeatState
 	 */
 	public static final SHOW_CUSTOM_KEYBINDS:Map<Int, Bool> = [
 		0 => true, // Left 9K
-		1 => true, // Down 9K
+		1 => false, // Down 9K
 		2 => true, // Up 9K
 		3 => true, // Right 9K
-		4 => true, // Center
-		5 => false, // Alt Left 9K
+		4 => false, // Center
+		5 => true, // Alt Left 9K
 		6 => false, // Alt Down 9K
-		7 => false, // Alt Up 9K
-		8 => false, // Alt Right 9K
+		7 => true, // Alt Up 9K
+		8 => true, // Alt Right 9K
 	];
 
 	/**

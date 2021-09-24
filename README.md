@@ -50,6 +50,7 @@ Upcoming plans for modding support include:
 
 Enigma Engine also has the following features:
 * All the features of Kade v1.7, including custom keybinds, togglable anti-mash, better input detection, and more.
+* Support for 9-key songs with reworked charter and custom keybinds.
 
 ## Media
 

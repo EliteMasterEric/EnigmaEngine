@@ -15,10 +15,16 @@ package funkin.ui.state.options;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import funkin.const.Enigma;
+import funkin.behavior.options.PlayerSettings;
+import funkin.assets.Paths;
+import funkin.behavior.options.KeyBinds;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.util.FlxAxes;
 import flixel.FlxSubState;
 import funkin.behavior.options.Options.Option;
+import funkin.behavior.options.Controls;
+import funkin.behavior.options.CustomControls;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.tweens.FlxEase;
@@ -302,7 +308,7 @@ class EnigmaKeyBindMenu extends FlxSubState
 		{
 			for (i in 0...gpKeys.length)
 			{
-				if (!Custom.SHOW_CUSTOM_KEYBINDS[i])
+				if (!Enigma.SHOW_CUSTOM_KEYBINDS[i])
 				{
 					// Skip this keybind.
 					continue;
@@ -316,7 +322,7 @@ class EnigmaKeyBindMenu extends FlxSubState
 		{
 			for (i in 0...keys.length)
 			{
-				if (!Custom.SHOW_CUSTOM_KEYBINDS[i])
+				if (!Enigma.SHOW_CUSTOM_KEYBINDS[i])
 				{
 					// Skip this keybind.
 					continue;
@@ -506,7 +512,7 @@ class EnigmaKeyBindMenu extends FlxSubState
 		 * If this goes before the lastKeybindIndex calls,
 		 * you get a stack overflow LOL.
 		 */
-		if (!Custom.SHOW_CUSTOM_KEYBINDS[curSelected])
+		if (!Enigma.SHOW_CUSTOM_KEYBINDS[curSelected])
 		{
 			// Skip this keybind and move to the next one.
 			// For example, if we hid the Center key, we'd go straight from index 3 to index 5 internally.
@@ -528,7 +534,7 @@ class CustomKeybindsOption extends Option
 	override public function press():Bool
 	{
 		var test = FlxG.save.data;
-		OptionsMenu.instance.openSubState(new CustomKeyBindMenu());
+		OptionsMenu.instance.openSubState(new EnigmaKeyBindMenu());
 		return false;
 	}
 

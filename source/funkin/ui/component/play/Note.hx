@@ -1,5 +1,8 @@
 package funkin.ui.component.play;
 
+import funkin.ui.state.charting.ChartingState;
+import funkin.util.NoteUtil;
+import funkin.behavior.play.EnigmaNote;
 import flixel.addons.effects.FlxSkewedSprite;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -45,19 +48,29 @@ class Note extends FlxSprite
 
 	public var noteYOff:Int = 0;
 
-	public var beat(default, set):Float = 0;
+	public var beat:Float = 0;
 
-	function set_beat(newBeat)
+	public var noteType(default, set):String = "normal";
+
+	function set_noteType(newValue:String):String
 	{
-		// Prevent setting to null.
-		if (newBeat == null)
-		{
-			return beat = 0;
-		}
-		return beat = newBeat;
+		this.noteType = newValue;
+		// Changing the note style triggers a re-render.
+		buildNoteGraphic();
+		return this.noteType;
 	}
 
-	public var noteType:String = "normal";
+	public var noteStyle(default, set):String = 'normal';
+
+	function set_noteStyle(newValue:String):String
+	{
+		this.noteStyle = newValue;
+		// Changing the note style triggers a re-render.
+		buildNoteGraphic();
+		return this.noteStyle;
+	}
+
+	public var inCharter:Bool = false;
 
 	public static var swagWidth:Float = 160 * 0.7;
 	public static var PURP_NOTE:Int = 0;
@@ -105,13 +118,15 @@ class Note extends FlxSprite
 		this.noteType = noteType;
 
 		this.prevNote = prevNote;
+		this.inCharter = inCharter;
+
 		isSustainNote = sustainNote;
 
 		x += 50;
 		// MAKE SURE ITS DEFINITELY OFF SCREEN?
 		y -= 2000;
 
-		if (inCharter)
+		if (this.inCharter)
 		{
 			this.strumTime = strumTime;
 			rStrumTime = strumTime;
@@ -134,16 +149,14 @@ class Note extends FlxSprite
 		if (this.strumTime < 0)
 			this.strumTime = 0;
 
-		if (!inCharter)
+		if (!this.inCharter)
 			y += FlxG.save.data.offset + PlayState.songOffset;
 
 		this.rawNoteData = rawNoteData;
 		this.noteData = NoteUtil.getStrumlineIndex(rawNoteData, PlayState.SONG.strumlineSize);
 
-		var daStage:String = PlayState.Stage.curStage;
-
 		// defaults if no noteStyle was found in chart
-		var noteTypeCheck:String = 'normal';
+		this.noteStyle = 'normal';
 
 		if (inCharter)
 		{
@@ -151,7 +164,7 @@ class Note extends FlxSprite
 			// Add special handling to get the current note type from there.
 			if (ChartingState._song != null)
 			{
-				noteTypeCheck = ChartingState._song.noteStyle;
+				this.noteStyle = ChartingState._song.noteStyle;
 			}
 		}
 		else
@@ -161,18 +174,23 @@ class Note extends FlxSprite
 				switch (PlayState.storyWeek)
 				{
 					case 6:
-						noteTypeCheck = 'pixel';
+						this.noteStyle = 'pixel';
 				}
 			}
 			else
 			{
-				noteTypeCheck = PlayState.SONG.noteStyle;
+				this.noteStyle = PlayState.SONG.noteStyle;
 			}
 		}
 
+		buildNoteGraphic();
+	}
+
+	function buildNoteGraphic()
+	{
 		// All the code that builds a note sprite that was in here has been moved to a different file.
 		// That makes it really easy for me to add new notes.
-		EnigmaNote.loadNoteSprite(this, noteTypeCheck, this.rawNoteData, isSustainNote, PlayState.SONG.strumlineSize);
+		EnigmaNote.loadNoteSprite(this, this.noteStyle, this.noteType, this.rawNoteData, isSustainNote, PlayState.SONG.strumlineSize);
 
 		x += NoteUtil.getNoteOffset(this.noteData, PlayState.SONG.strumlineSize);
 
@@ -212,7 +230,7 @@ class Note extends FlxSprite
 		// THIS DOESN'T FUCKING FLIP THE NOTE, CONTRIBUTERS DON'T JUST COMMENT THIS OUT JESUS
 		// then what is this lol
 		// BRO IT LITERALLY SAYS IT FLIPS IF ITS A TRAIL AND ITS DOWNSCROLL
-		if (FlxG.save.data.downscroll && sustainNote)
+		if (FlxG.save.data.downscroll && this.isSustainNote)
 			flipY = true;
 
 		var stepHeight = (((0.45 * Conductor.stepCrochet) / (PlayState.songMultiplier < 1 ? PlayState.songMultiplier : 1)) * FlxMath.roundDecimal(PlayStateChangeables.scrollSpeed == 1 ? PlayState.SONG.speed : PlayStateChangeables.scrollSpeed,
@@ -236,9 +254,7 @@ class Note extends FlxSprite
 
 			x -= width / 2;
 
-			// if (noteTypeCheck == 'pixel')
-			//	x += 30;
-			if (inCharter)
+			if (this.inCharter)
 				x += 30;
 
 			if (prevNote.isSustainNote)

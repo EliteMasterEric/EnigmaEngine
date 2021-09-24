@@ -103,7 +103,7 @@ class Song
 
 			var songDataPath = Paths.json(songFolderLowercase + '/' + songJsonFile.toLowerCase());
 
-			var songExists = Assets.exists(songDataPath);
+			var songExists = OpenFlAssets.exists(songDataPath);
 
 			// If any song doesn't exist, return false.
 			if (!songExists)
@@ -221,11 +221,11 @@ class Song
 		/**
 		 * Default values.
 		 */
-		if (swagShit.noteStyle == null)
-			swagShit.noteStyle = "normal";
+		if (songData.noteStyle == null)
+			songData.noteStyle = "normal";
 
-		if (swagShit.strumlineSize == null)
-			swagShit.strumlineSize = 4;
+		if (songData.strumlineSize == null)
+			songData.strumlineSize = 4;
 
 		if (songData.validScore == null)
 			songData.validScore = true;

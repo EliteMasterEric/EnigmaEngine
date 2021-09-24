@@ -203,7 +203,7 @@ class MainMenuState extends MusicBeatState
 
 	function goToState()
 	{
-		var currentMenuOption:String = mainMenuOption[curSelected];
+		var currentMenuOption:String = mainMenuOptions[curSelected];
 
 		switch (currentMenuOption)
 		{
