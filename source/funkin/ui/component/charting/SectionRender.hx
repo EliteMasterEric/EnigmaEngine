@@ -1,9 +1,11 @@
-import flixel.FlxG;
-import flixel.util.FlxColor;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import Section.SwagSection;
+package funkin.ui.component.charting;
+
 import flixel.addons.display.FlxGridOverlay;
+import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.util.FlxColor;
+import funkin.behavior.play.Section.SwagSection;
 
 class SectionRender extends FlxSprite
 {

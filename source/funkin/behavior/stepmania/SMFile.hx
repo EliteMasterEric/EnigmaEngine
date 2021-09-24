@@ -1,10 +1,12 @@
-#if FEATURE_STEPMANIA
-package stepmania;
+package funkin.behavior.stepmania;
 
-import sys.io.File;
+#if FEATURE_STEPMANIA
+import funkin.behavior.play.Section.SwagSection;
+import funkin.behavior.play.TimingStruct;
+import funkin.behavior.play.Song;
 import haxe.Exception;
 import lime.app.Application;
-import Section.SwagSection;
+import sys.io.File;
 import tjson.TJSON;
 
 class SMFile

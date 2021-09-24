@@ -1,3 +1,5 @@
+package funkin.behavior;
+
 import flixel.system.FlxAssets;
 
 class ShaderShader extends FlxShader

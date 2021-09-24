@@ -1,3 +1,7 @@
+package funkin.behavior;
+
+import funkin.ui.state.play.PlayState;
+
 class EtternaFunctions
 {
 	// erf constants

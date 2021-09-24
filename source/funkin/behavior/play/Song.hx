@@ -1,11 +1,14 @@
 package funkin.behavior.play;
 
+import funkin.assets.Paths;
+import funkin.behavior.play.Song.SongEvent;
 import funkin.behavior.play.Section.SwagSection;
 import openfl.utils.Assets as OpenFlAssets;
+import tjson.TJSON;
 
 using hx.strings.Strings;
 
-class Event
+class SongEvent
 {
 	public var name:String;
 	public var position:Float;
@@ -39,7 +42,7 @@ typedef SongData =
 
 	var chartVersion:String;
 	var notes:Array<SwagSection>;
-	var eventObjects:Array<Event>;
+	var eventObjects:Array<SongEvent>;
 	var bpm:Float;
 	var needsVoices:Bool;
 	var speed:Float;
@@ -69,7 +72,7 @@ class Song
 			rawJson = rawJson.substr(0, rawJson.length - 1);
 			// LOL GOING THROUGH THE BULLSHIT TO CLEAN IDK WHATS STRANGE
 		}
-		var jsonData = Json.parse(rawJson);
+		var jsonData = TJSON.parse(rawJson);
 
 		return parseJSONshit("rawsong", jsonData, ["name" => jsonData.name]);
 	}
@@ -92,10 +95,10 @@ class Song
 
 		var index = 0;
 		trace("conversion stuff " + song.songId + " " + song.notes.length);
-		var convertedStuff:Array<Song.Event> = [];
+		var convertedStuff:Array<SongEvent> = [];
 
 		if (song.eventObjects == null)
-			song.eventObjects = [new Song.Event("Init BPM", 0, song.bpm, "BPM Change")];
+			song.eventObjects = [new SongEvent("Init BPM", 0, song.bpm, "BPM Change")];
 
 		for (i in song.eventObjects)
 		{
@@ -104,7 +107,7 @@ class Song
 			var pos = Reflect.field(i, "position");
 			var value = Reflect.field(i, "value");
 
-			convertedStuff.push(new Song.Event(name, pos, value, type));
+			convertedStuff.push(new SongEvent(name, pos, value, type));
 		}
 
 		song.eventObjects = convertedStuff;
@@ -160,7 +163,7 @@ class Song
 			{
 				trace("converting changebpm for section " + index);
 				ba = i.bpm;
-				song.eventObjects.push(new Song.Event("FNF BPM Change " + index, beat, i.bpm, "BPM Change"));
+				song.eventObjects.push(new SongEvent("FNF BPM Change " + index, beat, i.bpm, "BPM Change"));
 			}
 
 			for (ii in i.sectionNotes)

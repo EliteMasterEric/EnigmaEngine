@@ -1,4 +1,4 @@
-package funkin.behavior.play;
+package funkin.behavior.options;
 
 import flixel.FlxG;
 import flixel.input.FlxInput;

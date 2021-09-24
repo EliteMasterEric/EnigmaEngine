@@ -1,6 +1,11 @@
+package funkin.behavior;
+
+import funkin.behavior.options.PlayerSettings;
+import funkin.behavior.options.KeyBinds;
+import funkin.behavior.play.Conductor;
+import flixel.FlxG;
 import flixel.input.gamepad.FlxGamepad;
 import openfl.Lib;
-import flixel.FlxG;
 
 class SaveData
 {

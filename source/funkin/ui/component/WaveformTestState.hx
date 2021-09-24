@@ -1,5 +1,7 @@
-package;
+package funkin.ui.component;
 
+import funkin.ui.state.play.PlayState;
+import funkin.assets.Paths;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;

@@ -1,3 +1,7 @@
+package funkin.const;
+
+import funkin.ui.state.MusicBeatState;
+
 /**
  * Static class which contains compiler flags and other useful info.
  */

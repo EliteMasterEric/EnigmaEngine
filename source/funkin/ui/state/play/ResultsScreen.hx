@@ -1,35 +1,48 @@
 package funkin.ui.state.play;
 
+import funkin.util.Util;
+import flixel.effects.FlxFlicker;
+import flixel.FlxG;
+import flixel.FlxObject;
+import flixel.FlxSprite;
+import flixel.FlxSubState;
+import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.input.FlxInput;
+import flixel.input.FlxKeyManager;
+import flixel.input.keyboard.FlxKey;
+import flixel.math.FlxMath;
+import flixel.system.FlxSound;
+import flixel.text.FlxText;
+import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxAxes;
+import flixel.util.FlxColor;
+import funkin.assets.Paths;
+import funkin.behavior.options.KeyBinds;
+import funkin.behavior.options.Options.Option;
+import funkin.behavior.options.PlayerSettings;
+import funkin.behavior.play.Conductor;
+import funkin.behavior.play.Highscore;
+import funkin.behavior.play.Ratings;
+import funkin.ui.component.OFLSprite;
+import funkin.ui.component.play.HitGraph;
+import funkin.ui.state.menu.FreeplayState;
+import funkin.ui.state.menu.MainMenuState;
+import funkin.util.HelperFunctions;
+import funkin.util.HelperFunctions;
 import haxe.Exception;
+import lime.app.Application;
+import openfl.display.BitmapData;
+import openfl.geom.Matrix;
 #if FEATURE_STEPMANIA
-import stepmania.SMFile;
+import funkin.behavior.stepmania.SMFile;
 #end
 #if FEATURE_FILESYSTEM
 import sys.FileSystem;
 import sys.io.File;
 #end
-import openfl.geom.Matrix;
-import openfl.display.BitmapData;
-import flixel.system.FlxSound;
-import flixel.util.FlxAxes;
-import flixel.FlxSubState;
-import Options.Option;
-import flixel.input.FlxInput;
-import flixel.input.keyboard.FlxKey;
-import flixel.FlxG;
-import flixel.FlxObject;
-import flixel.FlxSprite;
-import flixel.effects.FlxFlicker;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.text.FlxText;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
-import flixel.util.FlxColor;
-import lime.app.Application;
-import flixel.math.FlxMath;
-import flixel.text.FlxText;
-import flixel.input.FlxKeyManager;
 
 using StringTools;
 
@@ -159,7 +172,7 @@ class ResultsScreen extends FlxSubState
 		mean = HelperFunctions.truncateFloat(mean / PlayState.rep.replay.songNotes.length, 2);
 
 		settingsText = new FlxText(20, FlxG.height + 50, 0,
-			'SF: ${PlayState.rep.replay.sf} | Ratio (SA/GA): ${Math.round(sicks)}:1 ${Math.round(goods)}:1 | Mean: ${mean}ms | Played on ${PlayState.SONG.songName} ${CoolUtil.difficultyFromInt(PlayState.storyDifficulty).toUpperCase()}');
+			'SF: ${PlayState.rep.replay.sf} | Ratio (SA/GA): ${Math.round(sicks)}:1 ${Math.round(goods)}:1 | Mean: ${mean}ms | Played on ${PlayState.SONG.songName} ${Util.difficultyFromInt(PlayState.storyDifficulty).toUpperCase()}');
 		settingsText.size = 16;
 		settingsText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 2, 1);
 		settingsText.color = FlxColor.WHITE;

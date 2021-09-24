@@ -1,8 +1,10 @@
 package funkin.behavior.play;
 
-import openfl.system.System;
+import funkin.util.HelperFunctions;
 import flixel.math.FlxMath;
-import Song.SongData;
+import funkin.behavior.play.Song.SongData;
+import funkin.ui.state.menu.FreeplayState;
+import openfl.system.System;
 
 class SmallNote // basically Note.hx but small as fuck
 {

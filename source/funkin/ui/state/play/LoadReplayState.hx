@@ -1,21 +1,29 @@
 package funkin.ui.state.play;
 
-import haxe.Exception;
-import lime.app.Application;
-#if FEATURE_STEPMANIA
-import stepmania.SMFile;
-#end
-import Controls.KeyboardScheme;
-import Controls.Control;
+import funkin.behavior.play.Song;
+import funkin.ui.state.options.OptionsMenu;
+import funkin.behavior.play.Replay;
+import funkin.util.Util;
+import funkin.assets.Paths;
 import flash.text.TextField;
+import flixel.addons.display.FlxGridOverlay;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.addons.display.FlxGridOverlay;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.keyboard.FlxKey;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import funkin.behavior.options.Controls.Control;
+import funkin.behavior.options.Controls.KeyboardScheme;
+import funkin.ui.component.Alphabet;
+import funkin.ui.state.menu.FreeplayState;
+import funkin.ui.state.menu.FreeplayState.FreeplaySongMetadata;
+import haxe.Exception;
+import lime.app.Application;
+#if FEATURE_STEPMANIA
+import funkin.behavior.stepmania.SMFile;
+#end
 #if FEATURE_FILESYSTEM
 import sys.FileSystem;
 import sys.io.File;
@@ -26,7 +34,7 @@ class LoadReplayState extends MusicBeatState
 	var selector:FlxText;
 	var curSelected:Int = 0;
 
-	var songs:Array<FreeplayState.FreeplaySongMetadata> = [];
+	var songs:Array<FreeplaySongMetadata> = [];
 
 	var controlsStrings:Array<String> = [];
 	var actualNames:Array<String> = [];
@@ -60,7 +68,7 @@ class LoadReplayState extends MusicBeatState
 			var string:String = controlsStrings[i];
 			actualNames[i] = string;
 			var rep:Replay = Replay.LoadReplay(string);
-			controlsStrings[i] = string.split("time")[0] + " " + CoolUtil.difficultyFromInt(rep.replay.songDiff).toUpperCase();
+			controlsStrings[i] = string.split("time")[0] + " " + Util.difficultyFromInt(rep.replay.songDiff).toUpperCase();
 		}
 
 		if (controlsStrings.length == 0)
@@ -115,7 +123,7 @@ class LoadReplayState extends MusicBeatState
 		var week:Int = 0;
 		for (i in 0...songs.length)
 		{
-			var pog:FreeplayState.FreeplaySongMetadata = songs[i];
+			var pog:FreeplaySongMetadata = songs[i];
 			if (pog.songName == songName)
 				week = pog.week;
 		}
@@ -124,7 +132,7 @@ class LoadReplayState extends MusicBeatState
 
 	public function addSong(songName:String, weekNum:Int, songCharacter:String)
 	{
-		songs.push(new FreeplayState.FreeplaySongMetadata(songName, weekNum, songCharacter));
+		songs.push(new FreeplaySongMetadata(songName, weekNum, songCharacter));
 	}
 
 	public function addWeek(songs:Array<String>, weekNum:Int, ?songCharacters:Array<String>)

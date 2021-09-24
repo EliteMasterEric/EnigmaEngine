@@ -1,13 +1,25 @@
-import lime.app.Application;
-import polymod.Polymod.PolymodError;
+package funkin.behavior;
+
+import funkin.util.Util;
+import haxe.CallStack;
+import openfl.events.UncaughtErrorEvent;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.system.debug.log.LogStyle;
 import flixel.system.debug.watch.Tracker.TrackerProfile;
 import flixel.util.FlxStringUtil;
+import funkin.behavior.play.Song.SongData;
+import funkin.const.Enigma;
+import funkin.ui.component.play.Character;
+import funkin.ui.component.play.HealthIcon;
+import funkin.ui.component.play.Note;
+import funkin.behavior.play.Song;
+import funkin.ui.state.menu.FreeplayState;
+import funkin.ui.state.play.PlayState;
 import haxe.Log;
 import haxe.PosInfos;
-import Song.SongData;
+import lime.app.Application;
+import polymod.Polymod.PolymodError;
 
 using StringTools;
 
@@ -207,8 +219,42 @@ class Debug
 		logInfo('HaxeFlixel version: ${Std.string(FlxG.VERSION)}');
 		logInfo('Friday Night Funkin\' version: ${Enigma.GAME_VERSION}');
 		logInfo('Enigma Engine version: ${Enigma.ENGINE_VERSION}');
+
+		// Add a crash handler.
+		// openfl.Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onUncaughtError);
 	}
 
+	/*
+		static function onUncaughtError(error:UncaughtErrorEvent)
+		{
+			logError('FATAL ERROR: An uncaught error was thrown by OpenFL.');
+
+			var errorCallStack:Array<StackItem> = CallStack.exceptionStack(true);
+
+			for (line in errorCallStack)
+			{
+				switch (line)
+				{
+					case CFunction:
+						logError('  function:');
+					case Module(m):
+						logError('  module:${m}');
+					case FilePos(s, file, line, column):
+						logError('  (${file}#${line},${column})');
+					case Method(className, method):
+						logError('  method:(${className}/${method}');
+					case LocalFunction(v):
+						logError('  localFunction:${v}');
+				}
+			}
+
+			logError('ADDITIONAL INFO:');
+			logError('Type of instigator: ${Util.getTypeName(error.error)}');
+			displayAlert('Fatal Crash Error',
+				'A fatal error has occurred. ' +
+				'Please retrieve your log file from the "logs" folder and report it to the GitHub page: https://github.com/EnigmaEngine/EnigmaEngine');
+		}
+	 */
 	/**
 	 * The game runs this function when it starts, but after Flixel is initialized.
 	 */

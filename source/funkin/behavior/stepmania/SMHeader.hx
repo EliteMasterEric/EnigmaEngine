@@ -1,5 +1,10 @@
+package funkin.behavior.stepmania;
+
 #if FEATURE_STEPMANIA
-package stepmania;
+import funkin.behavior.play.Song;
+import funkin.behavior.play.Song.SongEvent;
+import funkin.behavior.play.TimingStruct;
+import funkin.util.HelperFunctions;
 
 class SMHeader
 {
@@ -17,7 +22,7 @@ class SMHeader
 	public var OFFSET = "";
 	public var BPMS = ""; // time=bpm
 
-	public var changeEvents:Array<Song.Event>;
+	public var changeEvents:Array<SongEvent>;
 
 	public function new(headerData:Array<String>)
 	{
@@ -75,7 +80,7 @@ class SMHeader
 					TimingStruct.AllTimings[currentIndex].startTime = data.startTime + data.length;
 				}
 
-				changeEvents.push(new Song.Event(HelperFunctions.truncateFloat(beat, 0) + "SM", beat, bpm, "BPM Change"));
+				changeEvents.push(new SongEvent(HelperFunctions.truncateFloat(beat, 0) + "SM", beat, bpm, "BPM Change"));
 
 				if (bpmSplit.length == 1)
 					break;

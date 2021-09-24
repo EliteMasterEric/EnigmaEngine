@@ -1,22 +1,26 @@
-package;
+package funkin.ui.state.menu;
 
-import flixel.input.gamepad.FlxGamepad;
-import Controls.KeyboardScheme;
+import funkin.ui.state.title.TitleState;
+import flixel.effects.FlxFlicker;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.effects.FlxFlicker;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.input.gamepad.FlxGamepad;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import lime.app.Application;
+import funkin.assets.Paths;
+import funkin.const.Enigma;
+import funkin.ui.state.options.OptionsMenu;
 #if FEATURE_DISCORD
-import Discord.DiscordClient;
+import funkin.behavior.api.Discord.DiscordClient;
 #end
+import funkin.behavior.options.Controls.KeyboardScheme;
+import lime.app.Application;
 
 using StringTools;
 

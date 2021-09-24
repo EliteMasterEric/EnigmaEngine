@@ -1,5 +1,9 @@
 package funkin.ui.state.title;
 
+import funkin.ui.state.menu.MainMenuState;
+import funkin.util.FunneUtil;
+import funkin.const.Enigma;
+import funkin.assets.Paths;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;

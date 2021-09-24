@@ -1,7 +1,7 @@
 package funkin.behavior.play;
 
-import Song.SongData;
 import flixel.FlxG;
+import funkin.behavior.play.Song.SongData;
 
 /**
  * ...

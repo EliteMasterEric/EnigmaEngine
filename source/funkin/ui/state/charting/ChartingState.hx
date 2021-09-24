@@ -1,35 +1,31 @@
-package;
+package funkin.ui.state.charting;
 
-import Song.SongMeta;
-import openfl.system.System;
-import lime.app.Application;
-#if FEATURE_FILESYSTEM
-import sys.io.File;
-import sys.FileSystem;
+import funkin.assets.Paths;
+import funkin.util.Util;
+import funkin.util.HelperFunctions;
+import funkin.behavior.play.Song;
+#if FEATURE_DISCORD
+import funkin.behavior.api.Discord.DiscordClient;
 #end
-import flixel.addons.ui.FlxUIButton;
-import flixel.addons.ui.StrNameLabel;
-import flixel.FlxCamera;
-import flixel.FlxObject;
-import flixel.addons.ui.FlxUIText;
-import haxe.zip.Writer;
-import Conductor.BPMChangeEvent;
-import Section.SwagSection;
-import Song.SongData;
-import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.ui.FlxInputText;
-import flixel.addons.ui.FlxUI9SliceSprite;
 import flixel.addons.ui.FlxUI;
+import flixel.addons.ui.FlxUI9SliceSprite;
+import flixel.addons.ui.FlxUIButton;
 import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUIDropDownMenu;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxUITabMenu;
+import flixel.addons.ui.FlxUIText;
 import flixel.addons.ui.FlxUITooltip.FlxUITooltipStyle;
-import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.addons.ui.StrNameLabel;
+import flixel.FlxCamera;
+import flixel.FlxG;
+import flixel.FlxObject;
+import flixel.FlxSprite;
 import flixel.group.FlxGroup;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.system.FlxSound;
@@ -37,17 +33,36 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.ui.FlxSpriteButton;
 import flixel.util.FlxColor;
-import tjson.TJSON;
+import funkin.behavior.play.Conductor;
+import funkin.behavior.play.Conductor.BPMChangeEvent;
+import funkin.behavior.play.Section.SwagSection;
+import funkin.behavior.play.Song.SongData;
+import funkin.behavior.play.Song.SongEvent;
+import funkin.behavior.play.Song.SongMeta;
+import funkin.behavior.play.TimingStruct;
+import funkin.ui.component.play.Boyfriend;
+import funkin.ui.component.play.Character;
+import funkin.ui.component.play.HealthIcon;
+import funkin.ui.component.play.Note;
+import funkin.ui.component.charting.ChartingBox;
+import funkin.ui.component.charting.SectionRender;
+import funkin.ui.component.Waveform;
+import funkin.ui.state.play.PlayState;
+import haxe.zip.Writer;
+import lime.app.Application;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
 import openfl.events.IOErrorEvent;
 import openfl.events.IOErrorEvent;
 import openfl.media.Sound;
 import openfl.net.FileReference;
+import openfl.system.System;
 import openfl.utils.ByteArray;
-#if FEATURE_DISCORD
-import Discord.DiscordClient;
+#if FEATURE_FILESYSTEM
+import sys.io.File;
+import sys.FileSystem;
 #end
+import tjson.TJSON;
 
 using StringTools;
 
@@ -249,10 +264,10 @@ class ChartingState extends MusicBeatState
 		var index = 0;
 
 		if (_song.eventObjects == null)
-			_song.eventObjects = [new Song.Event("Init BPM", 0, _song.bpm, "BPM Change")];
+			_song.eventObjects = [new SongEvent("Init BPM", 0, _song.bpm, "BPM Change")];
 
 		if (_song.eventObjects.length == 0)
-			_song.eventObjects = [new Song.Event("Init BPM", 0, _song.bpm, "BPM Change")];
+			_song.eventObjects = [new SongEvent("Init BPM", 0, _song.bpm, "BPM Change")];
 
 		trace("goin");
 
@@ -547,7 +562,7 @@ class ChartingState extends MusicBeatState
 	var savedValue:String = "100";
 	var currentEventPosition:Float = 0;
 
-	function containsName(name:String, events:Array<Song.Event>):Song.Event
+	function containsName(name:String, events:Array<SongEvent>):SongEvent
 	{
 		for (i in events)
 		{
@@ -559,7 +574,7 @@ class ChartingState extends MusicBeatState
 		return null;
 	}
 
-	public var chartEvents:Array<Song.Event> = [];
+	public var chartEvents:Array<SongEvent> = [];
 
 	public var Typeables:Array<FlxUIInputText> = [];
 
@@ -567,7 +582,7 @@ class ChartingState extends MusicBeatState
 	{
 		if (_song.eventObjects == null)
 		{
-			_song.eventObjects = [new Song.Event("Init BPM", 0, _song.bpm, "BPM Change")];
+			_song.eventObjects = [new SongEvent("Init BPM", 0, _song.bpm, "BPM Change")];
 		}
 
 		var firstEvent = "";
@@ -586,7 +601,7 @@ class ChartingState extends MusicBeatState
 		var eventValue = new FlxUIInputText(150, 60, 80, "");
 		var eventSave = new FlxButton(10, 155, "Save Event", function()
 		{
-			var pog:Song.Event = new Song.Event(currentSelectedEventName, currentEventPosition, HelperFunctions.truncateFloat(Std.parseFloat(savedValue), 3),
+			var pog:SongEvent = new SongEvent(currentSelectedEventName, currentEventPosition, HelperFunctions.truncateFloat(Std.parseFloat(savedValue), 3),
 				savedType);
 
 			trace("trying to save " + currentSelectedEventName);
@@ -662,7 +677,7 @@ class ChartingState extends MusicBeatState
 		var eventPos = new FlxUIInputText(150, 100, 80, "");
 		var eventAdd = new FlxButton(95, 155, "Add Event", function()
 		{
-			var pog:Song.Event = new Song.Event("New Event " + HelperFunctions.truncateFloat(curDecimalBeat, 3),
+			var pog:SongEvent = new SongEvent("New Event " + HelperFunctions.truncateFloat(curDecimalBeat, 3),
 				HelperFunctions.truncateFloat(curDecimalBeat, 3), _song.bpm, "BPM Change");
 
 			trace("adding " + pog.name);
@@ -758,7 +773,7 @@ class ChartingState extends MusicBeatState
 
 			if (firstEvent == null)
 			{
-				_song.eventObjects.push(new Song.Event("Init BPM", 0, _song.bpm, "BPM Change"));
+				_song.eventObjects.push(new SongEvent("Init BPM", 0, _song.bpm, "BPM Change"));
 				firstEvent = _song.eventObjects[0];
 			}
 
@@ -844,7 +859,7 @@ class ChartingState extends MusicBeatState
 
 			trace(value);
 
-			var eventt = new Song.Event(name, pos, value, type);
+			var eventt = new SongEvent(name, pos, value, type);
 
 			chartEvents.push(eventt);
 			listofnames.push(name);
@@ -1056,10 +1071,10 @@ class ChartingState extends MusicBeatState
 			shiftNotes(Std.int(stepperShiftNoteDial.value), Std.int(stepperShiftNoteDialstep.value), Std.int(stepperShiftNoteDialms.value));
 		});
 
-		var characters:Array<String> = CoolUtil.coolTextFile(Paths.txt('data/characterList'));
-		var gfVersions:Array<String> = CoolUtil.coolTextFile(Paths.txt('data/gfVersionList'));
-		var stages:Array<String> = CoolUtil.coolTextFile(Paths.txt('data/stageList'));
-		var noteStyles:Array<String> = CoolUtil.coolTextFile(Paths.txt('data/noteStyleList'));
+		var characters:Array<String> = Util.coolTextFile(Paths.txt('data/characterList'));
+		var gfVersions:Array<String> = Util.coolTextFile(Paths.txt('data/gfVersionList'));
+		var stages:Array<String> = Util.coolTextFile(Paths.txt('data/stageList'));
+		var noteStyles:Array<String> = Util.coolTextFile(Paths.txt('data/noteStyleList'));
 
 		var player1DropDown = new FlxUIDropDownMenu(10, 100, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true), function(character:String)
 		{
@@ -1475,8 +1490,9 @@ class ChartingState extends MusicBeatState
 
 					var thing = ii.sectionNotes[ii.sectionNotes.length - 1];
 
-					var note:Note = new Note(strum, originalNote.noteData, originalNote.prevNote, originalNote.isSustainNote, true, originalNote.isAlt,
-						originalNote.beat);
+					var note:Note = new Note(strum, originalNote.noteData, originalNote.prevNote, originalNote.isSustainNote, true);
+					note.beat = (originalNote.beat == 0 ? TimingStruct.getBeatFromTime(strum) : originalNote.beat);
+					note.isAlt = originalNote.isAlt;
 					note.rawNoteData = originalNote.rawNoteData;
 					note.sustainLength = originalNote.sustainLength;
 					note.setGraphicSize(Math.floor(GRID_SIZE), Math.floor(GRID_SIZE));
@@ -3582,7 +3598,7 @@ class ChartingState extends MusicBeatState
 			"song": _song
 		};
 
-		var data:String = TJSON.stringify(json, "fancy");
+		var data:String = TJSON.encode(json, "fancy");
 
 		if ((data != null) && (data.length > 0))
 		{

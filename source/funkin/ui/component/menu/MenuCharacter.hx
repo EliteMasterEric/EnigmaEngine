@@ -1,8 +1,9 @@
-package;
+package funkin.ui.component.menu;
 
-import flixel.FlxSprite;
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
+import funkin.assets.Paths;
 
 class CharacterSetting
 {

@@ -1,18 +1,25 @@
+package funkin.ui.state.options;
+
+import funkin.ui.component.play.Note;
+import funkin.behavior.play.Conductor;
+import funkin.assets.Paths;
+import funkin.ui.component.play.Character;
+import funkin.ui.component.play.Boyfriend;
+import flixel.FlxCamera;
+import flixel.FlxG;
+import flixel.FlxObject;
+import flixel.FlxSprite;
+import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.math.FlxMath;
+import flixel.math.FlxPoint;
+import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import flixel.text.FlxText;
-import flixel.math.FlxMath;
-import flixel.FlxCamera;
-import flixel.math.FlxPoint;
-import flixel.FlxObject;
 #if FEATURE_DISCORD
-import Discord.DiscordClient;
+import funkin.behavior.api.Discord.DiscordClient;
 #end
-import flixel.group.FlxGroup.FlxTypedGroup;
 import openfl.ui.Keyboard;
-import flixel.FlxSprite;
-import flixel.FlxG;
 
 class GameplayCustomizeState extends MusicBeatState
 {

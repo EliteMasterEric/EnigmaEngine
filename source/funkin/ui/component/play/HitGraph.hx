@@ -1,17 +1,20 @@
-import flixel.FlxG;
-import openfl.display.Bitmap;
-import openfl.display.BitmapData;
-import openfl.text.TextFieldAutoSize;
-import flixel.system.FlxAssets;
-import openfl.text.TextFormat;
+package funkin.ui.component.play;
+
+import funkin.ui.state.play.PlayState;
 import flash.display.Graphics;
 import flash.display.Shape;
 import flash.display.Sprite;
 import flash.text.TextField;
 import flash.text.TextFormatAlign;
+import flixel.FlxG;
 import flixel.math.FlxMath;
+import flixel.system.FlxAssets;
 import flixel.util.FlxColor;
 import flixel.util.FlxDestroyUtil;
+import openfl.display.Bitmap;
+import openfl.display.BitmapData;
+import openfl.text.TextFieldAutoSize;
+import openfl.text.TextFormat;
 
 /**
  * stolen from https://github.com/HaxeFlixel/flixel/blob/master/flixel/system/debug/stats/StatsGraph.hx

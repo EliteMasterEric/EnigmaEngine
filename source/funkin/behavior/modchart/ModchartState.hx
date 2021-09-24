@@ -1,29 +1,39 @@
+package funkin.behavior.modchart;
+
 // this file is for modchart things, this is to declutter playstate.hx
 // Lua
 #if FEATURE_LUAMODCHART
-import LuaClass.LuaGame;
-import LuaClass.LuaWindow;
-import LuaClass.LuaSprite;
-import LuaClass.LuaCamera;
-import LuaClass.LuaReceptor;
-import openfl.display3D.textures.VideoTexture;
-import flixel.graphics.FlxGraphic;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.tweens.FlxEase;
-import openfl.filters.ShaderFilter;
-import flixel.tweens.FlxTween;
-import flixel.util.FlxColor;
-import openfl.geom.Matrix;
-import openfl.display.BitmapData;
-import lime.app.Application;
-import flixel.FlxSprite;
-import llua.Convert;
-import llua.Lua;
-import llua.State;
-import llua.LuaL;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.graphics.FlxGraphic;
+import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
+import funkin.behavior.play.Conductor;
+import funkin.behavior.modchart.LuaClass;
+import funkin.behavior.modchart.LuaClass.LuaCamera;
+import funkin.behavior.modchart.LuaClass.LuaGame;
+import funkin.behavior.modchart.LuaClass.LuaReceptor;
+import funkin.behavior.modchart.LuaClass.LuaSprite;
+import funkin.behavior.modchart.LuaClass.LuaWindow;
+import funkin.ui.state.play.PlayState;
+import funkin.ui.state.menu.FreeplayState;
+import funkin.ui.effects.WiggleEffect;
+import funkin.assets.Paths;
+import funkin.ui.component.play.Boyfriend;
+import funkin.ui.component.play.Character;
+import lime.app.Application;
+import llua.Convert;
+import llua.Lua;
+import llua.LuaL;
+import llua.State;
+import openfl.display.BitmapData;
+import openfl.display3D.textures.VideoTexture;
+import openfl.filters.ShaderFilter;
+import openfl.geom.Matrix;
 
 class ModchartState
 {
@@ -260,7 +270,7 @@ class ModchartState
 		{
 			if (Std.parseInt(id) == null)
 				return Reflect.getProperty(PlayState.instance, id);
-			return PlayState.PlayState.strumLineNotes.members[Std.parseInt(id)];
+			return PlayState.strumLineNotes.members[Std.parseInt(id)];
 		}
 		return luaSprites.get(id);
 	}

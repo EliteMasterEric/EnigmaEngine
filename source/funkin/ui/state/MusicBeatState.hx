@@ -1,14 +1,18 @@
 package funkin.ui.state;
 
-import flixel.FlxBasic;
-#if FEATURE_DISCORD
-import Discord.DiscordClient;
-#end
-import flixel.util.FlxColor;
-import openfl.Lib;
-import Conductor.BPMChangeEvent;
-import flixel.FlxG;
+import funkin.behavior.play.TimingStruct;
+import funkin.behavior.options.PlayerSettings;
+import funkin.behavior.play.Conductor;
+import funkin.behavior.options.Controls;
 import flixel.addons.ui.FlxUIState;
+import flixel.FlxBasic;
+import flixel.FlxG;
+import flixel.util.FlxColor;
+#if FEATURE_DISCORD
+import funkin.behavior.api.Discord.DiscordClient;
+#end
+import funkin.behavior.play.Conductor.BPMChangeEvent;
+import openfl.Lib;
 
 class MusicBeatState extends FlxUIState
 {

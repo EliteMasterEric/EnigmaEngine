@@ -1,5 +1,8 @@
-import flixel.util.FlxColor;
+package funkin.ui.component.charting;
+
 import flixel.FlxSprite;
+import flixel.util.FlxColor;
+import funkin.ui.component.play.Note;
 
 class ChartingBox extends FlxSprite
 {

@@ -1,27 +1,28 @@
-package;
+package funkin.ui.state.modding;
 
-import flixel.group.FlxGroup;
+import funkin.behavior.mods.ModCore;
+import funkin.ui.component.modding.ModList;
+import flixel.addons.ui.interfaces.IFlxUIWidget;
+import funkin.ui.state.title.Caching;
+import funkin.ui.state.title.TitleState;
+import flixel.addons.ui.FlxUIList;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.group.FlxGroup;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import flixel.addons.ui.FlxUIList;
 import polymod.Polymod.ModMetadata;
 
 class ModMenuState extends MusicBeatState
 {
-	var unloadedMods = [];
-	var loadedMods = [];
+	var unloadedMods:Array<ModMetadata> = [];
+	var loadedMods:Array<ModMetadata> = [];
 
-	var unloadedModsList:FlxUIList;
-	var loadedModsList:FlxUIList;
-
-	// menu, left, right
-	var cursorArea = 'menu';
-	var selectionIndex = 0;
+	var unloadedModsUI:ModList;
+	var loadedModsUI:ModList;
 
 	override function create()
 	{
@@ -34,18 +35,49 @@ class ModMenuState extends MusicBeatState
 		txt.screenCenter();
 		add(txt);
 
+		unloadedModsUI = new ModList(20, 20, 300, FlxG.height - 20 - 20);
+		loadedModsUI = new ModList(20, 20, 300, FlxG.height - 20 - 20);
+
+		add(unloadedModsUI);
+		add(loadedModsUI);
+
+		initModLists();
+
 		super.create();
 	}
 
-	function updateModListUI()
+	function initModLists()
 	{
-		while (unloadedEntriesGroup.members.length > 0)
+		var modDatas = ModCore.getAllMods();
+
+		var loadedModIds = ModCore.getConfiguredMods();
+
+		if (loadedModIds != null)
 		{
-			unloadedEntriesGroup.remove(unloadedEntriesGroup.members[0], true);
+			// If loadedModIds != null, return.
+			loadedMods = modDatas.filter(function(m)
+			{
+				return loadedModIds.contains(m.id);
+			});
+			unloadedMods = modDatas.filter(function(m)
+			{
+				return !loadedModIds.contains(m.id);
+			});
 		}
-		while (loadedEntriesGroup.members.length > 0)
+		else
 		{
-			loadedEntriesGroup.remove(loadedEntriesGroup.members[0], true);
+			// We default to ALL mods loaded.
+			unloadedMods = [];
+			loadedMods = modDatas;
+		}
+
+		for (i in loadedMods)
+		{
+			loadedModsUI.addMod(i);
+		}
+		for (i in unloadedMods)
+		{
+			unloadedModsUI.addMod(i);
 		}
 	}
 
@@ -56,46 +88,5 @@ class ModMenuState extends MusicBeatState
 		#else
 		FlxG.switchState(new TitleState());
 		#end
-	}
-}
-
-class ModListEntry extends FlxGroup
-{
-	public var modId(default, null):String;
-
-	var modMetadata(default, null):ModMetadata;
-
-	// Name (version)
-	var uiTitle:FlxText;
-	var uiAuthor:FlxText;
-	var uiIcon:FlxSprite;
-
-	public function new(modId:String, modMetadata:ModMetadata)
-	{
-		this.modId = modId;
-		this.modMetadata = modMetadata;
-
-		loadIcon(modMetadata.icon);
-
-		super();
-	}
-
-	function loadIcon(bytes:haxe.io.Bytes)
-	{
-		// Convert a haxe byte array to the proper data structure.
-		var future = openfl.utils.ByteArray.loadFromBytes(bytes);
-
-		future.onComplete(function(openFlBytes:openfl.utils.ByteArray)
-		{
-			trace('Loaded icon bytes for mod ${modId}.');
-			// Convert the bytes into bitmap data.
-			var bitmapData = openfl.display.BitmapData.fromBytes(openFlBytes);
-			// Tie the bitmap data to a sprite.
-			uiIcon = new FlxSprite(0, 0).loadGraphic(bitmapData);
-		});
-		future.onError(function(error)
-		{
-			trace(error);
-		});
 	}
 }

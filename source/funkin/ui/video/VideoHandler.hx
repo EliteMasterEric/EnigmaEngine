@@ -1,6 +1,7 @@
 // This was made by GWebDev lol btw this uses actuate
 package funkin.ui.video;
 
+import flixel.FlxG;
 import motion.Actuate;
 import openfl.display.Sprite;
 import openfl.events.AsyncErrorEvent;
@@ -9,7 +10,6 @@ import openfl.events.NetStatusEvent;
 import openfl.media.Video;
 import openfl.net.NetConnection;
 import openfl.net.NetStream;
-import flixel.FlxG;
 
 using StringTools;
 

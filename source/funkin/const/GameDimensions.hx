@@ -1,4 +1,4 @@
-package;
+package funkin.const;
 
 class GameDimensions
 {

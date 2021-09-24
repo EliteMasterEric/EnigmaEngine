@@ -1,4 +1,4 @@
-package;
+package funkin.behavior;
 
 import flixel.system.FlxAssets.FlxShader;
 

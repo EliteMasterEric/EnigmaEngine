@@ -1,22 +1,29 @@
 package funkin.ui.state.play;
 
-import flixel.input.gamepad.FlxGamepad;
-import openfl.Lib;
-#if FEATURE_LUAMODCHART
-import llua.Lua;
-#end
-import Controls.Control;
+import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
-import flixel.addons.transition.FlxTransitionableState;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.input.gamepad.FlxGamepad;
 import flixel.input.keyboard.FlxKey;
 import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import funkin.assets.Paths;
+import funkin.behavior.options.Controls.Control;
+import funkin.behavior.options.KeyBinds;
+import funkin.ui.component.Alphabet;
+import funkin.ui.state.menu.FreeplayState;
+import funkin.ui.state.menu.StoryMenuState;
+import funkin.ui.video.GlobalVideo;
+import funkin.util.Util;
+#if FEATURE_LUAMODCHART
+import llua.Lua;
+#end
+import openfl.Lib;
 
 class PauseSubState extends MusicBeatSubstate
 {
@@ -60,7 +67,7 @@ class PauseSubState extends MusicBeatSubstate
 		add(levelInfo);
 
 		var levelDifficulty:FlxText = new FlxText(20, 15 + 32, 0, "", 32);
-		levelDifficulty.text += CoolUtil.difficultyFromInt(PlayState.storyDifficulty).toUpperCase();
+		levelDifficulty.text += Util.difficultyFromInt(PlayState.storyDifficulty).toUpperCase();
 		levelDifficulty.scrollFactor.set();
 		levelDifficulty.setFormat(Paths.font('vcr.ttf'), 32);
 		levelDifficulty.updateHitbox();

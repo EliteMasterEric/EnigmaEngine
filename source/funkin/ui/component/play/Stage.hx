@@ -1,14 +1,19 @@
-package;
+package funkin.ui.component.play;
 
-import flixel.FlxSprite;
-import flixel.FlxG;
+import funkin.behavior.play.Conductor;
+import funkin.behavior.play.PlayStateChangeables;
+import flixel.addons.effects.chainable.FlxWaveEffect;
 import flixel.FlxBasic;
+import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.group.FlxGroup;
 import flixel.system.FlxSound;
-import flixel.addons.effects.chainable.FlxWaveEffect;
-import flixel.util.FlxTimer;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxTimer;
+import funkin.ui.state.play.PlayState;
+import funkin.ui.state.MusicBeatState;
+import funkin.assets.Paths;
 
 class Stage extends MusicBeatState
 {
@@ -58,16 +63,16 @@ class Stage extends MusicBeatState
 		{
 			case 'halloween':
 				{
-						var hallowTex = Paths.getSparrowAtlas('halloween_bg', 'week2');
+					var hallowTex = Paths.getSparrowAtlas('halloween_bg', 'week2');
 
-						var halloweenBG = new FlxSprite(-200, -80);
-						halloweenBG.frames = hallowTex;
-						halloweenBG.animation.addByPrefix('idle', 'halloweem bg0');
-						halloweenBG.animation.addByPrefix('lightning', 'halloweem bg lightning strike', 24, false);
-						halloweenBG.animation.play('idle');
-						halloweenBG.antialiasing = FlxG.save.data.antialiasing;
-						swagBacks['halloweenBG'] = halloweenBG;
-					  toAdd.push(halloweenBG);
+					var halloweenBG = new FlxSprite(-200, -80);
+					halloweenBG.frames = hallowTex;
+					halloweenBG.animation.addByPrefix('idle', 'halloweem bg0');
+					halloweenBG.animation.addByPrefix('lightning', 'halloweem bg lightning strike', 24, false);
+					halloweenBG.animation.play('idle');
+					halloweenBG.antialiasing = FlxG.save.data.antialiasing;
+					swagBacks['halloweenBG'] = halloweenBG;
+					toAdd.push(halloweenBG);
 				}
 			case 'philly':
 				{
@@ -88,7 +93,6 @@ class Stage extends MusicBeatState
 					{
 						swagGroup['phillyCityLights'] = phillyCityLights;
 						toAdd.push(phillyCityLights);
-  
 					}
 
 					for (i in 0...5)

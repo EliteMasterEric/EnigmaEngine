@@ -1,3 +1,5 @@
+package funkin.behavior.mods;
+
 import flixel.FlxG;
 import polymod.Polymod;
 #if FEATURE_MODCORE
@@ -28,7 +30,7 @@ class ModCore
 	{
 		#if FEATURE_MODCORE
 		Debug.logInfo("Initializing ModCore (using all mods)...");
-		loadModsById(getModIds());
+		loadModsById(getAllModIds());
 		#else
 		Debug.logInfo("ModCore not initialized; not supported on this platform.");
 		#end
@@ -39,7 +41,7 @@ class ModCore
 		#if FEATURE_MODCORE
 		Debug.logInfo("Initializing ModCore (using user config)...");
 		Debug.logTrace('  User mod config: ${FlxG.save.data.modConfig}');
-		var userModConfig = loadModListFromSave();
+		var userModConfig = getConfiguredMods();
 		loadModsById(userModConfig);
 		#else
 		Debug.logInfo("ModCore not initialized; not supported on this platform.");
@@ -51,14 +53,14 @@ class ModCore
 	 * Otherwise, returns a list of ALL installed mods in alphabetical order.
 	 * @return The mod order to load.
 	 */
-	public static function loadModListFromSave():Array<String>
+	public static function getConfiguredMods():Array<String>
 	{
 		var rawSaveData = FlxG.save.data.modConfig;
 
 		if (rawSaveData != null)
 		{
-			var modIds = rawSaveData.split('~');
-			return modIds;
+			var modEntries = rawSaveData.split('~');
+			return modEntries;
 		}
 		else
 		{
@@ -143,22 +145,27 @@ class ModCore
 	public static function hasMods():Bool
 	{
 		#if FEATURE_MODCORE
-		return getModIds().length > 0;
+		return getAllMods().length > 0;
 		#else
 		return false;
 		#end
 	}
 
-	#if FEATURE_MODCORE
-	static function getModIds():Array<String>
+	public static function getAllMods():Array<ModMetadata>
 	{
 		Debug.logInfo('Scanning the mods folder...');
 		var modMetadata = Polymod.scan(MOD_DIRECTORY);
 		Debug.logInfo('Found ${modMetadata.length} mods when scanning.');
-		var modIds = [for (i in modMetadata) i.id];
+		return modMetadata;
+	}
+
+	public static function getAllModIds():Array<String>
+	{
+		var modIds = [for (i in getAllMods()) i.id];
 		return modIds;
 	}
 
+	#if FEATURE_MODCORE
 	static function buildParseRules():polymod.format.ParseRules
 	{
 		var output = polymod.format.ParseRules.getDefault();

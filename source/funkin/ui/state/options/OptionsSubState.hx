@@ -1,4 +1,4 @@
-package;
+package funkin.ui.state.options;
 
 import flixel.FlxG;
 import flixel.FlxSprite;

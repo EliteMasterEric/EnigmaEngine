@@ -1,7 +1,7 @@
 package funkin.ui.video;
 
 import faxe.Faxe;
-import SndTV;
+import funkin.ui.video.SndTV;
 
 using StringTools;
 

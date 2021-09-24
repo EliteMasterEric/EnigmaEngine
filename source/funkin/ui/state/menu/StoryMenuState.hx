@@ -1,21 +1,30 @@
-package;
+package funkin.ui.state.menu;
 
-import flixel.input.gamepad.FlxGamepad;
+import funkin.behavior.play.Highscore;
+import funkin.behavior.play.Song;
+import funkin.ui.state.play.PlayState;
+import funkin.behavior.play.Conductor;
+import funkin.behavior.play.Conductor;
+import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxGroup;
+import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.input.gamepad.FlxGamepad;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import lime.net.curl.CURLCode;
+import funkin.assets.Paths;
 #if FEATURE_DISCORD
-import Discord.DiscordClient;
+import funkin.behavior.api.Discord.DiscordClient;
 #end
+import funkin.ui.component.menu.MenuCharacter;
+import funkin.ui.component.menu.MenuItem;
+import funkin.util.Util;
+import lime.net.curl.CURLCode;
 
 using StringTools;
 
@@ -50,7 +59,7 @@ class StoryMenuState extends MusicBeatState
 		['senpai', 'bf', 'gf']
 	];
 
-	var weekNames:Array<String> = CoolUtil.coolTextFile(Paths.txt('data/weekNames'));
+	var weekNames:Array<String> = Util.coolTextFile(Paths.txt('data/weekNames'));
 
 	var txtWeekTitle:FlxText;
 

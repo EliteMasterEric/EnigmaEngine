@@ -1,12 +1,16 @@
-package;
+package funkin.ui.component.play;
 
-import flixel.util.FlxColor;
+import flixel.animation.FlxBaseAnimation;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.animation.FlxBaseAnimation;
 import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.util.FlxColor;
 import openfl.utils.Assets as OpenFlAssets;
-import haxe.Json;
+import funkin.behavior.Debug;
+import funkin.behavior.play.Conductor;
+import funkin.assets.Paths;
+import funkin.ui.state.play.PlayState;
+import funkin.util.Util;
 
 using StringTools;
 
@@ -457,7 +461,7 @@ class Character extends FlxSprite
 
 	public function loadOffsetFile(character:String, library:String = 'shared')
 	{
-		var offset:Array<String> = CoolUtil.coolTextFile(Paths.txt('images/characters/' + character + "Offsets", library));
+		var offset:Array<String> = Util.coolTextFile(Paths.txt('images/characters/' + character + "Offsets", library));
 
 		for (i in 0...offset.length)
 		{

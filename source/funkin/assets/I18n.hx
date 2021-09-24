@@ -1,4 +1,4 @@
-package i18n;
+package funkin.behavior.localization;
 
 class I18n
 {

@@ -1,9 +1,12 @@
 package funkin.ui.state.play;
 
+import funkin.assets.Paths;
+import funkin.ui.state.menu.FreeplayState;
+import funkin.ui.state.menu.StoryMenuState;
+import funkin.behavior.play.Conductor;
+import funkin.ui.component.play.Boyfriend;
 import flixel.FlxG;
 import flixel.FlxObject;
-import flixel.FlxSubState;
-import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 

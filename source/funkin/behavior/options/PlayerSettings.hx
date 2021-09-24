@@ -1,9 +1,9 @@
-package funkin.behavior.play;
+package funkin.behavior.options;
 
-import Controls;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.util.FlxSignal;
+import funkin.behavior.options.Controls;
 
 // import ui.DeviceManager;
 // import props.Player;

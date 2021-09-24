@@ -1,32 +1,35 @@
-#if FEATURE_FILESYSTEM
-package;
+package funkin.ui.state.title;
 
-import lime.app.Application;
-#if FEATURE_DISCORD
-import Discord.DiscordClient;
-#end
-import openfl.display.BitmapData;
-import openfl.utils.Assets as OpenFlAssets;
-import flixel.ui.FlxBar;
-import haxe.Exception;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
 #if FEATURE_FILESYSTEM
-import sys.FileSystem;
-import sys.io.File;
-#end
+import flixel.addons.transition.FlxTransitionableState;
+import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
+import flixel.addons.transition.TransitionData;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
-import flixel.addons.transition.FlxTransitionableState;
-import flixel.addons.transition.TransitionData;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
+import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import flixel.text.FlxText;
+import funkin.assets.Paths;
+import funkin.behavior.Debug;
+import funkin.behavior.SaveData;
+import funkin.behavior.options.PlayerSettings;
+#if FEATURE_DISCORD
+import funkin.behavior.api.Discord.DiscordClient;
+#end
+import funkin.util.HelperFunctions;
+import haxe.Exception;
+import lime.app.Application;
+import openfl.display.BitmapData;
+import openfl.utils.Assets as OpenFlAssets;
+import sys.FileSystem;
+import sys.io.File;
 
 using StringTools;
 

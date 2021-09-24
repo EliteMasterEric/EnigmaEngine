@@ -1,5 +1,8 @@
-package;
+package funkin.ui.state.modding;
 
+import funkin.assets.Paths;
+import funkin.ui.state.title.Caching;
+import funkin.ui.state.title.TitleState;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
@@ -7,6 +10,8 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import funkin.behavior.Debug;
+import funkin.behavior.mods.ModCore;
 
 class ModSplashState extends MusicBeatState
 {
@@ -16,7 +21,7 @@ class ModSplashState extends MusicBeatState
 	override function create()
 	{
 		#if FEATURE_MODCORE
-		var modsToLoad = ModCore.loadModListFromSave();
+		var modsToLoad = ModCore.getConfiguredMods();
 		configFound = (modsToLoad != null && modsToLoad.length > 0);
 		#else
 		configFound = false;

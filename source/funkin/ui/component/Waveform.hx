@@ -1,9 +1,11 @@
-import flixel.util.FlxColor;
+package funkin.ui.component;
+
 import flixel.FlxG;
-import openfl.geom.Rectangle;
+import flixel.FlxSprite;
+import flixel.util.FlxColor;
 import haxe.io.Bytes;
 import lime.media.AudioBuffer;
-import flixel.FlxSprite;
+import openfl.geom.Rectangle;
 
 class Waveform extends FlxSprite
 {

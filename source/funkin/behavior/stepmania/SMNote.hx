@@ -1,6 +1,6 @@
-#if FEATURE_STEPMANIA
-package stepmania;
+package funkin.behavior.stepmania;
 
+#if FEATURE_STEPMANIA
 class SMNote
 {
 	public var data:String;

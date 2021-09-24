@@ -1,27 +1,41 @@
-package;
+package funkin.ui.state.menu;
 
-import openfl.utils.Future;
-import openfl.media.Sound;
+import flixel.FlxCamera;
+import funkin.ui.state.debug.DiffOverview;
+import funkin.ui.state.charting.ChartingState;
+import flash.text.TextField;
+import flixel.addons.display.FlxGridOverlay;
+import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.input.gamepad.FlxGamepad;
+import flixel.math.FlxMath;
 import flixel.system.FlxSound;
-#if FEATURE_STEPMANIA
-import stepmania.SMFile;
+import flixel.text.FlxText;
+import flixel.util.FlxColor;
+import funkin.assets.Paths;
+import funkin.behavior.Debug;
+import funkin.behavior.play.Conductor;
+import funkin.behavior.play.DiffCalc;
+import funkin.behavior.play.Highscore;
+import funkin.util.Util;
+#if FEATURE_DISCORD
+import funkin.behavior.api.Discord.DiscordClient;
 #end
+import funkin.behavior.play.Song;
+import funkin.behavior.play.Song.SongData;
+#if FEATURE_STEPMANIA
+import funkin.behavior.stepmania.SMFile;
+#end
+import funkin.ui.component.Alphabet;
+import funkin.ui.component.play.HealthIcon;
+import funkin.ui.state.debug.AnimationDebug;
+import funkin.ui.state.play.PlayState;
+import openfl.media.Sound;
+import openfl.utils.Future;
 #if FEATURE_FILESYSTEM
 import sys.FileSystem;
 import sys.io.File;
-#end
-import Song.SongData;
-import flixel.input.gamepad.FlxGamepad;
-import flash.text.TextField;
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.addons.display.FlxGridOverlay;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.math.FlxMath;
-import flixel.text.FlxText;
-import flixel.util.FlxColor;
-#if FEATURE_DISCORD
-import Discord.DiscordClient;
 #end
 
 using StringTools;
@@ -207,7 +221,7 @@ class FreeplayState extends MusicBeatState
 	 */
 	static function populateSongData()
 	{
-		var initSonglist = CoolUtil.coolTextFile(Paths.txt('data/freeplaySonglist'));
+		var initSonglist = Util.coolTextFile(Paths.txt('data/freeplaySonglist'));
 
 		songData = [];
 		songs = [];
@@ -286,9 +300,9 @@ class FreeplayState extends MusicBeatState
 		var upP = FlxG.keys.justPressed.UP;
 		var downP = FlxG.keys.justPressed.DOWN;
 		var accepted = FlxG.keys.justPressed.ENTER;
-    var dadDebug = FlxG.keys.justPressed.SIX;
+		var dadDebug = FlxG.keys.justPressed.SIX;
 		var charting = FlxG.keys.justPressed.SEVEN;
-    var bfDebug = FlxG.keys.justPressed.ZERO;
+		var bfDebug = FlxG.keys.justPressed.ZERO;
 
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
@@ -379,35 +393,39 @@ class FreeplayState extends MusicBeatState
 		else if (charting)
 			loadSong(true);
 
-    // AnimationDebug and StageDebug are only enabled in debug builds.
-    #if debug
-    if (dadDebug) {
-      loadAnimDebug(true);
-    }
-    if (bfDebug) {
-      loadAnimDebug(false);
-    }
-    #end
+		// AnimationDebug and StageDebug are only enabled in debug builds.
+		#if debug
+		if (dadDebug)
+		{
+			loadAnimDebug(true);
+		}
+		if (bfDebug)
+		{
+			loadAnimDebug(false);
+		}
+		#end
 	}
 
-  function loadAnimDebug(dad:Bool = true) {
-    // First, get the song data.
-    var hmm;
-		try {
+	function loadAnimDebug(dad:Bool = true)
+	{
+		// First, get the song data.
+		var hmm;
+		try
+		{
 			hmm = songData.get(songs[curSelected].songName)[curDifficulty];
 			if (hmm == null)
 				return;
-		} catch(ex) {
+		}
+		catch (ex)
+		{
 			return;
 		}
 		PlayState.SONG = Song.conversionChecks(hmm);
 
-    var character = dad
-      ? PlayState.SONG.player2
-      : PlayState.SONG.player1;
+		var character = dad ? PlayState.SONG.player2 : PlayState.SONG.player1;
 
-    LoadingState.loadAndSwitchState(new AnimationDebug(character));
-  }
+		LoadingState.loadAndSwitchState(new AnimationDebug(character));
+	}
 
 	function loadSong(isCharting:Bool = false)
 	{
@@ -471,7 +489,7 @@ class FreeplayState extends MusicBeatState
 
 	function changeDiff(change:Int = 0)
 	{
-		if (!songs[curSelected].diffs.contains(CoolUtil.difficultyFromInt(curDifficulty + change)))
+		if (!songs[curSelected].diffs.contains(Util.difficultyFromInt(curDifficulty + change)))
 			return;
 
 		curDifficulty += change;
@@ -498,7 +516,7 @@ class FreeplayState extends MusicBeatState
 		combo = Highscore.getCombo(songHighscore, curDifficulty);
 		#end
 		diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songId)[curDifficulty])}';
-		diffText.text = CoolUtil.difficultyFromInt(curDifficulty).toUpperCase();
+		diffText.text = Util.difficultyFromInt(curDifficulty).toUpperCase();
 	}
 
 	function changeSelection(change:Int = 0)
@@ -547,7 +565,7 @@ class FreeplayState extends MusicBeatState
 		#end
 
 		diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songId)[curDifficulty])}';
-		diffText.text = CoolUtil.difficultyFromInt(curDifficulty).toUpperCase();
+		diffText.text = Util.difficultyFromInt(curDifficulty).toUpperCase();
 
 		#if PRELOAD_ALL
 		if (songs[curSelected].songCharacter == "sm")

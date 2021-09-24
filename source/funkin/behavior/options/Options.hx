@@ -1,10 +1,22 @@
-package;
+package funkin.behavior.options;
 
+import funkin.ui.state.LoadingState;
+import funkin.behavior.play.Song;
+import funkin.behavior.play.Highscore;
+import funkin.ui.state.menu.StoryMenuState;
+import funkin.ui.state.play.PlayState;
+import funkin.ui.state.options.GameplayCustomizeState;
+import funkin.ui.state.play.LoadReplayState;
+import funkin.util.HelperFunctions;
+import funkin.util.HelperFunctions;
+import funkin.behavior.play.Conductor;
+import funkin.ui.state.options.KeyBindMenu;
+import funkin.ui.state.options.OptionsMenu;
+import flixel.FlxG;
+import flixel.util.FlxColor;
+import funkin.behavior.options.Controls.KeyboardScheme;
 import lime.app.Application;
 import lime.system.DisplayMode;
-import flixel.util.FlxColor;
-import Controls.KeyboardScheme;
-import flixel.FlxG;
 import openfl.display.FPS;
 import openfl.Lib;
 

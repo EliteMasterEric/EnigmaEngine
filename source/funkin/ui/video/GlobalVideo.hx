@@ -1,5 +1,6 @@
 package funkin.ui.video;
 
+import funkin.const.GameDimensions;
 import openfl.Lib;
 
 class GlobalVideo

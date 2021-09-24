@@ -1,34 +1,38 @@
 package funkin.ui.state.title;
 
-import haxe.extern.EitherType;
-#if FEATURE_STEPMANIA
-import stepmania.SMFile;
-#end
+import funkin.behavior.play.Highscore;
+import funkin.ui.component.Alphabet;
+import funkin.const.Enigma;
+import funkin.ui.state.menu.MainMenuState;
+import funkin.behavior.play.Conductor;
+import funkin.assets.Paths;
+import funkin.behavior.SaveData;
+import funkin.behavior.options.PlayerSettings;
+import flixel.addons.transition.FlxTransitionableState;
+import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
+import flixel.addons.transition.TransitionData;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.addons.display.FlxGridOverlay;
-import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
-import flixel.addons.transition.FlxTransitionableState;
-import flixel.addons.transition.TransitionData;
 import flixel.graphics.FlxGraphic;
-import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
-import flixel.system.FlxSound;
-import flixel.system.ui.FlxSoundTray;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import lime.app.Application;
-import openfl.Assets;
+import funkin.behavior.Debug;
 #if FEATURE_DISCORD
-import Discord.DiscordClient;
+import funkin.behavior.api.Discord.DiscordClient;
 #end
+#if FEATURE_STEPMANIA
+import funkin.behavior.stepmania.SMFile;
+#end
+import haxe.extern.EitherType;
+import openfl.Assets;
 
 using StringTools;
 

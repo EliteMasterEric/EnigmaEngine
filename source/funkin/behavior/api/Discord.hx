@@ -1,8 +1,8 @@
 package funkin.behavior.api;
 
 #if FEATURE_DISCORD
-import Sys.sleep;
 import discord_rpc.DiscordRpc;
+import Sys.sleep;
 
 using StringTools;
 

@@ -1,8 +1,9 @@
-package;
+package funkin.ui.component.play;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
 import openfl.utils.Assets as OpenFlAssets;
+import funkin.assets.Paths;
 
 using StringTools;
 

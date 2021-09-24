@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="noteHazard.png">
+  <SubTexture name="Down Note 00" x="0" y="0" width="165" height="161" frameX="0" frameY="0" frameWidth="165" frameHeight="161" />
+  <SubTexture name="Down End 00" x="0" y="165" width="58" height="72" frameX="0" frameY="0" frameWidth="58" frameHeight="72" />
+  <SubTexture name="Down Sustain 00" x="58" y="165" width="58" height="52" frameX="0" frameY="0" frameWidth="58" frameHeight="52" />
+  <SubTexture name="Down Alt Note 00" x="0" y="0" width="165" height="161" frameX="0" frameY="0" frameWidth="165" frameHeight="161" />
+  <SubTexture name="Down Alt End 00" x="0" y="165" width="58" height="72" frameX="0" frameY="0" frameWidth="58" frameHeight="72" />
+  <SubTexture name="Down Alt Sustain 00" x="58" y="165" width="58" height="52" frameX="0" frameY="0" frameWidth="58" frameHeight="52" />
+  <SubTexture name="Up Note 00" x="165" y="0" width="161" height="165" frameX="0" frameY="0" frameWidth="161" frameHeight="165" />
+  <SubTexture name="Up End 00" x="0" y="165" width="58" height="72" frameX="0" frameY="0" frameWidth="58" frameHeight="72" />
+  <SubTexture name="Up Sustain 00" x="58" y="165" width="58" height="52" frameX="0" frameY="0" frameWidth="58" frameHeight="52" />
+  <SubTexture name="Up Alt Note 00" x="165" y="0" width="161" height="165" frameX="0" frameY="0" frameWidth="161" frameHeight="165" />
+  <SubTexture name="Up Alt End 00" x="0" y="165" width="58" height="72" frameX="0" frameY="0" frameWidth="58" frameHeight="72" />
+  <SubTexture name="Up Alt Sustain 00" x="58" y="165" width="58" height="52" frameX="0" frameY="0" frameWidth="58" frameHeight="52" />
+  <SubTexture name="Left Note 00" x="326" y="0" width="161" height="165" frameX="0" frameY="0" frameWidth="161" frameHeight="165" />
+  <SubTexture name="Left End 00" x="0" y="165" width="58" height="72" frameX="0" frameY="0" frameWidth="58" frameHeight="72" />
+  <SubTexture name="Left Sustain 00" x="58" y="165" width="58" height="52" frameX="0" frameY="0" frameWidth="58" frameHeight="52" />
+  <SubTexture name="Left Alt Note 00" x="326" y="0" width="161" height="165" frameX="0" frameY="0" frameWidth="161" frameHeight="165" />
+  <SubTexture name="Left Alt End 00" x="0" y="165" width="58" height="72" frameX="0" frameY="0" frameWidth="58" frameHeight="72" />
+  <SubTexture name="Left Alt Sustain 00" x="58" y="165" width="58" height="52" frameX="0" frameY="0" frameWidth="58" frameHeight="52" />
+  <SubTexture name="Right Note 00" x="487" y="0" width="165" height="161" frameX="0" frameY="0" frameWidth="165" frameHeight="161" />
+  <SubTexture name="Right End 00" x="0" y="165" width="58" height="72" frameX="0" frameY="0" frameWidth="58" frameHeight="72" />
+  <SubTexture name="Right Sustain 00" x="58" y="165" width="58" height="52" frameX="0" frameY="0" frameWidth="58" frameHeight="52" />
+  <SubTexture name="Right Alt Note 00" x="487" y="0" width="165" height="161" frameX="0" frameY="0" frameWidth="165" frameHeight="161" />
+  <SubTexture name="Right Alt End 00" x="0" y="165" width="58" height="72" frameX="0" frameY="0" frameWidth="58" frameHeight="72" />
+  <SubTexture name="Right Alt Sustain 00" x="58" y="165" width="58" height="52" frameX="0" frameY="0" frameWidth="58" frameHeight="52" />
+  <SubTexture name="Center Note 00" x="652" y="0" width="165" height="161" frameX="0" frameY="0" frameWidth="165" frameHeight="161" />
+  <SubTexture name="Right End 00" x="0" y="165" width="58" height="72" frameX="0" frameY="0" frameWidth="58" frameHeight="72" />
+  <SubTexture name="Right Sustain 00" x="58" y="165" width="58" height="52" frameX="0" frameY="0" frameWidth="58" frameHeight="52" />
+</TextureAtlas>

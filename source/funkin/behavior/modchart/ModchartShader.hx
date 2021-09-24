@@ -1,3 +1,5 @@
+package funkin.behavior.modchart;
+
 import flixel.system.FlxAssets.FlxShader;
 
 class ModchartShader extends FlxShader

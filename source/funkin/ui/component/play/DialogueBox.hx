@@ -1,15 +1,18 @@
-package;
+package funkin.ui.component.play;
 
-import flixel.system.FlxSound;
+import flixel.addons.text.FlxTypeText;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.addons.text.FlxTypeText;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxSpriteGroup;
 import flixel.input.FlxKeyManager;
+import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import funkin.assets.Paths;
+import funkin.ui.state.play.PlayState;
+import funkin.behavior.options.PlayerSettings;
 
 using StringTools;
 

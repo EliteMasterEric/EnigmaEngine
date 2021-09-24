@@ -1,10 +1,12 @@
-package;
+package funkin.assets;
 
-import flixel.graphics.FlxGraphic;
+import funkin.behavior.Debug;
+import funkin.ui.state.title.Caching;
 import flixel.FlxG;
+import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
-import openfl.utils.AssetType;
 import openfl.utils.Assets as OpenFlAssets;
+import openfl.utils.AssetType;
 import tjson.TJSON;
 
 using StringTools;

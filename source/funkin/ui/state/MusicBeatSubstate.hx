@@ -1,8 +1,11 @@
 package funkin.ui.state;
 
-import Conductor.BPMChangeEvent;
+import funkin.behavior.play.Conductor;
+import funkin.behavior.options.PlayerSettings;
 import flixel.FlxG;
 import flixel.FlxSubState;
+import funkin.behavior.options.Controls;
+import funkin.behavior.play.Conductor.BPMChangeEvent;
 
 class MusicBeatSubstate extends FlxSubState
 {

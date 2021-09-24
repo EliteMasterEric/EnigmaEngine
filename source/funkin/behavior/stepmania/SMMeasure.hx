@@ -1,6 +1,6 @@
-#if FEATURE_STEPMANIA
-package stepmania;
+package funkin.behavior.stepmania;
 
+#if FEATURE_STEPMANIA
 class SMMeasure
 {
 	public var notes:Array<SMNote>;

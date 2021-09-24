@@ -1,4 +1,4 @@
-package;
+package funkin.ui.component.play;
 
 import flixel.addons.effects.FlxSkewedSprite;
 import flixel.FlxG;
@@ -6,10 +6,10 @@ import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
-#if polymod
-import polymod.format.ParseRules.TargetSignatureElement;
-#end
-import PlayState;
+import funkin.assets.Paths;
+import funkin.behavior.play.Conductor;
+import funkin.behavior.play.PlayStateChangeables;
+import funkin.ui.state.play.PlayState;
 
 using StringTools;
 
@@ -70,16 +70,25 @@ class Note extends FlxSprite
 
 	public var children:Array<Note> = [];
 
-	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inCharter:Bool = false, ?isAlt:Bool = false, ?bet:Float = 0)
+	/**
+	 * Instantiate a Note sprite. Also includes logic to determine if it is in range of the strumline.
+	 * 
+	 * @param strumTime The time in seconds at which this note should appear in the song.
+	 * @param noteData The note data (used to determine the direction of the note).
+	 * @param prevNote A reference to the note before this in the song.
+	 * @param sustainNote Whether this note is a held note.
+	 * @param inCharter Whether this note is being created for use in `ChartingState`.
+	 */
+	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inCharter:Bool = false)
 	{
+		// Refactored to only include values required to build the note initially.
+		// Values like `isAlt` and `beat` are helpful but should be set later to de-clutter the constructor.
+
 		super();
 
+		// Previous note is part of the logic used by sustain notes.
 		if (prevNote == null)
 			prevNote = this;
-
-		beat = bet;
-
-		this.isAlt = isAlt;
 
 		this.prevNote = prevNote;
 		isSustainNote = sustainNote;

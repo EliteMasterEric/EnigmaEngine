@@ -1,8 +1,6 @@
-package;
-
 import lime.app.Application;
 #if FEATURE_DISCORD
-import Discord.DiscordClient;
+import funkin.behavior.api.Discord.DiscordClient;
 #end
 import openfl.display.BlendMode;
 import openfl.text.TextFormat;
@@ -15,9 +13,12 @@ import openfl.Lib;
 import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.events.Event;
+import funkin.behavior.Debug;
+import funkin.behavior.mods.ModCore;
 import funkin.ui.state.modding.ModSplashState;
 import funkin.ui.state.title.Caching;
 import funkin.ui.state.title.TitleState;
+import funkin.ui.video.WebmHandler;
 
 class Main extends Sprite
 {

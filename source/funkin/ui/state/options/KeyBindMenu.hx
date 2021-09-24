@@ -1,25 +1,28 @@
-package;
+package funkin.ui.state.options;
 
-import flixel.input.gamepad.FlxGamepad;
-import flixel.util.FlxAxes;
-import flixel.FlxSubState;
-import Options.Option;
-import flixel.input.FlxInput;
-import flixel.input.keyboard.FlxKey;
+import funkin.behavior.options.PlayerSettings;
+import funkin.assets.Paths;
+import funkin.behavior.options.KeyBinds;
+import flixel.effects.FlxFlicker;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.effects.FlxFlicker;
+import flixel.FlxSubState;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.input.FlxInput;
+import flixel.input.FlxKeyManager;
+import flixel.input.gamepad.FlxGamepad;
+import flixel.input.keyboard.FlxKey;
+import flixel.math.FlxMath;
+import flixel.text.FlxText;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
+import funkin.behavior.options.Options.Option;
 import lime.app.Application;
-import flixel.math.FlxMath;
-import flixel.text.FlxText;
-import flixel.input.FlxKeyManager;
 
 using StringTools;
 

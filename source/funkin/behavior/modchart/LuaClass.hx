@@ -1,23 +1,30 @@
+package funkin.behavior.modchart;
+
 #if FEATURE_LUAMODCHART
+import flash.display.BitmapData;
+import flixel.FlxCamera;
 import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxAxes;
+import funkin.ui.component.play.Character;
+import funkin.ui.component.play.Note;
+import funkin.ui.component.play.StaticArrow;
+import funkin.ui.component.play.Stage;
+import funkin.ui.state.play.PlayState;
+import haxe.DynamicAccess;
+import lime.app.Application;
 import llua.Convert;
 import llua.Lua;
-import llua.State;
 import llua.LuaL;
-import flixel.util.FlxAxes;
-import flixel.FlxSprite;
-import lime.app.Application;
+import llua.State;
 import openfl.Lib;
 #if FEATURE_FILESYSTEM
 import sys.io.File;
 import sys.FileSystem;
 #end
-import flash.display.BitmapData;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.FlxCamera;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
-import haxe.DynamicAccess;
 
 // completely yoinked from andromeda (thats what you get for stealing my callback inputs you fuckers /j)
 

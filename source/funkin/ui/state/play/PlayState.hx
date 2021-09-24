@@ -1,47 +1,15 @@
 package funkin.ui.state.play;
 
-#if FEATURE_LUAMODCHART
-import LuaClass.LuaCamera;
-import LuaClass.LuaCharacter;
-import LuaClass.LuaNote;
-#end
-import lime.media.openal.AL;
-import Song.Event;
-import openfl.media.Sound;
-#if FEATURE_STEPMANIA
-import stepmania.SMFile;
-#end
-#if FEATURE_FILESYSTEM
-import sys.io.File;
-import Sys;
-import sys.FileSystem;
-#end
-import openfl.ui.KeyLocation;
-import openfl.events.Event;
-import haxe.EnumTools;
-import openfl.ui.Keyboard;
-import openfl.events.KeyboardEvent;
-import Replay.Ana;
-import Replay.Analysis;
-#if FEATURE_WEBM
-import webm.WebmPlayer;
-#end
-import flixel.input.keyboard.FlxKey;
-import haxe.Exception;
-import openfl.geom.Matrix;
-import openfl.display.BitmapData;
-import openfl.utils.AssetType;
-import lime.graphics.Image;
-import flixel.graphics.FlxGraphic;
-import openfl.utils.AssetManifest;
-import openfl.utils.AssetLibrary;
-import lime.app.Application;
-import lime.media.AudioContext;
-import lime.media.AudioManager;
-import openfl.Lib;
-import Section.SwagSection;
-import Song.SongData;
-import WiggleEffect.WiggleEffectType;
+import funkin.util.Util;
+import funkin.ui.state.charting.ChartingState;
+import funkin.ui.component.WaveformTestState;
+import funkin.ui.video.GlobalVideo;
+import flixel.addons.display.FlxGridOverlay;
+import flixel.addons.effects.chainable.FlxEffectSprite;
+import flixel.addons.effects.chainable.FlxWaveEffect;
+import flixel.addons.effects.FlxTrail;
+import flixel.addons.effects.FlxTrailArea;
+import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
@@ -50,15 +18,11 @@ import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.FlxSubState;
-import flixel.addons.display.FlxGridOverlay;
-import flixel.addons.effects.FlxTrail;
-import flixel.addons.effects.FlxTrailArea;
-import flixel.addons.effects.chainable.FlxEffectSprite;
-import flixel.addons.effects.chainable.FlxWaveEffect;
-import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.atlas.FlxAtlas;
+import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.input.keyboard.FlxKey;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
@@ -72,11 +36,82 @@ import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import flixel.util.FlxStringUtil;
 import flixel.util.FlxTimer;
+import funkin.assets.Paths;
+import funkin.behavior.Debug;
+import funkin.behavior.EtternaFunctions;
+import funkin.behavior.options.KeyBinds;
+import funkin.behavior.play.Conductor;
+import funkin.behavior.play.Highscore;
+import funkin.behavior.play.PlayStateChangeables;
+import funkin.behavior.play.Ratings;
+import funkin.behavior.play.Replay;
+import funkin.behavior.play.Replay.Ana;
+import funkin.behavior.play.Replay.Analysis;
+import funkin.behavior.play.Section.SwagSection;
+import funkin.behavior.play.Song;
+import funkin.behavior.play.Song.SongData;
+import funkin.behavior.play.Song.SongEvent;
+import funkin.behavior.play.TimingStruct;
+import funkin.ui.component.play.Boyfriend;
+import funkin.ui.component.play.Character;
+import funkin.ui.component.play.DialogueBox;
+import funkin.ui.component.play.HealthIcon;
+import funkin.ui.component.play.Note;
+import funkin.ui.component.play.Stage;
+import funkin.ui.component.play.StaticArrow;
+import funkin.ui.effects.WiggleEffect;
+import funkin.ui.effects.WiggleEffect.WiggleEffectType;
+import funkin.ui.state.debug.StageDebugState;
+import funkin.ui.state.menu.FreeplayState;
+import funkin.ui.state.menu.StoryMenuState;
+import funkin.ui.state.menu.StoryMenuState;
+import funkin.ui.state.play.GameOverSubstate;
+import funkin.ui.state.play.PauseSubState;
+import funkin.ui.state.options.OptionsMenu;
+import funkin.ui.state.debug.AnimationDebug;
+import funkin.ui.video.WebmHandler;
+import funkin.util.HelperFunctions;
+import haxe.EnumTools;
+import haxe.Exception;
+import lime.app.Application;
+import lime.graphics.Image;
+import lime.media.AudioContext;
+import lime.media.AudioManager;
+import lime.media.openal.AL;
+import openfl.display.BitmapData;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
+import openfl.events.Event;
+import openfl.events.KeyboardEvent;
 import openfl.filters.ShaderFilter;
+import openfl.geom.Matrix;
+import openfl.Lib;
+import openfl.media.Sound;
+import openfl.ui.Keyboard;
+import openfl.ui.KeyLocation;
+import openfl.utils.AssetLibrary;
+import openfl.utils.AssetManifest;
+import openfl.utils.AssetType;
+#if FEATURE_LUAMODCHART
+import funkin.behavior.modchart.ModchartState;
+import funkin.behavior.modchart.LuaClass;
+import funkin.behavior.modchart.LuaClass.LuaCamera;
+import funkin.behavior.modchart.LuaClass.LuaCharacter;
+import funkin.behavior.modchart.LuaClass.LuaNote;
+#end
+#if FEATURE_STEPMANIA
+import funkin.behavior.stepmania.SMFile;
+#end
+#if FEATURE_FILESYSTEM
+import sys.io.File;
+import Sys;
+import sys.FileSystem;
+#end
+#if FEATURE_WEBM
+import webm.WebmPlayer;
+#end
 #if FEATURE_DISCORD
-import Discord.DiscordClient;
+import funkin.behavior.api.Discord.DiscordClient;
 #end
 
 using StringTools;
@@ -345,7 +380,7 @@ class PlayState extends MusicBeatState
 
 		#if FEATURE_DISCORD
 		// Making difficulty text for Discord Rich Presence.
-		storyDifficultyText = CoolUtil.difficultyFromInt(storyDifficulty);
+		storyDifficultyText = Util.difficultyFromInt(storyDifficulty);
 
 		iconRPC = SONG.player2;
 
@@ -420,7 +455,7 @@ class PlayState extends MusicBeatState
 
 		if (SONG.eventObjects == null)
 		{
-			SONG.eventObjects = [new Song.Event("Init BPM", 0, SONG.bpm, "BPM Change")];
+			SONG.eventObjects = [new SongEvent("Init BPM", 0, SONG.bpm, "BPM Change")];
 		}
 
 		TimingStruct.clearTimings();
@@ -458,7 +493,7 @@ class PlayState extends MusicBeatState
 		// if the song has dialogue, so we don't accidentally try to load a nonexistant file and crash the game
 		if (Paths.doesTextAssetExist(Paths.txt('data/songs/${PlayState.SONG.songId}/dialogue')))
 		{
-			dialogue = CoolUtil.coolTextFile(Paths.txt('data/songs/${PlayState.SONG.songId}/dialogue'));
+			dialogue = Util.coolTextFile(Paths.txt('data/songs/${PlayState.SONG.songId}/dialogue'));
 		}
 
 		// defaults if no stage was found in chart
@@ -867,7 +902,7 @@ class PlayState extends MusicBeatState
 			SONG.songName
 			+ (FlxMath.roundDecimal(songMultiplier, 2) != 1.00 ? " (" + FlxMath.roundDecimal(songMultiplier, 2) + "x)" : "")
 			+ " - "
-			+ CoolUtil.difficultyFromInt(storyDifficulty),
+			+ Util.difficultyFromInt(storyDifficulty),
 			16);
 		gameEngineWatermark.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		gameEngineWatermark.scrollFactor.set();
@@ -1918,7 +1953,7 @@ class PlayState extends MusicBeatState
 
 	public var updateFrame = 0;
 
-	public var pastScrollChanges:Array<Song.Event> = [];
+	public var pastScrollChanges:Array<SongEvent> = [];
 
 	var currentLuaIndex = 0;
 
@@ -2180,15 +2215,7 @@ class PlayState extends MusicBeatState
 			persistentDraw = true;
 			paused = true;
 
-			// 1 / 1000 chance for Gitaroo Man easter egg
-			if (FlxG.random.bool(0.1))
-			{
-				trace('GITAROO MAN EASTER EGG');
-				FlxG.switchState(new GitarooPause());
-				clean();
-			}
-			else
-				openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+			openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 		}
 
 		if (FlxG.keys.justPressed.FIVE && songStarted)
@@ -2729,8 +2756,6 @@ class PlayState extends MusicBeatState
 					+ " | Misses: "
 					+ misses, iconRPC);
 				#end
-				// God i love futabu!! so fucking much (From: McChomk)
-				// FlxG.switchState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 			}
 			else
 				health = 1;
@@ -2772,8 +2797,6 @@ class PlayState extends MusicBeatState
 					+ " | Misses: "
 					+ misses, iconRPC);
 				#end
-
-				// FlxG.switchState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 			}
 		}
 

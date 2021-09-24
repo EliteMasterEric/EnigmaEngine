@@ -1,4 +1,4 @@
-package;
+package funkin.ui.component.menu;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -6,6 +6,7 @@ import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
+import funkin.assets.Paths;
 
 class MenuItem extends FlxSpriteGroup
 {

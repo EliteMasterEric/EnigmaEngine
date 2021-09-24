@@ -1,5 +1,7 @@
 package funkin.behavior.play;
 
+import funkin.util.HelperFunctions;
+import funkin.ui.state.play.PlayState;
 import flixel.FlxG;
 
 class Ratings

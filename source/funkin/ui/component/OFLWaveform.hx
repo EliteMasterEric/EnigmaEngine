@@ -1,8 +1,10 @@
-import lime.media.AudioSource;
+package funkin.ui.component;
+
 import lime.media.AudioBuffer;
-import openfl.media.Sound;
+import lime.media.AudioSource;
 import openfl.display.Graphics;
 import openfl.display.Sprite;
+import openfl.media.Sound;
 
 class OFLWaveform extends Sprite
 {
