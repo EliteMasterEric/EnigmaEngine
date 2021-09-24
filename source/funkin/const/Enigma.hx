@@ -45,4 +45,38 @@ class Enigma extends MusicBeatState
 	 * flip this lever.
 	 */
 	public static final ENABLE_VERSION_CHECK:Bool = true;
+
+	/**
+	 * If you don't want to see the "Custom Keybinds" option in the menu,
+	 * flip this lever.
+	 */
+	public static final USE_CUSTOM_KEYBINDS = true;
+
+	/**
+	 * If you don't want to see certain keybinds in the "Custom Keybinds" menu,
+	 * flip these levers.
+	 */
+	public static final SHOW_CUSTOM_KEYBINDS:Map<Int, Bool> = [
+		0 => true, // Left 9K
+		1 => true, // Down 9K
+		2 => true, // Up 9K
+		3 => true, // Right 9K
+		4 => true, // Center
+		5 => false, // Alt Left 9K
+		6 => false, // Alt Down 9K
+		7 => false, // Alt Up 9K
+		8 => false, // Alt Right 9K
+	];
+
+	/**
+	 * If you don't want to have a double-wide charter for placing 9-key notes,
+	 * flip this lever.
+	 */
+	public static final USE_CUSTOM_CHARTER = true;
+
+	/**
+	 * If you don't want to have to deal with locked default weeks,
+	 * flip this lever.
+	 */
+	public static final UNLOCK_DEFAULT_WEEKS = true;
 }

@@ -45,7 +45,19 @@ class Note extends FlxSprite
 
 	public var noteYOff:Int = 0;
 
-	public var beat:Float = 0;
+	public var beat(default, set):Float = 0;
+
+	function set_beat(newBeat)
+	{
+		// Prevent setting to null.
+		if (newBeat == null)
+		{
+			return beat = 0;
+		}
+		return beat = newBeat;
+	}
+
+	public var noteType:String = "normal";
 
 	public static var swagWidth:Float = 160 * 0.7;
 	public static var PURP_NOTE:Int = 0;
@@ -79,7 +91,7 @@ class Note extends FlxSprite
 	 * @param sustainNote Whether this note is a held note.
 	 * @param inCharter Whether this note is being created for use in `ChartingState`.
 	 */
-	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inCharter:Bool = false)
+	public function new(strumTime:Float, rawNoteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inCharter:Bool = false, ?noteType:String = "normal")
 	{
 		// Refactored to only include values required to build the note initially.
 		// Values like `isAlt` and `beat` are helpful but should be set later to de-clutter the constructor.
@@ -89,6 +101,8 @@ class Note extends FlxSprite
 		// Previous note is part of the logic used by sustain notes.
 		if (prevNote == null)
 			prevNote = this;
+
+		this.noteType = noteType;
 
 		this.prevNote = prevNote;
 		isSustainNote = sustainNote;
@@ -123,27 +137,22 @@ class Note extends FlxSprite
 		if (!inCharter)
 			y += FlxG.save.data.offset + PlayState.songOffset;
 
-		this.noteData = noteData;
+		this.rawNoteData = rawNoteData;
+		this.noteData = NoteUtil.getStrumlineIndex(rawNoteData, PlayState.SONG.strumlineSize);
 
-		var daStage:String = ((PlayState.instance != null && !PlayStateChangeables.Optimize) ? PlayState.Stage.curStage : 'stage');
+		var daStage:String = PlayState.Stage.curStage;
 
 		// defaults if no noteStyle was found in chart
 		var noteTypeCheck:String = 'normal';
 
 		if (inCharter)
 		{
-			frames = Paths.getSparrowAtlas('NOTE_assets');
-
-			for (i in 0...4)
+			// We are in the Song Editor tool!
+			// Add special handling to get the current note type from there.
+			if (ChartingState._song != null)
 			{
-				animation.addByPrefix(dataColor[i] + 'Scroll', dataColor[i] + ' alone'); // Normal notes
-				animation.addByPrefix(dataColor[i] + 'hold', dataColor[i] + ' hold'); // Hold
-				animation.addByPrefix(dataColor[i] + 'holdend', dataColor[i] + ' tail'); // Tails
+				noteTypeCheck = ChartingState._song.noteStyle;
 			}
-
-			setGraphicSize(Std.int(width * 0.7));
-			updateHitbox();
-			antialiasing = FlxG.save.data.antialiasing;
 		}
 		else
 		{
@@ -159,43 +168,16 @@ class Note extends FlxSprite
 			{
 				noteTypeCheck = PlayState.SONG.noteStyle;
 			}
-
-			switch (noteTypeCheck)
-			{
-				case 'pixel':
-					loadGraphic(Paths.loadImage('weeb/pixelUI/arrows-pixels', 'week6'), true, 17, 17);
-					if (isSustainNote)
-						loadGraphic(Paths.loadImage('weeb/pixelUI/arrowEnds', 'week6'), true, 7, 6);
-
-					for (i in 0...4)
-					{
-						animation.add(dataColor[i] + 'Scroll', [i + 4]); // Normal notes
-						animation.add(dataColor[i] + 'hold', [i]); // Holds
-						animation.add(dataColor[i] + 'holdend', [i + 4]); // Tails
-					}
-
-					setGraphicSize(Std.int(width * PlayState.daPixelZoom));
-					updateHitbox();
-				default:
-					frames = Paths.getSparrowAtlas('NOTE_assets');
-
-					for (i in 0...4)
-					{
-						animation.addByPrefix(dataColor[i] + 'Scroll', dataColor[i] + ' alone'); // Normal notes
-						animation.addByPrefix(dataColor[i] + 'hold', dataColor[i] + ' hold'); // Hold
-						animation.addByPrefix(dataColor[i] + 'holdend', dataColor[i] + ' tail'); // Tails
-					}
-
-					setGraphicSize(Std.int(width * 0.7));
-					updateHitbox();
-
-					antialiasing = FlxG.save.data.antialiasing;
-			}
 		}
 
-		x += swagWidth * noteData;
-		animation.play(dataColor[noteData] + 'Scroll');
-		originColor = noteData; // The note's origin color will be checked by its sustain notes
+		// All the code that builds a note sprite that was in here has been moved to a different file.
+		// That makes it really easy for me to add new notes.
+		EnigmaNote.loadNoteSprite(this, noteTypeCheck, this.rawNoteData, isSustainNote, PlayState.SONG.strumlineSize);
+
+		x += NoteUtil.getNoteOffset(this.noteData, PlayState.SONG.strumlineSize);
+
+		animation.play(EnigmaNote.getDirectionName(this.rawNoteData, true) + ' Note');
+		originColor = this.rawNoteData; // The note's origin color will be checked by its sustain notes
 
 		if (FlxG.save.data.stepMania && !isSustainNote && !PlayState.instance.executeModchart)
 		{
@@ -218,7 +200,7 @@ class Note extends FlxSprite
 			else if (beatRow % (192 / 32) == 0)
 				col = quantityColor[4];
 
-			animation.play(dataColor[col] + 'Scroll');
+			animation.play(EnigmaNote.getDirectionName(col, true) + ' Note');
 			localAngle -= arrowAngles[col];
 			localAngle += arrowAngles[noteData];
 			originAngle = localAngle;
@@ -248,7 +230,8 @@ class Note extends FlxSprite
 			originColor = prevNote.originColor;
 			originAngle = prevNote.originAngle;
 
-			animation.play(dataColor[originColor] + 'holdend'); // This works both for normal colors and quantization colors
+			// This works both for normal colors and quantization colors
+			animation.play(EnigmaNote.getDirectionName(originColor, true) + ' End');
 			updateHitbox();
 
 			x -= width / 2;
@@ -260,7 +243,7 @@ class Note extends FlxSprite
 
 			if (prevNote.isSustainNote)
 			{
-				prevNote.animation.play(dataColor[prevNote.originColor] + 'hold');
+				prevNote.animation.play(EnigmaNote.getDirectionName(prevNote.originColor, true) + 'Sustain');
 				prevNote.updateHitbox();
 
 				prevNote.scale.y *= stepHeight / prevNote.height;
@@ -306,14 +289,10 @@ class Note extends FlxSprite
 				else
 					canBeHit = false;
 			}
-			/*if (strumTime - Conductor.songPosition < (-166 * Conductor.timeScale) && !wasGoodHit)
-				tooLate = true; */
 		}
 		else
 		{
 			canBeHit = false;
-			// if (strumTime <= Conductor.songPosition)
-			//	wasGoodHit = true;
 		}
 
 		if (tooLate && !wasGoodHit)

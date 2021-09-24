@@ -8,7 +8,7 @@ import flixel.math.FlxMath;
 import flixel.util.FlxColor;
 import funkin.assets.Paths;
 
-class MenuItem extends FlxSpriteGroup
+class StoryWeekMenuItem extends FlxSpriteGroup
 {
 	public var targetY:Float = 0;
 	public var week:FlxSprite;

@@ -282,8 +282,6 @@ class LoadReplayState extends MusicBeatState
 			+ (rep.replay.replayGameVer != Replay.version ? "OUTDATED not useable!" : "Latest")
 			+ ')\n';
 
-		// selector.y = (70 * curSelected) + 30;
-
 		var bullShit:Int = 0;
 
 		for (item in grpControls.members)
@@ -292,12 +290,10 @@ class LoadReplayState extends MusicBeatState
 			bullShit++;
 
 			item.alpha = 0.6;
-			// item.setGraphicSize(Std.int(item.width * 0.8));
 
 			if (item.targetY == 0)
 			{
 				item.alpha = 1;
-				// item.setGraphicSize(Std.int(item.width));
 			}
 		}
 	}

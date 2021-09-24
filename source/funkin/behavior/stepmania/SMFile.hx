@@ -40,7 +40,6 @@ class SMFile
 			{
 				headerData += data[inc];
 				inc++;
-				// trace(data[inc]);
 			}
 
 			header = new SMHeader(headerData.split(';'));
@@ -92,7 +91,6 @@ class SMFile
 				if (StringTools.contains(i, ",") || StringTools.contains(i, ";"))
 				{
 					measures.push(new SMMeasure(measure.split('\n')));
-					// trace(measures.length);
 					measure = "";
 					continue;
 				}
@@ -193,7 +191,6 @@ class SMFile
 
 				for (note in measure._measure[i].split(''))
 				{
-					// output += note;
 					notes.push(note);
 				}
 
@@ -223,8 +220,6 @@ class SMFile
 				var timeInSec:Float = (seg.startTime + ((currentBeat - seg.startBeat) / (seg.bpm / 60)));
 
 				var rowTime = timeInSec * 1000;
-
-				// output += " - Row " + noteRow + " - Time: " + rowTime + " (" + timeInSec + ") - Beat: " + currentBeat + " - Current BPM: " + header.getBPM(currentBeat) + "\n";
 
 				var index = 0;
 
@@ -267,8 +262,6 @@ class SMFile
 
 			song.notes.push(section);
 
-			// output += ",\n";
-
 			measureIndex++;
 		}
 
@@ -289,41 +282,10 @@ class SMFile
 			section.endTime = Math.POSITIVE_INFINITY;
 		}
 
-		// File.saveContent("fuac" + header.TITLE,output);
-
 		if (header.changeEvents.length != 0)
 		{
 			song.eventObjects = header.changeEvents;
 		}
-		/*var newSections = [];
-
-			for(s in 0...song.notes.length) // lets go ahead and make sure each note is actually in their own section haha
-			{
-				var sec:SwagSection = {
-					startTime: song.notes[s].startTime,
-					endTime: song.notes[s].endTime,
-					lengthInSteps: 16,
-					bpm: song.bpm,
-					changeBPM: false,
-					mustHitSection: song.notes[s].mustHitSection,
-					sectionNotes: [],
-					typeOfSection: 0,
-					altAnim: song.notes[s].altAnim
-				};
-				for(i in song.notes)
-				{
-					for(ii in i.sectionNotes)
-					{
-						if (ii[0] >= sec.startTime && ii[0] < sec.endTime)
-							sec.sectionNotes.push(ii);
-					}
-				}
-				newSections.push(sec);
-		}*/
-
-		// WE ALREADY DO THIS
-
-		// song.notes = newSections;
 
 		// save da song
 

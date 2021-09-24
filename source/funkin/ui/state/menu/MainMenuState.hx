@@ -1,5 +1,7 @@
 package funkin.ui.state.menu;
 
+import funkin.ui.component.menu.MainMenuItem;
+import funkin.ui.audio.MainMenuMusic;
 import funkin.ui.state.title.TitleState;
 import flixel.effects.FlxFlicker;
 import flixel.FlxG;
@@ -30,11 +32,7 @@ class MainMenuState extends MusicBeatState
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
 
-	#if !switch
-	var optionShit:Array<String> = ['story mode', 'freeplay', 'options'];
-	#else
-	var optionShit:Array<String> = ['story mode', 'freeplay'];
-	#end
+	var mainMenuOptions:Array<String> = ['story mode', 'freeplay', 'options'];
 
 	var newGaming:FlxText;
 	var newGaming2:FlxText;
@@ -55,10 +53,7 @@ class MainMenuState extends MusicBeatState
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 
-		if (!FlxG.sound.music.playing)
-		{
-			FlxG.sound.playMusic(Paths.music('freakyMenu'));
-		}
+		MainMenuMusic.playMenuMusic();
 
 		persistentUpdate = persistentDraw = true;
 
@@ -84,37 +79,15 @@ class MainMenuState extends MusicBeatState
 		magenta.antialiasing = FlxG.save.data.antialiasing;
 		magenta.color = 0xFFfd719b;
 		add(magenta);
-		// magenta.scrollFactor.set();
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
-		var tex = Paths.getSparrowAtlas('FNF_main_menu_assets');
-
-		for (i in 0...optionShit.length)
+		MainMenuItem.buildMainMenu(menuItems, function(flxTween:FlxTween)
 		{
-			var menuItem:FlxSprite = new FlxSprite(0, FlxG.height * 1.6);
-			menuItem.frames = tex;
-			menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
-			menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
-			menuItem.animation.play('idle');
-			menuItem.ID = i;
-			menuItem.screenCenter(X);
-			menuItems.add(menuItem);
-			menuItem.scrollFactor.set();
-			menuItem.antialiasing = FlxG.save.data.antialiasing;
-			if (firstStart)
-				FlxTween.tween(menuItem, {y: 60 + (i * 160)}, 1 + (i * 0.25), {
-					ease: FlxEase.expoInOut,
-					onComplete: function(flxTween:FlxTween)
-					{
-						finishedFunnyMove = true;
-						changeItem();
-					}
-				});
-			else
-				menuItem.y = 60 + (i * 160);
-		}
+			MainMenuState.finishedFunnyMove = true;
+			changeItem();
+		});
 
 		firstStart = false;
 
@@ -124,8 +97,6 @@ class MainMenuState extends MusicBeatState
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
-
-		// NG.core.calls.event.logEvent('swag').send();
 
 		if (FlxG.save.data.dfjk)
 			controls.setKeyboardScheme(KeyboardScheme.Solo, true);
@@ -232,9 +203,9 @@ class MainMenuState extends MusicBeatState
 
 	function goToState()
 	{
-		var daChoice:String = optionShit[curSelected];
+		var currentMenuOption:String = mainMenuOption[curSelected];
 
-		switch (daChoice)
+		switch (currentMenuOption)
 		{
 			case 'story mode':
 				FlxG.switchState(new StoryMenuState());

@@ -1,5 +1,6 @@
 package funkin.ui.state.play;
 
+import funkin.ui.audio.MainMenuMusic;
 import funkin.util.Util;
 import flixel.effects.FlxFlicker;
 import flixel.FlxG;
@@ -221,8 +222,8 @@ class ResultsScreen extends FlxSubState
 
 			if (PlayState.isStoryMode)
 			{
-				FlxG.sound.playMusic(Paths.music('freakyMenu'));
-				Conductor.changeBPM(102);
+				MainMenuMusic.stopMenuMusic();
+				MainMenuMusic.playMenuMusic();
 				FlxG.switchState(new MainMenuState());
 			}
 			else

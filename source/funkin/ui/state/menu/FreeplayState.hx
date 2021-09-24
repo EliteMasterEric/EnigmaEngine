@@ -1,5 +1,6 @@
 package funkin.ui.state.menu;
 
+import funkin.ui.audio.MainMenuMusic;
 import flixel.FlxCamera;
 import funkin.ui.state.debug.DiffOverview;
 import funkin.ui.state.charting.ChartingState;
@@ -67,14 +68,16 @@ class FreeplayState extends MusicBeatState
 
 	public static var openedPreview = false;
 
-	public static var songData:Map<String, Array<SongData>> = [];
+	// ERIC: Replace songData array with a map.
+	// This allows a song in free play to have no Easy difficulty.
+	public static var songData:Map<String, Map<Int, SwagSong>> = [];
 
-	public static function loadDiff(diff:Int, songId:String, array:Array<SongData>)
+	public static function loadDiff(diff:Int, format:String, name:String, array:Map<Int, SwagSong>)
 	{
 		try
 		{
 			var diffName:String = ["-easy", "", "-hard"][PlayState.storyDifficulty];
-			array.push(Song.loadFromJson(songId, diffName));
+			array.set(diff, Song.loadFromJson(Highscore.formatSong(format, diff), name));
 		}
 		catch (ex)
 		{
@@ -111,7 +114,7 @@ class FreeplayState extends MusicBeatState
 						var meta = new FreeplaySongMetadata(file.header.TITLE, 0, "sm", file, "assets/sm/" + i);
 						songs.push(meta);
 						var song = Song.loadFromJsonRAW(data);
-						songData.set(file.header.TITLE, [song, song, song]);
+						songData.set(file.header.TITLE, [0 => song, 1 => song, 2 => song]);
 					}
 					else if (FileSystem.exists("assets/sm/" + i + "/converted.json") && file.endsWith(".sm"))
 					{
@@ -123,7 +126,7 @@ class FreeplayState extends MusicBeatState
 						songs.push(meta);
 						var song = Song.loadFromJsonRAW(File.getContent("assets/sm/" + i + "/converted.json"));
 						trace("got content lol");
-						songData.set(file.header.TITLE, [song, song, song]);
+						songData.set(file.header.TITLE, [0 => song, 1 => song, 2 => song]);
 					}
 				}
 			}
@@ -167,16 +170,10 @@ class FreeplayState extends MusicBeatState
 			// using a FlxGroup is too much fuss!
 			iconArray.push(icon);
 			add(icon);
-
-			// songText.x += 40;
-			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
-			// songText.screenCenter(X);
 		}
 
 		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
-		// scoreText.autoSize = false;
 		scoreText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
-		// scoreText.alignment = RIGHT;
 
 		var scoreBG:FlxSprite = new FlxSprite(scoreText.x - 6, 0).makeGraphic(Std.int(FlxG.width * 0.35), 135, 0xFF000000);
 		scoreBG.alpha = 0.6;
@@ -203,13 +200,10 @@ class FreeplayState extends MusicBeatState
 		changeSelection();
 		changeDiff();
 
-		// FlxG.sound.playMusic(Paths.music('title'), 0);
-		// FlxG.sound.music.fadeIn(2, 0, 0.8);
 		selector = new FlxText();
 
 		selector.size = 40;
 		selector.text = ">";
-		// add(selector);
 
 		var swag:Alphabet = new Alphabet(1, 0, "swag");
 
@@ -232,8 +226,8 @@ class FreeplayState extends MusicBeatState
 			var songId = data[0];
 			var meta = new FreeplaySongMetadata(songId, Std.parseInt(data[2]), data[1]);
 
-			var diffs = [];
-			var diffsThatExist = [];
+			var diffs:Map<Int, SwagSong> = [];
+			var diffsThatExist:Array<String> = [];
 
 			#if FEATURE_FILESYSTEM
 			if (Paths.doesTextAssetExist(Paths.json('songs/$songId/$songId-hard')))
@@ -324,9 +318,6 @@ class FreeplayState extends MusicBeatState
 			{
 				changeDiff(1);
 			}
-
-			// if (gamepad.justPressed.X && !openedPreview)
-			// openSubState(new DiffOverview());
 		}
 
 		if (upP)
@@ -338,31 +329,28 @@ class FreeplayState extends MusicBeatState
 			changeSelection(1);
 		}
 
-		// if (FlxG.keys.justPressed.SPACE && !openedPreview)
-		// openSubState(new DiffOverview());
-
 		if (FlxG.keys.pressed.SHIFT)
 		{
 			if (FlxG.keys.justPressed.LEFT)
 			{
 				rate -= 0.05;
-				diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songId)[curDifficulty])}';
+				updateDifficultyText();
 			}
 			if (FlxG.keys.justPressed.RIGHT)
 			{
 				rate += 0.05;
-				diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songId)[curDifficulty])}';
+				updateDifficultyText();
 			}
 
 			if (rate > 3)
 			{
 				rate = 3;
-				diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songId)[curDifficulty])}';
+				updateDifficultyText();
 			}
 			else if (rate < 0.5)
 			{
 				rate = 0.5;
-				diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songId)[curDifficulty])}';
+				updateDifficultyText();
 			}
 
 			previewtext.text = "Rate: " + FlxMath.roundDecimal(rate, 2) + "x";
@@ -385,6 +373,7 @@ class FreeplayState extends MusicBeatState
 
 		if (controls.BACK)
 		{
+			MainMenuMusic.playMenuMusic();
 			FlxG.switchState(new MainMenuState());
 		}
 
@@ -404,6 +393,21 @@ class FreeplayState extends MusicBeatState
 			loadAnimDebug(false);
 		}
 		#end
+	}
+
+	function updateDifficultyText()
+	{
+		var songDataCurrentDiff = songData.get(songs[curSelected].songId)[curDifficulty];
+		if (songDataCurrentDiff != null)
+		{
+			diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songDataCurrentDiff)}';
+			diffText.text = CoolUtil.difficultyFromInt(curDifficulty).toUpperCase();
+		}
+		else
+		{
+			diffCalcText.text = 'RATING: N/A';
+			diffText.text = '${CoolUtil.difficultyFromInt(curDifficulty).toUpperCase()} (NOT AVAILABLE)';
+		}
 	}
 
 	function loadAnimDebug(dad:Bool = true)
@@ -511,12 +515,9 @@ class FreeplayState extends MusicBeatState
 				songHighscore = 'Milf';
 		}
 
-		#if !switch
 		intendedScore = Highscore.getScore(songHighscore, curDifficulty);
 		combo = Highscore.getCombo(songHighscore, curDifficulty);
-		#end
-		diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songId)[curDifficulty])}';
-		diffText.text = Util.difficultyFromInt(curDifficulty).toUpperCase();
+		updateDifficultyText();
 	}
 
 	function changeSelection(change:Int = 0)
@@ -543,8 +544,6 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 
-		// selector.y = (70 * curSelected) + 30;
-
 		// adjusting the highscore song name to be compatible (changeSelection)
 		// would read original scores if we didn't change packages
 		var songHighscore = StringTools.replace(songs[curSelected].songName, " ", "-");
@@ -561,11 +560,9 @@ class FreeplayState extends MusicBeatState
 		#if !switch
 		intendedScore = Highscore.getScore(songHighscore, curDifficulty);
 		combo = Highscore.getCombo(songHighscore, curDifficulty);
-		// lerpScore = 0;
 		#end
 
-		diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songId)[curDifficulty])}';
-		diffText.text = Util.difficultyFromInt(curDifficulty).toUpperCase();
+		updateDifficultyText();
 
 		#if PRELOAD_ALL
 		if (songs[curSelected].songCharacter == "sm")
@@ -581,12 +578,13 @@ class FreeplayState extends MusicBeatState
 			FlxG.sound.playMusic(Paths.inst(songs[curSelected].songId), 0);
 		#end
 
-		var hmm;
 		try
 		{
-			hmm = songData.get(songs[curSelected].songId)[curDifficulty];
-			if (hmm != null)
-				Conductor.changeBPM(hmm.bpm);
+			var songDataCurrentDiff = songData.get(songs[curSelected].songId)[curDifficulty];
+			if (songDataCurrentDiff != null)
+			{
+				Conductor.changeBPM(songDataCurrentDiff.bpm);
+			}
 		}
 		catch (ex)
 		{
@@ -613,12 +611,10 @@ class FreeplayState extends MusicBeatState
 			bullShit++;
 
 			item.alpha = 0.6;
-			// item.setGraphicSize(Std.int(item.width * 0.8));
 
 			if (item.targetY == 0)
 			{
 				item.alpha = 1;
-				// item.setGraphicSize(Std.int(item.width));
 			}
 		}
 	}

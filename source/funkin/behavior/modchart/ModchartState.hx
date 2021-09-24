@@ -37,7 +37,6 @@ import openfl.geom.Matrix;
 
 class ModchartState
 {
-	// public static var shaders:Array<LuaShader> = null;
 	public static var lua:State = null;
 
 	function callLua(func_name:String, args:Array<Dynamic>, ?type:String):Dynamic
@@ -222,8 +221,6 @@ class ModchartState
 
 	public function setVar(var_name:String, object:Dynamic)
 	{
-		// trace('setting variable ' + var_name + ' to ' + object);
-
 		Lua.pushnumber(lua, object);
 		Lua.setglobal(lua, var_name);
 	}
@@ -231,8 +228,6 @@ class ModchartState
 	public function getVar(var_name:String, type:String):Dynamic
 	{
 		var result:Any = null;
-
-		// trace('getting variable ' + var_name + ' with a type of ' + type);
 
 		Lua.getglobal(lua, var_name);
 		result = Convert.fromLua(lua, -1);
@@ -245,7 +240,6 @@ class ModchartState
 		else
 		{
 			var result = convert(result, type);
-			// trace(var_name + ' result: ' + result);
 			return result;
 		}
 	}
@@ -416,8 +410,6 @@ class ModchartState
 		trace("Lua version: " + Lua.version());
 		trace("LuaJIT version: " + Lua.versionJIT());
 		Lua.init_callbacks(lua);
-
-		// shaders = new Array<LuaShader>();
 
 		// pre lowercasing the song name (new)
 		var songLowercase = StringTools.replace(PlayState.SONG.songId, " ", "-").toLowerCase();

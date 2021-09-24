@@ -86,7 +86,6 @@ class DiffOverview extends FlxSubState
 		handTwo = DiffCalc.lastDiffHandTwo;
 		for (i in 0...4)
 		{
-			// FlxG.log.add(i);
 			var babyArrow:FlxSprite = new FlxSprite(0, strumLine.y);
 
 			babyArrow.frames = Paths.getSparrowAtlas('NOTE_assets', 'shared');
@@ -165,7 +164,6 @@ class DiffOverview extends FlxSubState
 		offset.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 4, 1);
 		offset.color = FlxColor.WHITE;
 		offset.scrollFactor.set();
-		// add(offset);
 
 		FlxTween.tween(blackBox, {alpha: 0.5}, 1, {ease: FlxEase.expoInOut});
 		FlxTween.tween(camHUD, {alpha: 1}, 0.5, {ease: FlxEase.expoInOut});
@@ -268,38 +266,6 @@ class DiffOverview extends FlxSubState
 				quit();
 			}
 
-		/*if (FlxG.keys.pressed.RIGHT)
-			{
-				if (FlxG.keys.pressed.SHIFT)
-				{
-					FlxG.save.data.offset++;
-					offsetChange();
-				}
-			}
-			if (FlxG.keys.pressed.LEFT)
-			{
-				if (FlxG.keys.pressed.SHIFT)
-				{
-					FlxG.save.data.offset--;
-					offsetChange();
-				}
-			}
-
-			if (FlxG.keys.justPressed.RIGHT)
-			{
-				FlxG.save.data.offset++;
-				offsetChange();
-			}
-			if (FlxG.keys.justPressed.LEFT)
-			{
-				FlxG.save.data.offset--;
-				offsetChange();
-			}
-
-
-			offset.text = "Offset: " + HelperFunctions.truncateFloat(FlxG.save.data.offset,0) + " (LEFT/RIGHT to decrease/increase, SHIFT to go faster) - Time: " + HelperFunctions.truncateFloat(Conductor.songPosition / 1000,0) + "s - Step: " + currentStep;
-		 */
-
 		if (vocals != null)
 			if (vocals.playing)
 				Conductor.songPosition += FlxG.elapsed * 1000;
@@ -392,8 +358,6 @@ class DiffOverview extends FlxSubState
 
 	public function generateSong(dataPath:String):Void
 	{
-		// FlxG.log.add(ChartParser.parse());
-
 		var songData = FreeplayState.songData.get(FreeplayState.songs[FreeplayState.curSelected].songName)[FreeplayState.curDifficulty];
 		Conductor.changeBPM(songData.bpm);
 
@@ -427,6 +391,7 @@ class DiffOverview extends FlxSubState
 				if (daStrumTime < 0)
 					daStrumTime = 0;
 				var daNoteData:Int = Std.int(songNotes[1] % 4);
+				var daRawNoteData:Int = Std.int(songNotes[1]);
 
 				var gottaHitNote:Bool = section.mustHitSection;
 
@@ -441,7 +406,7 @@ class DiffOverview extends FlxSubState
 				else
 					oldNote = null;
 
-				var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote, false, true);
+				var swagNote:Note = new Note(daStrumTime, daRawNoteData, oldNote, false, true);
 				swagNote.beat = TimingStruct.getBeatFromTime(daStrumTime);
 
 				if (!gottaHitNote)
@@ -462,6 +427,7 @@ class DiffOverview extends FlxSubState
 					oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 
 					var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, oldNote, true, true);
+					sustainNote.rawNoteData = songNotes[1];
 					sustainNote.scrollFactor.set();
 					unspawnNotes.push(sustainNote);
 
@@ -485,9 +451,6 @@ class DiffOverview extends FlxSubState
 			}
 			daBeats += 1;
 		}
-
-		// trace(unspawnNotes.length);
-		// playerCounter += 1;
 
 		unspawnNotes.sort(sortByShit);
 

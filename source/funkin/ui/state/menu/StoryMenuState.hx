@@ -1,5 +1,6 @@
 package funkin.ui.state.menu;
 
+import funkin.ui.audio.MainMenuMusic;
 import funkin.behavior.play.Highscore;
 import funkin.behavior.play.Song;
 import funkin.ui.state.play.PlayState;
@@ -22,7 +23,7 @@ import funkin.assets.Paths;
 import funkin.behavior.api.Discord.DiscordClient;
 #end
 import funkin.ui.component.menu.MenuCharacter;
-import funkin.ui.component.menu.MenuItem;
+import funkin.ui.component.menu.StoryWeekMenuItem;
 import funkin.util.Util;
 import lime.net.curl.CURLCode;
 
@@ -67,7 +68,7 @@ class StoryMenuState extends MusicBeatState
 
 	var txtTracklist:FlxText;
 
-	var grpWeekText:FlxTypedGroup<MenuItem>;
+	var grpWeekText:FlxTypedGroup<StoryWeekMenuItem>;
 	var grpWeekCharacters:FlxTypedGroup<MenuCharacter>;
 
 	var grpLocks:FlxTypedGroup<FlxSprite>;
@@ -107,14 +108,7 @@ class StoryMenuState extends MusicBeatState
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 
-		if (FlxG.sound.music != null)
-		{
-			if (!FlxG.sound.music.playing)
-			{
-				FlxG.sound.playMusic(Paths.music('freakyMenu'));
-				Conductor.changeBPM(102);
-			}
-		}
+		MainMenuMusic.playMenuMusic();
 
 		persistentUpdate = persistentDraw = true;
 
@@ -134,7 +128,7 @@ class StoryMenuState extends MusicBeatState
 		var ui_tex = Paths.getSparrowAtlas('campaign_menu_UI_assets');
 		var yellowBG:FlxSprite = new FlxSprite(0, 56).makeGraphic(FlxG.width, 400, 0xFFF9CF51);
 
-		grpWeekText = new FlxTypedGroup<MenuItem>();
+		grpWeekText = new FlxTypedGroup<StoryWeekMenuItem>();
 		add(grpWeekText);
 
 		grpLocks = new FlxTypedGroup<FlxSprite>();
@@ -149,14 +143,13 @@ class StoryMenuState extends MusicBeatState
 
 		for (i in 0...weekData().length)
 		{
-			var weekThing:MenuItem = new MenuItem(0, yellowBG.y + yellowBG.height + 10, i);
+			var weekThing:StoryWeekMenuItem = new StoryWeekMenuItem(0, yellowBG.y + yellowBG.height + 10, i);
 			weekThing.y += ((weekThing.height + 20) * i);
 			weekThing.targetY = i;
 			grpWeekText.add(weekThing);
 
 			weekThing.screenCenter(X);
 			weekThing.antialiasing = FlxG.save.data.antialiasing;
-			// weekThing.updateHitbox();
 
 			// Needs an offset thingie
 			if (!weekUnlocked[i])
@@ -220,7 +213,6 @@ class StoryMenuState extends MusicBeatState
 		txtTracklist.font = rankText.font;
 		txtTracklist.color = 0xFFe55777;
 		add(txtTracklist);
-		// add(rankText);
 		add(scoreText);
 		add(txtWeekTitle);
 
@@ -245,15 +237,12 @@ class StoryMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		// scoreText.setFormat('VCR OSD Mono', 32);
 		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, 0.5));
 
 		scoreText.text = "WEEK SCORE:" + lerpScore;
 
 		txtWeekTitle.text = weekNames[curWeek].toUpperCase();
 		txtWeekTitle.x = FlxG.width - (txtWeekTitle.width + 10);
-
-		// FlxG.watch.addQuick('font', scoreText.font);
 
 		difficultySelectors.visible = weekUnlocked[curWeek];
 
@@ -349,6 +338,14 @@ class StoryMenuState extends MusicBeatState
 
 	function selectWeek()
 	{
+		if (!Song.validateSongs(weekData(), curDifficulty))
+		{
+			// If any song doesn't exist, stop loading the week.
+			FlxG.sound.play(Paths.sound('cancelMenu'));
+			trace('CANCELLED loading week: one or more songs are missing on this difficulty!');
+			return;
+		}
+
 		if (weekUnlocked[curWeek])
 		{
 			if (stopspamming == false)
@@ -477,7 +474,7 @@ class StoryMenuState extends MusicBeatState
 
 	public static function unlockNextWeek(week:Int):Void
 	{
-		if (week <= weekData().length - 1 /*&& FlxG.save.data.weekUnlocked == week*/) // fuck you, unlocks all weeks
+		if (week <= weekData().length - 1 && (FlxG.save.data.weekUnlocked == week || Enigma.UNLOCK_DEFAULT_WEEKS))
 		{
 			weekUnlocked.push(true);
 			trace('Week ' + week + ' beat (Week ' + (week + 1) + ' unlocked)');

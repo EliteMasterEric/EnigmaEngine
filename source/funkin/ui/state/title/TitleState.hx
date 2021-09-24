@@ -398,7 +398,6 @@ class TitleState extends MusicBeatState
 			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
 			transitioning = true;
-			// FlxG.sound.music.stop();
 
 			MainMenuState.firstStart = true;
 			MainMenuState.finishedFunnyMove = false;
@@ -581,7 +580,6 @@ class TitleState extends MusicBeatState
 				else
 				{
 					var creditsEntryValue:TitleScreenCreditsEntry = cast creditsEntry;
-					// Debug.logTrace('Credits action single.');
 					performCreditsAction(creditsEntryValue);
 				}
 			}

@@ -49,10 +49,11 @@ typedef SongData =
 	var player1:String;
 	var player2:String;
 	var gfVersion:String;
-	var noteStyle:String;
 	var stage:String;
-	var ?validScore:Bool;
 	var ?offset:Int;
+	var ?noteStyle:String;
+	var ?validScore:Bool;
+	var ?strumlineSize:Int;
 }
 
 typedef SongMeta =
@@ -87,6 +88,31 @@ class Song
 		var rawMetaJson = Paths.loadJSON('songs/$songId/_meta');
 
 		return parseJSONshit(songId, rawJson, rawMetaJson);
+	}
+
+	public static function validateSongs(songFolders:Array<String>, curDifficulty:Int):Bool
+	{
+		// For each song in the list...
+		for (i in 0...songFolders.length)
+		{
+			var songFolder = songFolders[i];
+			var songFolderFormat = StringTools.replace(songFolder, " ", "-");
+			var songJsonFile = Highscore.formatSong(songFolderFormat, curDifficulty);
+
+			var songFolderLowercase = songFolderFormat.toLowerCase();
+
+			var songDataPath = Paths.json(songFolderLowercase + '/' + songJsonFile.toLowerCase());
+
+			var songExists = Assets.exists(songDataPath);
+
+			// If any song doesn't exist, return false.
+			if (!songExists)
+			{
+				return false;
+			}
+		}
+		// Validation completed.
+		return true;
 	}
 
 	public static function conversionChecks(song:SongData):SongData
@@ -192,7 +218,15 @@ class Song
 
 		songData.songId = songId;
 
-		// Enforce default values for optional fields.
+		/**
+		 * Default values.
+		 */
+		if (swagShit.noteStyle == null)
+			swagShit.noteStyle = "normal";
+
+		if (swagShit.strumlineSize == null)
+			swagShit.strumlineSize = 4;
+
 		if (songData.validScore == null)
 			songData.validScore = true;
 

@@ -120,8 +120,6 @@ class Stage extends MusicBeatState
 					trainSound = new FlxSound().loadEmbedded(Paths.sound('train_passes', 'week3'));
 					FlxG.sound.list.add(trainSound);
 
-					// var cityLights:FlxSprite = new FlxSprite().loadGraphic(AssetPaths.win0.png);
-
 					var street:FlxSprite = new FlxSprite(-40, streetBehind.y).loadGraphic(Paths.loadImage('philly/street', 'week3'));
 					swagBacks['street'] = street;
 					toAdd.push(street);
@@ -170,13 +168,6 @@ class Stage extends MusicBeatState
 
 					var overlayShit:FlxSprite = new FlxSprite(-500, -600).loadGraphic(Paths.loadImage('limo/limoOverlay', 'week4'));
 					overlayShit.alpha = 0.5;
-					// add(overlayShit);
-
-					// var shaderBullshit = new BlendModeEffect(new OverlayShader(), FlxColor.RED);
-
-					// FlxG.camera.setFilters([new ShaderFilter(cast shaderBullshit.shader)]);
-
-					// overlayShit.shader = shaderBullshit;
 
 					var limoTex = Paths.getSparrowAtlas('limo/limoDrive', 'week4');
 
@@ -285,8 +276,6 @@ class Stage extends MusicBeatState
 				}
 			case 'school':
 				{
-					// defaultCamZoom = 0.9;
-
 					var bgSky = new FlxSprite().loadGraphic(Paths.loadImage('weeb/weebSky', 'week6'));
 					bgSky.scrollFactor.set(0.1, 0.1);
 					swagBacks['bgSky'] = bgSky;
@@ -377,44 +366,6 @@ class Stage extends MusicBeatState
 					bg.scale.set(6, 6);
 					swagBacks['bg'] = bg;
 					toAdd.push(bg);
-
-					/* 
-						var bg:FlxSprite = new FlxSprite(posX, posY).loadGraphic(Paths.loadImage('weeb/evilSchoolBG'));
-						bg.scale.set(6, 6);
-						// bg.setGraphicSize(Std.int(bg.width * 6));
-						// bg.updateHitbox();
-						add(bg);
-						var fg:FlxSprite = new FlxSprite(posX, posY).loadGraphic(Paths.loadImage('weeb/evilSchoolFG'));
-						fg.scale.set(6, 6);
-						// fg.setGraphicSize(Std.int(fg.width * 6));
-						// fg.updateHitbox();
-						add(fg);
-						wiggleShit.effectType = WiggleEffectType.DREAMY;
-						wiggleShit.waveAmplitude = 0.01;
-						wiggleShit.waveFrequency = 60;
-						wiggleShit.waveSpeed = 0.8;
-					 */
-
-					// bg.shader = wiggleShit.shader;
-					// fg.shader = wiggleShit.shader;
-
-					/* 
-						var waveSprite = new FlxEffectSprite(bg, [waveEffectBG]);
-						var waveSpriteFG = new FlxEffectSprite(fg, [waveEffectFG]);
-						// Using scale since setGraphicSize() doesnt work???
-						waveSprite.scale.set(6, 6);
-						waveSpriteFG.scale.set(6, 6);
-						waveSprite.setPosition(posX, posY);
-						waveSpriteFG.setPosition(posX, posY);
-						waveSprite.scrollFactor.set(0.7, 0.8);
-						waveSpriteFG.scrollFactor.set(0.9, 0.8);
-						// waveSprite.setGraphicSize(Std.int(waveSprite.width * 6));
-						// waveSprite.updateHitbox();
-						// waveSpriteFG.setGraphicSize(Std.int(fg.width * 6));
-						// waveSpriteFG.updateHitbox();
-						add(waveSprite);
-						add(waveSpriteFG);
-					 */
 				}
 			default:
 				{
@@ -468,7 +419,6 @@ class Stage extends MusicBeatState
 							trainFrameTiming = 0;
 						}
 					}
-					// phillyCityLights.members[curLight].alpha -= (Conductor.crochet / 1000) * FlxG.elapsed;
 			}
 		}
 	}
@@ -567,7 +517,6 @@ class Stage extends MusicBeatState
 							curLight = FlxG.random.int(0, phillyCityLights.length - 1);
 
 							phillyCityLights.members[curLight].visible = true;
-							// phillyCityLights.members[curLight].alpha = 1;
 						}
 					}
 
@@ -657,8 +606,6 @@ class Stage extends MusicBeatState
 			PlayState.gf.playAnim('hairFall');
 			swagBacks['phillyTrain'].x = FlxG.width + 200;
 			trainMoving = false;
-			// trainSound.stop();
-			// trainSound.time = 0;
 			trainCars = 8;
 			trainFinishing = false;
 			startedMoving = false;

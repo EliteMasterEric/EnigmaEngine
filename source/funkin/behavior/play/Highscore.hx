@@ -6,13 +6,8 @@ using StringTools;
 
 class Highscore
 {
-	#if (haxe >= "4.0.0")
 	public static var songScores:Map<String, Int> = new Map();
 	public static var songCombos:Map<String, String> = new Map();
-	#else
-	public static var songScores:Map<String, Int> = new Map<String, Int>();
-	public static var songCombos:Map<String, String> = new Map<String, String>();
-	#end
 
 	public static function saveScore(song:String, score:Int = 0, ?diff:Int = 0):Void
 	{

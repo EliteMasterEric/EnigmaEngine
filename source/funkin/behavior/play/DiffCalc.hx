@@ -138,19 +138,6 @@ class DiffCalc
 			segmentsTwo[index].push(i);
 		}
 
-		// Remove 0 intervals
-		/*for(i in 0...segmentsOne.length)
-			{
-				if (segmentsOne[i].length == 0)
-					segmentsOne[i] = null;
-			}
-
-			for(i in 0...segmentsTwo.length)
-			{
-				if (segmentsTwo[i].length == 0)
-					segmentsTwo[i] = null;
-		}*/
-
 		// get nps for both hands
 
 		var hand_npsOne:Array<Float> = new Array<Float>();
@@ -197,8 +184,6 @@ class DiffCalc
 
 			var bigFuck = ((((one > two ? one : two) * 8) + (hand_npsOne[i] / scale) * 5) / 13) * scale;
 
-			// trace(bigFuck + " - hand one [" + i + "]");
-
 			hand_diffOne.push(bigFuck);
 		}
 
@@ -226,8 +211,6 @@ class DiffCalc
 			var bigFuck = ((((one > two ? one : two) * 8) + (hand_npsTwo[i] / scale) * 5) / 13) * scale;
 
 			hand_diffTwo.push(bigFuck);
-
-			// trace(bigFuck + " - hand two [" + i + "]");
 		}
 
 		for (i in 0...4)
@@ -238,12 +221,6 @@ class DiffCalc
 			smoothBrainTwo(hand_diffOne);
 			smoothBrainTwo(hand_diffTwo);
 		}
-
-		// trace(hand_diffOne);
-		// trace(hand_diffTwo);
-
-		// trace(hand_npsOne);
-		// trace(hand_npsTwo);
 
 		var point_npsOne:Array<Float> = new Array<Float>();
 		var point_npsTwo:Array<Float> = new Array<Float>();
