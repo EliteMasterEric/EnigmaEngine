@@ -2755,7 +2755,6 @@ class PlayState extends MusicBeatState
 
 					if (SONG.validScore)
 					{
-						NGio.unlockMedal(60961);
 						Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
 					}
 
@@ -3379,8 +3378,8 @@ class PlayState extends MusicBeatState
 					WebmPlayer.SKIP_STEP_LIMIT = 90;
 					var str1:String = "WEBM SHIT"; 
 					webmHandler = new WebmHandler();
-					webmHandler.source(ourSource);
-					webmHandler.makePlayer();
+					// webmHandler.source(ourSource);
+					// webmHandler.makePlayer();
 					webmHandler.webm.name = str1;
 			
 					GlobalVideo.setWebm(webmHandler);
@@ -3400,26 +3399,26 @@ class PlayState extends MusicBeatState
 						GlobalVideo.get().play();
 					}
 					
-					var data = webmHandler.webm.bitmapData;
+					// var data = webmHandler.webm.bitmapData;
 			
-					videoSprite = new FlxSprite(-470,-30).loadGraphic(data);
-			
-					videoSprite.setGraphicSize(Std.int(videoSprite.width * 1.2));
+					//videoSprite = new FlxSprite(-470,-30).loadGraphic(data);
+			//
+					//videoSprite.setGraphicSize(Std.int(videoSprite.width * 1.2));
 			
 					remove(gf);
 					remove(boyfriend);
 					remove(dad);
-					add(videoSprite);
+					//add(videoSprite);
 					add(gf);
 					add(boyfriend);
 					add(dad);
 			
 					trace('poggers');
 			
-					if (!songStarted)
-						webmHandler.pause();
-					else
-						webmHandler.resume();
+					//if (!songStarted)
+					//	webmHandler.pause();
+					//else
+					//	webmHandler.resume();
 					#end
 				}
 
