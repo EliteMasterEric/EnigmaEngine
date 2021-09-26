@@ -1,5 +1,7 @@
 package funkin.ui.state.title;
 
+import funkin.behavior.media.FMOD;
+import polymod.hscript.HScriptable;
 import funkin.behavior.play.Highscore;
 import funkin.ui.component.Alphabet;
 import funkin.const.Enigma;
@@ -31,12 +33,13 @@ import funkin.behavior.api.Discord.DiscordClient;
 #if FEATURE_STEPMANIA
 import funkin.behavior.stepmania.SMFile;
 #end
+// import funkin.behavior.mods.IHook;
 import haxe.extern.EitherType;
 import openfl.Assets;
 
 using StringTools;
 
-class TitleState extends MusicBeatState
+class TitleState extends MusicBeatState // implements IHook
 {
 	/**
 	 * Whether the state transition animation has been initialized.
@@ -132,8 +135,23 @@ class TitleState extends MusicBeatState
 
 	var creditsGraphicCache:Map<String, FlxSprite>;
 
+	/**
+	 * Mod hook called when the loa
+	 */
+	@:hscript
+	public function onStartCreateTitleScreen()
+	{
+	}
+
+	@:hscript
+	public function onFinishCreateTitleScreen()
+	{
+	}
+
 	override public function create():Void
 	{
+		onStartCreateTitleScreen();
+
 		// TODO: Refactor this to use OpenFlAssets for compatibility with ModCore.
 		#if FEATURE_FILESYSTEM
 		if (!sys.FileSystem.exists(Sys.getCwd() + "/assets/replays"))
@@ -179,6 +197,8 @@ class TitleState extends MusicBeatState
 		#end
 
 		Debug.logTrace('Initialized TitleState...');
+
+		onFinishCreateTitleScreen();
 	}
 
 	/**
@@ -382,6 +402,17 @@ class TitleState extends MusicBeatState
 			}
 		}
 		#end
+
+		if (FlxG.keys.justPressed.Q)
+		{
+			FlxG.sound.music.stop();
+			FMODCore.playSound(Paths.music("HankFuckingShootsTricky"));
+		}
+		if (FlxG.keys.justPressed.W)
+		{
+			FlxG.sound.music.stop();
+			FMODCore.playGarbage();
+		}
 
 		// If we've already skipped the intro...
 		if (pressedEnter && !transitioning && skippedIntro)

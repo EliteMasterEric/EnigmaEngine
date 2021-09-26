@@ -1,4 +1,4 @@
-package funkin.ui.video;
+package funkin.behavior.media;
 
 import funkin.const.GameDimensions;
 import openfl.Lib;

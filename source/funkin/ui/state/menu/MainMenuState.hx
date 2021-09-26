@@ -28,8 +28,6 @@ using StringTools;
 
 class MainMenuState extends MusicBeatState
 {
-	var curSelected:Int = 0;
-
 	var menuItems:FlxTypedGroup<FlxSprite>;
 
 	var mainMenuOptions:Array<String> = ['story mode', 'freeplay', 'options'];
@@ -43,6 +41,9 @@ class MainMenuState extends MusicBeatState
 	var camFollow:FlxObject;
 
 	public static var finishedFunnyMove:Bool = false;
+
+	// There's only ever one MainMenuState at a time, so we can make this static.
+	static var curSelected:Int = 0;
 
 	override function create()
 	{
@@ -83,11 +84,7 @@ class MainMenuState extends MusicBeatState
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
-		MainMenuItem.buildMainMenu(menuItems, function(flxTween:FlxTween)
-		{
-			MainMenuState.finishedFunnyMove = true;
-			changeItem();
-		});
+		MainMenuItemBuilder.buildMainMenu(menuItems, finishFunnyMove);
 
 		firstStart = false;
 
@@ -103,9 +100,15 @@ class MainMenuState extends MusicBeatState
 		else
 			controls.setKeyboardScheme(KeyboardScheme.Duo(true), true);
 
-		changeItem();
+		changeItem(0);
 
 		super.create();
+	}
+
+	public function finishFunnyMove(flxTween:FlxTween)
+	{
+		MainMenuState.finishedFunnyMove = true;
+		changeItem(0);
 	}
 
 	var selectedSomethin:Bool = false;
@@ -220,7 +223,7 @@ class MainMenuState extends MusicBeatState
 		}
 	}
 
-	function changeItem(huh:Int = 0)
+	public function changeItem(huh:Int = 0)
 	{
 		if (finishedFunnyMove)
 		{

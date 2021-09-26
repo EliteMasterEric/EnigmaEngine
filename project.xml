@@ -44,10 +44,11 @@
 	<assets path="assets/preload" rename="assets" exclude="*.ogg" if="web"/>
 	<assets path="assets/preload" rename="assets" exclude="*.mp3" unless="web"/>
 	
-	<!-- <define name="PRELOAD_ALL" /> -->
 	<define name="PRELOAD_ALL" unless="web" />
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
 	
+	<library name="scripts"  preload="true" />
+
 	<section if="PRELOAD_ALL">
 		<library name="songs"    preload="true" />
 		<library name="shared"   preload="true" />
@@ -58,7 +59,7 @@
 		<library name="week4"    preload="true" />
 		<library name="week5"    preload="true" />
 		<library name="week6"    preload="true" />
-		<library name="sm"    preload="true" />
+		<library name="sm"       preload="true" />
 	</section>
 	
 	<section if="NO_PRELOAD_ALL">
@@ -78,6 +79,8 @@
 	<assets path="assets/songs"    library="songs"    exclude="*.mp3" unless="web"/>
 	<assets path="assets/shared"   library="shared"   exclude="*.ogg" if="web"/>
 	<assets path="assets/shared"   library="shared"   exclude="*.mp3" unless="web"/>
+	<assets path="assets/scripts"  library="scripts"  exclude="*.ogg" if="web"/>
+	<assets path="assets/scripts"  library="scripts"  exclude="*.mp3" unless="web"/>
 	<assets path="assets/tutorial" library="tutorial" exclude="*.ogg" if="web"/>
 	<assets path="assets/tutorial" library="tutorial" exclude="*.mp3" unless="web"/>
 	<assets path="assets/week1"    library="week1"    exclude="*.ogg" if="web"/>
@@ -98,9 +101,6 @@
 	<assets path='example_mods' rename='mods' embed='false'/>
 	<assets path='art/readme.txt' rename='do NOT readme.txt' />
 	<assets path='LICENSE' rename='LICENSE.txt' />
-	<!-- <template path='mods' /> -->
-	
-	<!-- <assets path="CHANGELOG.md" rename='changelog.txt'/> -->
 
 	<!-- NOTE FOR FUTURE SELF SINCE FONTS ARE ALWAYS FUCKY 
 		TO FIX ONE OF THEM, I CONVERTED IT TO OTF. DUNNO IF YOU NEED TO
@@ -108,7 +108,6 @@
 		NOT USING A DIRECT THING TO THE ASSET!!!
 	-->
 	<assets path="assets/fonts" embed='true'/>
-
 
 
 	<!-- _______________________________ Libraries ______________________________ -->
@@ -141,8 +140,8 @@
 	<!-- A library for tolerant JSON parsing. Fewer bugs caused by typos means fewer issues on GitHub. -->
 	<haxelib name="tjson" />
 
-	<!-- FMOD audio engine for Haxe. -->
-	<haxelib name="faxe" if='switch'/>
+  <!-- An FMOD wrapper for Haxe. Includes APIs for sound manipulation. -->
+  <haxelib name="faxe" />
 
 	<!-- Allows for atomic mod loading and asset replacement. Powers the ModCore system. -->
 	<haxelib name="polymod"/>
@@ -171,6 +170,13 @@
 	<haxedef name="HXCPP_CHECK_POINTER" if="release" />
 	<haxedef name="HXCPP_STACK_LINE" if="release" />
 
+  <haxedef name="telemetry" if="debug"/>
+  <!--
+  <set name="telemetry" if="debug"/>
+  <define name="telemetry" if="debug"/>
+  -->
+
+
 	<!-- _________________________________ Custom _______________________________ -->
 
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
@@ -187,8 +193,8 @@
 	<haxeflag name="--no-traces" unless="debug" />
 	<haxeflag name="--dce full" if="release" />
 
-  	<!-- Use defines to ensure compile-time definitions have readable context. -->
-  	<!-- Allowed inputs are mobile,desktop,web,ios,android,windows,mac,linux,switch,html5,cpp,neko,flash,js -->
+	<!-- Use defines to ensure compile-time definitions have readable context. -->
+	<!-- Allowed inputs are mobile,desktop,web,ios,android,windows,mac,linux,switch,html5,cpp,neko,flash,js -->
 
 	<!-- Defines whether the Discord presence client should be enabled. Only works on desktop. -->
 	<haxedef name="FEATURE_DISCORD" if="desktop" />
@@ -202,11 +208,17 @@
 	<haxedef name="FEATURE_STEPMANIA" if="desktop" />
 	<!-- Defines whether the Thread class can be used. -->
 	<haxedef name="FEATURE_MULTITHREADING" if="cpp" />
-  	<!-- Defines whether mods are supported on this platform. -->
-  	<haxedef name="FEATURE_MODCORE" if="desktop" />
+	<!-- Defines whether mods are supported on this platform. -->
+	<haxedef name="FEATURE_MODCORE" if="desktop" />
 	<!-- Defines whether GameJolt integration is supported on this platform. -->
-  	<haxedef name="FEATURE_GAMEJOLT" if="html5" />
+	<haxedef name="FEATURE_GAMEJOLT" if="html5" />
 	<!-- Defines whether Kongregate integration is supported on this platform. -->
 	<haxedef name="FEATURE_KONGREGATE" if="html5" />
+
+	<!-- Use defines to configure the behavior of Polymod. -->
+	<haxedef name="POLYMOD_SCRIPT_EXT" value=".hscript" />
+	<haxedef name="POLYMOD_SCRIPT_LIBRARY" value="scripts" />
+	<haxedef name="POLYMOD_USE_NAMESPACE" value="false" />
+	<haxedef name="POLYMOD_ROOT_PATH" value="./" />
 
 </project>

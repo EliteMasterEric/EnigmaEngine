@@ -1,5 +1,5 @@
 // This was made by GWebDev lol btw this uses actuate
-package funkin.ui.video;
+package funkin.behavior.media;
 
 import flixel.FlxG;
 import motion.Actuate;

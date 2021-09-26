@@ -219,6 +219,7 @@ class Debug
 		logInfo('HaxeFlixel version: ${Std.string(FlxG.VERSION)}');
 		logInfo('Friday Night Funkin\' version: ${Enigma.GAME_VERSION}');
 		logInfo('Enigma Engine version: ${Enigma.ENGINE_VERSION}');
+		logInfo('Git commit: ${Enigma.COMMIT_HASH}');
 
 		// Add a crash handler.
 		// openfl.Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onUncaughtError);
@@ -380,8 +381,10 @@ class Debug
 		if (pos == null)
 			return inArray;
 
+		var gameTickTime = (FlxG.game != null ? '${FlxG.game.ticks / 1000} ' : '');
+
 		// Format the position ourselves.
-		var output:Array<Dynamic> = ['(${pos.className}/${pos.methodName}#${pos.lineNumber}): '];
+		var output:Array<Dynamic> = ['${gameTickTime}(${pos.className}/${pos.methodName}#${pos.lineNumber}): '];
 
 		return output.concat(inArray);
 	}

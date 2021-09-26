@@ -18,7 +18,7 @@ import funkin.behavior.options.KeyBinds;
 import funkin.ui.component.Alphabet;
 import funkin.ui.state.menu.FreeplayState;
 import funkin.ui.state.menu.StoryMenuState;
-import funkin.ui.video.GlobalVideo;
+import funkin.behavior.media.GlobalVideo;
 import funkin.util.Util;
 #if FEATURE_LUAMODCHART
 import llua.Lua;

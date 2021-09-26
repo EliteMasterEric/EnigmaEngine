@@ -1,4 +1,4 @@
-package funkin.ui.video;
+package funkin.behavior.media;
 
 import flixel.FlxG;
 import openfl.display.Sprite;
@@ -30,7 +30,7 @@ class WebmHandler
 	{
 		io = new WebmIoFile(vidPath);
 		webm = new WebmPlayer();
-		webm.fuck(io, false);
+		webm.initPlayer(io, false);
 		webm.addEventListener(WebmEvent.PLAY, function(e)
 		{
 			onPlay();
@@ -54,7 +54,7 @@ class WebmHandler
 	public function updatePlayer():Void
 	{
 		io = new WebmIoFile(vidPath);
-		webm.fuck(io, false);
+		webm.initPlayer(io, false);
 	}
 
 	public function play():Void

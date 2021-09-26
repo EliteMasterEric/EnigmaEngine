@@ -46,6 +46,9 @@ class ModMenuState extends MusicBeatState
 		super.create();
 	}
 
+	@:hscript
+	public var test:String = "Testing";
+
 	function initModLists()
 	{
 		var modDatas = ModCore.getAllMods();

@@ -1,5 +1,6 @@
 package funkin.const;
 
+import funkin.util.macro.HaxeCommit;
 import funkin.ui.state.MusicBeatState;
 
 /**
@@ -27,6 +28,11 @@ class Enigma extends MusicBeatState
 	 * The release of Week 8 is going to send a lot of waves through the modding community...
 	 */
 	public static var GAME_VERSION:String = "0.2.7.1";
+
+	/**
+	 * The git commit of this build, calculated at build time. Powered by a fancy Haxe macro.
+	 */
+	@:keep public static var COMMIT_HASH(default, never):String = HaxeCommit.getGitCommitHash();
 
 	/**
 	 * The URL to use for version checks.

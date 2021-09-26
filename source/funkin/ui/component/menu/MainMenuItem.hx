@@ -1,5 +1,6 @@
 package funkin.ui.component.menu;
 
+import funkin.behavior.input.InteractableSprite;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -9,7 +10,7 @@ import funkin.ui.state.menu.MainMenuState;
 import flixel.FlxSprite;
 import funkin.assets.Paths;
 
-class MainMenuItem
+class MainMenuItemBuilder
 {
 	/**
 	 * A list of menu options whose graphics are available in the vanilla graphic.
@@ -32,27 +33,7 @@ class MainMenuItem
 		if (VANILLA_MAIN_MENU_ITEM_NAMES.contains(menuOptionName))
 		{
 			// The base game's main menu rendering code.
-			var tex = Paths.getSparrowAtlas('FNF_main_menu_assets');
-			var menuItem:FlxSprite = new FlxSprite(0, FlxG.height * 1.6);
-			menuItem.frames = tex;
-			menuItem.animation.addByPrefix('idle', menuOptionName + ' basic', 24);
-			menuItem.animation.addByPrefix('selected', menuOptionName + ' white', 24);
-			menuItem.animation.play('idle');
-			menuItem.ID = id;
-			menuItem.screenCenter(X);
-			menuItem.scrollFactor.set();
-			menuItem.antialiasing = FlxG.save.data.antialiasing;
-			if (MainMenuState.firstStart)
-			{
-				FlxTween.tween(menuItem, {y: 60 + (id * 160)}, 1 + (id * 0.25), {
-					ease: FlxEase.expoInOut,
-					onComplete: onFinishFirstStart
-				});
-			}
-			else
-			{
-				menuItem.y = 60 + (id * 160);
-			}
+			var menuItem:MainMenuItem = new MainMenuItem(0, FlxG.height * 1.6, id, menuOptionName, onFinishFirstStart);
 
 			return menuItem;
 		}
@@ -70,5 +51,48 @@ class MainMenuItem
 
 			return menuItem;
 		}
+	}
+}
+
+class MainMenuItem extends InteractableSprite
+{
+	public var menuOptionName(default, null):String;
+	public var id(default, null):Int;
+
+	public function new(x:Float, y:Float, id:Int, menuOptionName:String, onFinishFirstStart:TweenCallback)
+	{
+		super(x, y);
+		this.frames = Paths.getSparrowAtlas('FNF_main_menu_assets');
+		this.animation.addByPrefix('idle', '$menuOptionName basic', 24);
+		this.animation.addByPrefix('selected', '$menuOptionName white', 24);
+		this.animation.play('idle');
+		this.ID = id;
+		this.screenCenter(X);
+		this.scrollFactor.set();
+		this.antialiasing = FlxG.save.data.antialiasing;
+
+		// Ease the menu option in from the top on first start.
+		if (MainMenuState.firstStart)
+		{
+			FlxTween.tween(this, {y: 60 + (id * 160)}, 1 + (id * 0.25), {
+				ease: FlxEase.expoInOut,
+				onComplete: onFinishFirstStart
+			});
+		}
+		else
+		{
+			// Otherwise start at the correct position.
+			this.y = 60 + (id * 160);
+		}
+	}
+
+	override function onMouseDown()
+	{
+		trace('Pressed menu item ${menuOptionName}');
+	}
+
+	override function onMouseUp()
+	{
+		trace('Released menu item ${menuOptionName}');
 	}
 }

@@ -18,7 +18,7 @@ import funkin.behavior.mods.ModCore;
 import funkin.ui.state.modding.ModSplashState;
 import funkin.ui.state.title.Caching;
 import funkin.ui.state.title.TitleState;
-import funkin.ui.video.WebmHandler;
+import funkin.behavior.media.WebmHandler;
 
 class Main extends Sprite
 {

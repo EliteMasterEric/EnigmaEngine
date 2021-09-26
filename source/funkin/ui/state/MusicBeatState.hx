@@ -1,5 +1,6 @@
 package funkin.ui.state;
 
+import funkin.behavior.input.InteractableUIState;
 import funkin.behavior.play.TimingStruct;
 import funkin.behavior.options.PlayerSettings;
 import funkin.behavior.play.Conductor;
@@ -15,7 +16,7 @@ import funkin.behavior.api.Discord.DiscordClient;
 import funkin.behavior.play.Conductor.BPMChangeEvent;
 import openfl.Lib;
 
-class MusicBeatState extends FlxUIState
+class MusicBeatState extends InteractableUIState
 {
 	private var lastBeat:Float = 0;
 	private var lastStep:Float = 0;
