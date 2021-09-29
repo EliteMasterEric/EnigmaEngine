@@ -193,6 +193,12 @@
 	<haxeflag name="--no-traces" unless="debug" />
 	<haxeflag name="--dce full" if="release" />
 
+  <!-- On mobile targets, optimize by disabling keyboard- and mouse-related logic. -->
+  <haxedef name="FLX_NO_KEYBOARD" if="mobile" />
+  <haxedef name="FLX_NO_MOUSE" if="mobile" />
+  <!-- We also disable touch on computers. Some computers have touch but who cares. -->
+  <haxedef name="FLX_NO_TOUCH" if="desktop" unless="html5"/>
+
 	<!-- Use defines to ensure compile-time definitions have readable context. -->
 	<!-- Allowed inputs are mobile,desktop,web,ios,android,windows,mac,linux,switch,html5,cpp,neko,flash,js -->
 

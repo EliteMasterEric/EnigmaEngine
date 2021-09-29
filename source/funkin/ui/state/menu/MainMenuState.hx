@@ -90,7 +90,7 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollow, null, 0.60 * (60 / FlxG.save.data.fpsCap));
 
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, '${Enigma.GAME_VERSION} FNF - ${Enigma.ENGINE_VERSION} ${Enigma.ENGINE_NAME}', 12);
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, 'FNF - ${Enigma.ENGINE_NAME} ${Enigma.ENGINE_VERSION}', 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);

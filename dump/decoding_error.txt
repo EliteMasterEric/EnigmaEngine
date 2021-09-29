@@ -1,0 +1,861 @@
+[{
+	access: [APublic]
+	doc: null
+	kind: FVar(null, {
+		expr: EConst(CIdent(true))
+		pos: #pos
+	})
+	meta: []
+	name: clickable
+	pos: #pos
+}, {
+	access: [APublic]
+	doc: null
+	kind: FVar(null, {
+		expr: EConst(CIdent(true))
+		pos: #pos
+	})
+	meta: []
+	name: tappable
+	pos: #pos
+}, {
+	access: [APublic]
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: []
+			name: X
+			opt: true
+			type: TPath({
+				name: Float
+				pack: []
+				params: []
+				sub: null
+			})
+			value: {
+				expr: EConst(CInt(0))
+				pos: #pos
+			}
+		}, {
+			meta: []
+			name: Y
+			opt: true
+			type: TPath({
+				name: Float
+				pack: []
+				params: []
+				sub: null
+			})
+			value: {
+				expr: EConst(CInt(0))
+				pos: #pos
+			}
+		}, {
+			meta: []
+			name: SimpleGraphic
+			opt: true
+			type: TPath({
+				name: FlxGraphicAsset
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}, {
+			meta: []
+			name: Parent
+			opt: true
+			type: TPath({
+				name: FlxObject
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}]
+		expr: {
+			expr: EBlock([{
+				expr: ECall({
+					expr: EConst(CIdent(super))
+					pos: #pos
+				}, [{
+					expr: EConst(CInt(0))
+					pos: #pos
+				}, {
+					expr: EConst(CInt(0))
+					pos: #pos
+				}, {
+					expr: EConst(CIdent(SimpleGraphic))
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EConst(CIdent(updatePosition))
+					pos: #pos
+				}, [])
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(GestureUtil))
+						pos: #pos
+					}, addGestureCallbacks)
+					pos: #pos
+				}, [{
+					expr: EConst(CIdent(this))
+					pos: #pos
+				}])
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: []
+	name: new
+	pos: #pos
+}, {
+	access: [APublic]
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: []
+			name: pos
+			opt: false
+			type: TPath({
+				name: FlxPoint
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}]
+		expr: {
+			expr: EBlock([])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: []
+	name: onJustPressed
+	pos: #pos
+}, {
+	access: [APublic]
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: []
+			name: pos
+			opt: false
+			type: TPath({
+				name: FlxPoint
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}]
+		expr: {
+			expr: EBlock([])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: []
+	name: onJustPressedMiddle
+	pos: #pos
+}, {
+	access: [APublic]
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: []
+			name: pos
+			opt: false
+			type: TPath({
+				name: FlxPoint
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}]
+		expr: {
+			expr: EBlock([])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: []
+	name: onJustPressedRight
+	pos: #pos
+}, {
+	access: [APublic]
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: []
+			name: pos
+			opt: false
+			type: TPath({
+				name: FlxPoint
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}, {
+			meta: []
+			name: pressDuration
+			opt: false
+			type: TPath({
+				name: Int
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}]
+		expr: {
+			expr: EBlock([])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: []
+	name: onJustReleased
+	pos: #pos
+}, {
+	access: [APublic]
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: []
+			name: pos
+			opt: false
+			type: TPath({
+				name: FlxPoint
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}, {
+			meta: []
+			name: pressDuration
+			opt: false
+			type: TPath({
+				name: Int
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}]
+		expr: {
+			expr: EBlock([])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: []
+	name: onJustReleasedMiddle
+	pos: #pos
+}, {
+	access: [APublic]
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: []
+			name: pos
+			opt: false
+			type: TPath({
+				name: FlxPoint
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}, {
+			meta: []
+			name: pressDuration
+			opt: false
+			type: TPath({
+				name: Int
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}]
+		expr: {
+			expr: EBlock([])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: []
+	name: onJustReleasedRight
+	pos: #pos
+}, {
+	access: [APublic]
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: []
+			name: start
+			opt: false
+			type: TPath({
+				name: FlxPoint
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}, {
+			meta: []
+			name: end
+			opt: false
+			type: TPath({
+				name: FlxPoint
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}, {
+			meta: []
+			name: swipeDuration
+			opt: false
+			type: TPath({
+				name: Int
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}, {
+			meta: []
+			name: swipeDirection
+			opt: false
+			type: TPath({
+				name: SwipeDirection
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}]
+		expr: {
+			expr: EBlock([])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: []
+	name: onJustSwiped
+	pos: #pos
+}, {
+	access: [APublic]
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: []
+			name: pos
+			opt: false
+			type: TPath({
+				name: FlxPoint
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}]
+		expr: {
+			expr: EBlock([])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: []
+	name: onJustHoverEnter
+	pos: #pos
+}, {
+	access: [APublic]
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: []
+			name: pos
+			opt: false
+			type: TPath({
+				name: FlxPoint
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}]
+		expr: {
+			expr: EBlock([])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: []
+	name: onJustHoverExit
+	pos: #pos
+}, {
+	access: null
+	doc: null
+	kind: FProp(default, set, TPath({
+		name: FlxObject
+		pack: [flixel]
+		params: []
+		sub: null
+	}), null)
+	meta: [{
+		name: isVar
+		params: null
+		pos: #pos
+	}]
+	name: parent
+	pos: #pos
+}, {
+	access: []
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: null
+			name: input
+			opt: null
+			type: TPath({
+				name: FlxObject
+				pack: [flixel]
+				params: []
+				sub: null
+			})
+			value: null
+		}]
+		expr: {
+			expr: EBlock([{
+				expr: EBinop(OpAssign, {
+					expr: EField({
+						expr: EConst(CIdent(this))
+						pos: #pos
+					}, parent)
+					pos: #pos
+				}, {
+					expr: EConst(CIdent(input))
+					pos: #pos
+				})
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(this))
+						pos: #pos
+					}, updatePosition)
+					pos: #pos
+				}, [])
+				pos: #pos
+			}, {
+				expr: EReturn({
+					expr: EField({
+						expr: EConst(CIdent(this))
+						pos: #pos
+					}, parent)
+					pos: #pos
+				})
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: null
+	name: null <- expected value
+	pos: #pos
+}, {
+	access: null
+	doc: null
+	kind: FProp(default, set, TPath({
+		name: Float
+		pack: []
+		params: []
+		sub: null
+	}), null)
+	meta: [{
+		name: isVar
+		params: null
+		pos: #pos
+	}]
+	name: relativeX
+	pos: #pos
+}, {
+	access: []
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: null
+			name: input
+			opt: null
+			type: TPath({
+				name: Float
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}]
+		expr: {
+			expr: EBlock([{
+				expr: EBinop(OpAssign, {
+					expr: EField({
+						expr: EConst(CIdent(this))
+						pos: #pos
+					}, relativeX)
+					pos: #pos
+				}, {
+					expr: EConst(CIdent(input))
+					pos: #pos
+				})
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(this))
+						pos: #pos
+					}, updatePosition)
+					pos: #pos
+				}, [])
+				pos: #pos
+			}, {
+				expr: EReturn({
+					expr: EField({
+						expr: EConst(CIdent(this))
+						pos: #pos
+					}, relativeX)
+					pos: #pos
+				})
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: null
+	name: null <- expected value
+	pos: #pos
+}, {
+	access: null
+	doc: null
+	kind: FProp(default, set, TPath({
+		name: Float
+		pack: []
+		params: []
+		sub: null
+	}), null)
+	meta: [{
+		name: isVar
+		params: null
+		pos: #pos
+	}]
+	name: relativeY
+	pos: #pos
+}, {
+	access: []
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: null
+			name: input
+			opt: null
+			type: TPath({
+				name: Float
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}]
+		expr: {
+			expr: EBlock([{
+				expr: EBinop(OpAssign, {
+					expr: EField({
+						expr: EConst(CIdent(this))
+						pos: #pos
+					}, relativeY)
+					pos: #pos
+				}, {
+					expr: EConst(CIdent(input))
+					pos: #pos
+				})
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(this))
+						pos: #pos
+					}, updatePosition)
+					pos: #pos
+				}, [])
+				pos: #pos
+			}, {
+				expr: EReturn({
+					expr: EField({
+						expr: EConst(CIdent(this))
+						pos: #pos
+					}, relativeY)
+					pos: #pos
+				})
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: null
+	name: null <- expected value
+	pos: #pos
+}, {
+	access: null
+	doc: null
+	kind: FProp(default, set, TPath({
+		name: Float
+		pack: []
+		params: []
+		sub: null
+	}), null)
+	meta: [{
+		name: isVar
+		params: null
+		pos: #pos
+	}]
+	name: relativeAngle
+	pos: #pos
+}, {
+	access: []
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: null
+			name: input
+			opt: null
+			type: TPath({
+				name: Float
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}]
+		expr: {
+			expr: EBlock([{
+				expr: EBinop(OpAssign, {
+					expr: EField({
+						expr: EConst(CIdent(this))
+						pos: #pos
+					}, relativeAngle)
+					pos: #pos
+				}, {
+					expr: EConst(CIdent(input))
+					pos: #pos
+				})
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(this))
+						pos: #pos
+					}, updatePosition)
+					pos: #pos
+				}, [])
+				pos: #pos
+			}, {
+				expr: EReturn({
+					expr: EField({
+						expr: EConst(CIdent(this))
+						pos: #pos
+					}, relativeAngle)
+					pos: #pos
+				})
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: null
+	name: null <- expected value
+	pos: #pos
+}, {
+	access: []
+	doc: null
+	kind: FFun({
+		args: []
+		expr: {
+			expr: EBlock([{
+				expr: EBlock([{
+					expr: EIf({
+						expr: EBinop(OpNotEq, {
+							expr: EField({
+								expr: EConst(CIdent(this))
+								pos: #pos
+							}, parent)
+							pos: #pos
+						}, {
+							expr: EConst(CIdent(null))
+							pos: #pos
+						})
+						pos: #pos
+					}, {
+						expr: EBlock([{
+							expr: EBinop(OpAssign, {
+								expr: EField({
+									expr: EConst(CIdent(this))
+									pos: #pos
+								}, x)
+								pos: #pos
+							}, {
+								expr: EBinop(OpAdd, {
+									expr: EField({
+										expr: EField({
+											expr: EConst(CIdent(this))
+											pos: #pos
+										}, parent)
+										pos: #pos
+									}, x)
+									pos: #pos
+								}, {
+									expr: EField({
+										expr: EConst(CIdent(this))
+										pos: #pos
+									}, relativeX)
+									pos: #pos
+								})
+								pos: #pos
+							})
+							pos: #pos
+						}, {
+							expr: EBinop(OpAssign, {
+								expr: EField({
+									expr: EConst(CIdent(this))
+									pos: #pos
+								}, y)
+								pos: #pos
+							}, {
+								expr: EBinop(OpAdd, {
+									expr: EField({
+										expr: EField({
+											expr: EConst(CIdent(this))
+											pos: #pos
+										}, parent)
+										pos: #pos
+									}, y)
+									pos: #pos
+								}, {
+									expr: EField({
+										expr: EConst(CIdent(this))
+										pos: #pos
+									}, relativeY)
+									pos: #pos
+								})
+								pos: #pos
+							})
+							pos: #pos
+						}, {
+							expr: EBinop(OpAssign, {
+								expr: EField({
+									expr: EConst(CIdent(this))
+									pos: #pos
+								}, angle)
+								pos: #pos
+							}, {
+								expr: EBinop(OpAdd, {
+									expr: EField({
+										expr: EField({
+											expr: EConst(CIdent(this))
+											pos: #pos
+										}, parent)
+										pos: #pos
+									}, angle)
+									pos: #pos
+								}, {
+									expr: EField({
+										expr: EConst(CIdent(this))
+										pos: #pos
+									}, relativeAngle)
+									pos: #pos
+								})
+								pos: #pos
+							})
+							pos: #pos
+						}])
+						pos: #pos
+					}, {
+						expr: EBlock([{
+							expr: EBinop(OpAssign, {
+								expr: EField({
+									expr: EConst(CIdent(this))
+									pos: #pos
+								}, x)
+								pos: #pos
+							}, {
+								expr: EField({
+									expr: EConst(CIdent(this))
+									pos: #pos
+								}, relativeX)
+								pos: #pos
+							})
+							pos: #pos
+						}, {
+							expr: EBinop(OpAssign, {
+								expr: EField({
+									expr: EConst(CIdent(this))
+									pos: #pos
+								}, y)
+								pos: #pos
+							}, {
+								expr: EField({
+									expr: EConst(CIdent(this))
+									pos: #pos
+								}, relativeY)
+								pos: #pos
+							})
+							pos: #pos
+						}])
+						pos: #pos
+					})
+					pos: #pos
+				}])
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: null
+	name: updatePosition
+	pos: #pos
+}]
+line 489: expected value
+line 561: expected value
+line 633: expected value
+line 705: expected value

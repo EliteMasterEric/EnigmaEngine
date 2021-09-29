@@ -153,7 +153,7 @@ class Note extends FlxSprite
 			y += FlxG.save.data.offset + PlayState.songOffset;
 
 		this.rawNoteData = rawNoteData;
-		this.noteData = NoteUtil.getStrumlineIndex(rawNoteData, PlayState.SONG.strumlineSize);
+		this.noteData = NoteUtil.getStrumlineIndex(rawNoteData, NoteUtil.fetchStrumlineSize());
 
 		// defaults if no noteStyle was found in chart
 		this.noteStyle = 'normal';
@@ -190,9 +190,9 @@ class Note extends FlxSprite
 	{
 		// All the code that builds a note sprite that was in here has been moved to a different file.
 		// That makes it really easy for me to add new notes.
-		EnigmaNote.loadNoteSprite(this, this.noteStyle, this.noteType, this.rawNoteData, isSustainNote, PlayState.SONG.strumlineSize);
+		EnigmaNote.loadNoteSprite(this, this.noteStyle, this.noteType, this.rawNoteData, isSustainNote, NoteUtil.fetchStrumlineSize());
 
-		x += NoteUtil.getNoteOffset(this.noteData, PlayState.SONG.strumlineSize);
+		x += NoteUtil.getNoteOffset(this.noteData, NoteUtil.fetchStrumlineSize());
 
 		animation.play(EnigmaNote.getDirectionName(this.rawNoteData, true) + ' Note');
 		originColor = this.rawNoteData; // The note's origin color will be checked by its sustain notes
@@ -259,7 +259,7 @@ class Note extends FlxSprite
 
 			if (prevNote.isSustainNote)
 			{
-				prevNote.animation.play(EnigmaNote.getDirectionName(prevNote.originColor, true) + 'Sustain');
+				prevNote.animation.play(EnigmaNote.getDirectionName(prevNote.originColor, true) + ' Sustain');
 				prevNote.updateHitbox();
 
 				prevNote.scale.y *= stepHeight / prevNote.height;

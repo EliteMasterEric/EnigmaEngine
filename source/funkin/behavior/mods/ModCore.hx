@@ -78,7 +78,14 @@ class ModCore
 	public static function loadModsById(ids:Array<String>)
 	{
 		#if FEATURE_MODCORE
-		Debug.logInfo('Attempting to load ${ids.length} mods...');
+		if (ids.length == 0)
+		{
+			Debug.logWarn('You attempted to load zero mods.');
+		}
+		else
+		{
+			Debug.logInfo('Attempting to load ${ids.length} mods...');
+		}
 		var loadedModList = polymod.Polymod.init({
 			// Root directory for all mods.
 			modRoot: MOD_DIRECTORY,
@@ -108,7 +115,21 @@ class ModCore
 			parseRules: buildParseRules(),
 		});
 
-		Debug.logInfo('Mod loading complete. We loaded ${loadedModList.length} / ${ids.length} mods.');
+		if (loadedModList == null)
+		{
+			Debug.logError('Mod loading failed, check above for a message from Polymod explaining why.');
+		}
+		else
+		{
+			if (loadedModList.length == 0)
+			{
+				Debug.logInfo('Mod loading complete. We loaded no mods / ${ids.length} mods.');
+			}
+			else
+			{
+				Debug.logInfo('Mod loading complete. We loaded ${loadedModList.length} / ${ids.length} mods.');
+			}
+		}
 
 		for (mod in loadedModList)
 			Debug.logTrace('  * ${mod.title} v${mod.modVersion} [${mod.id}]');
@@ -183,7 +204,8 @@ class ModCore
 			assetLibraryPaths: [
 				"default" => "./preload", // ./preload
 				"sm" => "./sm", "songs" => "./songs", "shared" => "./", "tutorial" => "./tutorial",
-				"week1" => "./week1", "week2" => "./week2", "week3" => "./week3", "week4" => "./week4", "week5" => "./week5", "week6" => "./week6"
+				"scripts" => "./scripts", "week1" => "./week1", "week2" => "./week2", "week3" => "./week3", "week4" => "./week4", "week5" => "./week5",
+				"week6" => "./week6"
 			]
 		}
 	}
@@ -193,12 +215,18 @@ class ModCore
 		// Perform an action based on the error code.
 		switch (error.code)
 		{
+			case MOD_LOAD_PREPARE:
+				Debug.logInfo(error.message, null);
+			case MOD_LOAD_DONE:
+				Debug.logInfo(error.message, null);
+			// case MOD_LOAD_FAILED:
+			case MISSING_ICON:
+				Debug.logWarn('A mod is missing an icon, will just skip it but please add one: ${error.message}', null);
 			// case "parse_mod_version":
 			// case "parse_api_version":
 			// case "parse_mod_api_version":
 			// case "missing_mod":
 			// case "missing_meta":
-			// case "missing_icon":
 			// case "version_conflict_mod":
 			// case "version_conflict_api":
 			// case "version_prerelease_api":

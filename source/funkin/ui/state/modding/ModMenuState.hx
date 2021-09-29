@@ -26,17 +26,20 @@ class ModMenuState extends MusicBeatState
 
 	override function create()
 	{
-		var txt:FlxText = new FlxText(0, 0, FlxG.width, "ui design is my passion", 32);
+		var txt:FlxText = new FlxText(0, 16, FlxG.width, "Mod Configuration", 32);
 
 		txt.setFormat("VCR OSD Mono", 32, FlxColor.fromRGB(200, 200, 200), CENTER);
 		txt.borderColor = FlxColor.BLACK;
 		txt.borderSize = 3;
 		txt.borderStyle = FlxTextBorderStyle.OUTLINE;
-		txt.screenCenter();
+		txt.screenCenter(X);
 		add(txt);
 
-		unloadedModsUI = new ModList(20, 20, 300, FlxG.height - 20 - 20);
-		loadedModsUI = new ModList(20, 20, 300, FlxG.height - 20 - 20);
+		var MODLIST_HEIGHT = FlxG.height - 20 - 20;
+		// Measure from the right side.
+		var MODLIST_LOADED_XPOS = FlxG.width - 500 - 16;
+		unloadedModsUI = new ModList(16, 48, MODLIST_HEIGHT);
+		loadedModsUI = new ModList(MODLIST_LOADED_XPOS, 48, MODLIST_HEIGHT);
 
 		add(unloadedModsUI);
 		add(loadedModsUI);
@@ -51,7 +54,10 @@ class ModMenuState extends MusicBeatState
 
 	function initModLists()
 	{
-		var modDatas = ModCore.getAllMods();
+		var modDatas = ModCore.getAllMods().filter(function(m)
+		{
+			return m != null;
+		});
 
 		var loadedModIds = ModCore.getConfiguredMods();
 
@@ -69,9 +75,22 @@ class ModMenuState extends MusicBeatState
 		}
 		else
 		{
+			// No existing configuration.
 			// We default to ALL mods loaded.
 			unloadedMods = [];
 			loadedMods = modDatas;
+			// TODO: DEBUG
+			var testMod = loadedMods.pop();
+			unloadedMods.push(testMod);
+			unloadedMods.push(testMod);
+			unloadedMods.push(testMod);
+			unloadedMods.push(testMod);
+			unloadedMods.push(testMod);
+			unloadedMods.push(testMod);
+			unloadedMods.push(testMod);
+			unloadedMods.push(testMod);
+			unloadedMods.push(testMod);
+			unloadedMods.push(testMod);
 		}
 
 		for (i in loadedMods)

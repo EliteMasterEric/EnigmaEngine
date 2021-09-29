@@ -121,6 +121,11 @@ using StringTools;
 
 class PlayState extends MusicBeatState
 {
+	/**
+	 * A magic number.
+	 */
+	public static final NOTE_TIME_TO_DISTANCE = 0.45;
+
 	public static var instance:PlayState = null;
 
 	public static var SONG:SongData;
@@ -442,7 +447,8 @@ class PlayState extends MusicBeatState
 
 		camHUD.zoom = PlayStateChangeables.zoom;
 
-		FlxG.cameras.setDefaultDrawTarget(camGame, true);
+		// You have to do it this way, otherwise you'll break stuff.
+		FlxCamera.defaultCameras = [camGame];
 
 		persistentUpdate = true;
 		persistentDraw = true;
@@ -2624,109 +2630,101 @@ class PlayState extends MusicBeatState
 			var holdArray:Array<Bool> = [controls.LEFT, controls.DOWN, controls.UP, controls.RIGHT];
 			var stepHeight = (0.45 * Conductor.stepCrochet * FlxMath.roundDecimal(PlayState.SONG.speed, 2));
 
+			// The speed that the notes scroll at.
+			var noteScrollSpeed = FlxMath.roundDecimal(PlayStateChangeables.scrollSpeed == 1 ? SONG.speed : PlayStateChangeables.scrollSpeed, 2);
+
 			notes.forEachAlive(function(daNote:Note)
 			{
-				// instead of doing stupid y > FlxG.height
-				// we be men and actually calculate the time :)
-
+				// Here is the logic that moves the notes towards the strumline!
+				// We set the note's Y position to the strumline, then push it downwards based on the time in the song.
+				// Basing it off FlxG.height is for chumps.
+				var noteDataValue = Math.floor(Math.abs(daNote.noteData));
+				if (!NoteUtil.isValidNoteData(noteDataValue, NoteUtil.fetchStrumlineSize()))
+				{
+					Debug.logWarn("Note data was impossible for this note! Couldn't generate a Y offset.");
+					// Return from this inline lambda function.
+					return;
+				}
 				if (!daNote.modifiedByLua)
 				{
+					// The position of the strumline.
+					var strumlineYPos = strumLineNotes.members[
+						NoteUtil.getStrumlineIndex(Math.floor(Math.abs(daNote.noteData)), NoteUtil.fetchStrumlineSize(), daNote.mustPress)
+					].y;
+					var noteTime = (Conductor.songPosition - daNote.strumTime) / songMultiplier * noteScrollSpeed;
+					var noteDistance = (PlayStateChangeables.useDownscroll ? 1 : -1) * NOTE_TIME_TO_DISTANCE * noteTime;
+					daNote.y = strumlineYPos + noteDistance - daNote.noteYOff;
 					if (PlayStateChangeables.useDownscroll)
 					{
-						if (daNote.mustPress)
-							daNote.y = (playerStrums.members[Math.floor(Math.abs(daNote.noteData))].y
-								+
-								0.45 * ((Conductor.songPosition - daNote.strumTime) / songMultiplier) * (FlxMath.roundDecimal(PlayStateChangeables.scrollSpeed == 1 ? SONG.speed : PlayStateChangeables.scrollSpeed,
-									2)))
-								- daNote.noteYOff;
-						else
-							daNote.y = (strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].y
-								+
-								0.45 * ((Conductor.songPosition - daNote.strumTime) / songMultiplier) * (FlxMath.roundDecimal(PlayStateChangeables.scrollSpeed == 1 ? SONG.speed : PlayStateChangeables.scrollSpeed,
-									2)))
-								- daNote.noteYOff;
 						if (daNote.isSustainNote)
 						{
-							// Correct downscroll positioning
-							daNote.y -= daNote.height - stepHeight;
-
-							// If not in botplay, only clip sustain notes when properly hit, botplay gets to clip it everytime
-							if ((PlayStateChangeables.botPlay
-								|| !daNote.mustPress
-								|| daNote.wasGoodHit
-								|| holdArray[Math.floor(Math.abs(daNote.noteData))])
-								&& daNote.y - daNote.offset.y * daNote.scale.y + daNote.height >= (strumLine.y + Note.swagWidth / 2))
+							// Remember = minus makes notes go up, plus makes them go down
+							if (daNote.animation.curAnim.name.endsWith("end") && daNote.prevNote != null)
 							{
-								// Clip to strumline
+								daNote.y += daNote.prevNote.height;
+							}
+							else
+							{
+								daNote.y += daNote.height / 2;
+							}
+							// If not in botplay, only clip sustain notes when properly hit, botplay gets to clip it everytime
+							if (!PlayStateChangeables.botPlay)
+							{
+								if ((!daNote.mustPress
+									|| daNote.wasGoodHit
+									|| daNote.prevNote.wasGoodHit
+									|| holdArray[Math.floor(Math.abs(daNote.noteData))])
+									&& daNote.y - daNote.offset.y * daNote.scale.y + daNote.height >= (strumLine.y + Note.swagWidth / 2))
+								{
+									// Clip to strumline
+									var swagRect = new FlxRect(0, 0, daNote.frameWidth * 2, daNote.frameHeight * 2);
+									swagRect.height = (strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].y
+										+ Note.swagWidth / 2
+										- daNote.y) / daNote.scale.y;
+									swagRect.y = daNote.frameHeight - swagRect.height;
+									daNote.clipRect = swagRect;
+								}
+							}
+							else
+							{
 								var swagRect = new FlxRect(0, 0, daNote.frameWidth * 2, daNote.frameHeight * 2);
 								swagRect.height = (strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].y
 									+ Note.swagWidth / 2
 									- daNote.y) / daNote.scale.y;
 								swagRect.y = daNote.frameHeight - swagRect.height;
-
 								daNote.clipRect = swagRect;
 							}
 						}
 					}
 					else
 					{
-						if (daNote.mustPress)
-							daNote.y = (playerStrums.members[Math.floor(Math.abs(daNote.noteData))].y
-								- 0.45 * ((Conductor.songPosition - daNote.strumTime) / songMultiplier) * (FlxMath.roundDecimal(PlayStateChangeables.scrollSpeed == 1 ? SONG.speed : PlayStateChangeables.scrollSpeed,
-									2)))
-								+ daNote.noteYOff;
-						else
-							daNote.y = (strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].y
-								- 0.45 * ((Conductor.songPosition - daNote.strumTime) / songMultiplier) * (FlxMath.roundDecimal(PlayStateChangeables.scrollSpeed == 1 ? SONG.speed : PlayStateChangeables.scrollSpeed,
-									2)))
-								+ daNote.noteYOff;
-						/*
-							if (daNote.mustPress) {
-							  // If mustHitSection is true, notes 0/1/2/3 correspond with the player notes.
-							  if (Math.floor(Math.abs(daNote.noteData)) >= playerStrums.members.length) {
-								trace("[ERROR] Note data was impossible for this NPC note! Couldn't generate a Y offset.");
-								// Return from this inline lambda function.
-								return;
-							  }
-							  // Render enemy notes properly in some niche cases?
-							  if (Math.floor(Math.abs(daNote.noteData)) >= 4) {
-								daNote.y = (strumLineNotes.members[Math.floor(Math.abs(daNote.noteData) - 4)].y
-								  - 0.45 * ((Conductor.rawPosition - daNote.strumTime) / songMultiplier) * (FlxMath.roundDecimal(PlayStateChangeables.scrollSpeed == 1 ? SONG.speed : PlayStateChangeables.scrollSpeed,
-									2)))
-								  + daNote.noteYOff;
-							  } else {
-								daNote.y = (playerStrums.members[Math.floor(Math.abs(daNote.noteData))].y
-								  - 0.45 * ((Conductor.rawPosition - daNote.strumTime) / songMultiplier) * (FlxMath.roundDecimal(PlayStateChangeables.scrollSpeed == 1 ? SONG.speed : PlayStateChangeables.scrollSpeed,
-									2)))
-								  + daNote.noteYOff;
-							  }
-							} else {
-							  // If mustHitSection is false, notes 0/1/2/3 correspond with the enemy notes.
-							  if (Math.floor(Math.abs(daNote.noteData)) >= strumLineNotes.members.length) {
-								trace("[ERROR] Note data was impossible for this NPC note! Couldn't generate a Y offset.");
-							  }
-							  daNote.y = (strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].y
-								- 0.45 * ((Conductor.rawPosition - daNote.strumTime) / songMultiplier) * (FlxMath.roundDecimal(PlayStateChangeables.scrollSpeed == 1 ? SONG.speed : PlayStateChangeables.scrollSpeed,
-								  2)))
-								+ daNote.noteYOff;
-							}
-						 */
-
 						if (daNote.isSustainNote)
 						{
-							if ((PlayStateChangeables.botPlay
-								|| !daNote.mustPress
-								|| daNote.wasGoodHit
-								|| holdArray[Math.floor(Math.abs(daNote.noteData))])
-								&& daNote.y + daNote.offset.y * daNote.scale.y <= (strumLine.y + Note.swagWidth / 2))
+							daNote.y -= daNote.height / 2;
+							if (!PlayStateChangeables.botPlay)
 							{
-								// Clip to strumline
+								if ((!daNote.mustPress
+									|| daNote.wasGoodHit
+									|| daNote.prevNote.wasGoodHit
+									|| holdArray[Math.floor(Math.abs(daNote.noteData))])
+									&& daNote.y + daNote.offset.y * daNote.scale.y <= (strumLine.y + Note.swagWidth / 2))
+								{
+									// Clip to strumline
+									var swagRect = new FlxRect(0, 0, daNote.width / daNote.scale.x, daNote.height / daNote.scale.y);
+									swagRect.y = (strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].y
+										+ Note.swagWidth / 2
+										- daNote.y) / daNote.scale.y;
+									swagRect.height -= swagRect.y;
+									daNote.clipRect = swagRect;
+								}
+							}
+							else
+							{
 								var swagRect = new FlxRect(0, 0, daNote.width / daNote.scale.x, daNote.height / daNote.scale.y);
 								swagRect.y = (strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].y
 									+ Note.swagWidth / 2
 									- daNote.y) / daNote.scale.y;
 								swagRect.height -= swagRect.y;
-
 								daNote.clipRect = swagRect;
 							}
 						}
@@ -2743,7 +2741,6 @@ class PlayState extends MusicBeatState
 					if (daNote.isAlt)
 					{
 						altAnim = '-alt';
-						trace("YOO WTF THIS IS AN ALT NOTE????");
 					}
 
 					// Accessing the animation name directly to play it
@@ -2825,29 +2822,37 @@ class PlayState extends MusicBeatState
 
 				if (daNote.mustPress && !daNote.modifiedByLua)
 				{
-					daNote.visible = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].visible;
-					daNote.x = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].x;
+					var parentStrumlineNote = strumLineNotes.members[
+						NoteUtil.getStrumlineIndex(Math.floor(Math.abs(daNote.noteData)), SONG.strumlineSize, daNote.mustPress)
+					];
+
+					daNote.visible = parentStrumlineNote.visible;
+					daNote.x = parentStrumlineNote.x;
 					if (!daNote.isSustainNote)
-						daNote.modAngle = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].modAngle;
+						daNote.modAngle = parentStrumlineNote.modAngle;
 					if (daNote.sustainActive)
 					{
 						if (executeModchart)
-							daNote.alpha = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].alpha;
+							daNote.alpha = parentStrumlineNote.alpha;
 					}
-					daNote.modAngle = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].modAngle;
+					daNote.modAngle = parentStrumlineNote.modAngle;
 				}
 				else if (!daNote.wasGoodHit && !daNote.modifiedByLua)
 				{
-					daNote.visible = strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].visible;
-					daNote.x = strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].x;
+					var parentStrumlineNote = strumLineNotes.members[
+						NoteUtil.getStrumlineIndex(Math.floor(Math.abs(daNote.noteData)), SONG.strumlineSize, daNote.mustPress)
+					];
+
+					daNote.visible = parentStrumlineNote.visible;
+					daNote.x = parentStrumlineNote.x;
 					if (!daNote.isSustainNote)
-						daNote.modAngle = strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].modAngle;
+						daNote.modAngle = parentStrumlineNote.modAngle;
 					if (daNote.sustainActive)
 					{
 						if (executeModchart)
-							daNote.alpha = strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].alpha;
+							daNote.alpha = parentStrumlineNote.alpha;
 					}
-					daNote.modAngle = strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].modAngle;
+					daNote.modAngle = parentStrumlineNote.modAngle;
 				}
 
 				if (daNote.isSustainNote)

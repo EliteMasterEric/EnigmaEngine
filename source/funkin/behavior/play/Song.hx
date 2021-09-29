@@ -85,7 +85,15 @@ class Song
 		Debug.logInfo('Loading song JSON: $songFile');
 
 		var rawJson = Paths.loadJSON('songs/$songFile');
-		var rawMetaJson = Paths.loadJSON('songs/$songId/_meta');
+		var rawMetaJson = null;
+		if (OpenFlAssets.exists(Paths.json('songs/$songId/_meta')))
+		{
+			rawMetaJson = Paths.loadJSON('songs/$songId/_meta');
+		}
+		else
+		{
+			Debug.logInfo('Hey, you didn\'t include a _meta.json with your song files (id ${songId}).Won\'t break anything but you should probably add one anyway.');
+		}
 
 		return parseJSONshit(songId, rawJson, rawMetaJson);
 	}
@@ -218,6 +226,8 @@ class Song
 
 		songData.songId = songId;
 
+		var songMetaData:SongMeta = cast jsonMetaData;
+
 		/**
 		 * Default values.
 		 */
@@ -231,17 +241,19 @@ class Song
 			songData.validScore = true;
 
 		// Inject info from _meta.json.
-		var songMetaData:SongMeta = cast jsonMetaData;
-		if (songMetaData.name != null)
+		if (songMetaData != null)
 		{
-			songData.songName = songMetaData.name;
-		}
-		else
-		{
-			songData.songName = songId.split('-').join(' ').toTitle();
-		}
+			if (songMetaData.name != null)
+			{
+				songData.songName = songMetaData.name;
+			}
+			else
+			{
+				songData.songName = songId.split('-').join(' ').toTitle();
+			}
 
-		songData.offset = songMetaData.offset != null ? songMetaData.offset : 0;
+			songData.offset = songMetaData.offset != null ? songMetaData.offset : 0;
+		}
 
 		return Song.conversionChecks(songData);
 	}

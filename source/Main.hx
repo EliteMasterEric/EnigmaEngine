@@ -1,3 +1,4 @@
+import funkin.ui.component.Cursor;
 import lime.app.Application;
 #if FEATURE_DISCORD
 import funkin.behavior.api.Discord.DiscordClient;
@@ -103,6 +104,9 @@ class Main extends Sprite
 		game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
 		#end
 		addChild(game);
+
+		Cursor.setupCursor();
+
 		#if FEATURE_DISCORD
 		DiscordClient.initialize();
 

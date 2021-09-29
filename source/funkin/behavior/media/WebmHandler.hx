@@ -30,7 +30,7 @@ class WebmHandler
 	{
 		io = new WebmIoFile(vidPath);
 		webm = new WebmPlayer();
-		webm.initPlayer(io, false);
+		webm.fuck(io, false);
 		webm.addEventListener(WebmEvent.PLAY, function(e)
 		{
 			onPlay();
@@ -54,7 +54,7 @@ class WebmHandler
 	public function updatePlayer():Void
 	{
 		io = new WebmIoFile(vidPath);
-		webm.initPlayer(io, false);
+		webm.fuck(io, false);
 	}
 
 	public function play():Void

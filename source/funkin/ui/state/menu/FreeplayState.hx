@@ -2,7 +2,6 @@ package funkin.ui.state.menu;
 
 import funkin.ui.audio.MainMenuMusic;
 import flixel.FlxCamera;
-import funkin.ui.state.debug.DiffOverview;
 import funkin.ui.state.charting.ChartingState;
 import flash.text.TextField;
 import flixel.addons.display.FlxGridOverlay;
@@ -68,21 +67,21 @@ class FreeplayState extends MusicBeatState
 
 	public static var openedPreview = false;
 
-	// ERIC: Replace songData array with a map.
-	// This allows a song in free play to have no Easy difficulty.
+	/**
+	 * The list of all the data for all the songs. Used to calculate difficulty.
+	 		* Replace Array with Map<Int> to fix custom difficulty stuff.
+	 */
 	public static var songData:Map<String, Map<Int, SongData>> = [];
 
 	public static function loadDiff(diff:Int, format:String, array:Map<Int, SongData>)
 	{
-		try
+		var diffName:String = ["-easy", "", "-hard"][diff];
+		var curSongData = Song.loadFromJson(format, diffName);
+		if (curSongData == null)
 		{
-			var diffName:String = ["-easy", "", "-hard"][PlayState.storyDifficulty];
-			array.set(diff, Song.loadFromJson(Highscore.formatSong(format, diff), diffName));
+			Debug.logError('ERROR in Freeplay trying to load song data: ${format}');
 		}
-		catch (ex)
-		{
-			// do nada
-		}
+		array.set(diff, curSongData);
 	}
 
 	override function create()
@@ -397,14 +396,17 @@ class FreeplayState extends MusicBeatState
 
 	function updateDifficultyText()
 	{
-		var songDataCurrentDiff = songData.get(songs[curSelected].songId)[curDifficulty];
-		if (songDataCurrentDiff != null)
+		var curSongId = songs[curSelected].songId;
+		var curSongData = songData.get(curSongId);
+		var curSongCurDiff = curSongData[curDifficulty];
+		if (curSongCurDiff != null)
 		{
-			diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songDataCurrentDiff)}';
+			diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(curSongCurDiff)}';
 			diffText.text = Util.difficultyFromInt(curDifficulty).toUpperCase();
 		}
 		else
 		{
+			Debug.logWarn('Song ${songs[curSelected].songName} (${songs[curSelected].songId}) has no difficulty ${curDifficulty}, is this intended?');
 			diffCalcText.text = 'RATING: N/A';
 			diffText.text = '${Util.difficultyFromInt(curDifficulty).toUpperCase()} (NOT AVAILABLE)';
 		}
@@ -588,12 +590,6 @@ class FreeplayState extends MusicBeatState
 		}
 		catch (ex)
 		{
-		}
-
-		if (openedPreview)
-		{
-			closeSubState();
-			openSubState(new DiffOverview());
 		}
 
 		var bullShit:Int = 0;

@@ -105,7 +105,8 @@ class StageDebugState extends FlxState
 		camGame.zoom = 0.7;
 		FlxG.cameras.add(camGame);
 		FlxG.cameras.add(camHUD);
-		FlxG.cameras.setDefaultDrawTarget(camGame, true);
+		// You have to do it this way, otherwise you'll break stuff.
+		FlxCamera.defaultCameras = [camGame];
 		FlxG.camera = camGame;
 		camGame.follow(camFollow);
 

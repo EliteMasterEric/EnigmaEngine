@@ -78,10 +78,20 @@ class Paths
 
 	static public function loadJSON(key:String, ?library:String):Dynamic
 	{
-		var rawJson = OpenFlAssets.getText(Paths.json(key, library)).trim();
+		var rawJson:String = null;
+		try
+		{
+			rawJson = OpenFlAssets.getText(Paths.json(key, library)).trim();
+		}
+		catch (e)
+		{
+			Debug.logError('AN ERROR OCCURRED trying to read a JSON file (${library}:${key}). It probably does not exist.');
+			Debug.logError(e.message);
+			return null;
+		}
 
 		// Perform cleanup on files that have bad data at the end.
-		while (!rawJson.endsWith("}"))
+		while (rawJson != null && rawJson.length > 0 && !rawJson.endsWith("}"))
 		{
 			rawJson = rawJson.substr(0, rawJson.length - 1);
 		}
@@ -94,7 +104,7 @@ class Paths
 		}
 		catch (e)
 		{
-			Debug.logError("AN ERROR OCCURRED parsing a JSON file.");
+			Debug.logError('AN ERROR OCCURRED parsing a JSON file (${library}:${key}).');
 			Debug.logError(e.message);
 
 			// Return null.

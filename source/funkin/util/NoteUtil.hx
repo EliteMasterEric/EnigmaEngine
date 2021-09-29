@@ -20,6 +20,8 @@ package funkin.util;
  * such as `startsWith`.
  * @see: https://api.haxe.org/StringTools.html
  */
+import flixel.FlxG;
+import funkin.ui.state.play.PlayState;
 import funkin.behavior.play.EnigmaNote;
 
 using StringTools;
@@ -39,14 +41,17 @@ class NoteUtil
 
 	/**
 	 * Provides values based on the current strumlineSize:
-	 * [NOTE POSITION, NOTE GRAPHIC SCALE, BASE OFFSET]
+	 * [NOTE POSITION, NOTE GRAPHIC SCALE, BASE OFFSET, OPTIMIZE OFFSET]
+	 * - Distance between origin of each note
+	 * - Size of the note graphic (will have to shrink for larger strumlines)
+	 * - Move over this amount to give space to the edge of the screen.
 	 */
 	public static final NOTE_GEOMETRY_DATA:Map<Int, Array<Float>> = [
-		1 => [160 * 0.7, 0.70, 0],
+		1 => [160 * 0.7, 0.70 * 2, 0], // lol what if it's twice as big
 		2 => [160 * 0.7, 0.70, 0],
 		3 => [160 * 0.7, 0.70, 0],
-		4 => [160 * 0.7, 0.70, 80], // Base game.
-		5 => [160 * 0.7, 0.70, 60], // The fifth note fits fine.
+		4 => [160 * 0.7, 0.70, -80], // Base game.
+		5 => [160 * 0.7, 0.70, -60], // The fifth note fits fine without scaling.
 		6 => [160 * 0.7, 0.60, 0], // Six you need to scale down a bit.
 		7 => [160 * 0.7, 0.70, 0],
 		8 => [160 * 0.7, 0.70, 0],
@@ -122,15 +127,47 @@ class NoteUtil
 	}
 
 	/**
+	 * Whether this note's strumline data is valid for this song. Throw an error if it returns false.
+	 * @param rawNoteData 
+	 * @param strumlineSize 
+	 * @return Bool
+	 */
+	public static function isValidNoteData(rawNoteData:Int, strumlineSize:Int = 4):Bool
+	{
+		return NOTE_DATA_TO_STRUMLINE_MAP[strumlineSize][getStrumlineIndex(rawNoteData, strumlineSize, false)] != -1;
+	}
+
+	public static function fetchStrumlineSize()
+	{
+		if (PlayState.SONG != null)
+		{
+			return PlayState.SONG.strumlineSize;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	/**
 	 * Fetch a "corrected" note ID that matches its order in the strumline.
 	 * For example, in 5-note, left returns 0, center returns 2, and right returns 4 (rather than 3).
-	 *
-	 * This is needed because otherwise data for different note types would be in very high lane numbers. 
-	 * TODO: This is done manually with a map but I don't think there's a smarter method.
 	 * @return Int
 	 */
-	public static function getStrumlineIndex(rawNoteData:Int, strumlineSize:Int = 4):Int
+	public static function getStrumlineIndex(rawNoteData:Int, strumlineSize:Int = 4, mustHitNote:Bool = false):Int
 	{
+		// Swap notes around. Only applies to IDs 0-7, note IDs don't switch sides based on mustHitNote for 9K songs.
+		if (mustHitNote)
+		{
+			if (EnigmaNote.NOTE_BASE_LEFT_ENEMY <= rawNoteData && rawNoteData <= EnigmaNote.NOTE_BASE_RIGHT_ENEMY)
+			{
+				rawNoteData -= EnigmaNote.NOTE_BASE_LEFT_ENEMY;
+			}
+			else if (EnigmaNote.NOTE_BASE_LEFT <= rawNoteData && rawNoteData <= EnigmaNote.NOTE_BASE_RIGHT)
+			{
+				rawNoteData += EnigmaNote.NOTE_BASE_LEFT_ENEMY;
+			}
+		}
 		var result = NOTE_DATA_TO_STRUMLINE_MAP[strumlineSize][rawNoteData];
 		return result;
 	}

@@ -52,51 +52,13 @@ class HaxeInstance
 
 			// This constructor takes zero arguments or parameters, and only calls the superClass constructor
 			// with zero arguments.
-			fields.push({
-				name: "new",
-				access: [APublic],
-				pos: Context.currentPos(),
-				kind: FFun({
-					args: [],
-					expr: macro $b{constBody},
-					params: [],
-					ret: null
-				})
-			});
+			fields.push(MacroUtil.buildConstructor(constBody));
 		}
 
 		Context.info('Adding instance to class ${cls.name}...', cls.pos);
 		// Create a public static variable called 'instance'.
-		fields.push({
-			name: "instance",
-			access: [Access.APublic, Access.AStatic],
-			kind: FieldType.FVar(TPath(buildTypePath(cls)), createInstance(cls)),
-			pos: Context.currentPos(),
-		});
+		fields.push(MacroUtil.buildVariable("instance", TPath(MacroUtil.buildTypePath(cls)), MacroUtil.createInstance(cls), true, true));
 
 		return fields;
-	}
-
-	/**
-	 * Create an instance of the given ClassType.
-	 */
-	static function createInstance(e:haxe.macro.Type.ClassType)
-	{
-		var path = buildTypePath(e);
-
-		// Create a new instance from the path/type here.
-		return macro new $path();
-	}
-
-	/**
-	 * Build a TypePath from the given ClassType.
-	 */
-	static inline function buildTypePath(e:ClassType):haxe.macro.TypePath
-	{
-		return {
-			name: e.name,
-			sub: e.module == e.name ? null : e.name,
-			pack: e.pack
-		};
 	}
 }

@@ -118,7 +118,7 @@ class EnigmaNote
 
 	public static function loadNoteSprite(instance:FlxSprite, noteStyle:String, noteType:String, noteData:Int, isSustainNote:Bool, strumlineSize:Int):Void
 	{
-		instance.frames = Paths.getSparrowAtlas('notes/${noteStyle}/note${noteType}', 'shared');
+		instance.frames = Paths.getSparrowAtlas('notes/${noteStyle}/${noteType}Note', 'shared');
 
 		// Only add the animation for the note we are using.
 		var dirName = getDirectionName(noteData, true);
@@ -143,7 +143,7 @@ class EnigmaNote
 		}
 	}
 
-	public static function buildStrumlines(isPlayer:Bool, yPos:Float, strumlineSize:Int = 4, noteStyle:String = 'normal'):Void
+	public static function buildStrumlines(isPlayer:Bool, yPos:Float, strumlineSize:Int = 4, noteStyle:String = 'normal', optimize:Bool = false):Void
 	{
 		if (!NoteUtil.STRUMLINE_DIR_NAMES.exists(strumlineSize))
 		{
@@ -183,13 +183,14 @@ class EnigmaNote
 			// Create a new note.
 			var babyArrow:StaticArrow = new StaticArrow(0, yPos);
 
-			// What is this for?
+			// The Optimize setting hides everything but the player's notes.
+			// No bf or gf, no stage or enemy notes. Disabled if the song is using a modchart.
 			if (PlayStateChangeables.Optimize && !isPlayer)
 				continue;
 
 			// Load the spritesheet.
 			// With my reworked sprite sheets, the animation names are the same.
-			babyArrow.frames = Paths.getSparrowAtlas('notes/${noteStyle}/noteNormal', 'shared');
+			babyArrow.frames = Paths.getSparrowAtlas('notes/${noteStyle}/normalNote', 'shared');
 
 			// Add the proper animations to the strumline item.
 			babyArrow.animation.addByPrefix('static', arrowDir + ' Strumline');
@@ -221,7 +222,7 @@ class EnigmaNote
 
 			if (isPlayer)
 			{
-				// Set position to the far right side of the screen,
+				// Set the base position to the far right side of the screen,
 				babyArrow.x = FlxG.width;
 				// then move left based on the full strumline size.
 				babyArrow.x -= (strumlineNoteWidth * strumlineSize);
@@ -230,7 +231,7 @@ class EnigmaNote
 			}
 			else
 			{
-				// Set position to the far left side of the screen.
+				// Set base position to the far left side of the screen.
 				babyArrow.x = 0;
 			}
 			// Based on the full size of the strumline,
@@ -241,13 +242,10 @@ class EnigmaNote
 
 			if (PlayStateChangeables.Optimize)
 			{
-				// Optimization option (in the game settings) hides characters and backgrounds.
-				// Forcibly disabled by modcharts.
+				// Move the strumline to the CENTER of the screen.
+				// TODO: Calculate the proper offset based on screen width and strumsize.
 				// babyArrow.x -= 275;
 			}
-
-			// Base offset for longer strumlines.
-			babyArrow.x -= strumlinePos;
 
 			// In FreePlay, ease the arrows into frame vertically.
 			if (!PlayState.isStoryMode)

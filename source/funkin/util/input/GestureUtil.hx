@@ -1,6 +1,10 @@
 package funkin.util.input;
 
+import funkin.behavior.input.IInteractable;
+import funkin.behavior.input.InteractableSprite;
 import flixel.math.FlxPoint;
+import flixel.FlxG;
+import flixel.input.mouse.FlxMouseEventManager;
 
 /**
  * Utility functions for dealing with gestures.
@@ -10,6 +14,106 @@ import flixel.math.FlxPoint;
  */
 class GestureUtil
 {
+	/**
+	 * Use these to handle gesture callbacks on a sprite.
+	 * @param target 
+	 */
+	public static function addGestureCallbacks(target:InteractableSprite)
+	{
+		var mouseDownEvent = function(t:InteractableSprite)
+		{
+			@:privateAccess
+			t.onJustPressed(FlxG.mouse.getScreenPosition());
+		}
+		var mouseUpEvent = function(t:InteractableSprite)
+		{
+			@:privateAccess
+			var pressTime = FlxG.game.ticks - FlxG.mouse.justPressedTimeInTicks;
+			t.onJustReleased(FlxG.mouse.getScreenPosition(), pressTime);
+		}
+		var mouseOverEvent = function(t:InteractableSprite)
+		{
+			@:privateAccess
+			t.onJustHoverEnter(FlxG.mouse.getScreenPosition());
+		}
+		var mouseOutEvent = function(t:InteractableSprite)
+		{
+			@:privateAccess
+			t.onJustHoverExit(FlxG.mouse.getScreenPosition());
+		}
+		var rightMouseDownEvent = function(t:InteractableSprite)
+		{
+			@:privateAccess
+			t.onJustPressedRight(FlxG.mouse.getScreenPosition());
+		}
+		var rightMouseUpEvent = function(t:InteractableSprite)
+		{
+			@:privateAccess
+			var pressTime = FlxG.game.ticks - FlxG.mouse.justPressedTimeInTicksRight;
+			t.onJustReleasedRight(FlxG.mouse.getScreenPosition(), pressTime);
+		}
+		var middleMouseDownEvent = function(t:InteractableSprite)
+		{
+			@:privateAccess
+			t.onJustPressedMiddle(FlxG.mouse.getScreenPosition());
+		}
+		var middleMouseUpEvent = function(t:InteractableSprite)
+		{
+			@:privateAccess
+			var pressTime = FlxG.game.ticks - FlxG.mouse.justPressedTimeInTicksMiddle;
+			t.onJustReleasedMiddle(FlxG.mouse.getScreenPosition(), pressTime);
+		}
+
+		FlxMouseEventManager.add(target, mouseDownEvent, mouseUpEvent, mouseOverEvent, mouseOutEvent, false, true, true, [LEFT]);
+		FlxMouseEventManager.add(target, rightMouseDownEvent, rightMouseUpEvent, null, null, false, true, true, [RIGHT]);
+		FlxMouseEventManager.add(target, middleMouseDownEvent, middleMouseUpEvent, null, null, false, true, true, [MIDDLE]);
+	}
+
+	public static function handleGestureState(target:IInteractable, inputData:GestureStateData):GestureStateData
+	{
+		var mousePos = FlxG.mouse.getScreenPosition();
+		var outputData:GestureStateData = {
+			leftClickGestureStart: inputData.leftClickGestureStart,
+		};
+
+		if (FlxG.mouse.justPressed)
+		{
+			outputData.leftClickGestureStart = mousePos;
+			target.onJustPressed(mousePos);
+		}
+		if (FlxG.mouse.justPressedMiddle)
+		{
+			target.onJustPressedMiddle(mousePos);
+		}
+		if (FlxG.mouse.justPressedRight)
+		{
+			target.onJustPressedRight(mousePos);
+		}
+
+		if (FlxG.mouse.justReleased)
+		{
+			var pressTime = FlxG.game.ticks - FlxG.mouse.justPressedTimeInTicks;
+			if (GestureUtil.isValidSwipe(inputData.leftClickGestureStart, mousePos))
+				target.onJustSwiped(inputData.leftClickGestureStart, mousePos, pressTime,
+					GestureUtil.getSwipeDirection(inputData.leftClickGestureStart, mousePos));
+
+			outputData.leftClickGestureStart = null;
+			target.onJustReleased(mousePos, pressTime);
+		}
+		if (FlxG.mouse.justReleasedMiddle)
+		{
+			var pressTime = FlxG.game.ticks - FlxG.mouse.justPressedTimeInTicksMiddle;
+			target.onJustReleasedMiddle(mousePos, pressTime);
+		}
+		if (FlxG.mouse.justReleasedRight)
+		{
+			var pressTime = FlxG.game.ticks - FlxG.mouse.justPressedTimeInTicksRight;
+			target.onJustReleasedRight(mousePos, pressTime);
+		}
+
+		return outputData;
+	}
+
 	/**
 	 * Defines the difference between a tap and a swipe.
 	 * A swipe is longer than this many pixels, in screen space.
@@ -86,4 +190,12 @@ enum SwipeDirection
 	SOUTHWEST;
 	EAST;
 	WEST;
+}
+
+/**
+ * Put this variable on an object to help it keep track of things that tapped it.
+ */
+typedef GestureStateData =
+{
+	var ?leftClickGestureStart:FlxPoint;
 }

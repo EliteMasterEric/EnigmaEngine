@@ -14,9 +14,9 @@ class Enigma extends MusicBeatState
 	public static var ENGINE_NAME:String = "Enigma Engine";
 
 	/**
-	 * Set this to `-prerelease` on the `develop` branch please.
+	 * Set this to `-prerelease` on beta builds and `-develop` in other cases.
 	 */
-	public static var ENGINE_SUFFIX:String = "-prerelease";
+	public static var ENGINE_SUFFIX:String = "-develop";
 
 	/**
 	 * The full engine version with -prerelease suffix if applicable.

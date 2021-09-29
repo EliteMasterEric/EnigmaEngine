@@ -1,5 +1,6 @@
 package funkin.ui.component.menu;
 
+import flixel.math.FlxPoint;
 import funkin.behavior.input.InteractableSprite;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
@@ -86,12 +87,12 @@ class MainMenuItem extends InteractableSprite
 		}
 	}
 
-	override function onMouseDown()
+	override function onJustPressed(pos:FlxPoint)
 	{
 		trace('Pressed menu item ${menuOptionName}');
 	}
 
-	override function onMouseUp()
+	override function onJustReleased(pos:FlxPoint, pressDuration:Int)
 	{
 		trace('Released menu item ${menuOptionName}');
 	}

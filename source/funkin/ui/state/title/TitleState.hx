@@ -1,6 +1,5 @@
 package funkin.ui.state.title;
 
-import funkin.behavior.media.FMOD;
 import polymod.hscript.HScriptable;
 import funkin.behavior.play.Highscore;
 import funkin.ui.component.Alphabet;
@@ -402,17 +401,6 @@ class TitleState extends MusicBeatState // implements IHook
 			}
 		}
 		#end
-
-		if (FlxG.keys.justPressed.Q)
-		{
-			FlxG.sound.music.stop();
-			FMODCore.playSound(Paths.music("HankFuckingShootsTricky"));
-		}
-		if (FlxG.keys.justPressed.W)
-		{
-			FlxG.sound.music.stop();
-			FMODCore.playGarbage();
-		}
 
 		// If we've already skipped the intro...
 		if (pressedEnter && !transitioning && skippedIntro)

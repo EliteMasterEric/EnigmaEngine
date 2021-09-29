@@ -1,13 +1,31 @@
 package funkin.ui.component.modding;
 
-import polymod.Polymod.ModMetadata;
 import flixel.addons.ui.FlxUIList;
+import funkin.behavior.input.InteractableUIList;
+import polymod.Polymod.ModMetadata;
 
-class ModList extends FlxUIList
+/**
+ * This function is called when the user clicks the load or unload buttons, on either side.
+ */
+typedef ModListRemoveCallback = ModMetadata->Void;
+
+/**
+ * This function is called when the user clicks the up or down buttons.
+ * Unused/hidden on the "unloaded mods" side.
+ */
+typedef ModListReorderCallback = (ModMetadata, Int) -> Void;
+
+class ModList extends InteractableUIList
 {
-	public function new(X:Float = 0, Y:Float = 0, W:Float = 0, H:Float = 0)
+	public static final MENU_WIDTH = 500;
+
+	// Whether this is the Loaded Mods list.
+	final loaded:Bool = false;
+
+	public function new(X:Float = 0, Y:Float = 0, H:Float = 0, loaded:Bool = false)
 	{
-		super(X, Y, null, W, H, "<X> more...", FlxUIList.STACK_VERTICAL, 0, null, null, null, null);
+		super(X, Y, null, MENU_WIDTH, H, "<X> more...", FlxUIList.STACK_VERTICAL, 0, null, null, null, null);
+		this.loaded = loaded;
 	}
 
 	/**
@@ -16,7 +34,9 @@ class ModList extends FlxUIList
 	 */
 	public function addMod(modMetadata:ModMetadata)
 	{
-		add(new ModListItem(modMetadata));
+		var item = new ModListItem(modMetadata, 0, 0, loaded);
+		item.parent = this;
+		add(item);
 	}
 
 	/**
