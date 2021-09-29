@@ -143,7 +143,7 @@ class TitleState extends MusicBeatState // implements IHook
 	@:hscript
 	public function onStartCreateTitleScreen()
 	{
-		return (script_result == 'true');
+		// return (script_result == 'true');
 	}
 
 	/**

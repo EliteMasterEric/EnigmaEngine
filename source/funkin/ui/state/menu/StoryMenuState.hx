@@ -1,5 +1,6 @@
 package funkin.ui.state.menu;
 
+import funkin.behavior.Debug;
 import funkin.const.Enigma;
 import funkin.ui.audio.MainMenuMusic;
 import funkin.behavior.play.Highscore;
@@ -343,7 +344,7 @@ class StoryMenuState extends MusicBeatState
 		{
 			// If any song doesn't exist, stop loading the week.
 			FlxG.sound.play(Paths.sound('cancelMenu'));
-			trace('CANCELLED loading week: one or more songs are missing on this difficulty!');
+			Debug.logError('CANCELLED loading week: one or more songs are missing on this difficulty!');
 			return;
 		}
 

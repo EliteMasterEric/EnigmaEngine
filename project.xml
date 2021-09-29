@@ -140,8 +140,8 @@
 	<!-- A library for tolerant JSON parsing. Fewer bugs caused by typos means fewer issues on GitHub. -->
 	<haxelib name="tjson" />
 
-  <!-- An FMOD wrapper for Haxe. Includes APIs for sound manipulation. -->
-  <haxelib name="faxe" />
+  	<!-- An FMOD wrapper for Haxe. Includes APIs for sound manipulation. -->
+  	<!--<haxelib name="faxe" />-->
 
 	<!-- Allows for atomic mod loading and asset replacement. Powers the ModCore system. -->
 	<haxelib name="polymod"/>

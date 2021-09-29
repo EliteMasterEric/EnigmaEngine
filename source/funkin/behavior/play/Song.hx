@@ -98,23 +98,23 @@ class Song
 		return parseJSONshit(songId, rawJson, rawMetaJson);
 	}
 
-	public static function validateSongs(songFolders:Array<String>, curDifficulty:Int):Bool
+	/**
+	 * For a given list of song folders, verify that all of them possess the specified difficulty.
+	 * Used to ensure a given week can be played.
+	 * @param songIds An array of song IDs.
+	 * @param curDifficulty A difficulty index to use.
+	 * @return Whether all the song IDs can be played on that difficulty.
+	 */
+	public static function validateSongs(songIds:Array<String>, curDifficulty:Int):Bool
 	{
 		// For each song in the list...
-		for (i in 0...songFolders.length)
+		for (songId in songIds)
 		{
-			var songFolder = songFolders[i];
-			var songFolderFormat = StringTools.replace(songFolder, " ", "-");
-			var songJsonFile = Highscore.formatSong(songFolderFormat, curDifficulty);
+			// Get the path of the JSON file for that song ID and the chosen difficulty.
+			var songFile = Highscore.formatSong(songId, curDifficulty);
 
-			var songFolderLowercase = songFolderFormat.toLowerCase();
-
-			var songDataPath = Paths.json(songFolderLowercase + '/' + songJsonFile.toLowerCase());
-
-			var songExists = OpenFlAssets.exists(songDataPath);
-
-			// If any song doesn't exist, return false.
-			if (!songExists)
+			// If that path doesn't exist, we can't play this week.
+			if (!OpenFlAssets.exists(Paths.json('songs/${songId}/${songFile}')))
 			{
 				return false;
 			}

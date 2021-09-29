@@ -152,11 +152,21 @@ class Paths
 		return getPath('data/$key.xml', TEXT, library);
 	}
 
+	/**
+	 * Retrieve the path of a JSON asset in a given `library` with a given `key`.
+	 * Assumes the path is a subpath of the `data/` folder.
+	 * Assumes the extension is `json`.
+	 */
 	inline static public function json(key:String, ?library:String)
 	{
 		return getPath('data/$key.json', TEXT, library);
 	}
 
+	/**
+	 * Retrieve the path of a JSON asset in a given `library` with a given `key`.
+	 * Assumes the path is a subpath of the `sounds/` folder.
+	 * Assumes the extension is `ogg` or `mp3` based on the platform.
+	 */
 	static public function sound(key:String, ?library:String)
 	{
 		return getPath('sounds/$key.$SOUND_EXT', SOUND, library);

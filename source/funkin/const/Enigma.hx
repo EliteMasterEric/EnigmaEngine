@@ -16,7 +16,7 @@ class Enigma extends MusicBeatState
 	/**
 	 * Set this to `-prerelease` on beta builds and `-develop` in other cases.
 	 */
-	public static var ENGINE_SUFFIX:String = "-develop";
+	public static var ENGINE_SUFFIX:String = "-prerelease";
 
 	/**
 	 * The full engine version with -prerelease suffix if applicable.
