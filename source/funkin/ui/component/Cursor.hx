@@ -17,6 +17,11 @@ class Cursor
 		// setupCursorCircle();
 	}
 
+	public static function showCursor(shouldShow:Bool = true)
+	{
+		FlxG.mouse.visible = shouldShow;
+	}
+
 	/**
 	 * Enable the default operating system cursor.
 	 */

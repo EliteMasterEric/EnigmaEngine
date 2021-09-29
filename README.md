@@ -43,15 +43,16 @@ Upcoming plans for modding support include:
 * Add support for custom stages with custom props.
 * More song events.
 * Custom dialogue for songs.
+* Custom cutscenes, with no mess and no fuss.
 * Fully-fledged scripting support in HScript, 100 times more powerful than Lua modcharts. 
 * Custom note types via scripting.
+* Support for FMOD banks and events for dynamic sound.
 
 ## Other Features
 
 Enigma Engine also has the following features:
 * All the features of Kade v1.7, including custom keybinds, togglable anti-mash, better input detection, and more.
 * Support for 9-key songs with reworked charter and custom keybinds.
-* Support for FMOD banks and events for dynamic sound.
 
 ## Media
 

@@ -1,5 +1,6 @@
 package funkin.ui.state.play;
 
+import funkin.ui.component.Cursor;
 import funkin.util.NoteUtil;
 import funkin.ui.audio.MainMenuMusic;
 import funkin.util.Util;
@@ -334,7 +335,7 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
-		FlxG.mouse.visible = false;
+		Cursor.showCursor(false);
 		instance = this;
 
 		previousRate = songMultiplier - 0.05;
@@ -866,7 +867,7 @@ class PlayState extends MusicBeatState
 			songPosBar.createFilledBar(FlxColor.GRAY, FlxColor.LIME);
 			add(songPosBar);
 
-			var songName = new FlxText(songPosBG.x + (songPosBG.width / 2) - (SONG.songId.length * 5), songPosBG.y, 0, SONG.songId, 16);
+			var songName = new FlxText(songPosBG.x + (songPosBG.width / 2) - (SONG.songId.length * 5), songPosBG.y, 0, SONG.songName, 16);
 			if (PlayStateChangeables.useDownscroll)
 				songName.y -= 3;
 			songName.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);

@@ -87,11 +87,11 @@ class Main extends Sprite
 		// Run this first so we can see logs.
 		Debug.onInitProgram();
 
-		// Gotta run this before any assets get loaded.
-		// ModCore.loadAllMods();
-
 		#if FEATURE_FILESYSTEM
-		if (ModCore.hasMods())
+		// TODO: Revert this.
+		// Gotta run this before any assets get loaded.
+		ModCore.loadAllMods();
+		if (ModCore.hasMods() && false)
 		{
 			initialState = ModSplashState;
 		}

@@ -1,5 +1,6 @@
 package funkin.ui.state.charting;
 
+import funkin.ui.component.Cursor;
 import funkin.util.NoteUtil;
 import funkin.assets.Paths;
 import funkin.util.Util;
@@ -185,9 +186,7 @@ class ChartingState extends MusicBeatState
 
 		curSection = lastSection;
 
-		trace(1 > Math.POSITIVE_INFINITY);
-
-		FlxG.mouse.visible = true;
+		Cursor.showCursor();
 
 		instance = this;
 
@@ -254,7 +253,7 @@ class ChartingState extends MusicBeatState
 		curRenderedNotes = new FlxTypedGroup<Note>();
 		curRenderedSustains = new FlxTypedGroup<FlxSprite>();
 
-		FlxG.mouse.visible = true;
+		Cursor.showCursor();
 
 		tempBpm = _song.bpm;
 

@@ -22,6 +22,7 @@ class GestureUtil
 	{
 		var mouseDownEvent = function(t:InteractableSprite)
 		{
+			trace('MouseDownEvent');
 			@:privateAccess
 			t.onJustPressed(FlxG.mouse.getScreenPosition());
 		}

@@ -13,3 +13,12 @@ Initial release.
 - 💖Rebindable fullscreen button.
 - Move all the classes into packages for better organization.
 - Replaced JSON parser with `tjson` to make data structure less strict on end users.
+- Bug fixes
+
+### Plans before release
+
+- 💖Basic script hook implementation.
+  - The only available hooks right now are `onStartTitleScreen` and `onFinishTitleScreen`.
+- 💖Mod Configuration menu
+- 💖Made weeks data driven and added support for custom weeks.
+- Bug fixes

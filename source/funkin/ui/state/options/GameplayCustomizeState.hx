@@ -1,5 +1,6 @@
 package funkin.ui.state.options;
 
+import funkin.ui.component.Cursor;
 import funkin.ui.component.play.Note;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.EnigmaNote;
@@ -157,7 +158,7 @@ class GameplayCustomizeState extends MusicBeatState
 		sick.x = FlxG.save.data.changedHitX;
 		sick.y = FlxG.save.data.changedHitY;
 
-		FlxG.mouse.visible = true;
+		Cursor.showCursor();
 	}
 
 	override function update(elapsed:Float)
@@ -219,7 +220,7 @@ class GameplayCustomizeState extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			FlxG.mouse.visible = false;
+			Cursor.showCursor(false);
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			FlxG.switchState(new OptionsMenu());
 		}

@@ -1,5 +1,6 @@
 package funkin.ui.state.title;
 
+import funkin.ui.component.Cursor;
 #if FEATURE_FILESYSTEM
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
@@ -57,7 +58,7 @@ class Caching extends MusicBeatState
 
 		SaveData.initSave();
 
-		FlxG.mouse.visible = false;
+		Cursor.showCursor(false);
 
 		FlxG.worldBounds.set(0, 0);
 

@@ -1,5 +1,6 @@
 package funkin.ui.state.title;
 
+import funkin.ui.component.Cursor;
 import polymod.hscript.HScriptable;
 import funkin.behavior.play.Highscore;
 import funkin.ui.component.Alphabet;
@@ -32,7 +33,7 @@ import funkin.behavior.api.Discord.DiscordClient;
 #if FEATURE_STEPMANIA
 import funkin.behavior.stepmania.SMFile;
 #end
-// import funkin.behavior.mods.IHook;
+import funkin.behavior.mods.IHook;
 import haxe.extern.EitherType;
 import openfl.Assets;
 
@@ -135,13 +136,19 @@ class TitleState extends MusicBeatState // implements IHook
 	var creditsGraphicCache:Map<String, FlxSprite>;
 
 	/**
-	 * Mod hook called when the loa
+	 * Mod hook called before the title screen starts.
+	 * 
+	 * The script can return true or false.
 	 */
 	@:hscript
 	public function onStartCreateTitleScreen()
 	{
+		return (script_result == 'true');
 	}
 
+	/**
+	 * Mod hook called after the title screen is built.
+	 */
 	@:hscript
 	public function onFinishCreateTitleScreen()
 	{
@@ -309,7 +316,7 @@ class TitleState extends MusicBeatState // implements IHook
 		// TODO: Unused animation. Maybe we can make the credits text bounce to the beat?
 		// FlxTween.tween(creditsTextGroup, {y: creditsTextGroup.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
 
-		FlxG.mouse.visible = false;
+		Cursor.showCursor(true);
 
 		// Prevent playing the diamond twice if playIntro gets called twice.
 		if (initialized)

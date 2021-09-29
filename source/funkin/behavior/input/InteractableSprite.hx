@@ -15,9 +15,6 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  */
 class InteractableSprite extends FlxSprite implements IInteractable implements IRelative
 {
-	public var clickable = true;
-	public var tappable = true;
-
 	public function new(?X:Float = 0, ?Y:Float = 0, ?SimpleGraphic:FlxGraphicAsset, ?Parent:FlxObject)
 	{
 		super(0, 0, SimpleGraphic);

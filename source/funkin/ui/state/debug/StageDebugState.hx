@@ -1,5 +1,6 @@
 package funkin.ui.state.debug;
 
+import funkin.ui.component.Cursor;
 import funkin.ui.component.play.Stage;
 import funkin.ui.state.play.PlayState;
 import flixel.FlxCamera;
@@ -59,7 +60,7 @@ class StageDebugState extends FlxState
 	override function create()
 	{
 		FlxG.sound.music.stop();
-		FlxG.mouse.visible = true;
+		Cursor.showCursor();
 
 		Stage = PlayState.Stage;
 
