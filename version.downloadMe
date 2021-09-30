@@ -1,3 +1,5 @@
-0.1;
-- Initial development version.
-- Basic ModCore support.
+0.2;
+- Reworked title and intro credits to be fully data driven.
+- Added 9-key support for songs.
+- Added custom keybinds for 9-key songs.
+- Rebindable fullscreen button.

@@ -7,5 +7,6 @@
   "lime.browser": "firefox",
   "files.associations": {
     "*.json": "jsonc",
+    "*.hxp": "haxe"
   }
 }

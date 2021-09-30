@@ -14,12 +14,16 @@ Initial release.
 - Move all the classes into packages for better organization.
 - Replaced JSON parser with `tjson` to make data structure less strict on end users.
 - Various bug fixes.
+  - Fixed a bug where the game would crash if the `_meta.json` file for a song was missing.
 
 ### Plans before release
 
+- ⛧Split the game into `vanilla` and `base` builds.
+  - Vanilla builds include Weeks 1-6 and the corresponding enemy characters and are good if you want to play the base game with the improved engine.
+  - Base builds only include the Tutorial and are good if you want a baseline to install mods with.
 - ⛧Basic script hook implementation.
   - The only available hooks right now are `onStartTitleScreen` and `onFinishTitleScreen`.
 - ⛧Mod Configuration menu
 - ⛧Made weeks data driven and added support for custom weeks.
 - Various bug fixes.
-- Remove Herobrine.
+  - Removed Herobrine.
