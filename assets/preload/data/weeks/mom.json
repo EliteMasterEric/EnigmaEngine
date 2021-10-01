@@ -2,7 +2,8 @@
     "name": "MOMMY MUST MURDER",
     "assets": {
         "characters": ["mom", "bf", "gf"],
-        "title": "storymenu/week4"
+        "title": "storymenu/weeks/week4",
+        "background": "#F9CF51",
     },
     "startSound": "confirmMenu",
     "unlocked": false,

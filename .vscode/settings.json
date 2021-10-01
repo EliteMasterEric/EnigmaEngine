@@ -8,5 +8,39 @@
   "files.associations": {
     "*.json": "jsonc",
     "*.hxp": "haxe"
+  },
+  "codedox": {
+    "autoInsert": true, // enables insertion of function comments trigged by keystrokes
+    "autoInsertHeader": true, // enables insertion of file header triggered by keystrokes
+    "autoPrefixOnEnter": true, // enables 'on enter' rules
+    "paramFormat": "@param ${name} ",  // supports ${name} and ${type}, plus built-in params
+    "returnFormat": "@return ${type}", // supports ${type}, plus built-in params
+    "allowOptionalArgs": false, // false strips the '?' prefix from optional function args
+    "alwaysMultiline": true, // if false non-functions (types) are single line
+    "commentprefix": " * ",
+    "commentbegin": "/**",
+    "commentend": " */",
+    "commentdescription": "[Description]",
+    "headerprefix": " *",
+    "headerbegin": "/*",
+    "headerend": " */",
+    "fileheader": {
+      "params": {
+        "*": {
+          "author": "MasterEric",
+          "company": "MasterEric"
+        }
+      },
+      "templates": {
+        "*": [
+          "${license_gpl_3_0}",
+          "",
+          "${headerbegin}",
+          "${headerprefix} ${fname}",
+          "${headerprefix} [Module Description]",
+          "${headerend}"
+        ]
+      }
+    }
   }
 }

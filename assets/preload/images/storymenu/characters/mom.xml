@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TextureAtlas imagePath="mom.png" width="2710" height="829">
+    <SubTexture name="idle0000" x="0" y="0" width="387" height="828"/>
+    <SubTexture name="idle0001" x="0" y="0" width="387" height="828"/>
+    <SubTexture name="idle0002" x="387" y="0" width="387" height="816"/>
+    <SubTexture name="idle0003" x="387" y="0" width="387" height="816"/>
+    <SubTexture name="idle0004" x="774" y="0" width="388" height="823"/>
+    <SubTexture name="idle0005" x="774" y="0" width="388" height="823"/>
+    <SubTexture name="idle0006" x="1162" y="0" width="387" height="825"/>
+    <SubTexture name="idle0007" x="1162" y="0" width="387" height="825"/>
+    <SubTexture name="idle0008" x="1549" y="0" width="387" height="829"/>
+    <SubTexture name="idle0009" x="1549" y="0" width="387" height="829"/>
+    <SubTexture name="idle0010" x="1936" y="0" width="387" height="829"/>
+    <SubTexture name="idle0011" x="1936" y="0" width="387" height="829"/>
+    <SubTexture name="idle0012" x="2323" y="0" width="387" height="829"/>
+    <SubTexture name="idle0013" x="2323" y="0" width="387" height="829"/>
+</TextureAtlas>

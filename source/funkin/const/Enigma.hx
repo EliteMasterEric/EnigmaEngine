@@ -9,36 +9,39 @@ import funkin.ui.state.MusicBeatState;
 class Enigma extends MusicBeatState
 {
 	/**
-	 * enigma balls lol.
-	 */
-	public static var ENGINE_NAME:String = "Enigma Engine";
-
-	/**
-	 * Set this to `-prerelease` on beta builds and `-develop` in other cases.
-	 */
-	public static var ENGINE_SUFFIX:String = "-prerelease";
-
-	/**
-	 * The full engine version with -prerelease suffix if applicable.
-	 */
-	public static var ENGINE_VERSION:String = "0.2.0" + ENGINE_SUFFIX;
-
-	/**
-	 * This is the version of Friday Night Funkin' the engine is based on.
-	 * The release of Week 8 is going to send a lot of waves through the modding community...
-	 */
-	public static var GAME_VERSION:String = "0.2.7.1";
-
-	/**
 	 * The git commit of this build, calculated at build time. Powered by a fancy Haxe macro.
 	 */
 	@:keep public static var COMMIT_HASH(default, never):String = HaxeCommit.getGitCommitHash();
 
 	/**
-	 * The URL to use for version checks.
-	 		* Set `ENABLE_VERSION_CHECK` to false instead if you want to turn the feature off entirely.
+	 * enigma balls lol.
 	 */
-	public static final ENGINE_VERSION_URL:String = "https://raw.githubusercontent.com/EnigmaEngine/EnigmaEngine/stable/version.downloadMe";
+	public static var ENGINE_NAME:String = 'Enigma Engine';
+
+	/**
+	 * The suffix applied to the engine version. Make sure to change this with each respective release.
+	 */
+	// public static var ENGINE_SUFFIX:String = ''; // For RELEASES
+	public static var ENGINE_SUFFIX:String = '-prerelease'; // For PRERELEASES
+
+	// public static var ENGINE_SUFFIX:String = '-${COMMIT_HASH}'; // For DEVELOP
+
+	/**
+	 * The full engine version with -prerelease suffix if applicable.
+	 */
+	public static var ENGINE_VERSION:String = '0.2.0' + ENGINE_SUFFIX;
+
+	/**
+	 * This is the version of Friday Night Funkin' the engine is based on.
+	 * The release of Week 8 is going to send a lot of waves through the modding community...
+	 */
+	public static var GAME_VERSION:String = '0.2.7.1';
+
+	/**
+	 * The URL to use for version checks.
+	 * Set `ENABLE_VERSION_CHECK` to false instead if you want to turn the feature off entirely.
+	 */
+	public static final ENGINE_VERSION_URL:String = 'https://raw.githubusercontent.com/EnigmaEngine/EnigmaEngine/stable/version.downloadMe';
 
 	/**
 	 * If you want to create a build of Enigma Engine which disables mod support entirely,
@@ -47,19 +50,19 @@ class Enigma extends MusicBeatState
 	public static final ENABLE_MODS:Bool = true;
 
 	/**
-	 * If you don't want to check the engine version on GitHub, or display the "Outdated Version" message,
+	 * If you don't want to check the engine version on GitHub, or display the 'Outdated Version' message,
 	 * flip this lever.
 	 */
 	public static final ENABLE_VERSION_CHECK:Bool = true;
 
 	/**
-	 * If you don't want to see the "Custom Keybinds" option in the menu,
+	 * If you don't want to see the 'Custom Keybinds' option in the menu,
 	 * flip this lever.
 	 */
 	public static final USE_CUSTOM_KEYBINDS = true;
 
 	/**
-	 * If you don't want to see certain keybinds in the "Custom Keybinds" menu,
+	 * If you don't want to see certain keybinds in the 'Custom Keybinds' menu,
 	 * flip these levers.
 	 */
 	public static final SHOW_CUSTOM_KEYBINDS:Map<Int, Bool> = [

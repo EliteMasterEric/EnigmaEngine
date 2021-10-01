@@ -2,7 +2,8 @@
     "name": "Spooky Month",
     "assets": {
         "characters": ["spooky", "bf", "gf"],
-        "title": "storymenu/week2"
+        "title": "storymenu/weeks/week2",
+        "background": "#F9CF51",
     },
     "startSound": "confirmMenu",
     "unlocked": false,

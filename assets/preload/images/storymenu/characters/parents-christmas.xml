@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TextureAtlas imagePath="parents-christmas.png" width="1756" height="2326">
+    <SubTexture name="idle0000" x="867" y="782" width="875" height="778"/>
+    <SubTexture name="idle0001" x="867" y="782" width="875" height="778"/>
+    <SubTexture name="idle0002" x="0" y="1560" width="877" height="760"/>
+    <SubTexture name="idle0003" x="0" y="1560" width="877" height="760"/>
+    <SubTexture name="idle0004" x="877" y="1560" width="879" height="766"/>
+    <SubTexture name="idle0005" x="877" y="1560" width="879" height="766"/>
+    <SubTexture name="idle0006" x="0" y="782" width="867" height="778"/>
+    <SubTexture name="idle0007" x="0" y="782" width="867" height="778"/>
+    <SubTexture name="idle0008" x="0" y="0" width="866" height="781"/>
+    <SubTexture name="idle0009" x="0" y="0" width="866" height="781"/>
+    <SubTexture name="idle0010" x="866" y="0" width="866" height="782"/>
+    <SubTexture name="idle0011" x="866" y="0" width="866" height="782"/>
+    <SubTexture name="idle0012" x="866" y="0" width="866" height="782"/>
+    <SubTexture name="idle0013" x="866" y="0" width="866" height="782"/>
+</TextureAtlas>

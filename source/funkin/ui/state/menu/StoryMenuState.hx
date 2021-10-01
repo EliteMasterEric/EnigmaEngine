@@ -27,6 +27,7 @@ import funkin.behavior.api.Discord.DiscordClient;
 import funkin.ui.component.menu.MenuCharacter;
 import funkin.ui.component.menu.StoryWeekMenuItem;
 import funkin.util.Util;
+import funkin.behavior.menu.WeekData;
 import lime.net.curl.CURLCode;
 
 using StringTools;
@@ -102,6 +103,12 @@ class StoryMenuState extends MusicBeatState
 	var difficultySelectors:FlxGroup;
 
 	/**
+	 * The background behind the characters. In Vanilla this is just solid yellow.
+	 * The size of this sprite is 1280x400.
+	 */
+	var characterBG:FlxSprite;
+
+	/**
 	 * The sprite displaying the current difficulty.
 	 */
 	var sprDifficulty:FlxSprite;
@@ -140,7 +147,9 @@ class StoryMenuState extends MusicBeatState
 		for (weekId in orderedWeekList)
 		{
 			var weekDataElement = WeekData.fetchWeekData(weekId);
-			if weekData.set(weekId, WeekData.fetchWeekData(weekId));
+			if (weekDataElement.isWeekUnlocked())
+				filteredWeekIds.push(weekId);
+			weekData.set(weekId, WeekData.fetchWeekData(weekId));
 		}
 
 		// Make sure the diamond fade in is used.
@@ -171,14 +180,14 @@ class StoryMenuState extends MusicBeatState
 		// Black bar along the top.
 		var blackBarThingie:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, 56, FlxColor.BLACK);
 		add(blackBarThingie);
-		var ui_tex = Paths.getSparrowAtlas('campaign_menu_UI_assets');
-		var characterBG:FlxSprite = new FlxSprite(0, 56).makeGraphic(FlxG.width, 400, 0xFFF9CF51);
 
 		grpWeekCharacters = new FlxTypedGroup<MenuCharacter>();
 
-		for (weekIndex in 0...weekData().length)
+		for (weekIndex in 0...filteredWeekIds.length)
 		{
-			var weekThing:StoryWeekMenuItem = new StoryWeekMenuItem(0, characterBG.y + characterBG.height + 10, i);
+			var weekDataEntry = weekData.get(filteredWeekIds[i]);
+
+			var weekMenuItem:StoryWeekMenuItem = new StoryWeekMenuItem(0, characterBG.y + characterBG.height + 10, weekDataEntry);
 			weekThing.y += ((weekThing.height + 20) * i);
 			weekThing.targetY = i;
 			grpWeekText.add(weekThing);
@@ -234,7 +243,6 @@ class StoryMenuState extends MusicBeatState
 		rightArrow.antialiasing = FlxG.save.data.antialiasing;
 		difficultySelectors.add(rightArrow);
 
-		add(characterBG);
 		add(grpWeekCharacters);
 
 		txtTracklist = new FlxText(FlxG.width * 0.05, characterBG.x + characterBG.height + 100, 0, "Tracks", 32);
@@ -518,7 +526,7 @@ class StoryMenuState extends MusicBeatState
 
 	function getCurrentWeekData():WeekData
 	{
-		return weekData.get(orderedWeekList[curWeekIndex]);
+		return weekData.get(filteredWeekIds[curWeekIndex]);
 	}
 
 	/**
@@ -529,6 +537,12 @@ class StoryMenuState extends MusicBeatState
 	 */
 	function updateText()
 	{
+		// Update character background
+		remove(characterBG);
+		characterBG = getCurrentWeekData().createBackgroundSprite();
+		characterBG.y = 56;
+		add(characterBG);
+
 		// Update characters.
 		grpWeekCharacters.members[0].setCharacter(weekCharacters[curWeek][0]);
 		grpWeekCharacters.members[1].setCharacter(weekCharacters[curWeek][1]);

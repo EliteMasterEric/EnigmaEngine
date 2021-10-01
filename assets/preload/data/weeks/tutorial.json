@@ -2,7 +2,8 @@
     "name": "Tutorial",
     "assets": {
         "characters": ["", "bf", "gf"],
-        "title": "storymenu/week0"
+        "title": "storymenu/weeks/week0",
+        "background": "#F9CF51",
     },
     "startSound": "confirmMenu",
     "unlocked": true,

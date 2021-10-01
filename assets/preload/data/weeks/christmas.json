@@ -2,7 +2,8 @@
     "name": "RED SNOW",
     "assets": {
         "characters": ["parents-christmas", "bf", "gf"],
-        "title": "storymenu/week5"
+        "title": "storymenu/weeks/week5",
+        "background": "#F9CF51",
     },
     "startSound": "confirmMenu",
     "unlocked": false,

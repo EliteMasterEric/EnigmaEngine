@@ -2,6 +2,8 @@ package funkin.behavior.menu;
 
 import funkin.assets.Paths;
 
+using StringTools;
+
 /**
  * A structure which contains data from a week's `data/weeks/<id>.json` file.
  * Also contains utility functions to load song data and retrieve associated assets.
@@ -42,24 +44,26 @@ class WeekData
 	var alwaysUnlocked(default, null):Bool = true;
 
 	/**
-	 * Whether the week is always unlocked by default.
+	 * The graphic to display on the menu item.
 	 */
-	var titleGraphic(default, null):Bool = null;
+	var titleGraphic(default, null):String = null;
 
 	/**
-	 * Whether the week is always unlocked by default.
+	 * The character graphics to display.
 	 */
 	var menuCharacters(default, null):Array<String> = ["", "bf", "gf"];
-
-	/**
-	 * Whether the week is always unlocked by default.
-	 */
-	var startSound(default, null):String = "confirmMenu";
 
 	/**
 	 * The sound file relative to the `sounds` folder to play when choosing the week.
 	 */
 	var startSound(default, null):String = 'confirmMenu';
+
+	/**
+	 * This string value will determine what the background for the characters is.
+	 * The value is either an asset path, or a hex color code starting in `#`.
+	 * Defaults to the yellow color from the base game.
+	 */
+	var backgroundGraphic(default, null):String = "#F9CF51";
 
 	function new(id:String, rawWeekData:RawWeekData)
 	{
@@ -84,6 +88,8 @@ class WeekData
 				this.menuCharacters = rawWeekData.assets.characters;
 			if (rawWeekData.assets.startSound != null)
 				this.startSound = rawWeekData.assets.startSound;
+			if (rawWeekData.assets.background != null)
+				this.backgroundGraphic = rawWeekData.assets.background;
 		}
 	}
 
@@ -115,6 +121,20 @@ class WeekData
 		{
 			Debug.logError("Error: Week data is missing attribute 'songs'")
 			return false;
+		}
+	}
+
+	public function createBackgroundSprite():FlxSprite
+	{
+		if (this.backgroundGraphic.startsWith('#'))
+		{
+			// A color was used.
+
+			return new FlxSprite(0, 0).makeGraphic(1280, 400, FlxColor.fromString(this.backgroundGraphic));
+		}
+		else
+		{
+			// An asset path was used.
 		}
 	}
 

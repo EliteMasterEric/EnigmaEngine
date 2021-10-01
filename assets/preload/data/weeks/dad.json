@@ -2,7 +2,8 @@
     "name": "Daddy Dearest",
     "assets": {
         "characters": ["dad", "bf", "gf"],
-        "title": "storymenu/week1"
+        "title": "storymenu/weeks/week1",
+        "background": "#F9CF51",
     },
     "startSound": "confirmMenu",
     "unlocked": true,

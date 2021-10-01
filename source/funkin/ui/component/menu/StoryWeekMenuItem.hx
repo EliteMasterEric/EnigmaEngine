@@ -14,10 +14,10 @@ class StoryWeekMenuItem extends FlxSpriteGroup
 	public var week:FlxSprite;
 	public var flashingInt:Int = 0;
 
-	public function new(x:Float, y:Float, weekNum:Int = 0)
+	public function new(x:Float, y:Float, weekData:WeekData)
 	{
 		super(x, y);
-		week = new FlxSprite().loadGraphic(Paths.loadImage('storymenu/week' + weekNum));
+		week = new FlxSprite().loadGraphic(Paths.loadImage(weekData.titleGraphic));
 		week.antialiasing = FlxG.save.data.antialiasing;
 		add(week);
 	}

@@ -1,19 +1,33 @@
-package funkin.util.macro;
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import haxe.macro.Compiler;
-import haxe.macro.Context;
-import haxe.macro.Expr;
-import haxe.macro.ExprTools;
+/*
+ * HaxeHScriptFixer.hx
+ * A macro designed to augment the Polymod HScript Macro.
+ * Adds a call to `Debug.logError` to all `@:hscript` functions.
+ * Previously contained code to inject additional variables; this has been contributed to Polymod instead.
+ */
+package funkin.util.macro;
 
 using haxe.macro.ExprTools;
 using haxe.macro.TypeTools;
 using Lambda;
 
-/**
- * A macro built for a macro!
- * 
- * Adds a call to `Debug.logError` to all `@:hscript` functions.
- */
 class HaxeHScriptFixer
 {
 	public static macro function build():Array<Field>

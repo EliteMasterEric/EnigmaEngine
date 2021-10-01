@@ -2,7 +2,8 @@
     "name": "Hating Simulator ft. Moawling",
     "assets": {
         "characters": ["senpai", "bf", "gf"],
-        "title": "storymenu/week6"
+        "title": "storymenu/weeks/week6",
+        "background": "#F9CF51",
     },
     "startSound": "confirmMenu",
     "unlocked": false,

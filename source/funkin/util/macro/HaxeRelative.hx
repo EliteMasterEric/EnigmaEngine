@@ -1,11 +1,27 @@
-package funkin.util.macro;
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import haxe.macro.Context;
-import haxe.macro.Expr;
-
-/**
+/*
+ * HaxeRelative.hx
  * Add methods to an FlxObject that allow it to be positioned and rotated relative to a parent.
  */
+package funkin.util.macro;
+
 class HaxeRelative
 {
 	public static macro function build():Array<Field>
@@ -24,7 +40,7 @@ class HaxeRelative
 				}
 			}
 		}
-		Context.info('${cls.name}: IMPLEMENTING IRelative...', cls.pos);
+		Context.info('${cls.name}: Implementing IRelative...', cls.pos);
 
 		// Create properties which additionally run this code when the updatePosition function when set.
 		var propertyBody = [macro this.updatePosition()];

@@ -1,19 +1,35 @@
-package funkin.util.macro;
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import haxe.macro.Type.ClassType;
-import haxe.macro.Context;
-import haxe.macro.Expr;
+/*
+ * HaxeSingleton.hx
+ * Performs a macro that creates an instance of the class and append the value as a static property `instance`.
+ * @see https://en.wikipedia.org/wiki/Singleton_pattern
+ * @see https://code.haxe.org/category/macros/build-static-field.html
+ * @see https://community.haxe.org/t/initialize-class-instance-from-expr-in-macro/521
+ */
+package funkin.util.macro;
 
 using haxe.macro.ExprTools;
 using haxe.macro.TypeTools;
 using Lambda;
 
-/**
- * Create an instance of the class and append the value as a static field `instance`.
- * @see https://code.haxe.org/category/macros/build-static-field.html
- * @see https://community.haxe.org/t/initialize-class-instance-from-expr-in-macro/521
- */
-class HaxeInstance
+class HaxeSingleton
 {
 	public static macro function build():Array<Field>
 	{
