@@ -6,7 +6,7 @@ using StringTools;
 
 class ChartParser
 {
-	static public function parse(songName:String, section:Int):Array<Dynamic>
+	public static function parse(songName:String, section:Int):Array<Dynamic>
 	{
 		var IMG_WIDTH:Int = 8;
 		var regex:EReg = new EReg("[ \t]*((\r\n)|\r|\n)[ \t]*", "g");

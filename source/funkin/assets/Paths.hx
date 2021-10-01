@@ -13,11 +13,11 @@ using StringTools;
 
 class Paths
 {
-	inline public static var SOUND_EXT = #if web "mp3" #else "ogg" #end;
+	public static inline var SOUND_EXT = #if web "mp3" #else "ogg" #end;
 
 	static var currentLevel:String;
 
-	static public function setCurrentLevel(name:String)
+	public static function setCurrentLevel(name:String)
 	{
 		currentLevel = name.toLowerCase();
 	}
@@ -48,7 +48,7 @@ class Paths
 	 * @param library 
 	 * @return BitmapData
 	 */
-	static public function loadImage(key:String, ?library:String):FlxGraphic
+	public static function loadImage(key:String, ?library:String):FlxGraphic
 	{
 		var path = image(key, library);
 
@@ -76,7 +76,7 @@ class Paths
 		}
 	}
 
-	static public function loadJSON(key:String, ?library:String):Dynamic
+	public static function loadJSON(key:String, ?library:String):Dynamic
 	{
 		var rawJson:String = null;
 		try
@@ -112,42 +112,42 @@ class Paths
 		}
 	}
 
-	static public function getLibraryPath(file:String, library = "preload")
+	public static function getLibraryPath(file:String, library = "preload")
 	{
 		return if (library == "preload" || library == "default") getPreloadPath(file); else getLibraryPathForce(file, library);
 	}
 
-	inline static function getLibraryPathForce(file:String, library:String)
+	static inline function getLibraryPathForce(file:String, library:String)
 	{
 		return '$library:assets/$library/$file';
 	}
 
-	inline static function getPreloadPath(file:String)
+	static inline function getPreloadPath(file:String)
 	{
 		return 'assets/$file';
 	}
 
-	inline static public function file(file:String, ?library:String, type:AssetType = TEXT)
+	public static inline function file(file:String, ?library:String, type:AssetType = TEXT)
 	{
 		return getPath(file, type, library);
 	}
 
-	inline static public function lua(key:String, ?library:String)
+	public static inline function lua(key:String, ?library:String)
 	{
 		return getPath('data/$key.lua', TEXT, library);
 	}
 
-	inline static public function luaImage(key:String, ?library:String)
+	public static inline function luaImage(key:String, ?library:String)
 	{
 		return getPath('data/$key.png', IMAGE, library);
 	}
 
-	inline static public function txt(key:String, ?library:String)
+	public static inline function txt(key:String, ?library:String)
 	{
 		return getPath('$key.txt', TEXT, library);
 	}
 
-	inline static public function xml(key:String, ?library:String)
+	public static inline function xml(key:String, ?library:String)
 	{
 		return getPath('data/$key.xml', TEXT, library);
 	}
@@ -157,7 +157,7 @@ class Paths
 	 * Assumes the path is a subpath of the `data/` folder.
 	 * Assumes the extension is `json`.
 	 */
-	inline static public function json(key:String, ?library:String)
+	public static inline function json(key:String, ?library:String)
 	{
 		return getPath('data/$key.json', TEXT, library);
 	}
@@ -167,22 +167,22 @@ class Paths
 	 * Assumes the path is a subpath of the `sounds/` folder.
 	 * Assumes the extension is `ogg` or `mp3` based on the platform.
 	 */
-	static public function sound(key:String, ?library:String)
+	public static function sound(key:String, ?library:String)
 	{
 		return getPath('sounds/$key.$SOUND_EXT', SOUND, library);
 	}
 
-	inline static public function soundRandom(key:String, min:Int, max:Int, ?library:String)
+	public static inline function soundRandom(key:String, min:Int, max:Int, ?library:String)
 	{
 		return sound(key + FlxG.random.int(min, max), library);
 	}
 
-	inline static public function music(key:String, ?library:String)
+	public static inline function music(key:String, ?library:String)
 	{
 		return getPath('music/$key.$SOUND_EXT', MUSIC, library);
 	}
 
-	inline static public function voices(song:String)
+	public static inline function voices(song:String)
 	{
 		var songLowercase = StringTools.replace(song, " ", "-").toLowerCase();
 		switch (songLowercase)
@@ -199,7 +199,7 @@ class Paths
 		return doesSoundAssetExist(result) ? result : null;
 	}
 
-	inline static public function inst(song:String)
+	public static inline function inst(song:String)
 	{
 		var songLowercase = StringTools.replace(song, " ", "-").toLowerCase();
 		switch (songLowercase)
@@ -214,7 +214,10 @@ class Paths
 		return 'songs:assets/songs/${songLowercase}/Inst.$SOUND_EXT';
 	}
 
-	static public function listSongsToCache()
+	/**
+	 * List all the music files in the `songs` folder, so we can precache them all.
+	 */
+	public static function listSongsToCache()
 	{
 		// We need to query OpenFlAssets, not the file system, because of Polymod.
 		var soundAssets = OpenFlAssets.list(AssetType.MUSIC).concat(OpenFlAssets.list(AssetType.SOUND));
@@ -244,29 +247,57 @@ class Paths
 		return songNames;
 	}
 
-	static public function doesSoundAssetExist(path:String)
+	/**
+	 * List all the data JSON files under a given subdirectory.
+	 * @param path The path to look under.
+	 * @return The list of JSON files under that path.
+	 */
+	public static function listJSONsInPath(path:String)
+	{
+		// We need to query OpenFlAssets, not the file system, because of Polymod.
+		var dataAssets = OpenFlAssets.list(AssetType.TEXT);
+
+		var queryPath = 'data/${path}';
+
+		var results:Array<String> = [];
+
+		for (data in dataAssets)
+		{
+			// Parse end-to-beginning to support mods.
+			var path = data.split('/');
+			if (data.indexOf(queryPath) != -1)
+			{
+				var suffixPos = data.indexOf(queryPath) + queryPath.length;
+				results.push(data.substr(suffixPos).replace('.json', ''));
+			}
+		}
+
+		return results;
+	}
+
+	public static function doesSoundAssetExist(path:String)
 	{
 		if (path == null || path == "")
 			return false;
 		return OpenFlAssets.exists(path, AssetType.SOUND) || OpenFlAssets.exists(path, AssetType.MUSIC);
 	}
 
-	inline static public function doesTextAssetExist(path:String)
+	public static inline function doesTextAssetExist(path:String)
 	{
 		return OpenFlAssets.exists(path, AssetType.TEXT);
 	}
 
-	inline static public function image(key:String, ?library:String)
+	public static inline function image(key:String, ?library:String)
 	{
 		return getPath('images/$key.png', IMAGE, library);
 	}
 
-	inline static public function font(key:String)
+	public static inline function font(key:String)
 	{
 		return 'assets/fonts/$key';
 	}
 
-	static public function getSparrowAtlas(key:String, ?library:String, ?isCharacter:Bool = false)
+	public static function getSparrowAtlas(key:String, ?library:String, ?isCharacter:Bool = false)
 	{
 		if (isCharacter)
 		{
@@ -278,7 +309,7 @@ class Paths
 	/**
 	 * Senpai in Thorns uses this instead of Sparrow and IDK why.
 	 */
-	inline static public function getPackerAtlas(key:String, ?library:String, ?isCharacter:Bool = false)
+	public static inline function getPackerAtlas(key:String, ?library:String, ?isCharacter:Bool = false)
 	{
 		if (isCharacter)
 		{

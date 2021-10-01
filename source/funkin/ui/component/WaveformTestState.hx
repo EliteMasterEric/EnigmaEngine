@@ -17,7 +17,7 @@ class WaveformTestState extends FlxState
 {
 	var waveform:Waveform;
 
-	override public function create()
+	public override function create()
 	{
 		super.create();
 
@@ -39,7 +39,7 @@ class WaveformTestState extends FlxState
 		add(waveform);
 	}
 
-	override public function update(elapsed:Float)
+	public override function update(elapsed:Float)
 	{
 		super.update(elapsed);
 

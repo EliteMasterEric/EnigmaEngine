@@ -1,8 +1,8 @@
 package funkin.behavior.stepmania;
 
 #if FEATURE_STEPMANIA
-import funkin.behavior.play.Song;
-import funkin.behavior.play.Song.SongEvent;
+import funkin.assets.play.Song;
+import funkin.assets.play.Song.SongEvent;
 import funkin.behavior.play.TimingStruct;
 import funkin.util.HelperFunctions;
 

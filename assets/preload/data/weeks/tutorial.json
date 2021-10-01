@@ -1,0 +1,13 @@
+{
+    "name": "Tutorial",
+    "assets": {
+        "characters": ["", "bf", "gf"],
+        "title": "storymenu/week0"
+    },
+    "startSound": "confirmMenu",
+    "unlocked": true,
+    "nextWeek": "dad",
+    "songs": [
+        "tutorial"
+    ]
+}

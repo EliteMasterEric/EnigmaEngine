@@ -23,7 +23,7 @@ class HitGraph extends Sprite
 {
 	static inline var AXIS_COLOR:FlxColor = 0xffffff;
 	static inline var AXIS_ALPHA:Float = 0.5;
-	inline static var HISTORY_MAX:Int = 30;
+	static inline var HISTORY_MAX:Int = 30;
 
 	public var minLabel:TextField;
 	public var curLabel:TextField;

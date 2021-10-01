@@ -3,7 +3,7 @@ package funkin.behavior.stepmania;
 #if FEATURE_STEPMANIA
 import funkin.behavior.play.Section.SwagSection;
 import funkin.behavior.play.TimingStruct;
-import funkin.behavior.play.Song;
+import funkin.assets.play.Song;
 import haxe.Exception;
 import lime.app.Application;
 import sys.io.File;

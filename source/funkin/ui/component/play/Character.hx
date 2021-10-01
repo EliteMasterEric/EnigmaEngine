@@ -461,7 +461,7 @@ class Character extends FlxSprite
 
 	public function loadOffsetFile(character:String, library:String = 'shared')
 	{
-		var offset:Array<String> = Util.coolTextFile(Paths.txt('images/characters/' + character + "Offsets", library));
+		var offset:Array<String> = Util.loadLinesFromFile(Paths.txt('images/characters/' + character + "Offsets", library));
 
 		for (i in 0...offset.length)
 		{

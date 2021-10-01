@@ -5,7 +5,7 @@ import funkin.util.NoteUtil;
 import funkin.assets.Paths;
 import funkin.util.Util;
 import funkin.util.HelperFunctions;
-import funkin.behavior.play.Song;
+import funkin.assets.play.Song;
 import funkin.behavior.play.EnigmaNote;
 #if FEATURE_DISCORD
 import funkin.behavior.api.Discord.DiscordClient;
@@ -39,9 +39,9 @@ import flixel.util.FlxColor;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.Conductor.BPMChangeEvent;
 import funkin.behavior.play.Section.SwagSection;
-import funkin.behavior.play.Song.SongData;
-import funkin.behavior.play.Song.SongEvent;
-import funkin.behavior.play.Song.SongMeta;
+import funkin.assets.play.Song.SongData;
+import funkin.assets.play.Song.SongEvent;
+import funkin.assets.play.Song.SongMeta;
 import funkin.behavior.play.TimingStruct;
 import funkin.const.Enigma;
 import funkin.ui.component.play.Boyfriend;
@@ -1071,10 +1071,10 @@ class ChartingState extends MusicBeatState
 			shiftNotes(Std.int(stepperShiftNoteDial.value), Std.int(stepperShiftNoteDialstep.value), Std.int(stepperShiftNoteDialms.value));
 		});
 
-		var characters:Array<String> = Util.coolTextFile(Paths.txt('data/characterList'));
-		var gfVersions:Array<String> = Util.coolTextFile(Paths.txt('data/gfVersionList'));
-		var stages:Array<String> = Util.coolTextFile(Paths.txt('data/stageList'));
-		var noteStyles:Array<String> = Util.coolTextFile(Paths.txt('data/noteStyleList'));
+		var characters:Array<String> = Util.loadLinesFromFile(Paths.txt('data/characterList'));
+		var gfVersions:Array<String> = Util.loadLinesFromFile(Paths.txt('data/gfVersionList'));
+		var stages:Array<String> = Util.loadLinesFromFile(Paths.txt('data/stageList'));
+		var noteStyles:Array<String> = Util.loadLinesFromFile(Paths.txt('data/noteStyleList'));
 
 		var player1DropDown = new FlxUIDropDownMenu(10, 100, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true), function(character:String)
 		{

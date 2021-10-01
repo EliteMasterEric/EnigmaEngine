@@ -81,8 +81,8 @@ class Enigma extends MusicBeatState
 	public static final USE_CUSTOM_CHARTER = true;
 
 	/**
-	 * If you don't want to have to deal with locked default weeks,
+	 * If you want to bypass all "isWeekUnlocked" logic,
 	 * flip this lever.
 	 */
-	public static final UNLOCK_DEFAULT_WEEKS = true;
+	public static final UNLOCK_ALL_WEEKS = false;
 }

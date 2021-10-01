@@ -17,7 +17,7 @@ import openfl.utils.Assets as OpenFlAssets;
 
 class LoadingState extends MusicBeatState
 {
-	inline static var MIN_TIME = 1.0;
+	static inline var MIN_TIME = 1.0;
 
 	var target:FlxState;
 	var stopMusic = false;
@@ -141,7 +141,7 @@ class LoadingState extends MusicBeatState
 		return Paths.voices(PlayState.SONG.songId);
 	}
 
-	inline static public function loadAndSwitchState(target:FlxState, stopMusic = false)
+	public static inline function loadAndSwitchState(target:FlxState, stopMusic = false)
 	{
 		FlxG.switchState(getNextState(target, stopMusic));
 	}

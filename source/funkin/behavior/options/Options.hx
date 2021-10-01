@@ -1,7 +1,7 @@
 package funkin.behavior.options;
 
 import funkin.ui.state.LoadingState;
-import funkin.behavior.play.Song;
+import funkin.assets.play.Song;
 import funkin.behavior.play.Highscore;
 import funkin.ui.state.menu.StoryMenuState;
 import funkin.ui.state.play.PlayState;

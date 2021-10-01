@@ -405,7 +405,7 @@ class CustomControls extends Controls
 		inline forEachCustomBound(control, (action, _) -> removeCustomButtons(action, gamepadID, buttons));
 	}
 
-	inline static function addCustomButtons(action:FlxActionDigital, buttons:Array<FlxGamepadInputID>, state, id)
+	static inline function addCustomButtons(action:FlxActionDigital, buttons:Array<FlxGamepadInputID>, state, id)
 	{
 		for (button in buttons)
 			action.addGamepad(button, state, id);
@@ -445,7 +445,7 @@ class CustomControls extends Controls
 		return list;
 	}
 
-	inline static function isGamepad(input:FlxActionInput, deviceID:Int)
+	static inline function isGamepad(input:FlxActionInput, deviceID:Int)
 	{
 		return input.device == GAMEPAD && (deviceID == FlxInputDeviceID.ALL || input.deviceID == deviceID);
 	}

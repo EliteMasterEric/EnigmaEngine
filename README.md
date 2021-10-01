@@ -7,7 +7,7 @@
 ### If you want to report an issue with Enigma Engine, read [this](https://github.com/EnigmaEngine/EnigmaEngine/issues/1).
 ### If you want to contribute to Engima Engine, read [this](https://github.com/EnigmaEngine/EnigmaEngine/issues/1) and scroll down to the Pull Requests section first.
 ### If you want to make mods using Enigma Engine, read [this](https://github.com/EnigmaEngine/EnigmaEngine/wiki/Modding-Guide).
-### If you want to build Enigma Engine (DISCLAIMER: You shouldn't need to do this to create mods, read the above guide instead), read [this](https://github.com/EnigmaEngine/EnigmaEngine/wiki/building-enigma-engine). If you've already built the game before, you'll probably need to follow these steps anyway.
+### If you want to build Enigma Engine, read [this](https://github.com/EnigmaEngine/EnigmaEngine/wiki/building-enigma-engine). You'll need to follow this guide, even if you've already built Kade or other mods before.
 
 ## What is Enigma Engine?
 

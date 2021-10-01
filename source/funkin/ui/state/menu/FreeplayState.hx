@@ -22,8 +22,8 @@ import funkin.util.Util;
 #if FEATURE_DISCORD
 import funkin.behavior.api.Discord.DiscordClient;
 #end
-import funkin.behavior.play.Song;
-import funkin.behavior.play.Song.SongData;
+import funkin.assets.play.Song;
+import funkin.assets.play.Song.SongData;
 #if FEATURE_STEPMANIA
 import funkin.behavior.stepmania.SMFile;
 #end
@@ -214,7 +214,7 @@ class FreeplayState extends MusicBeatState
 	 */
 	static function populateSongData()
 	{
-		var initSonglist = Util.coolTextFile(Paths.txt('data/freeplaySonglist'));
+		var initSonglist = Util.loadLinesFromFile(Paths.txt('data/freeplaySonglist'));
 
 		songData = [];
 		songs = [];

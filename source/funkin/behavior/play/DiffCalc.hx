@@ -2,7 +2,7 @@ package funkin.behavior.play;
 
 import funkin.util.HelperFunctions;
 import flixel.math.FlxMath;
-import funkin.behavior.play.Song.SongData;
+import funkin.assets.play.Song.SongData;
 import funkin.ui.state.menu.FreeplayState;
 import openfl.system.System;
 

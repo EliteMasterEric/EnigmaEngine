@@ -154,7 +154,7 @@ class TitleState extends MusicBeatState // implements IHook
 	{
 	}
 
-	override public function create():Void
+	public override function create():Void
 	{
 		onStartCreateTitleScreen();
 

@@ -133,7 +133,7 @@ class StageDebugState extends FlxState
 		add(helpText);
 	}
 
-	override public function update(elapsed:Float)
+	public override function update(elapsed:Float)
 	{
 		if (FlxG.keys.justPressed.E)
 			camGame.zoom += 0.1;

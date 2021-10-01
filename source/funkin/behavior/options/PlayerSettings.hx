@@ -8,13 +8,13 @@ import funkin.behavior.options.CustomControls;
 
 class PlayerSettings
 {
-	static public var numPlayers(default, null) = 0;
-	static public var numAvatars(default, null) = 0;
-	static public var player1(default, null):PlayerSettings;
-	static public var player2(default, null):PlayerSettings;
+	public static var numPlayers(default, null) = 0;
+	public static var numAvatars(default, null) = 0;
+	public static var player1(default, null):PlayerSettings;
+	public static var player2(default, null):PlayerSettings;
 
-	static public final onAvatarAdd = new FlxTypedSignal<PlayerSettings->Void>();
-	static public final onAvatarRemove = new FlxTypedSignal<PlayerSettings->Void>();
+	public static final onAvatarAdd = new FlxTypedSignal<PlayerSettings->Void>();
+	public static final onAvatarRemove = new FlxTypedSignal<PlayerSettings->Void>();
 
 	public var id(default, null):Int;
 
@@ -31,7 +31,7 @@ class PlayerSettings
 		controls.setKeyboardScheme(scheme);
 	}
 
-	static public function init():Void
+	public static function init():Void
 	{
 		if (player1 == null)
 		{
@@ -65,7 +65,7 @@ class PlayerSettings
 		}
 	}
 
-	static public function reset()
+	public static function reset()
 	{
 		player1 = null;
 		player2 = null;

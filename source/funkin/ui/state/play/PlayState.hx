@@ -52,9 +52,9 @@ import funkin.behavior.play.Replay;
 import funkin.behavior.play.Replay.Ana;
 import funkin.behavior.play.Replay.Analysis;
 import funkin.behavior.play.Section.SwagSection;
-import funkin.behavior.play.Song;
-import funkin.behavior.play.Song.SongData;
-import funkin.behavior.play.Song.SongEvent;
+import funkin.assets.play.Song;
+import funkin.assets.play.Song.SongData;
+import funkin.assets.play.Song.SongEvent;
 import funkin.behavior.play.TimingStruct;
 import funkin.ui.component.play.Boyfriend;
 import funkin.ui.component.play.Character;
@@ -333,7 +333,7 @@ class PlayState extends MusicBeatState
 		remove(object);
 	}
 
-	override public function create()
+	public override function create()
 	{
 		Cursor.showCursor(false);
 		instance = this;
@@ -1809,7 +1809,7 @@ class PlayState extends MusicBeatState
 
 	var currentLuaIndex = 0;
 
-	override public function update(elapsed:Float)
+	public override function update(elapsed:Float)
 	{
 		#if !debug
 		perfectMode = false;

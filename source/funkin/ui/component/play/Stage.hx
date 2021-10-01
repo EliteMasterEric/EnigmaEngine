@@ -400,7 +400,7 @@ class Stage extends MusicBeatState
 		}
 	}
 
-	override public function update(elapsed:Float)
+	public override function update(elapsed:Float)
 	{
 		super.update(elapsed);
 

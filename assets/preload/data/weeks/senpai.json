@@ -1,0 +1,14 @@
+{
+    "name": "Hating Simulator ft. Moawling",
+    "assets": {
+        "characters": ["senpai", "bf", "gf"],
+        "title": "storymenu/week6"
+    },
+    "startSound": "confirmMenu",
+    "unlocked": false,
+    "songs": [
+        "senpai",
+        "roses",
+        "thorns"
+    ]
+}

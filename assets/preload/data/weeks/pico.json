@@ -1,0 +1,15 @@
+{
+    "name": "PICO",
+    "assets": {
+        "characters": ["pico", "bf", "gf"],
+        "title": "storymenu/week0"
+    },
+    "startSound": "confirmMenu",
+    "unlocked": false,
+    "nextWeek": "mom",
+    "songs": [
+        "pico",
+        "philly",
+        "blammed"
+    ]
+}

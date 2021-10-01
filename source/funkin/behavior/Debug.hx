@@ -8,12 +8,12 @@ import flixel.FlxSprite;
 import flixel.system.debug.log.LogStyle;
 import flixel.system.debug.watch.Tracker.TrackerProfile;
 import flixel.util.FlxStringUtil;
-import funkin.behavior.play.Song.SongData;
+import funkin.assets.play.Song.SongData;
 import funkin.const.Enigma;
 import funkin.ui.component.play.Character;
 import funkin.ui.component.play.HealthIcon;
 import funkin.ui.component.play.Note;
-import funkin.behavior.play.Song;
+import funkin.assets.play.Song;
 import funkin.ui.state.menu.FreeplayState;
 import funkin.ui.state.play.PlayState;
 import haxe.Log;
@@ -138,7 +138,7 @@ class Debug
 	 * @param value 
 	 * @param name 
 	 */
-	public inline static function quickWatch(value:Dynamic, name:String)
+	public static inline function quickWatch(value:Dynamic, name:String)
 	{
 		#if debug
 		FlxG.watch.addQuick(name == null ? "QuickWatch" : name, value);
@@ -150,7 +150,7 @@ class Debug
 	 * The Console window already supports most hScript, meaning you can do most things you could already do in Haxe.
 	 		* However, you can also add custom commands using this function.
 	 */
-	public inline static function addConsoleCommand(name:String, callbackFn:Dynamic)
+	public static inline function addConsoleCommand(name:String, callbackFn:Dynamic)
 	{
 		FlxG.console.registerFunction(name, callbackFn);
 	}
@@ -158,7 +158,7 @@ class Debug
 	/**
 	 * Add an object with a custom alias so that it can be accessed via the console.
 	 */
-	public inline static function addObject(name:String, object:Dynamic)
+	public static inline function addObject(name:String, object:Dynamic)
 	{
 		FlxG.console.registerObject(name, object);
 	}
@@ -170,7 +170,7 @@ class Debug
 	 * 
 	 * @param obj The object to display.
 	 */
-	public inline static function trackObject(obj:Dynamic)
+	public static inline function trackObject(obj:Dynamic)
 	{
 		if (obj == null)
 		{
@@ -315,7 +315,7 @@ class Debug
 	 * Defines some commands you can run in the console for easy use of important debugging functions.
 	 * Feel free to add your own!
 	 */
-	inline static function defineConsoleCommands()
+	static inline function defineConsoleCommands()
 	{
 		// Example: This will display Boyfriend's sprite properties in a debug window.
 		addConsoleCommand("trackBoyfriend", function()

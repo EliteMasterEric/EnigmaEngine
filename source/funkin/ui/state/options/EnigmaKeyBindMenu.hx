@@ -531,7 +531,7 @@ class CustomKeybindsOption extends Option
 		this.controls = controls;
 	}
 
-	override public function press():Bool
+	public override function press():Bool
 	{
 		var test = FlxG.save.data;
 		OptionsMenu.instance.openSubState(new EnigmaKeyBindMenu());

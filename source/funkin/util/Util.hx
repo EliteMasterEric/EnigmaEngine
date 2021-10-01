@@ -14,16 +14,22 @@ class Util
 		return difficultyArray[difficulty];
 	}
 
-	public static function coolTextFile(path:String):Array<String>
+	/**
+	 * Given a text file path, load the file, clean it up, and split it into individual lines.
+	 * @param path The text file path to load.
+	 * @return A list of lines from that file.
+	 */
+	public static function loadLinesFromFile(path:String):Array<String>
 	{
-		var daList:Array<String> = OpenFlAssets.getText(path).trim().split('\n');
+		var rawText:String = OpenFlAssets.getText(path);
+		var result:Array<String> = rawText.trim().split('\n');
 
-		for (i in 0...daList.length)
+		for (i in 0...result.length)
 		{
-			daList[i] = daList[i].trim();
+			result[i] = result[i].trim();
 		}
 
-		return daList;
+		return result;
 	}
 
 	public static function buildArrayFromRange(max:Int, ?min = 0):Array<Int>

@@ -1,0 +1,15 @@
+{
+    "name": "RED SNOW",
+    "assets": {
+        "characters": ["parents-christmas", "bf", "gf"],
+        "title": "storymenu/week5"
+    },
+    "startSound": "confirmMenu",
+    "unlocked": false,
+    "nextWeek": "senpai",
+    "songs": [
+        "cocoa",
+        "eggnog",
+        "winter-horrorland"
+    ]
+}

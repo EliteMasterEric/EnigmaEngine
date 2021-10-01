@@ -4,7 +4,7 @@ import funkin.behavior.Debug;
 import funkin.const.Enigma;
 import funkin.ui.audio.MainMenuMusic;
 import funkin.behavior.play.Highscore;
-import funkin.behavior.play.Song;
+import funkin.assets.play.Song;
 import funkin.ui.state.play.PlayState;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.Conductor;
@@ -33,102 +33,134 @@ using StringTools;
 
 class StoryMenuState extends MusicBeatState
 {
-	var scoreText:FlxText;
+	/**
+	 * The index of the current highlighted week.
+	 */
+	var curWeekIndex:Int = 0;
 
-	static function weekData():Array<Array<String>>
-	{
-		return [
-			['tutorial'],
-			['bopeebo', 'fresh', 'dadbattle'],
-			['spookeez', 'south', "monster"],
-			['pico', 'philly', "blammed"],
-			['satin-panties', "high", "milf"],
-			['cocoa', 'eggnog', 'winter-horrorland'],
-			['senpai', 'roses', 'thorns']
-		];
-	}
+	/**
+	 * The index of the currently selected difficulty.
+	 * TODO: Make this a String.
+	 */
+	var curDifficultyIndex:Int = 1;
 
-	var curDifficulty:Int = 1;
+	/**
+	 * The current value displayed by the score text.
+	 * When scrolling between difficulties or weeks, this will scroll up to
+	 * linearly approach the intended score value
+	 */
+	var lerpScore:Int = 0;
 
-	public static var weekUnlocked:Array<Bool> = [];
+	/**
+	 * The actual high score that the Story menu wants to display.
+	 */
+	var intendedScore:Int = 0;
 
-	var weekCharacters:Array<Dynamic> = [
-		['', 'bf', 'gf'],
-		['dad', 'bf', 'gf'],
-		['spooky', 'bf', 'gf'],
-		['pico', 'bf', 'gf'],
-		['mom', 'bf', 'gf'],
-		['parents-christmas', 'bf', 'gf'],
-		['senpai', 'bf', 'gf']
-	];
+	/**
+	 * The user has left the menu, so we should disable interaction.
+	 */
+	var leavingMenu:Bool = false;
 
-	var weekNames:Array<String> = Util.coolTextFile(Paths.txt('data/weekNames'));
+	/**
+	 * The user has selected a week, so we should disable interaction.
+	 */
+	var selectedWeek:Bool = false;
 
+	/**
+	 * The week title/flavor text.
+	 */
 	var txtWeekTitle:FlxText;
 
-	var curWeek:Int = 0;
+	/**
+	 * The UI element displaying the current high score.
+	 */
+	var scoreText:FlxText;
 
+	/**
+	 * The UI element displaying the list of songs in the week.
+	 */
 	var txtTracklist:FlxText;
 
+	/**
+	 * The menu items in the week list.
+	 */
 	var grpWeekText:FlxTypedGroup<StoryWeekMenuItem>;
+
+	/**
+	 * The character icons that appear above the week list.
+	 */
 	var grpWeekCharacters:FlxTypedGroup<MenuCharacter>;
 
+	/**
+	 * The sprites that display as padlocks next to locked weeks in the week list.
+	 */
 	var grpLocks:FlxTypedGroup<FlxSprite>;
 
+	/**
+	 * A sprite group containing all the UI elements for the difficulty selector.
+	 */
 	var difficultySelectors:FlxGroup;
+
+	/**
+	 * The sprite displaying the current difficulty.
+	 */
 	var sprDifficulty:FlxSprite;
+
+	/**
+	 * The left arrow next to the difficulty.
+	 */
 	var leftArrow:FlxSprite;
+
+	/**
+	 * The right arrow next to the difficulty.
+	 */
 	var rightArrow:FlxSprite;
 
-	function unlockWeeks():Array<Bool>
-	{
-		var weeks:Array<Bool> = [];
-		#if debug
-		for (i in 0...weekNames.length)
-			weeks.push(true);
-		return weeks;
-		#end
+	/**
+	 * An ordered list of the weeks to display in the menu.
+	 */
+	var orderedWeekIds:Array<String> = [];
 
-		weeks.push(true);
+	/**
+	 * `orderedWeekIds` but with hidden weeks filtered out.
+	 */
+	var filteredWeekIds:Array<String> = [];
 
-		for (i in 0...FlxG.save.data.weekUnlocked)
-		{
-			weeks.push(true);
-		}
-		return weeks;
-	}
+	var weekData:Map<String, WeekData> = [];
 
 	override function create()
 	{
-		weekUnlocked = unlockWeeks();
-
 		#if FEATURE_DISCORD
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Story Mode Menu", null);
 		#end
 
+		// Load the week list.
+		orderedWeekList = Util.loadLinesFromFile(Paths.txt('data/weekOrder'));
+		for (weekId in orderedWeekList)
+		{
+			var weekDataElement = WeekData.fetchWeekData(weekId);
+			if weekData.set(weekId, WeekData.fetchWeekData(weekId));
+		}
+
+		// Make sure the diamond fade in is used.
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 
+		// Make sure freaky music is playing.
 		MainMenuMusic.playMenuMusic();
 
+		// Make sure this state draws and updates even if other substates overlay it.
 		persistentUpdate = persistentDraw = true;
 
-		scoreText = new FlxText(10, 10, 0, "SCORE: 49324858", 36);
+		// Initialize the high score text.
+		scoreText = new FlxText(10, 10, 0, "SCORE: 0", 36);
 		scoreText.setFormat("VCR OSD Mono", 32);
 
+		// Initialize the week name.
 		txtWeekTitle = new FlxText(FlxG.width * 0.7, 10, 0, "", 32);
 		txtWeekTitle.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, RIGHT);
 		txtWeekTitle.alpha = 0.7;
-
-		var rankText:FlxText = new FlxText(0, 10);
-		rankText.text = 'RANK: GREAT';
-		rankText.setFormat(Paths.font("vcr.ttf"), 32);
-		rankText.size = scoreText.size;
-		rankText.screenCenter(X);
-
-		var ui_tex = Paths.getSparrowAtlas('campaign_menu_UI_assets');
-		var yellowBG:FlxSprite = new FlxSprite(0, 56).makeGraphic(FlxG.width, 400, 0xFFF9CF51);
 
 		grpWeekText = new FlxTypedGroup<StoryWeekMenuItem>();
 		add(grpWeekText);
@@ -136,16 +168,17 @@ class StoryMenuState extends MusicBeatState
 		grpLocks = new FlxTypedGroup<FlxSprite>();
 		add(grpLocks);
 
+		// Black bar along the top.
 		var blackBarThingie:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, 56, FlxColor.BLACK);
 		add(blackBarThingie);
+		var ui_tex = Paths.getSparrowAtlas('campaign_menu_UI_assets');
+		var characterBG:FlxSprite = new FlxSprite(0, 56).makeGraphic(FlxG.width, 400, 0xFFF9CF51);
 
 		grpWeekCharacters = new FlxTypedGroup<MenuCharacter>();
 
-		trace("Line 70");
-
-		for (i in 0...weekData().length)
+		for (weekIndex in 0...weekData().length)
 		{
-			var weekThing:StoryWeekMenuItem = new StoryWeekMenuItem(0, yellowBG.y + yellowBG.height + 10, i);
+			var weekThing:StoryWeekMenuItem = new StoryWeekMenuItem(0, characterBG.y + characterBG.height + 10, i);
 			weekThing.y += ((weekThing.height + 20) * i);
 			weekThing.targetY = i;
 			grpWeekText.add(weekThing);
@@ -167,16 +200,12 @@ class StoryMenuState extends MusicBeatState
 			}
 		}
 
-		trace("Line 96");
-
 		grpWeekCharacters.add(new MenuCharacter(0, 100, 0.5, false));
 		grpWeekCharacters.add(new MenuCharacter(450, 25, 0.9, true));
 		grpWeekCharacters.add(new MenuCharacter(850, 100, 0.5, true));
 
 		difficultySelectors = new FlxGroup();
 		add(difficultySelectors);
-
-		trace("Line 124");
 
 		leftArrow = new FlxSprite(grpWeekText.members[0].x + grpWeekText.members[0].width + 10, grpWeekText.members[0].y + 10);
 		leftArrow.frames = ui_tex;
@@ -205,21 +234,17 @@ class StoryMenuState extends MusicBeatState
 		rightArrow.antialiasing = FlxG.save.data.antialiasing;
 		difficultySelectors.add(rightArrow);
 
-		trace("Line 150");
-
-		add(yellowBG);
+		add(characterBG);
 		add(grpWeekCharacters);
 
-		txtTracklist = new FlxText(FlxG.width * 0.05, yellowBG.x + yellowBG.height + 100, 0, "Tracks", 32);
+		txtTracklist = new FlxText(FlxG.width * 0.05, characterBG.x + characterBG.height + 100, 0, "Tracks", 32);
 		txtTracklist.alignment = CENTER;
-		txtTracklist.font = rankText.font;
 		txtTracklist.color = 0xFFe55777;
 		add(txtTracklist);
 		add(scoreText);
 		add(txtWeekTitle);
 
-		updateText();
-
+		// Guess this fades weeks that are before and after the current week?
 		var bullShit:Int = 0;
 
 		for (item in grpWeekText.members)
@@ -232,29 +257,73 @@ class StoryMenuState extends MusicBeatState
 			bullShit++;
 		}
 
-		trace("Line 165");
-
 		super.create();
+	}
+
+	/**
+	 * Edit the player's save data to indicate they have unlocked the given week.
+	 * @param weekId The week ID.
+	 */
+	public static function unlockWeek(weekId:String)
+	{
+		if (FlxG.save.data.weeksUnlocked == null)
+		{
+			FlxG.save.data.weeksUnlocked = [weekId => true];
+		}
+		else
+		{
+			FlxG.save.data.weeksUnlocked[weekId] = true;
+		}
+	}
+
+	/**
+	 * We have selected a week to play! Load it, add the songs to the playlist,
+	 * and start the PlayState.
+	 * @param weekId The string identifier of the week to play.
+	 */
+	public static function playWeek(weekId:String)
+	{
+		// TODO: Implement this.
 	}
 
 	override function update(elapsed:Float)
 	{
+		// Scroll the score until it matches the actual score value.
 		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, 0.5));
-
+		// Update the score text.
 		scoreText.text = "WEEK SCORE:" + lerpScore;
 
+		// Update the week name text.
 		txtWeekTitle.text = weekNames[curWeek].toUpperCase();
+		// Align the text to the right side.
 		txtWeekTitle.x = FlxG.width - (txtWeekTitle.width + 10);
 
+		// Only show the difficulty selector UI (left and right arrow) if the current week is unlocked.
 		difficultySelectors.visible = weekUnlocked[curWeek];
 
+		// Move the week list lock sprites into position next to the text.
 		grpLocks.forEach(function(lock:FlxSprite)
 		{
 			lock.y = grpWeekText.members[lock.ID].y;
 		});
 
-		if (!movedBack)
+		// Pressed cancel/ESC to move back to main menu.
+		if (controls.BACK && !leavingMenu && !selectedWeek)
 		{
+			// Play a sound and switch state.
+			FlxG.sound.play(Paths.sound('cancelMenu'));
+			leavingMenu = true;
+			FlxG.switchState(new MainMenuState());
+		}
+
+		if (!leavingMenu)
+		{
+			// Pressed okay/ENTER to start the week.
+			if (controls.ACCEPT)
+			{
+				selectWeek();
+			}
+
 			if (!selectedWeek)
 			{
 				var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
@@ -314,29 +383,16 @@ class StoryMenuState extends MusicBeatState
 				if (controls.LEFT_P)
 					changeDifficulty(-1);
 			}
-
-			if (controls.ACCEPT)
-			{
-				selectWeek();
-			}
 		}
 
-		if (controls.BACK && !movedBack && !selectedWeek)
-		{
-			FlxG.sound.play(Paths.sound('cancelMenu'));
-			movedBack = true;
-			FlxG.switchState(new MainMenuState());
-		}
-
+		// Re-sync the Conductor.
 		if (FlxG.sound.music != null)
+		{
 			Conductor.songPosition = FlxG.sound.music.time;
+		}
 
 		super.update(elapsed);
 	}
-
-	var movedBack:Bool = false;
-	var selectedWeek:Bool = false;
-	var stopspamming:Bool = false;
 
 	function selectWeek()
 	{
@@ -350,18 +406,19 @@ class StoryMenuState extends MusicBeatState
 
 		if (weekUnlocked[curWeek])
 		{
-			if (stopspamming == false)
+			if (!selectedWeek)
 			{
+				// Play a sound.
 				FlxG.sound.play(Paths.sound('confirmMenu'));
-
+				// Play the animation on the menu option.
 				grpWeekText.members[curWeek].startFlashing();
+				//
 				grpWeekCharacters.members[1].animation.play('bfConfirm');
-				stopspamming = true;
+				selectedWeek = true;
 			}
 
 			PlayState.storyPlaylist = weekData()[curWeek];
 			PlayState.isStoryMode = true;
-			selectedWeek = true;
 			PlayState.songMultiplier = 1;
 
 			PlayState.isSM = false;
@@ -384,6 +441,7 @@ class StoryMenuState extends MusicBeatState
 		}
 	}
 
+	// Pressed left or right to change the difficulty.
 	function changeDifficulty(change:Int = 0):Void
 	{
 		curDifficulty += change;
@@ -421,18 +479,23 @@ class StoryMenuState extends MusicBeatState
 		FlxTween.tween(sprDifficulty, {y: leftArrow.y + 15, alpha: 1}, 0.07);
 	}
 
-	var lerpScore:Int = 0;
-	var intendedScore:Int = 0;
-
+	// Pressed up or down to change thw eek.
 	function changeWeek(change:Int = 0):Void
 	{
+		// Increment or decrement.
 		curWeek += change;
 
-		if (curWeek >= weekData().length)
+		// Loop around when you reach either end.
+		if (curWeek >= orderedWeekList.length)
+		{
 			curWeek = 0;
+		}
 		if (curWeek < 0)
-			curWeek = weekData().length - 1;
+		{
+			curWeek = orderedWeekList.length - 1;
+		}
 
+		// Some weird fading logic. Disable and see what happens?
 		var bullShit:Int = 0;
 
 		for (item in grpWeekText.members)
@@ -445,19 +508,35 @@ class StoryMenuState extends MusicBeatState
 			bullShit++;
 		}
 
+		// Scroll in the menu.
 		FlxG.sound.play(Paths.sound('scrollMenu'));
+
+		var curWeekData = getCurrentWeekData();
 
 		updateText();
 	}
 
+	function getCurrentWeekData():WeekData
+	{
+		return weekData.get(orderedWeekList[curWeekIndex]);
+	}
+
+	/**
+	 * Set the text of the track list, reset the intended score,
+	 * and
+	 * 
+	 * Called once on init and once every time the weeks change.
+	 */
 	function updateText()
 	{
+		// Update characters.
 		grpWeekCharacters.members[0].setCharacter(weekCharacters[curWeek][0]);
 		grpWeekCharacters.members[1].setCharacter(weekCharacters[curWeek][1]);
 		grpWeekCharacters.members[2].setCharacter(weekCharacters[curWeek][2]);
 
+		// Update track list.
 		txtTracklist.text = "Tracks\n";
-		var stringThing:Array<String> = weekData()[curWeek];
+		var trackIds:Array<String> = curWeekData.songs;
 
 		for (i in stringThing)
 			txtTracklist.text += "\n" + i;
@@ -469,23 +548,13 @@ class StoryMenuState extends MusicBeatState
 
 		txtTracklist.text += "\n";
 
-		#if !switch
 		intendedScore = Highscore.getWeekScore(curWeek, curDifficulty);
-		#end
 	}
 
-	public static function unlockNextWeek(week:Int):Void
-	{
-		if (week <= weekData().length - 1 && (FlxG.save.data.weekUnlocked == week || Enigma.UNLOCK_DEFAULT_WEEKS))
-		{
-			weekUnlocked.push(true);
-			trace('Week ' + week + ' beat (Week ' + (week + 1) + ' unlocked)');
-		}
-
-		FlxG.save.data.weekUnlocked = weekUnlocked.length - 1;
-		FlxG.save.flush();
-	}
-
+	/**
+	 * Called based on the current song's BPM.
+	 * Used to make menu characters play their animations.
+	 */
 	override function beatHit()
 	{
 		super.beatHit();

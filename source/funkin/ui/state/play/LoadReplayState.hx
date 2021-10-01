@@ -1,6 +1,6 @@
 package funkin.ui.state.play;
 
-import funkin.behavior.play.Song;
+import funkin.assets.play.Song;
 import funkin.ui.state.options.OptionsMenu;
 import funkin.behavior.play.Replay;
 import funkin.util.Util;
