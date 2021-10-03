@@ -80,14 +80,21 @@ class Main extends Sprite
 			gameHeight = Math.ceil(stageHeight / zoom);
 		}
 
-		#if !cpp
+		// Enforce resolution on mobile builds.
+		#if mobile
+		zoom = 1;
+		gameWidth = 1280;
+		gameHeight = 720;
 		framerate = 60;
 		#end
+
+		framerate = Std.int(Lib.current.stage.frameRate);
 
 		// Run this first so we can see logs.
 		Debug.onInitProgram();
 
 		#if FEATURE_FILESYSTEM
+		Debug.logTrace("App has access to file system. Begin mod check and precaching...");
 		if (ModCore.hasMods())
 		{
 			initialState = ModSplashState;
@@ -98,6 +105,7 @@ class Main extends Sprite
 		}
 		game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
 		#else
+		Debug.logTrace("App has no access to file system. Starting game...");
 		game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
 		#end
 		addChild(game);
@@ -105,6 +113,7 @@ class Main extends Sprite
 		Cursor.setupCursor();
 
 		#if FEATURE_DISCORD
+		Debug.logTrace("App has Discord integration support...");
 		DiscordClient.initialize();
 
 		Application.current.onExit.add(function(exitCode)
@@ -113,10 +122,10 @@ class Main extends Sprite
 		});
 		#end
 
-		#if !mobile
 		fpsCounter = new FPS(10, 3, 0xFFFFFF);
 		addChild(fpsCounter);
 		toggleFPS(FlxG.save.data.fps);
+		#if !mobile
 		#end
 
 		// Finish up loading debug tools.

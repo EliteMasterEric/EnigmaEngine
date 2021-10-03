@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin': Enigma Engine" file="Enigma Engine" packageName="com.mastereric.enigmaengine" package="com.mastereric.enigmaengine" main="Main" version="0.2.7.1" company="mastereric" />
+	<app title="Enigma Engine" file="Enigma Engine" packageName="com.mastereric.enigmaengine" package="com.mastereric.enigmaengine" main="Main" version="0.2.0" company="mastereric" />
 
 	<echo value="_____________________________________________" />
 	<echo value="___________________6666666___________________" />
@@ -97,6 +97,7 @@
 	<!-- Builds go to the export/ folder, depending on build type and operating system. -->
 	<set name="BUILD_DIR" value="export/debug" if="debug" />
 	<set name="BUILD_DIR" value="export/release" unless="debug" />
+  <set name="BUILD_DIR" value="export/32bit" if="32bit" />
 
 	<!--
 		Split the Windows and Linux build folder by platform.
@@ -252,14 +253,17 @@
 	<!--Disable the Flixel core debugger. Automatically gets set whenever you compile in release mode!-->
 	<haxedef name="FLX_NO_DEBUG" unless="debug" />
 
+  <!--
 	<haxedef name="HXCPP_GC_BIG_BLOCKS"/>
+  -->
 
 	<!--Enable this for Nape release builds for a serious peformance improvement-->
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
 
-	<!-- Enable this to allow for stack traces in the CrashDumper. -->
-	<haxedef name="HXCPP_CHECK_POINTER" if="release" />
-	<haxedef name="HXCPP_STACK_LINE" if="release" />
+	<!-- Enable this to allow for stack traces in the CrashDumper.
+    <haxedef name="HXCPP_CHECK_POINTER" if="release" />
+    <haxedef name="HXCPP_STACK_LINE" if="release" />
+  -->
 
 	<haxeflag name="--no-traces" unless="debug" />
 	<haxeflag name="--dce full" if="release" />
