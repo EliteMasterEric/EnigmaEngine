@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="normalNote.png">
+  <SubTexture name="Left Strumline" x="0" y="0" width="32" height="32" />
+  <SubTexture name="Down Strumline" x="0" y="0" width="32" height="32" />
+  <SubTexture name="Up Strumline" x="0" y="0" width="32" height="32" />
+  <SubTexture name="Right Strumline" x="0" y="0" width="32" height="32" />
+  <SubTexture name="Alt Center Strumline" x="0" y="0" width="32" height="32" />
+  <SubTexture name="Alt Left Strumline" x="0" y="0" width="32" height="32" />
+  <SubTexture name="Alt Down Strumline" x="0" y="0" width="32" height="32" />
+  <SubTexture name="Alt Up Strumline" x="0" y="0" width="32" height="32" />
+  <SubTexture name="Alt Right Strumline" x="0" y="0" width="32" height="32" />
+
+  <SubTexture name="Left Note" x="32" y="0" width="32" height="32" />
+  <SubTexture name="Down Note" x="64" y="0" width="32" height="32" />
+  <SubTexture name="Up Note" x="96" y="0" width="32" height="32" />
+  <SubTexture name="Right Note" x="128" y="0" width="32" height="32" />
+  <SubTexture name="Center Note" x="160" y="0" width="32" height="32" />
+  <SubTexture name="Alt Left Note" x="192" y="0" width="32" height="32" />
+  <SubTexture name="Alt Down Note" x="224" y="0" width="32" height="32" />
+  <SubTexture name="Alt Right Note" x="256" y="0" width="32" height="32" />
+  <SubTexture name="Alt Up Note" x="288" y="0" width="32" height="32" />
+
+  <SubTexture name="Left Press" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Down Press" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Up Press" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Right Press" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Center Press" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Alt Left Press" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Alt Down Press" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Alt Up Press" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Alt Right Press" x="64" y="32" width="32" height="32" />
+
+  <SubTexture name="Left Hit 00" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Down Hit 00" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Up Hit 00" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Right Hit 00" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Center Hit 00" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Alt Left Hit 00" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Alt Down Hit 00" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Alt Up Hit 00" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Alt Right Hit 00" x="64" y="32" width="32" height="32" />
+
+  <SubTexture name="Left Hit 01" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Down Hit 01" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Up Hit 01" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Right Hit 01" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Center Hit 01" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Alt Left Hit 01" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Alt Down Hit 01" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Alt Up Hit 01" x="64" y="32" width="32" height="32" />
+  <SubTexture name="Alt Right Hit 01" x="64" y="32" width="32" height="32" />
+
+  <SubTexture name="Left Sustain 01" x="0" y="32" width="32" height="32" />
+  <SubTexture name="Down Sustain 01" x="0" y="32" width="32" height="32" />
+  <SubTexture name="Up Sustain 01" x="0" y="32" width="32" height="32" />
+  <SubTexture name="Right Sustain 01" x="0" y="32" width="32" height="32" />
+  <SubTexture name="Center Sustain 01" x="0" y="32" width="32" height="32" />
+  <SubTexture name="Alt Left Sustain 01" x="0" y="32" width="32" height="32" />
+  <SubTexture name="Alt Down Sustain 01" x="0" y="32" width="32" height="32" />
+  <SubTexture name="Alt Up Sustain 01" x="0" y="32" width="32" height="32" />
+  <SubTexture name="Alt Right Sustain 01" x="0" y="32" width="32" height="32" />
+
+  <SubTexture name="Left End 01" x="32" y="32" width="32" height="32" />
+  <SubTexture name="Down End 01" x="32" y="32" width="32" height="32" />
+  <SubTexture name="Up End 01" x="32" y="32" width="32" height="32" />
+  <SubTexture name="Right End 01" x="32" y="32" width="32" height="32" />
+  <SubTexture name="Center End 01" x="32" y="32" width="32" height="32" />
+  <SubTexture name="Alt Left End 01" x="32" y="32" width="32" height="32" />
+  <SubTexture name="Alt Down End 01" x="32" y="32" width="32" height="32" />
+  <SubTexture name="Alt Up End 01" x="32" y="32" width="32" height="32" />
+  <SubTexture name="Alt Right End 01" x="32" y="32" width="32" height="32" />
+</TextureAtlas>

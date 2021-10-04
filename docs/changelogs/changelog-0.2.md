@@ -21,6 +21,7 @@ Initial release.
 - ⛧Split the game into `vanilla` and `base` builds.
   - Vanilla builds include Weeks 1-6 and the corresponding enemy characters and are good if you want to play the base game with the improved engine.
   - Base builds only include the Tutorial and are good if you want a baseline to install mods with.
+- Split story mode menu assets into separate graphics so they can be individually reskinned or replaced.
 - ⛧Basic script hook implementation.
   - The only available hooks right now are `onStartTitleScreen` and `onFinishTitleScreen`.
 - ⛧Mod Configuration menu

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<TextureAtlas imagePath="Pixel9KNote.png">
+<TextureAtlas imagePath="normalNote.png">
   <SubTexture name="Left Strumline" x="0" y="0" width="17" height="17" />
   <SubTexture name="Down Strumline" x="17" y="0" width="17" height="17" />
   <SubTexture name="Up Strumline" x="34" y="0" width="17" height="17" />
@@ -15,10 +15,10 @@
   <SubTexture name="Up Note" x="34" y="17" width="17" height="17" />
   <SubTexture name="Right Note" x="51" y="17" width="17" height="17" />
   <SubTexture name="Center Note" x="68" y="17" width="17" height="17" />
-  <SubTexture name="Left Note" x="85" y="17" width="17" height="17" />
-  <SubTexture name="Down Note" x="102" y="17" width="17" height="17" />
-  <SubTexture name="Right Note" x="119" y="17" width="17" height="17" />
-  <SubTexture name="Up Note" x="136" y="17" width="17" height="17" />
+  <SubTexture name="Alt Left Note" x="85" y="17" width="17" height="17" />
+  <SubTexture name="Alt Down Note" x="102" y="17" width="17" height="17" />
+  <SubTexture name="Alt Right Note" x="119" y="17" width="17" height="17" />
+  <SubTexture name="Alt Up Note" x="136" y="17" width="17" height="17" />
 
   <SubTexture name="Left Press" x="0" y="34" width="17" height="17" />
   <SubTexture name="Down Press" x="17" y="34" width="17" height="17" />
