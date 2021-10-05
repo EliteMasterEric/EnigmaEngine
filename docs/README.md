@@ -31,8 +31,7 @@ Built on Kade Engine v1.7.0, Enigma is striving to provide features to help hard
 ### ModCore
 ``` diff
 -! DISCLAIMER: MODCORE HAS BEEN SUBMITTED TO AND APPROVED FOR A FUTURE VERSION OF !-
--! KADE ENGINE.                                                                   !-
--! IT WAS ORIGINALLY DEVELOPED HERE.                                              !-
+-! KADE ENGINE. IT WAS ORIGINALLY DEVELOPED HERE.                                 !-
 ```
 Engima's flagstone feature is ModCore. Utilizing new improvements made to the Polymod library for Haxe, Enigma Engine boasts true mod support. No, not like the literal tens of thousands of people rebuilding the game with edited code to include new characters and songs, and no, not like Psych Engine which reads image files that you put in a folder.
 
