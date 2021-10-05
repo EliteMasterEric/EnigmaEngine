@@ -568,6 +568,7 @@ class FreeplayState extends MusicBeatState
 		updateDifficultyText();
 
 		#if PRELOAD_ALL
+		#if FEATURE_STEPMANIA
 		if (songs[curSelected].songCharacter == "sm")
 		{
 			var data = songs[curSelected];
@@ -579,6 +580,7 @@ class FreeplayState extends MusicBeatState
 		}
 		else
 			FlxG.sound.playMusic(Paths.inst(songs[curSelected].songId), 0);
+		#end
 		#end
 
 		try
