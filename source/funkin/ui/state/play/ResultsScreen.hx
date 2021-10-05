@@ -173,7 +173,7 @@ class ResultsScreen extends FlxSubState
 		mean = HelperFunctions.truncateFloat(mean / PlayState.rep.replay.songNotes.length, 2);
 
 		settingsText = new FlxText(20, FlxG.height + 50, 0,
-			'SF: ${PlayState.rep.replay.sf} | Ratio (SA/GA): ${Math.round(sicks)}:1 ${Math.round(goods)}:1 | Mean: ${mean}ms | Played on ${PlayState.SONG.songName} ${Util.difficultyFromInt(PlayState.storyDifficulty).toUpperCase()}');
+			'SF: ${PlayState.rep.replay.sf} | Ratio (SA/GA): ${Math.round(sicks)}:1 ${Math.round(goods)}:1 | Mean: ${mean}ms | Played on ${PlayState.SONG.songName} ${PlayState.storyDifficulty.toUpperCamel()}');
 		settingsText.size = 16;
 		settingsText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 2, 1);
 		settingsText.color = FlxColor.WHITE;
@@ -247,7 +247,6 @@ class ResultsScreen extends FlxSubState
 				music.fadeOut(0.3);
 
 			PlayState.isStoryMode = false;
-			PlayState.storyDifficulty = PlayState.storyDifficulty;
 			LoadingState.loadAndSwitchState(new PlayState());
 			PlayState.instance.clean();
 		}

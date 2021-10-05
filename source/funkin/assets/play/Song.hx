@@ -1,5 +1,6 @@
-package funkin.behavior.play;
+package funkin.assets.play;
 
+import funkin.behavior.Debug;
 import funkin.assets.Paths;
 import funkin.assets.play.Song.SongEvent;
 import funkin.behavior.play.Section.SwagSection;

@@ -118,7 +118,7 @@ import webm.WebmPlayer;
 import funkin.behavior.api.Discord.DiscordClient;
 #end
 
-using StringTools;
+using hx.strings.Strings;
 
 class PlayState extends MusicBeatState
 {
@@ -133,7 +133,7 @@ class PlayState extends MusicBeatState
 	public static var isStoryMode:Bool = false;
 	public static var storyWeek:Int = 0;
 	public static var storyPlaylist:Array<String> = [];
-	public static var storyDifficulty:Int = 1;
+	public static var storyDifficulty:String = 'normal';
 	public static var weekSong:Int = 0;
 	public static var weekScore:Int = 0;
 	public static var shits:Int = 0;
@@ -160,10 +160,9 @@ class PlayState extends MusicBeatState
 
 	#if FEATURE_DISCORD
 	// Discord RPC variables
-	var storyDifficultyText:String = "";
-	var iconRPC:String = "";
-	var detailsText:String = "";
-	var detailsPausedText:String = "";
+	var iconRPC:String = '';
+	var detailsText:String = '';
+	var detailsPausedText:String = '';
 	#end
 
 	private var vocals:FlxSound;
@@ -388,9 +387,6 @@ class PlayState extends MusicBeatState
 			songMultiplier = 1;
 
 		#if FEATURE_DISCORD
-		// Making difficulty text for Discord Rich Presence.
-		storyDifficultyText = Util.difficultyFromInt(storyDifficulty);
-
 		iconRPC = SONG.player2;
 
 		// To avoid having duplicate images in Discord assets
@@ -422,7 +418,7 @@ class PlayState extends MusicBeatState
 			+ " "
 			+ SONG.songName
 			+ " ("
-			+ storyDifficultyText
+			+ storyDifficulty.toUpperCamel()
 			+ ") "
 			+ Ratings.GenerateLetterRank(accuracy),
 			"\nAcc: "
@@ -899,7 +895,7 @@ class PlayState extends MusicBeatState
 			SONG.songName
 			+ (FlxMath.roundDecimal(songMultiplier, 2) != 1.00 ? " (" + FlxMath.roundDecimal(songMultiplier, 2) + "x)" : "")
 			+ " - "
-			+ Util.difficultyFromInt(storyDifficulty),
+			+ storyDifficulty.toUpperCamel(),
 			16);
 		gameEngineWatermark.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		gameEngineWatermark.scrollFactor.set();
@@ -1420,7 +1416,7 @@ class PlayState extends MusicBeatState
 			+ " "
 			+ SONG.songName
 			+ " ("
-			+ storyDifficultyText
+			+ storyDifficulty.toUpperCamel()
 			+ ") "
 			+ Ratings.GenerateLetterRank(accuracy),
 			"\nAcc: "
@@ -1695,7 +1691,7 @@ class PlayState extends MusicBeatState
 			DiscordClient.changePresence("PAUSED on "
 				+ SONG.songName
 				+ " ("
-				+ storyDifficultyText
+				+ storyDifficulty.toUpperCamel()
 				+ ") "
 				+ Ratings.GenerateLetterRank(accuracy),
 				"\nAcc: "
@@ -1728,25 +1724,16 @@ class PlayState extends MusicBeatState
 			#if FEATURE_DISCORD
 			if (startTimer.finished)
 			{
-				DiscordClient.changePresence(detailsText
-					+ " "
-					+ SONG.songName
-					+ " ("
-					+ storyDifficultyText
-					+ ") "
+				DiscordClient.changePresence(detailsText + " " + SONG.songName + " (" + storyDifficulty.toUpperCamel() + ") "
 					+ Ratings.GenerateLetterRank(accuracy),
-					"\nAcc: "
-					+ HelperFunctions.truncateFloat(accuracy, 2)
-					+ "% | Score: "
-					+ songScore
-					+ " | Misses: "
-					+ misses, iconRPC, true,
-					songLength
-					- Conductor.songPosition);
+					"\nAcc: " + HelperFunctions.truncateFloat(accuracy, 2) + "% | Score: " + songScore
+					+ " | Misses: " + misses, iconRPC, true,
+					songLength - Conductor.songPosition);
 			}
 			else
 			{
-				DiscordClient.changePresence(detailsText, SONG.songName + " (" + storyDifficultyText + ") " + Ratings.GenerateLetterRank(accuracy), iconRPC);
+				DiscordClient.changePresence(detailsText, SONG.songName + " (" + storyDifficulty.toUpperCamel() + ") " + Ratings.GenerateLetterRank(accuracy),
+					iconRPC);
 			}
 			#end
 		}
@@ -1778,7 +1765,7 @@ class PlayState extends MusicBeatState
 			+ " "
 			+ SONG.songName
 			+ " ("
-			+ storyDifficultyText
+			+ storyDifficulty.toUpperCamel()
 			+ ") "
 			+ Ratings.GenerateLetterRank(accuracy),
 			"\nAcc: "
@@ -2569,18 +2556,10 @@ class PlayState extends MusicBeatState
 
 				#if FEATURE_DISCORD
 				// Game Over doesn't get his own variable because it's only used here
-				DiscordClient.changePresence("GAME OVER -- "
-					+ SONG.songName
-					+ " ("
-					+ storyDifficultyText
-					+ ") "
+				DiscordClient.changePresence("GAME OVER -- " + SONG.songName + " (" + storyDifficulty.toUpperCamel() + ") "
 					+ Ratings.GenerateLetterRank(accuracy),
-					"\nAcc: "
-					+ HelperFunctions.truncateFloat(accuracy, 2)
-					+ "% | Score: "
-					+ songScore
-					+ " | Misses: "
-					+ misses, iconRPC);
+					"\nAcc: " + HelperFunctions.truncateFloat(accuracy, 2) + "% | Score: " + songScore
+					+ " | Misses: " + misses, iconRPC);
 				#end
 			}
 			else
@@ -2610,18 +2589,10 @@ class PlayState extends MusicBeatState
 
 				#if FEATURE_DISCORD
 				// Game Over doesn't get his own variable because it's only used here
-				DiscordClient.changePresence("GAME OVER -- "
-					+ SONG.songName
-					+ " ("
-					+ storyDifficultyText
-					+ ") "
+				DiscordClient.changePresence("GAME OVER -- " + SONG.songName + " (" + storyDifficulty.toUpperCamel() + ") "
 					+ Ratings.GenerateLetterRank(accuracy),
-					"\nAcc: "
-					+ HelperFunctions.truncateFloat(accuracy, 2)
-					+ "% | Score: "
-					+ songScore
-					+ " | Misses: "
-					+ misses, iconRPC);
+					"\nAcc: " + HelperFunctions.truncateFloat(accuracy, 2) + "% | Score: " + songScore
+					+ " | Misses: " + misses, iconRPC);
 				#end
 			}
 		}
@@ -3178,11 +3149,12 @@ class PlayState extends MusicBeatState
 				}
 				else
 				{
-					var diff:String = ["-easy", "", "-hard"][storyDifficulty];
+					var diffSuffix = StoryModeDifficultyItem.getDifficultySuffix(PlayState.storyDifficulty);
 
-					Debug.logInfo('PlayState: Loading next story song ${PlayState.storyPlaylist[0]}-${diff}');
+					Debug.logInfo('PlayState: Loading next story song ${PlayState.storyPlaylist[0]}${diffSuffix}');
 
-					if (StringTools.replace(PlayState.storyPlaylist[0], " ", "-").toLowerCase() == 'eggnog')
+					// TODO: Unhardcode the transition to winter-horrorland.
+					if (PlayState.storyPlaylist[0] == 'eggnog')
 					{
 						var blackShit:FlxSprite = new FlxSprite(-FlxG.width * FlxG.camera.zoom,
 							-FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);

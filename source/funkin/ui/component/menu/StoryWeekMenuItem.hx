@@ -6,6 +6,7 @@ import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
+import funkin.assets.menu.WeekData;
 import funkin.assets.Paths;
 
 class StoryWeekMenuItem extends FlxSpriteGroup

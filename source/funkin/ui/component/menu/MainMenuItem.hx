@@ -1,7 +1,7 @@
 package funkin.ui.component.menu;
 
 import flixel.math.FlxPoint;
-import funkin.behavior.input.InteractableSprite;
+import funkin.ui.component.input.InteractableSprite;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;

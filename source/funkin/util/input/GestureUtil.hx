@@ -1,7 +1,7 @@
 package funkin.util.input;
 
-import funkin.behavior.input.IInteractable;
-import funkin.behavior.input.InteractableSprite;
+import funkin.ui.component.input.IInteractable;
+import funkin.ui.component.input.InteractableSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxG;
 import flixel.input.mouse.FlxMouseEventManager;

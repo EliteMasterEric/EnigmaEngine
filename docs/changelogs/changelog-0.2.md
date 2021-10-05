@@ -18,6 +18,7 @@ Initial release.
 
 ### Plans before release
 
+- Revamped the project XML file to be more 
 - ⛧Split the game into `vanilla` and `base` builds.
   - Vanilla builds include Weeks 1-6 and the corresponding enemy characters and are good if you want to play the base game with the improved engine.
   - Base builds only include the Tutorial and are good if you want a baseline to install mods with.
@@ -25,5 +26,7 @@ Initial release.
   - The only available hooks right now are `onStartTitleScreen` and `onFinishTitleScreen`.
 - ⛧Mod Configuration menu
 - ⛧Made weeks data driven and added support for custom weeks.
+- ⛧Added support for custom difficulties.
 - Various bug fixes.
+  - Cut out informational logging calls for macros (people thought they were errors).
   - Removed Herobrine.

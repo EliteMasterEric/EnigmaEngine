@@ -1,4 +1,4 @@
-package funkin.behavior.input;
+package funkin.ui.component.input;
 
 import funkin.util.input.GestureUtil.SwipeDirection;
 import flixel.math.FlxPoint;

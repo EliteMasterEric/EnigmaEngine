@@ -1,4 +1,4 @@
-package funkin.behavior.input;
+package funkin.ui.component.input;
 
 import flixel.FlxSprite;
 import funkin.util.input.FlixelUIUtil;

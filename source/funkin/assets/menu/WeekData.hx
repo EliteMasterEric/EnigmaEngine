@@ -1,6 +1,8 @@
-package funkin.behavior.menu;
+package funkin.assets.menu;
 
 import funkin.assets.Paths;
+import flixel.FlxSprite;
+import funkin.behavior.Debug;
 
 using StringTools;
 
@@ -119,7 +121,7 @@ class WeekData
 		}
 		if (rawWeekData.songs == null || rawWeekData.songs == [])
 		{
-			Debug.logError("Error: Week data is missing attribute 'songs'")
+			Debug.logError("Error: Week data is missing attribute 'songs'");
 			return false;
 		}
 	}
@@ -135,6 +137,7 @@ class WeekData
 		else
 		{
 			// An asset path was used.
+			return new FlxSprite(0, 0).loadGraphic(Paths.image(this.backgroundGraphic));
 		}
 	}
 

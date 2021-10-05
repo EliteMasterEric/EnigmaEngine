@@ -35,12 +35,12 @@ class HaxeRelative
 			{
 				if (field.name == 'parent')
 				{
-					Context.info('${cls.name}: IRelative already implemented...', cls.pos);
+					// Context.info('${cls.name}: IRelative already implemented...', cls.pos);
 					return fields;
 				}
 			}
 		}
-		Context.info('${cls.name}: Implementing IRelative...', cls.pos);
+		// Context.info('${cls.name}: Implementing IRelative...', cls.pos);
 
 		// Create properties which additionally run this code when the updatePosition function when set.
 		var propertyBody = [macro this.updatePosition()];

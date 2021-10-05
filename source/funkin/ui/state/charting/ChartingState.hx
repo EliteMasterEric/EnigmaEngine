@@ -217,8 +217,8 @@ class ChartingState extends MusicBeatState
 			}
 			else
 			{
-				var diff:String = ["-easy", "", "-hard"][PlayState.storyDifficulty];
-				_song = Song.conversionChecks(Song.loadFromJson(PlayState.SONG.songId, diff));
+				var diffSuffix = StoryModeDifficultyItem.getDifficultySuffix(PlayState.storyDifficulty);
+				_song = Song.conversionChecks(Song.loadFromJson(PlayState.SONG.songId, diffSuffix));
 			}
 		}
 		else
@@ -1549,8 +1549,8 @@ class ChartingState extends MusicBeatState
 			}
 			else
 			{
-				var diff:String = ["-easy", "", "-hard"][PlayState.storyDifficulty];
-				_song = Song.conversionChecks(Song.loadFromJson(PlayState.SONG.songId, diff));
+				var diffSuffix = StoryModeDifficultyItem.getDifficultySuffix(PlayState.storyDifficulty);
+				_song = Song.conversionChecks(Song.loadFromJson(PlayState.SONG.songId, diffSuffix));
 			}
 		}
 		// WONT WORK FOR TUTORIAL OR TEST SONG!!! REDO LATER
@@ -3325,7 +3325,8 @@ class ChartingState extends MusicBeatState
 	{
 		var difficultyArray:Array<String> = ["-easy", "", "-hard"];
 
-		PlayState.SONG = Song.loadFromJson(songId, difficultyArray[PlayState.storyDifficulty]);
+		var diffSuffix = StoryModeDifficultyItem.getDifficultySuffix(PlayState.storyDifficulty);
+		PlayState.SONG = Song.loadFromJson(songId, diffSuffix);
 
 		while (curRenderedNotes.members.length > 0)
 		{
@@ -3455,7 +3456,8 @@ class ChartingState extends MusicBeatState
 			_file.addEventListener(Event.COMPLETE, onSaveComplete);
 			_file.addEventListener(Event.CANCEL, onSaveCancel);
 			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
-			_file.save(data.trim(), _song.songId.toLowerCase() + difficultyArray[PlayState.storyDifficulty] + ".json");
+			var diffSuffix = StoryModeDifficultyItem.getDifficultySuffix(PlayState.storyDifficulty);
+			_file.save(data.trim(), '${_song.songId.toLowerCase()}${diffSuffix}.json');
 		}
 	}
 

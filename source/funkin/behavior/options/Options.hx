@@ -815,7 +815,7 @@ class OffsetMenu extends Option
 
 		PlayState.SONG = Song.loadFromJson('tutorial', '');
 		PlayState.isStoryMode = false;
-		PlayState.storyDifficulty = 0;
+		PlayState.storyDifficulty = "easy";
 		PlayState.storyWeek = 0;
 		PlayState.offsetTesting = true;
 		trace('CUR WEEK' + PlayState.storyWeek);

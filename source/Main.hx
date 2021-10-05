@@ -87,6 +87,8 @@ class Main extends Sprite
 		// Run this first so we can see logs.
 		Debug.onInitProgram();
 
+		InteractableSprite.initMouseControls();
+
 		#if FEATURE_FILESYSTEM
 		if (ModCore.hasMods())
 		{

@@ -275,6 +275,34 @@ class Paths
 		return results;
 	}
 
+	/**
+	 * List all the image files under a given subdirectory.
+	 * @param path The path to look under.
+	 * @return The list of image files under that path.
+	 */
+	public static function listImagesInPath(path:String)
+	{
+		// We need to query OpenFlAssets, not the file system, because of Polymod.
+		var imageAssets = OpenFlAssets.list(AssetType.IMAGE);
+
+		var queryPath = 'images/${path}';
+
+		var results:Array<String> = [];
+
+		for (image in imageAssets)
+		{
+			// Parse end-to-beginning to support mods.
+			var path = image.split('/');
+			if (image.indexOf(queryPath) != -1)
+			{
+				var suffixPos = image.indexOf(queryPath) + queryPath.length;
+				results.push(image.substr(suffixPos).replace('.json', ''));
+			}
+		}
+
+		return results;
+	}
+
 	public static function doesSoundAssetExist(path:String)
 	{
 		if (path == null || path == "")

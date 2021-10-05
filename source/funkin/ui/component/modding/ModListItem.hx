@@ -8,7 +8,7 @@ import flixel.addons.ui.FlxUISprite;
 import flixel.addons.ui.FlxUIText;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
-import funkin.behavior.input.InteractableUIGroup;
+import funkin.ui.component.input.InteractableUIGroup;
 import openfl.geom.Rectangle;
 import polymod.Polymod.ModMetadata;
 

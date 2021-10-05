@@ -1,27 +1,19 @@
-package funkin.behavior.input;
+package funkin.ui.component.input;
 
-import flixel.FlxObject;
 import funkin.util.input.GestureUtil;
-import flixel.FlxG;
 import flixel.math.FlxPoint;
-import funkin.util.input.GestureUtil.SwipeDirection;
-import flixel.input.touch.FlxTouchManager;
-import flixel.FlxSprite;
-import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.FlxG;
+import flixel.addons.ui.FlxUIState;
 
-/**
- * This extension of FlxSprite calls corresponding events when clicked or tapped.
- * Override it for custom behavior.
- */
-class InteractableSprite extends FlxSprite implements IInteractable implements IRelative
+class InteractableUIState extends FlxUIState implements IInteractable
 {
-	public function new(?X:Float = 0, ?Y:Float = 0, ?SimpleGraphic:FlxGraphicAsset, ?Parent:FlxObject)
+	var gestureStateData:GestureStateData = {};
+
+	override function update(elapsed:Float)
 	{
-		super(0, 0, SimpleGraphic);
+		super.update(elapsed);
 
-		updatePosition();
-
-		GestureUtil.addGestureCallbacks(this);
+		gestureStateData = GestureUtil.handleGestureState(this, gestureStateData);
 	}
 
 	public function onJustPressed(pos:FlxPoint)

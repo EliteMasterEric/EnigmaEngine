@@ -1,7 +1,7 @@
 package funkin.ui.component.modding;
 
 import flixel.addons.ui.FlxUIList;
-import funkin.behavior.input.InteractableUIList;
+import funkin.ui.component.input.InteractableUIList;
 import polymod.Polymod.ModMetadata;
 
 /**

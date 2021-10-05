@@ -1,4 +1,4 @@
-package funkin.behavior.input;
+package funkin.ui.component.input;
 
 /**
  * Adding this interface to an FlxObject (yes, merely adding the interface),

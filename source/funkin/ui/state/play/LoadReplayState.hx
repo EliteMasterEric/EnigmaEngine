@@ -245,8 +245,18 @@ class LoadReplayState extends MusicBeatState
 					return;
 				}
 				PlayState.isStoryMode = false;
-				PlayState.storyDifficulty = PlayState.rep.replay.songDiff;
-				PlayState.storyWeek = getWeekNumbFromSong(PlayState.rep.replay.songName);
+				var diff = switch (PlayState.rep.replay.songDiff)
+				{
+					case 0:
+						'easy';
+					case 1:
+						'normal';
+					case 2:
+						'hard';
+					default:
+						PlayState.rep.replay.songDiff;
+				}
+				PlayState.storyDifficulty = PlayState.storyWeek = getWeekNumbFromSong(PlayState.rep.replay.songName);
 				LoadingState.loadAndSwitchState(new PlayState());
 			}
 			else

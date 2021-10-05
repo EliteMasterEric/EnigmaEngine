@@ -40,7 +40,7 @@ class HaxeSingleton
 
 		if (cls.constructor == null)
 		{
-			Context.info('Adding constructor to class ${cls.name}...', cls.pos);
+			// Context.info('Adding constructor to class ${cls.name}...', cls.pos);
 
 			var constBody:Array<Expr> = [];
 
@@ -71,7 +71,7 @@ class HaxeSingleton
 			fields.push(MacroUtil.buildConstructor(constBody));
 		}
 
-		Context.info('Adding instance to class ${cls.name}...', cls.pos);
+		// Context.info('Adding instance to class ${cls.name}...', cls.pos);
 		// Create a public static variable called 'instance'.
 		fields.push(MacroUtil.buildVariable("instance", TPath(MacroUtil.buildTypePath(cls)), MacroUtil.createInstance(cls), true, true));
 

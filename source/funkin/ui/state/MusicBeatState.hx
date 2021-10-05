@@ -1,6 +1,6 @@
 package funkin.ui.state;
 
-import funkin.behavior.input.InteractableUIState;
+import funkin.ui.component.input.InteractableUIState;
 import funkin.behavior.play.TimingStruct;
 import funkin.behavior.options.PlayerSettings;
 import funkin.behavior.play.Conductor;

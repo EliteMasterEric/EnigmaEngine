@@ -446,7 +446,8 @@ class FreeplayState extends MusicBeatState
 	 * @param songId The id of the song to load. Use the internal ID, with dashes.
 	 * @param isCharting If true, load into the Chart Editor instead.
 	 */
-	public static function loadSongInFreePlay(songId:String, difficulty:Int, isCharting:Bool, reloadSong:Bool = false)
+	// TODO: Fix references
+	public static function loadSongInFreePlay(songId:String, difficultyId:String, isCharting:Bool, reloadSong:Bool = false)
 	{
 		// Make sure song data is initialized first.
 		if (songData == null || Lambda.count(songData) == 0)
@@ -468,7 +469,7 @@ class FreeplayState extends MusicBeatState
 
 		PlayState.SONG = Song.conversionChecks(currentSongData);
 		PlayState.isStoryMode = false;
-		PlayState.storyDifficulty = difficulty;
+		PlayState.storyDifficulty = difficultyId;
 		PlayState.storyWeek = songs[curSelected].week;
 		Debug.logInfo('Loading song ${PlayState.SONG.songId} from week ${PlayState.storyWeek} into Free Play...');
 		#if FEATURE_STEPMANIA
