@@ -97,7 +97,7 @@ class Song
 		var convertedStuff:Array<Song.Event> = [];
 
 		if (song.eventObjects == null)
-			song.eventObjects = [new Song.Event("Init BPM", 0, song.bpm, "BPM Change")];
+			song.eventObjects = [new Song.Event("Init BPM", 0, song.bpm, "bpm")];
 
 		for (i in song.eventObjects)
 		{
@@ -122,7 +122,7 @@ class Song
 		var currentIndex = 0;
 		for (i in song.eventObjects)
 		{
-			if (i.type == "BPM Change")
+			if (i.type == "bpm")
 			{
 				var beat:Float = i.position;
 
@@ -162,7 +162,7 @@ class Song
 			{
 				trace("converting changebpm for section " + index);
 				ba = i.bpm;
-				song.eventObjects.push(new Song.Event("FNF BPM Change " + index, beat, i.bpm, "BPM Change"));
+				song.eventObjects.push(new Song.Event("FNF BPM Change " + index, beat, i.bpm, "bpm"));
 			}
 
 			for (ii in i.sectionNotes)
