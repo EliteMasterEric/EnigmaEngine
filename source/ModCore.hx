@@ -102,7 +102,7 @@ class ModCore
 		}
 		catch (_)
 		{
-			var modMetadata = Polymod.scan(MOD_DIRECTORY);
+			var modMetadata = Polymod.scan('mods');
 			Debug.logInfo('Scan method used. Found ${modMetadata.length} mods when scanning.');
 			var modIds = [for (i in modMetadata) i.id];
 			return modIds;
