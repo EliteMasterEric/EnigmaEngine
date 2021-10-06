@@ -249,10 +249,10 @@ class ChartingState extends MusicBeatState
 		var index = 0;
 
 		if (_song.eventObjects == null)
-			_song.eventObjects = [new Song.Event("Init BPM", 0, _song.bpm, "BPM Change")];
+			_song.eventObjects = [new Song.Event("Init BPM", 0, _song.bpm, "bpm")];
 
 		if (_song.eventObjects.length == 0)
-			_song.eventObjects = [new Song.Event("Init BPM", 0, _song.bpm, "BPM Change")];
+			_song.eventObjects = [new Song.Event("Init BPM", 0, _song.bpm, "bpm")];
 
 		trace("goin");
 
@@ -567,7 +567,7 @@ class ChartingState extends MusicBeatState
 	{
 		if (_song.eventObjects == null)
 		{
-			_song.eventObjects = [new Song.Event("Init BPM", 0, _song.bpm, "BPM Change")];
+			_song.eventObjects = [new Song.Event("Init BPM", 0, _song.bpm, "bpm")];
 		}
 
 		var firstEvent = "";
@@ -663,7 +663,7 @@ class ChartingState extends MusicBeatState
 		var eventAdd = new FlxButton(95, 155, "Add Event", function()
 		{
 			var pog:Song.Event = new Song.Event("New Event " + HelperFunctions.truncateFloat(curDecimalBeat, 3),
-				HelperFunctions.truncateFloat(curDecimalBeat, 3), _song.bpm, "BPM Change");
+				HelperFunctions.truncateFloat(curDecimalBeat, 3), _song.bpm, "bpm");
 
 			trace("adding " + pog.name);
 
@@ -758,7 +758,7 @@ class ChartingState extends MusicBeatState
 
 			if (firstEvent == null)
 			{
-				_song.eventObjects.push(new Song.Event("Init BPM", 0, _song.bpm, "BPM Change"));
+				_song.eventObjects.push(new Song.Event("Init BPM", 0, _song.bpm, "bpm"));
 				firstEvent = _song.eventObjects[0];
 			}
 

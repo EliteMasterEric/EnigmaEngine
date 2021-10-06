@@ -22,7 +22,7 @@ class SaveData
 			FlxG.save.data.missSounds = true;
 
 		if (FlxG.save.data.dfjk == null)
-			FlxG.save.data.dfjk = false;
+			FlxG.save.data.dfjk = true;
 
 		if (FlxG.save.data.accuracyDisplay == null)
 			FlxG.save.data.accuracyDisplay = true;

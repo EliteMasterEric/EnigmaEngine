@@ -421,7 +421,7 @@ class PlayState extends MusicBeatState
 
 		if (SONG.eventObjects == null)
 		{
-			SONG.eventObjects = [new Song.Event("Init BPM", 0, SONG.bpm, "BPM Change")];
+			SONG.eventObjects = [new Song.Event("Init BPM", 0, SONG.bpm, "bpm")];
 		}
 
 		TimingStruct.clearTimings();
@@ -429,7 +429,7 @@ class PlayState extends MusicBeatState
 		var currentIndex = 0;
 		for (i in SONG.eventObjects)
 		{
-			if (i.type == "BPM Change")
+			if (i.type == "bpm")
 			{
 				var beat:Float = i.position;
 

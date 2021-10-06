@@ -38,7 +38,7 @@ class ModCore
 		Debug.logInfo('Attempting to load ${ids.length} mods...');
 		var loadedModList = polymod.Polymod.init({
 			// Root directory for all mods.
-			modRoot: MOD_DIRECTORY,
+			modRoot: 'mods',
 			// The directories for one or more mods to load.
 			dirs: ids,
 			// Framework being used to load assets. We're using a CUSTOM one which extends the OpenFL one.
@@ -94,10 +94,16 @@ class ModCore
 	static function getModIds():Array<String>
 	{
 		Debug.logInfo('Scanning the mods folder...');
-		if (Assets.getText("mods/modList.txt") == null)
+		try
+		{
+			var list:Array<String> = CoolUtil.coolTextFile("mods/modList.txt");
+			Debug.logInfo('Mod list method used. modList.txt length: ${list.length}');
+			return list;
+		}
+		catch (_)
 		{
 			var modMetadata = Polymod.scan(MOD_DIRECTORY);
-			Debug.logInfo('Found ${modMetadata.length} mods when scanning.');
+			Debug.logInfo('Scan method used. Found ${modMetadata.length} mods when scanning.');
 			var modIds = [for (i in modMetadata) i.id];
 			return modIds;
 		}
