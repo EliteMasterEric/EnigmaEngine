@@ -1,3 +1,4 @@
+import lime.utils.Assets;
 #if FEATURE_MODCORE
 import polymod.backends.OpenFLBackend;
 import polymod.backends.PolymodAssets.PolymodAssetType;
@@ -93,10 +94,14 @@ class ModCore
 	static function getModIds():Array<String>
 	{
 		Debug.logInfo('Scanning the mods folder...');
-		var modMetadata = Polymod.scan(MOD_DIRECTORY);
-		Debug.logInfo('Found ${modMetadata.length} mods when scanning.');
-		var modIds = [for (i in modMetadata) i.id];
-		return modIds;
+		if (Assets.getText("mods/modList.txt") == null)
+		{
+			var modMetadata = Polymod.scan(MOD_DIRECTORY);
+			Debug.logInfo('Found ${modMetadata.length} mods when scanning.');
+			var modIds = [for (i in modMetadata) i.id];
+			return modIds;
+		}
+		return null;
 	}
 
 	static function buildParseRules():polymod.format.ParseRules

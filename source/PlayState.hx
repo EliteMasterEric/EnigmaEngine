@@ -872,10 +872,10 @@ class PlayState extends MusicBeatState
 			16);
 		gameEngineWatermark.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		gameEngineWatermark.scrollFactor.set();
-		add(kadeEngineWatermark);
+		add(gameEngineWatermark);
 
 		if (PlayStateChangeables.useDownscroll)
-			kadeEngineWatermark.y = FlxG.height * 0.9 + 45;
+			gameEngineWatermark.y = FlxG.height * 0.9 + 45;
 
 		scoreTxt = new FlxText(FlxG.width / 2 - 235, healthBarBG.y + 50, 0, "", 20);
 
@@ -931,7 +931,7 @@ class PlayState extends MusicBeatState
 			songPosBG.cameras = [camHUD];
 			songPosBar.cameras = [camHUD];
 		}
-		kadeEngineWatermark.cameras = [camHUD];
+		gameEngineWatermark.cameras = [camHUD];
 		if (loadRep)
 			replayTxt.cameras = [camHUD];
 

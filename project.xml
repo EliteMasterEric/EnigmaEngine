@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin': Enigma Engine" file="Enigma Engine" packageName="com.mastereric.enigmaengine" package="com.mastereric.enigmaengine" main="Main" version="0.2.7.1" company="mastereric" />
+	<app title="Friday Night Funkin': Enigma Engine" file="EnigmaEngine" packageName="com.mastereric.enigmaengine" package="com.mastereric.enigmaengine" main="Main" version="0.2.7.1" company="mastereric" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
@@ -183,7 +183,6 @@
 	<icon path="art/icon512.png" size='512'/>
 	<icon path="art/iconOG.png" />
 
-	<haxeflag name="--no-traces" unless="debug" />
 	<haxeflag name="--dce full" if="release" />
 
   <!-- Use defines to ensure compile-time definitions have readable context. -->

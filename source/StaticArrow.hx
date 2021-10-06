@@ -31,6 +31,10 @@ class StaticArrow extends FlxSprite
 
 		if (FlxG.keys.justPressed.THREE)
 		{
+			localAngle -= 10;
+		}
+		if (FlxG.keys.justPressed.FOUR)
+		{
 			localAngle += 10;
 		}
 	}
