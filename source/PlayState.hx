@@ -2021,7 +2021,7 @@ class PlayState extends MusicBeatState
 			var currentIndex = 0;
 			for (i in SONG.eventObjects)
 			{
-				if (i.type == "BPM Change")
+				if (i.type == "bpm")
 				{
 					var beat:Float = i.position;
 
@@ -2073,7 +2073,7 @@ class PlayState extends MusicBeatState
 			{
 				switch (i.type)
 				{
-					case "Scroll Speed Change":
+					case "scrollspeed":
 						if (i.position <= curDecimalBeat && !pastScrollChanges.contains(i))
 						{
 							pastScrollChanges.push(i);
