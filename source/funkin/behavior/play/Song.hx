@@ -1,10 +1,13 @@
-package funkin.assets.play;
+package funkin.behavior.play;
 
+import funkin.util.assets.SongAssets;
 import funkin.behavior.Debug;
-import funkin.assets.Paths;
-import funkin.assets.play.Song.SongEvent;
+import funkin.util.assets.Paths;
+import funkin.util.assets.DataAssets;
+import funkin.util.assets.LibraryAssets;
+import funkin.behavior.play.Song.SongEvent;
 import funkin.behavior.play.Section.SwagSection;
-import openfl.utils.Assets as OpenFlAssets;
+import funkin.behavior.play.TimingStruct;
 import tjson.TJSON;
 
 using hx.strings.Strings;
@@ -69,34 +72,73 @@ class Song
 
 	public static function loadFromJsonRAW(rawJson:String)
 	{
+		// Sometimes files will have unknown garbage at the end, this fixes that.
 		while (!rawJson.endsWith("}"))
 		{
 			rawJson = rawJson.substr(0, rawJson.length - 1);
-			// LOL GOING THROUGH THE BULLSHIT TO CLEAN IDK WHATS STRANGE
 		}
-		var jsonData = TJSON.parse(rawJson);
 
-		return parseJSONshit("rawsong", jsonData, ["name" => jsonData.name]);
+		var jsonData = TJSON.parse(rawJson);
+		var songData:SongData = cast jsonData.song;
+
+		return parseJSONData("rawsong", songData, ["name" => jsonData.name]);
 	}
 
-	public static function loadFromJson(songId:String, difficulty:String):SongData
+	public static function loadFromJson(songId:String, diffSuffix:String):SongData
 	{
-		var songFile = '$songId/$songId$difficulty';
+		var songFile = '$songId/$songId$diffSuffix';
 
 		Debug.logInfo('Loading song JSON: $songFile');
 
-		var rawJson = Paths.loadJSON('songs/$songFile');
+		var rawJson = DataAssets.loadJSON('songs/$songFile');
+
+		var songData:SongData = cast rawJson.song;
+		var metaData:SongMeta = loadMetadata(songId);
+
+		return parseJSONData(songId, songData, metaData);
+	}
+
+	public static function loadMetadata(songId:String):SongMeta
+	{
 		var rawMetaJson = null;
-		if (OpenFlAssets.exists(Paths.json('songs/$songId/_meta')))
+		if (LibraryAssets.exists(Paths.songMeta(songId)))
 		{
-			rawMetaJson = Paths.loadJSON('songs/$songId/_meta');
+			rawMetaJson = DataAssets.loadJSON('songs/$songId/_meta');
 		}
 		else
 		{
 			Debug.logInfo('Hey, you didn\'t include a _meta.json with your song files (id ${songId}).Won\'t break anything but you should probably add one anyway.');
 		}
+		if (rawMetaJson == null)
+		{
+			return null;
+		}
+		else
+		{
+			return cast rawMetaJson;
+		}
+	}
 
-		return parseJSONshit(songId, rawJson, rawMetaJson);
+	/**
+	 * For a given song, get its proper display name.
+	 * This involves either loading the song metadata file or formatting the song ID, if there is none.
+	 * @param songId 
+	 * @return String
+	 */
+	public static function getSongName(songId:String):String
+	{
+		var songMeta = loadMetadata(songId);
+		if (songMeta != null && songMeta.name != null && songMeta.name != "")
+		{
+			// Use the song name from the metadata file.
+			return songMeta.name;
+		}
+		else
+		{
+			// Deduce the name. If you don't want this name format, specify the name you want in `_meta.json`
+			// Example: dad-battle -> Dad Battle
+			return songId.split('-').join(' ').toTitle();
+		}
 	}
 
 	/**
@@ -106,16 +148,14 @@ class Song
 	 * @param curDifficulty A difficulty index to use.
 	 * @return Whether all the song IDs can be played on that difficulty.
 	 */
-	public static function validateSongs(songIds:Array<String>, curDifficulty:Int):Bool
+	public static function validateSongs(songIds:Array<String>, curDifficulty:String):Bool
 	{
 		// For each song in the list...
 		for (songId in songIds)
 		{
 			// Get the path of the JSON file for that song ID and the chosen difficulty.
-			var songFile = Highscore.formatSong(songId, curDifficulty);
-
 			// If that path doesn't exist, we can't play this week.
-			if (!OpenFlAssets.exists(Paths.json('songs/${songId}/${songFile}')))
+			if (!SongAssets.doesSongExist(songId, curDifficulty))
 			{
 				return false;
 			}
@@ -221,7 +261,7 @@ class Song
 		return song;
 	}
 
-	public static function parseJSONshit(songId:String, jsonData:Dynamic, jsonMetaData:Dynamic):SongData
+	public static function parseJSONData(songId:String, jsonData:Dynamic, jsonMetaData:Dynamic):SongData
 	{
 		var songData:SongData = cast jsonData.song;
 

@@ -1,10 +1,8 @@
 package funkin.ui.state.menu;
 
-import funkin.ui.audio.MainMenuMusic;
-import flixel.FlxCamera;
-import funkin.ui.state.charting.ChartingState;
 import flash.text.TextField;
 import flixel.addons.display.FlxGridOverlay;
+import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -13,17 +11,24 @@ import flixel.math.FlxMath;
 import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import funkin.assets.Paths;
 import funkin.behavior.Debug;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.DiffCalc;
+import funkin.behavior.play.Difficulty.DifficultyCache;
 import funkin.behavior.play.Highscore;
+import funkin.ui.audio.MainMenuMusic;
+import funkin.ui.state.charting.ChartingState;
+import funkin.util.assets.DataAssets;
+import funkin.util.assets.GraphicsAssets;
+import funkin.util.assets.Paths;
+import funkin.util.assets.SongAssets;
 import funkin.util.Util;
+import hx.strings.collection.StringArray;
 #if FEATURE_DISCORD
 import funkin.behavior.api.Discord.DiscordClient;
 #end
-import funkin.assets.play.Song;
-import funkin.assets.play.Song.SongData;
+import funkin.behavior.play.Song;
+import funkin.behavior.play.Song.SongData;
 #if FEATURE_STEPMANIA
 import funkin.behavior.stepmania.SMFile;
 #end
@@ -48,8 +53,8 @@ class FreeplayState extends MusicBeatState
 
 	public static var rate:Float = 1.0;
 
-	public static var curSelected:Int = 0;
-	public static var curDifficulty:Int = 1;
+	public static var curSongIndex:Int = 0;
+	public static var curDiffIndex:Int = 1;
 
 	var scoreText:FlxText;
 	var comboText:FlxText;
@@ -69,17 +74,16 @@ class FreeplayState extends MusicBeatState
 
 	/**
 	 * The list of all the data for all the songs. Used to calculate difficulty.
-	 		* Replace Array with Map<Int> to fix custom difficulty stuff.
+	 * Replace Array with Map<String> to fix custom difficulty stuff.
 	 */
-	public static var songData:Map<String, Map<Int, SongData>> = [];
+	public static var songData:Map<String, Map<String, SongData>> = [];
 
-	public static function loadDiff(diff:Int, format:String, array:Map<Int, SongData>)
+	public static function loadDiff(diff:String, format:String, array:Map<String, SongData>)
 	{
-		var diffName:String = ["-easy", "", "-hard"][diff];
-		var curSongData = Song.loadFromJson(format, diffName);
+		var curSongData = Song.loadFromJson(format, DifficultyCache.getSuffix(diff));
 		if (curSongData == null)
 		{
-			Debug.logError('ERROR in Freeplay trying to load song data: ${format}');
+			Debug.logError('ERROR in Freeplay trying to load song data: ${format} : ${diff}');
 		}
 		array.set(diff, curSongData);
 	}
@@ -113,7 +117,7 @@ class FreeplayState extends MusicBeatState
 						var meta = new FreeplaySongMetadata(file.header.TITLE, 0, "sm", file, "assets/sm/" + i);
 						songs.push(meta);
 						var song = Song.loadFromJsonRAW(data);
-						songData.set(file.header.TITLE, [0 => song, 1 => song, 2 => song]);
+						songData.set(file.header.TITLE, ['normal' => song]);
 					}
 					else if (FileSystem.exists("assets/sm/" + i + "/converted.json") && file.endsWith(".sm"))
 					{
@@ -125,7 +129,7 @@ class FreeplayState extends MusicBeatState
 						songs.push(meta);
 						var song = Song.loadFromJsonRAW(File.getContent("assets/sm/" + i + "/converted.json"));
 						trace("got content lol");
-						songData.set(file.header.TITLE, [0 => song, 1 => song, 2 => song]);
+						songData.set(file.header.TITLE, ['normal' => song]);
 					}
 				}
 			}
@@ -149,7 +153,7 @@ class FreeplayState extends MusicBeatState
 
 		// LOAD CHARACTERS
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.loadImage('menuBGBlue'));
+		var bg:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('menuBGBlue'));
 		bg.antialiasing = FlxG.save.data.antialiasing;
 		add(bg);
 
@@ -214,7 +218,7 @@ class FreeplayState extends MusicBeatState
 	 */
 	static function populateSongData()
 	{
-		var initSonglist = Util.loadLinesFromFile(Paths.txt('data/freeplaySonglist'));
+		var initSonglist = DataAssets.loadLinesFromFile(Paths.txt('data/freeplaySonglist'));
 
 		songData = [];
 		songs = [];
@@ -225,39 +229,32 @@ class FreeplayState extends MusicBeatState
 			var songId = data[0];
 			var meta = new FreeplaySongMetadata(songId, Std.parseInt(data[2]), data[1]);
 
-			var diffs:Map<Int, SongData> = [];
+			var diffs:Map<String, SongData> = [];
 			var diffsThatExist:Array<String> = [];
 
-			#if FEATURE_FILESYSTEM
-			if (Paths.doesTextAssetExist(Paths.json('songs/$songId/$songId-hard')))
-				diffsThatExist.push("Hard");
-			if (Paths.doesTextAssetExist(Paths.json('songs/$songId/$songId-easy')))
-				diffsThatExist.push("Easy");
-			if (Paths.doesTextAssetExist(Paths.json('songs/$songId/$songId')))
-				diffsThatExist.push("Normal");
+			// Scan for valid difficulties for this song.
+			if (SongAssets.doesSongExist(songId, ''))
+				diffsThatExist.push(DifficultyCache.defaultDifficulty);
+			diffsThatExist.concat(SongAssets.listDifficultiesForSong(songId));
 
+			// If none exist, display a popup (VERY high priority notification).
 			if (diffsThatExist.length == 0)
 			{
-				Debug.displayAlert(meta.songName + " Chart", "No difficulties found for chart, skipping.");
+				Debug.displayAlert('${meta.songName} Chart', "No difficulties found for chart, skipping.");
 				continue;
 			}
-			#else
-			diffsThatExist = ["Easy", "Normal", "Hard"];
-			#end
-			if (diffsThatExist.contains("Easy"))
-				FreeplayState.loadDiff(0, songId, diffs);
-			if (diffsThatExist.contains("Normal"))
-				FreeplayState.loadDiff(1, songId, diffs);
-			if (diffsThatExist.contains("Hard"))
-				FreeplayState.loadDiff(2, songId, diffs);
+
+			// For each difficulty, load the SongData into the `diffs` array.
+			for (diffThatExists in diffsThatExist)
+			{
+				FreeplayState.loadDiff(diffThatExists, songId, diffs);
+			}
 
 			meta.diffs = diffsThatExist;
 
-			if (diffsThatExist.length != 3)
-				trace("I ONLY FOUND " + diffsThatExist);
-
+			// Store the `diffs` array in the `songData` map.
 			FreeplayState.songData.set(songId, diffs);
-			trace('loaded diffs for ' + songId);
+			trace('loaded ${meta.diffs.length} diffs for $songId');
 			FreeplayState.songs.push(meta);
 		}
 		trace('Loaded diffs for ${FreeplayState.songs.length} songs.');
@@ -396,46 +393,49 @@ class FreeplayState extends MusicBeatState
 
 	function updateDifficultyText()
 	{
-		var curSongId = songs[curSelected].songId;
+		var curSongId = songs[curSongIndex].songId;
 		var curSongData = songData.get(curSongId);
-		var curSongCurDiff = curSongData[curDifficulty];
+		var curDiffData = DifficultyCache.getByIndex(curDiffIndex);
+		var curSongCurDiff = curSongData.get(curDiffData.id);
 		if (curSongCurDiff != null)
 		{
 			diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(curSongCurDiff)}';
-			diffText.text = Util.difficultyFromInt(curDifficulty).toUpperCase();
+			diffText.text = curDiffData.id;
 		}
 		else
 		{
-			Debug.logWarn('Song ${songs[curSelected].songName} (${songs[curSelected].songId}) has no difficulty ${curDifficulty}, is this intended?');
+			Debug.logWarn('Song ${songs[curSongIndex].songName} (${songs[curSongIndex].songId}) has no difficulty ${curDiffIndex}, is this intended?');
 			diffCalcText.text = 'RATING: N/A';
-			diffText.text = '${Util.difficultyFromInt(curDifficulty).toUpperCase()} (NOT AVAILABLE)';
+			diffText.text = '${DifficultyCache.getByIndex(curDiffIndex).id.toUpperCase()} (NOT AVAILABLE)';
 		}
 	}
 
 	function loadAnimDebug(dad:Bool = true)
 	{
-		// First, get the song data.
-		var hmm;
 		try
 		{
-			hmm = songData.get(songs[curSelected].songName)[curDifficulty];
-			if (hmm == null)
+			// First, get the song data.
+			var curDiffData = DifficultyCache.getByIndex(curDiffIndex);
+			var currentSongData = songData.get(songs[curSongIndex].songName).get(curDiffData.id);
+			if (currentSongData == null)
 				return;
+
+			PlayState.SONG = Song.conversionChecks(currentSongData);
+
+			var character = dad ? PlayState.SONG.player2 : PlayState.SONG.player1;
+
+			LoadingState.loadAndSwitchState(new AnimationDebug(character));
 		}
 		catch (ex)
 		{
+			// Skip if we weren't able to retrieve the song data.
 			return;
 		}
-		PlayState.SONG = Song.conversionChecks(hmm);
-
-		var character = dad ? PlayState.SONG.player2 : PlayState.SONG.player1;
-
-		LoadingState.loadAndSwitchState(new AnimationDebug(character));
 	}
 
 	function loadSong(isCharting:Bool = false)
 	{
-		loadSongInFreePlay(songs[curSelected].songName, curDifficulty, isCharting);
+		loadSongInFreePlay(songs[curSongIndex].songName, DifficultyCache.getByIndex(curDiffIndex).id, isCharting);
 
 		clean();
 	}
@@ -458,8 +458,8 @@ class FreeplayState extends MusicBeatState
 		{
 			if (songData.get(songId) == null)
 				return;
-			currentSongData = songData.get(songId)[difficulty];
-			if (songData.get(songId)[difficulty] == null)
+			currentSongData = songData.get(songId)[difficultyId];
+			if (songData.get(songId).get(difficultyId) == null)
 				return;
 		}
 		catch (ex)
@@ -470,15 +470,15 @@ class FreeplayState extends MusicBeatState
 		PlayState.SONG = Song.conversionChecks(currentSongData);
 		PlayState.isStoryMode = false;
 		PlayState.storyDifficulty = difficultyId;
-		PlayState.storyWeek = songs[curSelected].week;
+		PlayState.storyWeek = null;
 		Debug.logInfo('Loading song ${PlayState.SONG.songId} from week ${PlayState.storyWeek} into Free Play...');
 		#if FEATURE_STEPMANIA
-		if (songs[curSelected].songCharacter == "sm")
+		if (songs[curSongIndex].songCharacter == "sm")
 		{
 			Debug.logInfo('Song is a StepMania song!');
 			PlayState.isSM = true;
-			PlayState.sm = songs[curSelected].sm;
-			PlayState.pathToSm = songs[curSelected].path;
+			PlayState.sm = songs[curSongIndex].sm;
+			PlayState.pathToSm = songs[curSongIndex].path;
 		}
 		else
 			PlayState.isSM = false;
@@ -496,30 +496,25 @@ class FreeplayState extends MusicBeatState
 
 	function changeDiff(change:Int = 0)
 	{
-		if (!songs[curSelected].diffs.contains(Util.difficultyFromInt(curDifficulty + change)))
-			return;
+		curDiffIndex += change;
 
-		curDifficulty += change;
+		if (curDiffIndex < 0)
+			curDiffIndex = DifficultyCache.difficultyList.length - 1;
+		if (curDiffIndex > (DifficultyCache.difficultyList.length - 1))
+			curDiffIndex = 0;
 
-		if (curDifficulty < 0)
-			curDifficulty = 2;
-		if (curDifficulty > 2)
-			curDifficulty = 0;
-
-		// adjusting the highscore song name to be compatible (changeDiff)
-		var songHighscore = StringTools.replace(songs[curSelected].songName, " ", "-");
-		switch (songHighscore)
+		// Only allow VALID difficulties. We may need to skip again.
+		if (!songs[curSongIndex].diffs.contains(DifficultyCache.getByIndex(curDiffIndex).id))
 		{
-			case 'Dad-Battle':
-				songHighscore = 'Dadbattle';
-			case 'Philly-Nice':
-				songHighscore = 'Philly';
-			case 'M.I.L.F':
-				songHighscore = 'Milf';
+			if (change != 0)
+			{
+				changeDiff(change);
+			}
+			return;
 		}
 
-		intendedScore = Highscore.getScore(songHighscore, curDifficulty);
-		combo = Highscore.getCombo(songHighscore, curDifficulty);
+		intendedScore = Highscore.getScore(songs[curSongIndex].songId, DifficultyCache.getByIndex(curDiffIndex).id);
+		combo = Highscore.getCombo(songs[curSongIndex].songId, DifficultyCache.getByIndex(curDiffIndex).id);
 		updateDifficultyText();
 	}
 
@@ -527,51 +522,37 @@ class FreeplayState extends MusicBeatState
 	{
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 
-		curSelected += change;
+		curSongIndex += change;
 
-		if (curSelected < 0)
-			curSelected = songs.length - 1;
-		if (curSelected >= songs.length)
-			curSelected = 0;
+		if (curSongIndex < 0)
+			curSongIndex = songs.length - 1;
+		if (curSongIndex >= songs.length)
+			curSongIndex = 0;
 
-		if (songs[curSelected].diffs.length != 3)
+		if (songs[curSongIndex].diffs.length != 3)
 		{
-			switch (songs[curSelected].diffs[0])
+			switch (songs[curSongIndex].diffs[0])
 			{
 				case "Easy":
-					curDifficulty = 0;
+					curDiffIndex = 0;
 				case "Normal":
-					curDifficulty = 1;
+					curDiffIndex = 1;
 				case "Hard":
-					curDifficulty = 2;
+					curDiffIndex = 2;
 			}
 		}
 
-		// adjusting the highscore song name to be compatible (changeSelection)
-		// would read original scores if we didn't change packages
-		var songHighscore = StringTools.replace(songs[curSelected].songName, " ", "-");
-		switch (songHighscore)
-		{
-			case 'Dad-Battle':
-				songHighscore = 'Dadbattle';
-			case 'Philly-Nice':
-				songHighscore = 'Philly';
-			case 'M.I.L.F':
-				songHighscore = 'Milf';
-		}
-
-		#if !switch
-		intendedScore = Highscore.getScore(songHighscore, curDifficulty);
-		combo = Highscore.getCombo(songHighscore, curDifficulty);
-		#end
+		var curDiffId = DifficultyCache.getByIndex(curDiffIndex).id;
+		intendedScore = Highscore.getScore(songs[curSongIndex].songId, curDiffId);
+		combo = Highscore.getCombo(songs[curSongIndex].songId, curDiffId);
 
 		updateDifficultyText();
 
 		#if PRELOAD_ALL
 		#if FEATURE_STEPMANIA
-		if (songs[curSelected].songCharacter == "sm")
+		if (songs[curSongIndex].songCharacter == "sm")
 		{
-			var data = songs[curSelected];
+			var data = songs[curSongIndex];
 			trace("Loading " + data.path + "/" + data.sm.header.MUSIC);
 			var bytes = File.getBytes(data.path + "/" + data.sm.header.MUSIC);
 			var sound = new Sound();
@@ -579,13 +560,14 @@ class FreeplayState extends MusicBeatState
 			FlxG.sound.playMusic(sound);
 		}
 		else
-			FlxG.sound.playMusic(Paths.inst(songs[curSelected].songId), 0);
+			FlxG.sound.playMusic(Paths.inst(songs[curSongIndex].songId), 0);
 		#end
 		#end
 
 		try
 		{
-			var songDataCurrentDiff = songData.get(songs[curSelected].songId)[curDifficulty];
+			var curDiffId = DifficultyCache.getByIndex(curDiffIndex).id;
+			var songDataCurrentDiff = songData.get(songs[curSongIndex].songId).get(curDiffId);
 			if (songDataCurrentDiff != null)
 			{
 				Conductor.changeBPM(songDataCurrentDiff.bpm);
@@ -595,19 +577,18 @@ class FreeplayState extends MusicBeatState
 		{
 		}
 
-		var bullShit:Int = 0;
-
 		for (i in 0...iconArray.length)
 		{
 			iconArray[i].alpha = 0.6;
 		}
 
-		iconArray[curSelected].alpha = 1;
+		iconArray[curSongIndex].alpha = 1;
 
+		var memberSongIndex:Int = 0;
 		for (item in grpSongs.members)
 		{
-			item.targetY = bullShit - curSelected;
-			bullShit++;
+			item.targetY = memberSongIndex - curSongIndex;
+			memberSongIndex++;
 
 			item.alpha = 0.6;
 

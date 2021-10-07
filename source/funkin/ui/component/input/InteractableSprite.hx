@@ -1,3 +1,25 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * InteractableSprite.hx
+ * An FlxSprite which has additional handlers for gestures and interaction.
+ */
 package funkin.ui.component.input;
 
 import flixel.FlxObject;
@@ -15,11 +37,6 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  */
 class InteractableSprite extends FlxSprite implements IInteractable implements IRelative
 {
-	public static function initMouseControls()
-	{
-		FlxG.plugins.add(new FlxMouseEventManager());
-	}
-
 	public function new(?X:Float = 0, ?Y:Float = 0, ?SimpleGraphic:FlxGraphicAsset, ?Parent:FlxObject)
 	{
 		super(0, 0, SimpleGraphic);

@@ -1,10 +1,34 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * LoadReplayState.hx
+ * A state which initializes and prepares a Replay to be viewed.
+ * Replays themselves are performed in PlayState.
+ */
 package funkin.ui.state.play;
 
-import funkin.assets.play.Song;
+import funkin.behavior.play.Song;
 import funkin.ui.state.options.OptionsMenu;
 import funkin.behavior.play.Replay;
+import funkin.behavior.play.Difficulty.DifficultyCache;
 import funkin.util.Util;
-import funkin.assets.Paths;
+import funkin.util.assets.Paths;
 import flash.text.TextField;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.FlxG;
@@ -14,6 +38,7 @@ import flixel.input.keyboard.FlxKey;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import funkin.util.assets.GraphicsAssets;
 import funkin.behavior.options.Controls.Control;
 import funkin.behavior.options.Controls.KeyboardScheme;
 import funkin.ui.component.Alphabet;
@@ -40,12 +65,12 @@ class LoadReplayState extends MusicBeatState
 	var actualNames:Array<String> = [];
 
 	private var grpControls:FlxTypedGroup<Alphabet>;
-	var versionShit:FlxText;
+	var versionText:FlxText;
 	var poggerDetails:FlxText;
 
 	override function create()
 	{
-		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.loadImage('menuDesat'));
+		var menuBG:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('menuDesat'));
 		// TODO: Refactor this to use OpenFlAssets.
 		#if FEATURE_FILESYSTEM
 		controlsStrings = sys.FileSystem.readDirectory(Sys.getCwd() + "/assets/replays/");
@@ -54,6 +79,7 @@ class LoadReplayState extends MusicBeatState
 
 		controlsStrings.sort(sortByDate);
 
+		// TODO: What is this? De-hardcode it?
 		addWeek(['Bopeebo', 'Fresh', 'Dadbattle'], 1, ['dad']);
 		addWeek(['Spookeez', 'South', 'Monster'], 2, ['spooky']);
 		addWeek(['Pico', 'Philly', 'Blammed'], 3, ['pico']);
@@ -68,7 +94,7 @@ class LoadReplayState extends MusicBeatState
 			var string:String = controlsStrings[i];
 			actualNames[i] = string;
 			var rep:Replay = Replay.LoadReplay(string);
-			controlsStrings[i] = string.split("time")[0] + " " + Util.difficultyFromInt(rep.replay.songDiff).toUpperCase();
+			controlsStrings[i] = string.split("time")[0] + " " + rep.replay.songDiff.toUpperCase();
 		}
 
 		if (controlsStrings.length == 0)
@@ -93,12 +119,12 @@ class LoadReplayState extends MusicBeatState
 			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
 		}
 
-		versionShit = new FlxText(5, FlxG.height - 34, 0,
+		versionText = new FlxText(5, FlxG.height - 34, 0,
 			"Replay Loader (ESCAPE TO GO BACK)\nNOTICE!!!! Replays are in a beta stage, and they are probably not 100% correct. expect misses and other stuff that isn't there!\n",
 			12);
-		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		add(versionShit);
+		versionText.scrollFactor.set();
+		versionText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(versionText);
 
 		poggerDetails = new FlxText(5, 34, 0, "Replay Details - \nnone", 12);
 		poggerDetails.scrollFactor.set();
@@ -174,6 +200,8 @@ class LoadReplayState extends MusicBeatState
 				var songFormat = StringTools.replace(PlayState.rep.replay.songName, " ", "-");
 				switch (songFormat)
 				{
+					// Support non-Enigma replays.
+
 					case 'Dad-Battle':
 						songFormat = 'dadbattle';
 					case 'Philly-Nice':
@@ -235,8 +263,8 @@ class LoadReplayState extends MusicBeatState
 					}
 					else
 					{
-						var diff:String = ["-easy", "", "-hard"][PlayState.rep.replay.songDiff];
-						PlayState.SONG = Song.loadFromJson(PlayState.rep.replay.songName, diff);
+						var diffSuffix = DifficultyCache.getSuffix(PlayState.rep.replay.songDiff);
+						PlayState.SONG = Song.loadFromJson(PlayState.rep.replay.songName, diffSuffix);
 					}
 				}
 				catch (e:Exception)
@@ -245,18 +273,8 @@ class LoadReplayState extends MusicBeatState
 					return;
 				}
 				PlayState.isStoryMode = false;
-				var diff = switch (PlayState.rep.replay.songDiff)
-				{
-					case 0:
-						'easy';
-					case 1:
-						'normal';
-					case 2:
-						'hard';
-					default:
-						PlayState.rep.replay.songDiff;
-				}
-				PlayState.storyDifficulty = PlayState.storyWeek = getWeekNumbFromSong(PlayState.rep.replay.songName);
+				PlayState.storyDifficulty = PlayState.rep.replay.songDiff;
+				PlayState.storyWeek = null;
 				LoadingState.loadAndSwitchState(new PlayState());
 			}
 			else
@@ -292,12 +310,12 @@ class LoadReplayState extends MusicBeatState
 			+ (rep.replay.replayGameVer != Replay.version ? "OUTDATED not useable!" : "Latest")
 			+ ')\n';
 
-		var bullShit:Int = 0;
+		var curControlsMember:Int = 0;
 
 		for (item in grpControls.members)
 		{
-			item.targetY = bullShit - curSelected;
-			bullShit++;
+			item.targetY = curControlsMember - curSelected;
+			curControlsMember++;
 
 			item.alpha = 0.6;
 

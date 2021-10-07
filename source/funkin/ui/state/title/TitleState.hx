@@ -1,3 +1,26 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * TitleState.hx
+ * This state contains the intro credits and the main title screen,
+ * with the "Press Enter to Start" text.
+ */
 package funkin.ui.state.title;
 
 import funkin.ui.component.Cursor;
@@ -7,15 +30,18 @@ import funkin.ui.component.Alphabet;
 import funkin.const.Enigma;
 import funkin.ui.state.menu.MainMenuState;
 import funkin.behavior.play.Conductor;
-import funkin.assets.Paths;
+import funkin.util.assets.Paths;
 import funkin.behavior.SaveData;
 import funkin.behavior.options.PlayerSettings;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
 import flixel.addons.transition.TransitionData;
 import flixel.FlxG;
+import funkin.util.assets.DataAssets;
+import funkin.util.assets.GraphicsAssets;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import funkin.util.assets.GraphicsAssets;
 import flixel.graphics.FlxGraphic;
 import flixel.group.FlxGroup;
 import flixel.input.gamepad.FlxGamepad;
@@ -185,7 +211,7 @@ class TitleState extends MusicBeatState // implements IHook
 		Highscore.load();
 
 		// Load the title screen procedure from the titleScreen.json data file.
-		var titleScreenRaw = Paths.loadJSON('titleScreen');
+		var titleScreenRaw = DataAssets.loadJSON('titleScreen');
 		titleScreenData = cast titleScreenRaw;
 
 		reloadWackyText();
@@ -232,7 +258,7 @@ class TitleState extends MusicBeatState // implements IHook
 		if (titleScreenData.gf != null)
 		{
 			gfDance = new FlxSprite(titleScreenData.gf.x, titleScreenData.gf.y);
-			gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
+			gfDance.frames = GraphicsAssets.loadSparrowAtlas('gfDanceTitle');
 			// Make the gfDance always work regardless of the number of frames in the animation,
 			// by scaling the frame rate to match.
 			var frameArrays = buildDanceFrameArrays(gfDance.frames.numFrames);
@@ -246,7 +272,7 @@ class TitleState extends MusicBeatState // implements IHook
 		{
 			Debug.logWarn('Could not load title screen data for GF sprite...');
 			gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
-			gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
+			gfDance.frames = GraphicsAssets.loadSparrowAtlas('gfDanceTitle');
 			gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 			gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		}
@@ -257,7 +283,7 @@ class TitleState extends MusicBeatState // implements IHook
 		if (titleScreenData.logo != null)
 		{
 			logoBumpin = new FlxSprite(titleScreenData.logo.x, titleScreenData.logo.y);
-			logoBumpin.frames = Paths.getSparrowAtlas('logoBumpin');
+			logoBumpin.frames = GraphicsAssets.loadSparrowAtlas('logoBumpin');
 			logoBumpin.antialiasing = FlxG.save.data.antialiasing;
 			logoBumpin.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 			logoBumpin.setGraphicSize(Std.int(logoBumpin.width * titleScreenData.logo.scale));
@@ -267,7 +293,7 @@ class TitleState extends MusicBeatState // implements IHook
 		{
 			Debug.logWarn('Could not load title screen data for logo sprite...');
 			logoBumpin = new FlxSprite(-150, -100);
-			logoBumpin.frames = Paths.getSparrowAtlas('logoBumpin');
+			logoBumpin.frames = GraphicsAssets.loadSparrowAtlas('logoBumpin');
 			logoBumpin.antialiasing = FlxG.save.data.antialiasing;
 			logoBumpin.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 			logoBumpin.updateHitbox();
@@ -277,7 +303,7 @@ class TitleState extends MusicBeatState // implements IHook
 
 		// Add the title text.
 		titleText = new FlxSprite(100, FlxG.height * 0.8);
-		titleText.frames = Paths.getSparrowAtlas('titleEnter');
+		titleText.frames = GraphicsAssets.loadSparrowAtlas('titleEnter');
 		titleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
 		titleText.animation.addByPrefix('press', "ENTER PRESSED", 24);
 		titleText.antialiasing = FlxG.save.data.antialiasing;
@@ -308,7 +334,7 @@ class TitleState extends MusicBeatState // implements IHook
 		creditsGraphicCache = new Map<String, FlxSprite>();
 		for (creditsGraphicPath in listAllCreditsGraphics())
 		{
-			var sprite = new FlxSprite(0, 0).loadGraphic(Paths.loadImage(creditsGraphicPath));
+			var sprite = new FlxSprite(0, 0).loadGraphic(GraphicsAssets.loadImage(creditsGraphicPath));
 			sprite.animation.addByPrefix('Animation', 'Animation', 30, true, false, false);
 			creditsGraphicCache.set(creditsGraphicPath, sprite);
 		}

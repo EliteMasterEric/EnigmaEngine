@@ -1,3 +1,26 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * StoryWeekDifficultyItem.hx
+ * The component which displays the currently selected difficulty.
+ * Includes graphics loading and support for custom difficulties.
+ */
 package funkin.ui.component.menu;
 
 import flixel.FlxG;
@@ -8,51 +31,18 @@ import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import funkin.assets.menu.WeekData;
-import funkin.assets.Paths;
+import funkin.behavior.play.Week.WeekCache;
+import funkin.behavior.play.Difficulty;
+import funkin.util.assets.Paths;
 import funkin.behavior.Debug;
 import funkin.ui.component.input.InteractableSprite;
 import funkin.ui.state.menu.MainMenuState;
-
-typedef Difficulty =
-{
-	var id:String;
-	var songSuffix:String;
-	var graphic:FlxGraphic;
-}
+import funkin.util.Util;
+import funkin.util.assets.DataAssets;
+import funkin.util.assets.GraphicsAssets;
 
 class StoryWeekDifficultyItem extends InteractableSprite
 {
-	public static final defaultDifficulty = "normal";
-
-	public static var difficultyList(default, null):Array<String> = [];
-	public static var difficultyData(default, null) = new Map<String, Difficulty>();
-
-	static function initDifficulties():String
-	{
-		if (Lambda.count(difficultyData) > 0)
-			return;
-
-		var difficultyRawList:Array<String> = Util.loadLinesFromFile("data/difficulties.txt");
-		for (element in difficultyRawList)
-		{
-			// Each item is of the format id:songSuffix
-			var elementItems = element.split(":");
-			var difficultyGraphic = Paths.loadImage('storymenu/difficulty/${elementItems[0]}');
-			if (difficultyGraphic != null)
-			{
-				var difficulty:Difficulty = {
-					id: elementItems[0],
-					songSuffix: elementItems[1],
-					graphic: difficultyGraphic
-				}
-
-				difficultyList.push(difficulty.id);
-				difficultyData.set(difficulty.id, difficulty);
-			}
-		}
-	}
-
 	public var curDifficultyId(default, set):String = "normal";
 	public var curDifficultyData(default, null):Difficulty = {
 		id: "normal",
@@ -62,10 +52,12 @@ class StoryWeekDifficultyItem extends InteractableSprite
 
 	function set_curDifficultyId(newValue:String)
 	{
-		if (difficultyData.exists(newValue))
+		var diff = DifficultyCache.get(newValue);
+		if (diff != null)
 		{
+			trace('Updating difficulty graphic...');
 			this.curDifficultyId = newValue;
-			this.curDifficultyData = difficultyData.get(this.curDifficultyId);
+			this.curDifficultyData = diff;
 			loadDifficultyGraphic();
 		}
 		else
@@ -77,56 +69,50 @@ class StoryWeekDifficultyItem extends InteractableSprite
 
 	public function changeDifficulty(index:Int)
 	{
-		var oldIndex = difficultyList.indexOf(index);
+		var oldIndex = DifficultyCache.difficultyList.indexOf(curDifficultyId);
 		if (oldIndex < 0)
+		{
+			Debug.logWarn('Difficulty not found in list, resetting...');
 			oldIndex = 0;
+		}
 
 		var newIndex = oldIndex + index;
 		if (newIndex < 0)
-			newIndex = difficultyList.length - 1;
-		if (newIndex >= difficultyList.length)
+			newIndex = DifficultyCache.difficultyList.length - 1;
+		if (newIndex >= DifficultyCache.difficultyList.length)
 			newIndex = 0;
-	}
 
-	public static function getDifficultySuffix(difficultyId:String)
-	{
-		return difficultyData.get(difficultyId).songSuffix;
+		this.curDifficultyId = DifficultyCache.difficultyList[newIndex];
 	}
 
 	public function new(x:Float, y:Float)
 	{
 		super(x, y);
 
-		initGraphicsCache();
+		DifficultyCache.initDifficulties();
 
 		loadDifficultyGraphic();
 	}
 
 	function loadDifficultyGraphic()
 	{
-		Debug.logTrace('Loading difficulty graphic for ${currentDifficulty}');
-		if (Lambda.count(difficultyList) == 0)
+		if (DifficultyCache.difficultyList.contains(curDifficultyId))
 		{
-			Debug.logWarn("WARNING: No difficulty graphics loaded.");
-			return;
-		}
-		if (difficultyList.exists(currentDifficulty))
-		{
-			this.loadGraphic(difficultyList.get(currentDifficulty).graphic);
+			this.loadGraphic(DifficultyCache.get(curDifficultyId).graphic);
 		}
 		else
 		{
-			this.loadGraphic(difficultyList.get(difficultyList.keys()[0]).graphic);
+			this.loadGraphic(DifficultyCache.getFallback().graphic);
 		}
 	}
 
 	override function onJustPressed(pos:FlxPoint)
 	{
-		trace('Pressed menu difficulty item ${menuOptionName}');
+		trace('Pressed menu difficulty item ${curDifficultyId}');
 	}
 
 	override function onJustReleased(pos:FlxPoint, pressDuration:Int)
 	{
-		trace('Released menu item ${menuOptionName}');
+		trace('Released menu difficulty item ${curDifficultyId}');
 	}
 }

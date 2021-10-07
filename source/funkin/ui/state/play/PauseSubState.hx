@@ -1,3 +1,25 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * PauseSubState.hx
+ * The substate which overlays the screen when the user presses the pause button.
+ */
 package funkin.ui.state.play;
 
 import flixel.addons.transition.FlxTransitionableState;
@@ -12,7 +34,7 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import funkin.assets.Paths;
+import funkin.util.assets.Paths;
 import funkin.behavior.options.Controls.Control;
 import funkin.behavior.options.KeyBinds;
 import funkin.ui.component.Alphabet;
@@ -27,7 +49,7 @@ import openfl.Lib;
 
 class PauseSubState extends MusicBeatSubstate
 {
-	var grpMenuShit:FlxTypedGroup<Alphabet>;
+	var grpMenuItems:FlxTypedGroup<Alphabet>;
 
 	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Exit to menu'];
 	var curSelected:Int = 0;
@@ -80,15 +102,15 @@ class PauseSubState extends MusicBeatSubstate
 		FlxTween.tween(levelInfo, {alpha: 1, y: 20}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.3});
 		FlxTween.tween(levelDifficulty, {alpha: 1, y: levelDifficulty.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.5});
 
-		grpMenuShit = new FlxTypedGroup<Alphabet>();
-		add(grpMenuShit);
+		grpMenuItems = new FlxTypedGroup<Alphabet>();
+		add(grpMenuItems);
 
 		for (i in 0...menuItems.length)
 		{
 			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, menuItems[i], true, false);
 			songText.isMenuItem = true;
 			songText.targetY = i;
-			grpMenuShit.add(songText);
+			grpMenuItems.add(songText);
 		}
 
 		changeSelection();
@@ -217,12 +239,12 @@ class PauseSubState extends MusicBeatSubstate
 		if (curSelected >= menuItems.length)
 			curSelected = 0;
 
-		var bullShit:Int = 0;
+		var curMenuItemMember:Int = 0;
 
-		for (item in grpMenuShit.members)
+		for (item in grpMenuItems.members)
 		{
-			item.targetY = bullShit - curSelected;
-			bullShit++;
+			item.targetY = curMenuItemMember - curSelected;
+			curMenuItemMember++;
 
 			item.alpha = 0.6;
 

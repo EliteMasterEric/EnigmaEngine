@@ -1,11 +1,33 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * OptionsMenu.hx
+ * The state containing the main options menu.
+ */
 package funkin.ui.state.options;
 
 import funkin.const.Enigma;
-import funkin.assets.Paths;
+import funkin.util.assets.Paths;
 import funkin.ui.state.options.EnigmaKeyBindMenu;
 import funkin.ui.state.menu.MainMenuState;
-import funkin.util.HelperFunctions;
-import funkin.assets.Paths;
+import funkin.util.Util;
+import funkin.util.assets.Paths;
 import flash.text.TextField;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.FlxG;
@@ -17,6 +39,7 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import funkin.util.assets.GraphicsAssets;
 import flixel.util.FlxColor;
 import funkin.behavior.options.Controls.Control;
 import funkin.behavior.options.Options;
@@ -83,7 +106,7 @@ class OptionsMenu extends MusicBeatState
 	private var currentDescription:String = "";
 	private var grpControls:FlxTypedGroup<Alphabet>;
 
-	public static var versionShit:FlxText;
+	public static var versionText:FlxText;
 
 	var currentSelectedCat:OptionCategory;
 	var blackBorder:FlxSprite;
@@ -92,7 +115,7 @@ class OptionsMenu extends MusicBeatState
 	{
 		clean();
 		instance = this;
-		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.loadImage("menuDesat"));
+		var menuBG:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage("menuDesat"));
 
 		menuBG.color = 0xFFea71fd;
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
@@ -115,23 +138,23 @@ class OptionsMenu extends MusicBeatState
 
 		currentDescription = "none";
 
-		versionShit = new FlxText(5, FlxG.height
+		versionText = new FlxText(5, FlxG.height
 			+ 40, 0,
 			"Offset (Left, Right, Shift for slow): "
-			+ HelperFunctions.truncateFloat(FlxG.save.data.offset, 2)
+			+ Util.truncateFloat(FlxG.save.data.offset, 2)
 			+ " - Description - "
 			+ currentDescription, 12);
-		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionText.scrollFactor.set();
+		versionText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 
-		blackBorder = new FlxSprite(-30, FlxG.height + 40).makeGraphic((Std.int(versionShit.width + 900)), Std.int(versionShit.height + 600), FlxColor.BLACK);
+		blackBorder = new FlxSprite(-30, FlxG.height + 40).makeGraphic((Std.int(versionText.width + 900)), Std.int(versionText.height + 600), FlxColor.BLACK);
 		blackBorder.alpha = 0.5;
 
 		add(blackBorder);
 
-		add(versionShit);
+		add(versionText);
 
-		FlxTween.tween(versionShit, {y: FlxG.height - 18}, 2, {ease: FlxEase.elasticInOut});
+		FlxTween.tween(versionText, {y: FlxG.height - 18}, 2, {ease: FlxEase.elasticInOut});
 		FlxTween.tween(blackBorder, {y: FlxG.height - 18}, 2, {ease: FlxEase.elasticInOut});
 
 		changeSelection();
@@ -223,14 +246,14 @@ class OptionsMenu extends MusicBeatState
 					else if (FlxG.keys.pressed.LEFT)
 						FlxG.save.data.offset -= 0.1;
 
-					versionShit.text = "Offset (Left, Right, Shift for slow): " + HelperFunctions.truncateFloat(FlxG.save.data.offset, 2)
-						+ " - Description - " + currentDescription;
+					versionText.text = "Offset (Left, Right, Shift for slow): " + Util.truncateFloat(FlxG.save.data.offset, 2) + " - Description - "
+						+ currentDescription;
 				}
 				if (currentSelectedCat.getOptions()[curSelected].getAccept())
-					versionShit.text = currentSelectedCat.getOptions()[curSelected].getValue() + " - Description - " + currentDescription;
+					versionText.text = currentSelectedCat.getOptions()[curSelected].getValue() + " - Description - " + currentDescription;
 				else
-					versionShit.text = "Offset (Left, Right, Shift for slow): " + HelperFunctions.truncateFloat(FlxG.save.data.offset, 2)
-						+ " - Description - " + currentDescription;
+					versionText.text = "Offset (Left, Right, Shift for slow): " + Util.truncateFloat(FlxG.save.data.offset, 2) + " - Description - "
+						+ currentDescription;
 			}
 			else
 			{
@@ -246,7 +269,7 @@ class OptionsMenu extends MusicBeatState
 				else if (FlxG.keys.pressed.LEFT)
 					FlxG.save.data.offset -= 0.1;
 
-				versionShit.text = "Offset (Left, Right, Shift for slow): " + HelperFunctions.truncateFloat(FlxG.save.data.offset, 2) + " - Description - "
+				versionText.text = "Offset (Left, Right, Shift for slow): " + Util.truncateFloat(FlxG.save.data.offset, 2) + " - Description - "
 					+ currentDescription;
 			}
 
@@ -304,21 +327,21 @@ class OptionsMenu extends MusicBeatState
 		if (isCat)
 		{
 			if (currentSelectedCat.getOptions()[curSelected].getAccept())
-				versionShit.text = currentSelectedCat.getOptions()[curSelected].getValue() + " - Description - " + currentDescription;
+				versionText.text = currentSelectedCat.getOptions()[curSelected].getValue() + " - Description - " + currentDescription;
 			else
-				versionShit.text = "Offset (Left, Right, Shift for slow): " + HelperFunctions.truncateFloat(FlxG.save.data.offset, 2) + " - Description - "
+				versionText.text = "Offset (Left, Right, Shift for slow): " + Util.truncateFloat(FlxG.save.data.offset, 2) + " - Description - "
 					+ currentDescription;
 		}
 		else
-			versionShit.text = "Offset (Left, Right, Shift for slow): " + HelperFunctions.truncateFloat(FlxG.save.data.offset, 2) + " - Description - "
+			versionText.text = "Offset (Left, Right, Shift for slow): " + Util.truncateFloat(FlxG.save.data.offset, 2) + " - Description - "
 				+ currentDescription;
 
-		var bullShit:Int = 0;
+		var curControlsMember:Int = 0;
 
 		for (item in grpControls.members)
 		{
-			item.targetY = bullShit - curSelected;
-			bullShit++;
+			item.targetY = curControlsMember - curSelected;
+			curControlsMember++;
 
 			item.alpha = 0.6;
 

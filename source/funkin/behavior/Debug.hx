@@ -1,3 +1,29 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * Debug.hx
+ * This class contains lots of utility functions for logging and debugging.
+ * The goal is to integrate development more heavily with the HaxeFlixel debugger.
+ * Use these methods to the fullest to produce mods efficiently!
+ * 
+ * @see https://haxeflixel.com/documentation/debugger/
+ */
 package funkin.behavior;
 
 import funkin.util.Util;
@@ -8,12 +34,12 @@ import flixel.FlxSprite;
 import flixel.system.debug.log.LogStyle;
 import flixel.system.debug.watch.Tracker.TrackerProfile;
 import flixel.util.FlxStringUtil;
-import funkin.assets.play.Song.SongData;
 import funkin.const.Enigma;
 import funkin.ui.component.play.Character;
 import funkin.ui.component.play.HealthIcon;
 import funkin.ui.component.play.Note;
-import funkin.assets.play.Song;
+import funkin.behavior.play.Song;
+import funkin.behavior.play.Song.SongData;
 import funkin.ui.state.menu.FreeplayState;
 import funkin.ui.state.play.PlayState;
 import haxe.Log;
@@ -21,16 +47,8 @@ import haxe.PosInfos;
 import lime.app.Application;
 import polymod.Polymod.PolymodError;
 
-using StringTools;
+using hx.strings.Strings;
 
-/**
- * Hey you, developer!
- * This class contains lots of utility functions for logging and debugging.
- * The goal is to integrate development more heavily with the HaxeFlixel debugger.
- * Use these methods to the fullest to produce mods efficiently!
- * 
- * @see https://haxeflixel.com/documentation/debugger/
- */
 class Debug
 {
 	static final LOG_STYLE_ERROR:LogStyle = new LogStyle('[ERROR] ', 'FF8888', 12, true, false, false, 'flixel/sounds/beep', true);
@@ -349,12 +367,12 @@ class Debug
 		});
 
 		// Console commands let you do WHATEVER you want.
-		addConsoleCommand("playSong", function(songName:String, ?difficulty:Int = 1)
+		addConsoleCommand("playSong", function(songName:String, ?difficulty:String = 'normal')
 		{
 			Debug.logInfo('CONSOLE: Opening song $songName ($difficulty) in Free Play...');
 			FreeplayState.loadSongInFreePlay(songName, difficulty, false);
 		});
-		addConsoleCommand("chartSong", function(songName:String, ?difficulty:Int = 1)
+		addConsoleCommand("chartSong", function(songName:String, ?difficulty:String = 'normal')
 		{
 			Debug.logInfo('CONSOLE: Opening song $songName ($difficulty) in Chart Editor...');
 			FreeplayState.loadSongInFreePlay(songName, difficulty, true, true);
@@ -483,7 +501,7 @@ class DebugLogWriter
 	public function write(input:Array<Dynamic>, logLevel = 'TRACE'):Void
 	{
 		var ts = FlxStringUtil.formatTime(getTime(), true);
-		var msg = '$ts [${logLevel.rpad(' ', 5)}] ${input.join('')}';
+		var msg = '$ts [${logLevel.rpad(5)}] ${input.join('')}';
 
 		#if FEATURE_FILESYSTEM
 		if (active && file != null)

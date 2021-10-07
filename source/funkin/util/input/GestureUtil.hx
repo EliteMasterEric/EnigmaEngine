@@ -1,3 +1,27 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * GestureUtil.hx
+ * Contains utility functions for dealing with gestures.
+ * Currently only supports tap and swipe, if you need pan/zoom/rotate see here:
+ * @see https://gitlab.com/wikiti-random-stuff/roxlib/-/blob/master/com/roxstudio/haxe/gesture/RoxGestureAgent.hx
+ */
 package funkin.util.input;
 
 import funkin.ui.component.input.IInteractable;
@@ -6,14 +30,13 @@ import flixel.math.FlxPoint;
 import flixel.FlxG;
 import flixel.input.mouse.FlxMouseEventManager;
 
-/**
- * Utility functions for dealing with gestures.
- * I only support swipe and have only needed to support swiping.
- * Check here for logic to copy if you need pan, zoom, or rotate gestures:
- * @see https://gitlab.com/wikiti-random-stuff/roxlib/-/blob/master/com/roxstudio/haxe/gesture/RoxGestureAgent.hx
- */
 class GestureUtil
 {
+	public static function initMouseControls()
+	{
+		FlxG.plugins.add(new FlxMouseEventManager());
+	}
+
 	/**
 	 * Use these to handle gesture callbacks on a sprite.
 	 * @param target 

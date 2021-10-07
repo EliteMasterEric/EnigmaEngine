@@ -1,8 +1,8 @@
 package funkin.behavior.play;
 
-import funkin.util.HelperFunctions;
+import funkin.util.Util;
 import flixel.math.FlxMath;
-import funkin.assets.play.Song.SongData;
+import funkin.behavior.play.Song.SongData;
 import funkin.ui.state.menu.FreeplayState;
 import openfl.system.System;
 
@@ -251,7 +251,7 @@ class DiffCalc
 		lastDiffHandOne = hand_diffOne;
 		lastDiffHandTwo = hand_diffTwo;
 
-		return HelperFunctions.truncateFloat(chisel(accuracy, hand_diffOne, hand_diffTwo, point_npsOne, point_npsTwo, maxPoints), 2);
+		return Util.truncateFloat(chisel(accuracy, hand_diffOne, hand_diffTwo, point_npsOne, point_npsTwo, maxPoints), 2);
 	}
 
 	public static function chisel(scoreGoal:Float, diffOne:Array<Float>, diffTwo:Array<Float>, pointsOne:Array<Float>, pointsTwo:Array<Float>, maxPoints:Float)

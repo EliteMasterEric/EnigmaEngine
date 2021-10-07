@@ -422,6 +422,9 @@ class CustomControls extends Controls
 		}
 	}
 
+	/**
+	 * @param list value is mutated
+	 */
 	public function getCustomInputsFor(control:CustomControl, device:Controls.Device, ?list:Array<Int>):Array<Int>
 	{
 		if (list == null)

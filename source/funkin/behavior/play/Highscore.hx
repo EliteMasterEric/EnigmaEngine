@@ -1,6 +1,7 @@
 package funkin.behavior.play;
 
 import flixel.FlxG;
+import funkin.behavior.play.Difficulty.DifficultyCache;
 
 using StringTools;
 
@@ -9,9 +10,9 @@ class Highscore
 	public static var songScores:Map<String, Int> = new Map();
 	public static var songCombos:Map<String, String> = new Map();
 
-	public static function saveScore(song:String, score:Int = 0, ?diff:Int = 0):Void
+	public static function saveScore(song:String, score:Int = 0, ?diffId:String = 'normal'):Void
 	{
-		var daSong:String = formatSong(song, diff);
+		var daSong:String = formatSong(song, diffId);
 
 		if (!FlxG.save.data.botplay)
 		{
@@ -27,9 +28,9 @@ class Highscore
 			trace('BotPlay detected. Score saving is disabled.');
 	}
 
-	public static function saveCombo(song:String, combo:String, ?diff:Int = 0):Void
+	public static function saveCombo(song:String, combo:String, ?diffId:String = 'normal'):Void
 	{
-		var daSong:String = formatSong(song, diff);
+		var daSong:String = formatSong(song, diffId);
 		var finalCombo:String = combo.split(')')[0].replace('(', '');
 
 		if (!FlxG.save.data.botplay)
@@ -44,11 +45,11 @@ class Highscore
 		}
 	}
 
-	public static function saveWeekScore(week:Int = 1, score:Int = 0, ?diff:Int = 0):Void
+	public static function saveWeekScore(weekId:String = 'unknown', score:Int = 0, ?diffId:String = 'normal'):Void
 	{
 		if (!FlxG.save.data.botplay)
 		{
-			var daWeek:String = formatSong('week' + week, diff);
+			var daWeek:String = formatSong(weekId, diffId);
 
 			if (songScores.exists(daWeek))
 			{
@@ -81,16 +82,11 @@ class Highscore
 		FlxG.save.flush();
 	}
 
-	public static function formatSong(song:String, diff:Int):String
+	public static function formatSong(song:String, diffId:String):String
 	{
-		var daSong:String = song;
+		var diffSuffix = DifficultyCache.getSuffix(diffId);
 
-		if (diff == 0)
-			daSong += '-easy';
-		else if (diff == 2)
-			daSong += '-hard';
-
-		return daSong;
+		return song + diffSuffix;
 	}
 
 	static function getComboInt(combo:String):Int
@@ -110,28 +106,28 @@ class Highscore
 		}
 	}
 
-	public static function getScore(song:String, diff:Int):Int
+	public static function getScore(song:String, diffId:String):Int
 	{
-		if (!songScores.exists(formatSong(song, diff)))
-			setScore(formatSong(song, diff), 0);
+		if (!songScores.exists(formatSong(song, diffId)))
+			setScore(formatSong(song, diffId), 0);
 
-		return songScores.get(formatSong(song, diff));
+		return songScores.get(formatSong(song, diffId));
 	}
 
-	public static function getCombo(song:String, diff:Int):String
+	public static function getCombo(song:String, diffId:String):String
 	{
-		if (!songCombos.exists(formatSong(song, diff)))
-			setCombo(formatSong(song, diff), '');
+		if (!songCombos.exists(formatSong(song, diffId)))
+			setCombo(formatSong(song, diffId), '');
 
-		return songCombos.get(formatSong(song, diff));
+		return songCombos.get(formatSong(song, diffId));
 	}
 
-	public static function getWeekScore(week:Int, diff:Int):Int
+	public static function getWeekScore(weekId:String, diffId:String):Int
 	{
-		if (!songScores.exists(formatSong('week' + week, diff)))
-			setScore(formatSong('week' + week, diff), 0);
+		if (!songScores.exists(formatSong(weekId, diffId)))
+			setScore(formatSong(weekId, diffId), 0);
 
-		return songScores.get(formatSong('week' + week, diff));
+		return songScores.get(formatSong(weekId, diffId));
 	}
 
 	public static function load():Void

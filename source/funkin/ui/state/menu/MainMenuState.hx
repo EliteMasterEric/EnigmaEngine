@@ -1,3 +1,26 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * MainMenuState.hx
+ * The main menu state, after the title screen,
+ * which allows the user to navigate to the Options, Free Play, or Story menus.
+ */
 package funkin.ui.state.menu;
 
 import funkin.ui.component.menu.MainMenuItem;
@@ -13,9 +36,10 @@ import flixel.input.gamepad.FlxGamepad;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import funkin.util.assets.GraphicsAssets;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import funkin.assets.Paths;
+import funkin.util.assets.Paths;
 import funkin.const.Enigma;
 import funkin.ui.state.options.OptionsMenu;
 #if FEATURE_DISCORD
@@ -58,7 +82,7 @@ class MainMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
-		var bg:FlxSprite = new FlxSprite(-100).loadGraphic(Paths.loadImage('menuBG'));
+		var bg:FlxSprite = new FlxSprite(-100).loadGraphic(GraphicsAssets.loadImage('menuBG'));
 		bg.scrollFactor.x = 0;
 		bg.scrollFactor.y = 0.10;
 		bg.setGraphicSize(Std.int(bg.width * 1.1));
@@ -70,7 +94,7 @@ class MainMenuState extends MusicBeatState
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 
-		magenta = new FlxSprite(-80).loadGraphic(Paths.loadImage('menuDesat'));
+		magenta = new FlxSprite(-80).loadGraphic(GraphicsAssets.loadImage('menuDesat'));
 		magenta.scrollFactor.x = 0;
 		magenta.scrollFactor.y = 0.10;
 		magenta.setGraphicSize(Std.int(magenta.width * 1.1));
@@ -90,10 +114,10 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollow, null, 0.60 * (60 / FlxG.save.data.fpsCap));
 
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, 'FNF - ${Enigma.ENGINE_NAME} ${Enigma.ENGINE_VERSION}', 12);
-		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		add(versionShit);
+		var versionText:FlxText = new FlxText(5, FlxG.height - 18, 0, 'FNF - ${Enigma.ENGINE_NAME} ${Enigma.ENGINE_VERSION}', 12);
+		versionText.scrollFactor.set();
+		versionText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(versionText);
 
 		if (FlxG.save.data.dfjk)
 			controls.setKeyboardScheme(KeyboardScheme.Solo, true);

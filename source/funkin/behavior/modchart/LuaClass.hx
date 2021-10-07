@@ -238,11 +238,7 @@ class LuaNote extends LuaClass
 				},
 				setter: function(l:State):Int
 				{
-					// 1 = self
-					// 2 = key
-					// 3 = value
-					// 4 = metatable
-					// mf you can't modify this shit
+					// You're not allowed to modify the strum time.
 					return 0;
 				}
 			},

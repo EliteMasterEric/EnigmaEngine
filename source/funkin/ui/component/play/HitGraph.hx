@@ -1,3 +1,26 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * HitGraph.hx
+ * The note hit graph used in the Results screen.
+ * @see https://github.com/HaxeFlixel/flixel/blob/master/flixel/system/debug/stats/StatsGraph.hx
+ */
 package funkin.ui.component.play;
 
 import funkin.ui.state.play.PlayState;
@@ -16,9 +39,6 @@ import openfl.display.BitmapData;
 import openfl.text.TextFieldAutoSize;
 import openfl.text.TextFormat;
 
-/**
- * stolen from https://github.com/HaxeFlixel/flixel/blob/master/flixel/system/debug/stats/StatsGraph.hx
- */
 class HitGraph extends Sprite
 {
 	static inline var AXIS_COLOR:FlxColor = 0xffffff;

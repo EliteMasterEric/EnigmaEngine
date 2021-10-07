@@ -97,7 +97,7 @@
 	<!-- Builds go to the export/ folder, depending on build type and operating system. -->
 	<set name="BUILD_DIR" value="export/debug" if="debug" />
 	<set name="BUILD_DIR" value="export/release" unless="debug" />
-  <set name="BUILD_DIR" value="export/32bit" if="32bit" />
+  	<set name="BUILD_DIR" value="export/32bit" if="32bit" />
 
 	<!--
 		Split the Windows and Linux build folder by platform.
@@ -132,9 +132,7 @@
 			<library name="week6"    preload="true" />
 		</section>
 		
-		<section UNLESS="PRELOAD_ALL">
-			<library name="songs"    preload="false" />
-			<library name="shared"   preload="false" />
+		<section unless="PRELOAD_ALL">
 			<library name="tutorial" preload="false" />
 			<library name="week1"    preload="false" />
 			<library name="week2"    preload="false" />
@@ -142,7 +140,6 @@
 			<library name="week4"    preload="false" />
 			<library name="week5"    preload="false" />
 			<library name="week6"    preload="false" />
-			<library name="sm"       preload="false" />
 		</section>
 
 		<assets path="assets/tutorial" library="tutorial" exclude="*.md|*.ogg" if="web"/>
@@ -170,7 +167,7 @@
 		<library name="sm"       preload="true" />
 	</section>
 	
-	<section UNLESS="PRELOAD_ALL">
+	<section unless="PRELOAD_ALL">
 		<library name="songs"    preload="false" />
 		<library name="shared"   preload="false" />
 		<library name="sm"       preload="false" />

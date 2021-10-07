@@ -1,16 +1,54 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * MenuCharacter.hx
+ * Contains logic for the black and white line drawings of characters in the Story menu.
+ * Handles loading the graphic, as well as playing the confirm animation when a week is chosen.
+ */
 package funkin.ui.component.menu;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.graphics.frames.FlxFramesCollection;
-import funkin.assets.Paths;
+import funkin.util.assets.Paths;
+import funkin.util.assets.DataAssets;
+import funkin.util.assets.GraphicsAssets;
 
 typedef CharacterSetting =
 {
-	var x:Int;
-	var y:Int;
-	var scale:Float;
+	var ?x:Int;
+	var ?y:Int;
+
+	/**
+	 * @default 1
+	 */
+	var ?scale:Float;
+
+	/**
+	 * @default 24
+	 */
+	var ?frameRate:Int;
+
+	/**
+	 * @default false
+	 */
 	var ?flipped:Bool;
 }
 
@@ -24,6 +62,7 @@ class MenuCharacter extends FlxSprite
 
 	var baseX:Float;
 	var baseY:Float;
+	var frameRate:Int;
 
 	public function new(baseX, baseY, menuCharId:String)
 	{
@@ -39,7 +78,7 @@ class MenuCharacter extends FlxSprite
 
 	function loadCharacterSettings()
 	{
-		var jsonData = Paths.loadJSON('storymenu/${this.charId}');
+		var jsonData = DataAssets.loadJSON('storymenu/${this.charId}');
 		this.charSettings = cast jsonData;
 
 		// Validation.
@@ -57,10 +96,9 @@ class MenuCharacter extends FlxSprite
 				this.y += this.charSettings.y;
 			}
 
-			if (this.charSettings.flipped != null)
-			{
-				this.flipX = this.charSettings.flipped;
-			}
+			// Fallback to default values if null.
+			this.flipX = this.charSettings.flipped != null ? this.charSettings.flipped : false;
+			this.frameRate = this.charSettings.frameRate != null ? this.charSettings.frameRate : 24;
 		}
 	}
 
@@ -68,13 +106,13 @@ class MenuCharacter extends FlxSprite
 	{
 		if (menuCharCache.get(this.charId) == null)
 		{
-			var frameCollection = Paths.getSparrowAtlas('storymenu/characters/${this.charId}');
+			var frameCollection = GraphicsAssets.loadSparrowAtlas('storymenu/characters/${this.charId}');
 			menuCharCache.set(this.charId, frameCollection);
 			return frameCollection;
 		}
 		else
 		{
-			return menuCharCache.get(frameCollection);
+			return menuCharCache.get(this.charId);
 		}
 	}
 
@@ -82,28 +120,24 @@ class MenuCharacter extends FlxSprite
 	{
 		// Load character settings.
 		frames = loadCharacterGraphic();
-		animation.addByPrefix("idle");
+		animation.addByPrefix("idle", "idle", this.frameRate, true, false, false);
 		// This will silently fail if the animation is missing.
-		animation.addByPrefix("confirm");
+		animation.addByPrefix("confirm", "confirm", this.frameRate, false, false, false);
 		antialiasing = FlxG.save.data.antialiasing;
 
-		setGraphicSize(Std.int(width * scale));
+		setGraphicSize(Std.int(width * scale.x), Std.int(height * scale.y));
 		updateHitbox();
 	}
 
-	public function setCharacter(character:String):Void
+	public function setCharacter(id:String):Void
 	{
-		var sameCharacter:Bool = character == this.character;
-		this.character = character;
-		if (character == '')
-		{
-			visible = false;
+		var sameCharacter:Bool = id == this.charId;
+		this.charId = id;
+
+		// Make invisible and show no anims if character is blank.
+		this.visible = this.charId == '';
+		if (!this.visible)
 			return;
-		}
-		else
-		{
-			visible = true;
-		}
 
 		if (!sameCharacter)
 		{

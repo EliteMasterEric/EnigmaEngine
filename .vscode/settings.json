@@ -20,7 +20,7 @@
     "commentprefix": " * ",
     "commentbegin": "/**",
     "commentend": " */",
-    "commentdescription": "[Description]",
+    "commentdescription": "[INSERT Description]",
     "headerprefix": " *",
     "headerbegin": "/*",
     "headerend": " */",

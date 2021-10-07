@@ -1,6 +1,29 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * EtternaFunctions.hx
+ * Functionality ripped from the Etterna engine for StepMania, including the WIFE3 rating system.
+ */
 package funkin.behavior;
 
 import funkin.ui.state.play.PlayState;
+import funkin.behavior.play.Song.SongData;
 
 class EtternaFunctions
 {
@@ -27,14 +50,22 @@ class EtternaFunctions
 		return sign * y;
 	}
 
-	public static function getNotes():Int
+	/**
+	 * Returns the quantity of tap notes in the given song.
+	 * @return The number of tap notes in this song.
+	 */
+	public static function getNotes(?songData:SongData):Int
 	{
-		var notes:Int = 0;
-		for (i in 0...PlayState.SONG.notes.length)
+		if (songData == null)
 		{
-			for (ii in 0...PlayState.SONG.notes[i].sectionNotes.length)
+			songData = PlayState.SONG;
+		}
+		var notes:Int = 0;
+		for (i in 0...songData.notes.length)
+		{
+			for (ii in 0...songData.notes[i].sectionNotes.length)
 			{
-				var n = PlayState.SONG.notes[i].sectionNotes[ii];
+				var n = songData.notes[i].sectionNotes[ii];
 				if (n[1] <= 0)
 					notes++;
 			}
@@ -42,15 +73,23 @@ class EtternaFunctions
 		return notes;
 	}
 
-	public static function getHolds():Int
+	/**
+	 * Returns the quantity of hold notes in the given song.
+	 * @return The number of hold notes in this song.
+	 */
+	public static function getHolds(?songData:SongData):Int
 	{
-		var notes:Int = 0;
-		for (i in 0...PlayState.SONG.notes.length)
+		if (songData == null)
 		{
-			trace(PlayState.SONG.notes[i]);
-			for (ii in 0...PlayState.SONG.notes[i].sectionNotes.length)
+			songData = PlayState.SONG;
+		}
+		var notes:Int = 0;
+		for (i in 0...songData.notes.length)
+		{
+			trace(songData.notes[i]);
+			for (ii in 0...songData.notes[i].sectionNotes.length)
 			{
-				var n = PlayState.SONG.notes[i].sectionNotes[ii];
+				var n = songData.notes[i].sectionNotes[ii];
 				trace(n);
 				if (n[1] > 0)
 					notes++;
@@ -59,11 +98,19 @@ class EtternaFunctions
 		return notes;
 	}
 
+	/**
+	 * Determine the maximum score possible for this song, based on the number of notes in the song.
+	 * @return The maximum possible score.
+	 */
 	public static function getMapMaxScore():Int
 	{
+		// TODO: This excludes hold notes and custom note types?
 		return (getNotes() * 350);
 	}
 
+	/**
+	 * Perform WIFE3 calculation for a note diff.
+	 */
 	public static function wife3(maxms:Float, ts:Float)
 	{
 		var max_points = 1.0;

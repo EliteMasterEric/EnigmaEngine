@@ -1,6 +1,29 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * GameOverSubstate.hx
+ * The substate which overlays the screen when the user loses during a song.
+ * The "blue balls" screen.
+ */
 package funkin.ui.state.play;
 
-import funkin.assets.Paths;
+import funkin.util.assets.Paths;
 import funkin.ui.state.menu.FreeplayState;
 import funkin.ui.state.menu.StoryMenuState;
 import funkin.behavior.play.Conductor;
@@ -57,7 +80,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		if (controls.ACCEPT)
 		{
-			endBullshit();
+			acceptAndContinue();
 		}
 
 		if (FlxG.save.data.InstantRespawn)
@@ -107,7 +130,10 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	var isEnding:Bool = false;
 
-	function endBullshit():Void
+	/**
+	 * Called when the user presses ACCEPT to play the song again.
+	 */
+	function acceptAndContinue():Void
 	{
 		if (!isEnding)
 		{
@@ -120,6 +146,8 @@ class GameOverSubstate extends MusicBeatSubstate
 			{
 				FlxG.camera.fade(FlxColor.BLACK, 2, false, function()
 				{
+					// Recreate the PlayState from scratch. As long as you don't change the static vars
+					// in PlayState, you'll go to the same song.
 					LoadingState.loadAndSwitchState(new PlayState());
 					PlayState.stageTesting = false;
 				});

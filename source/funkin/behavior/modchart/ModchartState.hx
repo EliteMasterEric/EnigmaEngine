@@ -22,7 +22,7 @@ import funkin.behavior.modchart.LuaClass.LuaWindow;
 import funkin.ui.state.play.PlayState;
 import funkin.ui.state.menu.FreeplayState;
 import funkin.ui.effects.WiggleEffect;
-import funkin.assets.Paths;
+import funkin.util.assets.Paths;
 import funkin.ui.component.play.Boyfriend;
 import funkin.ui.component.play.Character;
 import lime.app.Application;
@@ -367,8 +367,8 @@ class ModchartState
 		sprite.pixels = data2;
 
 		luaSprites.set(toBeCalled, sprite);
-		// and I quote:
-		// shitty layering but it works!
+
+		// TODO: Can we redo this code somehow? It's garbage. Is there a way to control z-level?
 		@:privateAccess
 		{
 			if (drawBehind)
@@ -399,8 +399,6 @@ class ModchartState
 	}
 
 	public var luaWiggles:Map<String, WiggleEffect> = new Map<String, WiggleEffect>();
-
-	// LUA SHIT
 
 	function new(?isStoryMode = true)
 	{

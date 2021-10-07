@@ -1,3 +1,26 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * ResultsScreen.hx
+ * The substate which overlays the screen at the end of a song,
+ * to provide detailed stats on the player's performance.
+ */
 package funkin.ui.state.play;
 
 import funkin.ui.audio.MainMenuMusic;
@@ -20,7 +43,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
-import funkin.assets.Paths;
+import funkin.util.assets.Paths;
 import funkin.behavior.options.KeyBinds;
 import funkin.behavior.options.Options.Option;
 import funkin.behavior.options.PlayerSettings;
@@ -31,8 +54,8 @@ import funkin.ui.component.OFLSprite;
 import funkin.ui.component.play.HitGraph;
 import funkin.ui.state.menu.FreeplayState;
 import funkin.ui.state.menu.MainMenuState;
-import funkin.util.HelperFunctions;
-import funkin.util.HelperFunctions;
+import funkin.util.Util;
+import funkin.util.Util;
 import haxe.Exception;
 import lime.app.Application;
 import openfl.display.BitmapData;
@@ -46,6 +69,7 @@ import sys.io.File;
 #end
 
 using StringTools;
+using hx.strings.Strings;
 
 class ResultsScreen extends FlxSubState
 {
@@ -103,7 +127,7 @@ class ResultsScreen extends FlxSubState
 		var shits = PlayState.isStoryMode ? PlayState.campaignShits : PlayState.shits;
 
 		comboText = new FlxText(20, -75, 0,
-			'Judgements:\nSicks - ${sicks}\nGoods - ${goods}\nBads - ${bads}\n\nCombo Breaks: ${(PlayState.isStoryMode ? PlayState.campaignMisses : PlayState.misses)}\nHighest Combo: ${PlayState.highestCombo + 1}\nScore: ${PlayState.instance.songScore}\nAccuracy: ${HelperFunctions.truncateFloat(PlayState.instance.accuracy, 2)}%\n\n${Ratings.GenerateLetterRank(PlayState.instance.accuracy)}\nRate: ${PlayState.songMultiplier}x\n\n${!PlayState.loadRep ? "\nF1 - Replay song" : ""}
+			'Judgements:\nSicks - ${sicks}\nGoods - ${goods}\nBads - ${bads}\n\nCombo Breaks: ${(PlayState.isStoryMode ? PlayState.campaignMisses : PlayState.misses)}\nHighest Combo: ${PlayState.highestCombo + 1}\nScore: ${PlayState.instance.songScore}\nAccuracy: ${Util.truncateFloat(PlayState.instance.accuracy, 2)}%\n\n${Ratings.GenerateLetterRank(PlayState.instance.accuracy)}\nRate: ${PlayState.songMultiplier}x\n\n${!PlayState.loadRep ? "\nF1 - Replay song" : ""}
         ');
 		comboText.size = 28;
 		comboText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 4, 1);
@@ -133,8 +157,8 @@ class ResultsScreen extends FlxSubState
 
 		add(graphSprite);
 
-		var sicks = HelperFunctions.truncateFloat(PlayState.sicks / PlayState.goods, 1);
-		var goods = HelperFunctions.truncateFloat(PlayState.goods / PlayState.bads, 1);
+		var sicks = Util.truncateFloat(PlayState.sicks / PlayState.goods, 1);
+		var goods = Util.truncateFloat(PlayState.goods / PlayState.bads, 1);
 
 		if (sicks == Math.POSITIVE_INFINITY)
 			sicks = 0;
@@ -170,7 +194,7 @@ class ResultsScreen extends FlxSubState
 
 		graph.update();
 
-		mean = HelperFunctions.truncateFloat(mean / PlayState.rep.replay.songNotes.length, 2);
+		mean = Util.truncateFloat(mean / PlayState.rep.replay.songNotes.length, 2);
 
 		settingsText = new FlxText(20, FlxG.height + 50, 0,
 			'SF: ${PlayState.rep.replay.sf} | Ratio (SA/GA): ${Math.round(sicks)}:1 ${Math.round(goods)}:1 | Mean: ${mean}ms | Played on ${PlayState.SONG.songName} ${PlayState.storyDifficulty.toUpperCamel()}');
@@ -215,10 +239,8 @@ class ResultsScreen extends FlxSubState
 			PlayState.stageTesting = false;
 			PlayState.rep = null;
 
-			#if !switch
 			Highscore.saveScore(PlayState.SONG.songId, Math.round(PlayState.instance.songScore), PlayState.storyDifficulty);
 			Highscore.saveCombo(PlayState.SONG.songId, Ratings.GenerateLetterRank(PlayState.instance.accuracy), PlayState.storyDifficulty);
-			#end
 
 			if (PlayState.isStoryMode)
 			{
@@ -238,10 +260,8 @@ class ResultsScreen extends FlxSubState
 			PlayState.loadRep = false;
 			PlayState.stageTesting = false;
 
-			#if !switch
 			Highscore.saveScore(PlayState.SONG.songId, Math.round(PlayState.instance.songScore), PlayState.storyDifficulty);
 			Highscore.saveCombo(PlayState.SONG.songId, Ratings.GenerateLetterRank(PlayState.instance.accuracy), PlayState.storyDifficulty);
-			#end
 
 			if (music != null)
 				music.fadeOut(0.3);

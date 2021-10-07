@@ -1,25 +1,48 @@
-import funkin.ui.component.Cursor;
-import lime.app.Application;
-#if FEATURE_DISCORD
-import funkin.behavior.api.Discord.DiscordClient;
-#end
-import openfl.display.BlendMode;
-import openfl.text.TextFormat;
-import flixel.util.FlxColor;
+/**
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * Main.hx
+ * The main class of the application. The constructor sets up and loads the game.
+ */
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxState;
-import openfl.Assets;
-import openfl.Lib;
-import openfl.display.FPS;
-import openfl.display.Sprite;
-import openfl.events.Event;
+import flixel.util.FlxColor;
 import funkin.behavior.Debug;
+import funkin.behavior.media.WebmHandler;
 import funkin.behavior.mods.ModCore;
+import funkin.ui.component.Cursor;
 import funkin.ui.state.modding.ModSplashState;
 import funkin.ui.state.title.Caching;
 import funkin.ui.state.title.TitleState;
-import funkin.behavior.media.WebmHandler;
+import funkin.util.input.GestureUtil;
+import lime.app.Application;
+import openfl.Assets;
+import openfl.display.BlendMode;
+import openfl.display.FPS;
+import openfl.display.Sprite;
+import openfl.events.Event;
+import openfl.Lib;
+import openfl.text.TextFormat;
+#if FEATURE_DISCORD
+import funkin.behavior.api.Discord.DiscordClient;
+#end
 
 class Main extends Sprite
 {
@@ -93,18 +116,16 @@ class Main extends Sprite
 		// Run this first so we can see logs.
 		Debug.onInitProgram();
 
-		InteractableSprite.initMouseControls();
-
 		#if FEATURE_FILESYSTEM
 		Debug.logTrace("App has access to file system. Begin mod check and precaching...");
-		if (ModCore.hasMods())
-		{
-			initialState = ModSplashState;
-		}
-		else
-		{
-			initialState = Caching;
-		}
+		// if (ModCore.hasMods())
+		// {
+		//	initialState = ModSplashState;
+		// }
+		// else
+		// {
+		initialState = Caching;
+		// }
 		game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
 		#else
 		Debug.logTrace("App has no access to file system. Starting game...");
@@ -112,7 +133,11 @@ class Main extends Sprite
 		#end
 		addChild(game);
 
+		// Setup custom cursor logic.
 		Cursor.setupCursor();
+
+		// Init gestures (click or tap/swipe on UI elements).
+		GestureUtil.initMouseControls();
 
 		#if FEATURE_DISCORD
 		Debug.logTrace("App has Discord integration support...");

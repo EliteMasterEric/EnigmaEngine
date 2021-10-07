@@ -1,3 +1,25 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * MainMenuItem.hx
+ * A component which handles rendering of each item in the main menu.
+ */
 package funkin.ui.component.menu;
 
 import flixel.math.FlxPoint;
@@ -9,7 +31,8 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxG;
 import funkin.ui.state.menu.MainMenuState;
 import flixel.FlxSprite;
-import funkin.assets.Paths;
+import funkin.util.assets.Paths;
+import funkin.util.assets.GraphicsAssets;
 
 class MainMenuItemBuilder
 {
@@ -63,7 +86,7 @@ class MainMenuItem extends InteractableSprite
 	public function new(x:Float, y:Float, id:Int, menuOptionName:String, onFinishFirstStart:TweenCallback)
 	{
 		super(x, y);
-		this.frames = Paths.getSparrowAtlas('FNF_main_menu_assets');
+		this.frames = GraphicsAssets.loadSparrowAtlas('FNF_main_menu_assets');
 		this.animation.addByPrefix('idle', '$menuOptionName basic', 24);
 		this.animation.addByPrefix('selected', '$menuOptionName white', 24);
 		this.animation.play('idle');

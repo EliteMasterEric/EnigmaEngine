@@ -5,7 +5,7 @@ import funkin.ui.component.play.Note;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.EnigmaNote;
 import funkin.const.Enigma;
-import funkin.assets.Paths;
+import funkin.util.assets.Paths;
 import funkin.ui.component.play.Character;
 import funkin.ui.component.play.Boyfriend;
 import flixel.FlxCamera;
@@ -17,6 +17,7 @@ import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
+import funkin.util.assets.GraphicsAssets;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 #if FEATURE_DISCORD
@@ -54,12 +55,12 @@ class GameplayCustomizeState extends MusicBeatState
 		DiscordClient.changePresence("Customizing Gameplay Modules", null);
 		#end
 
-		sick = new FlxSprite().loadGraphic(Paths.loadImage('sick', 'shared'));
+		sick = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('sick', 'shared'));
 		sick.antialiasing = FlxG.save.data.antialiasing;
 		sick.scrollFactor.set();
-		background = new FlxSprite(-1000, -200).loadGraphic(Paths.loadImage('stageback', 'shared'));
-		curt = new FlxSprite(-500, -300).loadGraphic(Paths.loadImage('stagecurtains', 'shared'));
-		front = new FlxSprite(-650, 600).loadGraphic(Paths.loadImage('stagefront', 'shared'));
+		background = new FlxSprite(-1000, -200).loadGraphic(GraphicsAssets.loadImage('stageback', 'shared'));
+		curt = new FlxSprite(-500, -300).loadGraphic(GraphicsAssets.loadImage('stagecurtains', 'shared'));
+		front = new FlxSprite(-650, 600).loadGraphic(GraphicsAssets.loadImage('stagefront', 'shared'));
 		background.antialiasing = FlxG.save.data.antialiasing;
 		curt.antialiasing = FlxG.save.data.antialiasing;
 		front.antialiasing = FlxG.save.data.antialiasing;

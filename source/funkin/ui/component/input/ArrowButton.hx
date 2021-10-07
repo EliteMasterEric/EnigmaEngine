@@ -17,37 +17,24 @@
  */
 
 /*
- * FunneUtil.hx
- * Contains static utility functions used for doing funny weird stuff.
+ * ArrowButton.hx
+ * A work-in progress component, which renders a button with an arrow on it.
  */
-package funkin.util;
+package funkin.ui.component.input;
 
-import flixel.FlxG;
+import flixel.addons.ui.FlxUIButton;
 
-class FunneUtil
+class ArrowButton extends FlxUIButton
 {
-	/**
-	 * Crashes the game, like Bob does at the end of ONSLAUGHT.
-	 * Only works on SYS platforms like Windows/Mac/Linux/Android/iOS
-	 */
-	public static function crashTheGame()
+	public function new(x:Float, y:Float, w:Float, h:Float, onClick:Void->Void, asset:Dynamic)
 	{
-		#if sys
-		Sys.exit(0);
-		#end
+		super(x, y, null, onClick);
 	}
 
-	/**
-	 * Opens the given URL in the user's browser.
-	 * @param targetURL The URL to open.
-	 */
-	public static function openURL(targetURL:String)
+	public override function resize(W:Float, H:Float):Void
 	{
-		// Different behavior for certain platforms.
-		#if linux
-		Sys.command('/usr/bin/xdg-open', [targetURL, "&"]);
-		#else
-		FlxG.openURL(targetURL);
-		#end
+		// TODO Implement this so that resizing doesn't mess up the arrow graphic,
+		// or just use a custom arrow graphic.
+		throw "Not implemented!";
 	}
 }

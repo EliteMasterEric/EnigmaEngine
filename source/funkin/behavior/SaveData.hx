@@ -1,3 +1,25 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * SaveData.hx
+ * A static utility class which handles initializing Flixel save data.
+ */
 package funkin.behavior;
 
 import funkin.behavior.options.PlayerSettings;
@@ -11,8 +33,9 @@ class SaveData
 {
 	public static function initSave()
 	{
-		if (FlxG.save.data.weekUnlocked == null)
-			FlxG.save.data.weekUnlocked = 7;
+		// weeksUnlocked is a map of week IDs.
+		if (FlxG.save.data.weeksUnlocked == null)
+			FlxG.save.data.weeksUnlocked = {};
 
 		if (FlxG.save.data.newInput == null)
 			FlxG.save.data.newInput = true;

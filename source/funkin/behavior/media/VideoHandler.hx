@@ -20,7 +20,11 @@ class VideoHandler
 	public var isReady:Bool = false;
 	public var addOverlay:Bool = false;
 	public var vidPath:String = "";
-	public var ignoreShit:Bool = false;
+
+	/**
+	 * Ignore requests while we're restarting the player.
+	 */
+	public var ignoreRequests:Bool = false;
 
 	public function new()
 	{
@@ -79,11 +83,12 @@ class VideoHandler
 	public function play():Void
 	{
 		#if web
-		ignoreShit = true;
+		// Ignore requests while we're restarting the player.
+		ignoreRequests = true;
 		netStream.close();
 		init2();
 		netStream.play(vidPath);
-		ignoreShit = false;
+		ignoreRequests = false;
 		#end
 		trace(vidPath);
 	}
@@ -145,7 +150,7 @@ class VideoHandler
 
 	public function onStop():Void
 	{
-		if (!ignoreShit)
+		if (!ignoreRequests)
 		{
 			stopped = true;
 		}

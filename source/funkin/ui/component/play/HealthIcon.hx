@@ -1,9 +1,33 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * HealthIcon.hx
+ * A sprite which displays on the health bar, used for either the player or the opponent.
+ * Handles loading and splitting the sprite and using the correct state.
+ */
 package funkin.ui.component.play;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
 import openfl.utils.Assets as OpenFlAssets;
-import funkin.assets.Paths;
+import funkin.util.assets.Paths;
+import funkin.util.assets.GraphicsAssets;
 
 using StringTools;
 
@@ -41,11 +65,16 @@ class HealthIcon extends FlxSprite
 		if (char != 'bf-pixel' && char != 'bf-old')
 			char = char.split("-")[0];
 
-		if (!OpenFlAssets.exists(Paths.image('icons/icon-' + char)))
-			char = 'face';
+		var image = GraphicsAssets.loadImage(Paths.image('icons/icon-$char'));
+		if (image == null)
+		{
+			// Image failed to load, fallback to 'face'
+			image = GraphicsAssets.loadImage(Paths.image('icons/icon-face'));
+		}
 
-		loadGraphic(Paths.loadImage('icons/icon-' + char), true, 150, 150);
+		loadGraphic(image, true, 150, 150);
 
+		// TODO: Un-hardcode this
 		if (char.endsWith('-pixel') || char.startsWith('senpai') || char.startsWith('spirit'))
 			antialiasing = false
 		else

@@ -1,6 +1,6 @@
 package funkin.behavior.play;
 
-import funkin.util.HelperFunctions;
+import funkin.util.Util;
 import funkin.ui.state.play.PlayState;
 import flixel.FlxG;
 
@@ -139,7 +139,7 @@ class Ratings
 						+ PlayState.misses
 						+ // 	Misses/Combo Breaks
 						" | Accuracy:"
-						+ (PlayStateChangeables.botPlay && !PlayState.loadRep ? "N/A" : HelperFunctions.truncateFloat(accuracy, 2) + " %")
+						+ (PlayStateChangeables.botPlay && !PlayState.loadRep ? "N/A" : Util.truncateFloat(accuracy, 2) + " %")
 						+ // 	Accuracy
 						" | "
 						+ GenerateLetterRank(accuracy) : "") : ""); // 	Letter Rank

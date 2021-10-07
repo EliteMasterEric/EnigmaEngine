@@ -1,10 +1,32 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * Caching.hx
+ * On platforms where pre-caching of assets is performed,
+ * this state displays the initial loading screen.
+ */
 package funkin.ui.state.title;
 
-import funkin.ui.component.Cursor;
-#if FEATURE_FILESYSTEM
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
 import flixel.addons.transition.TransitionData;
+import funkin.util.assets.AudioAssets;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.FlxGraphic;
@@ -17,18 +39,22 @@ import flixel.tweens.FlxTween;
 import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import funkin.assets.Paths;
+import funkin.util.assets.Paths;
 import funkin.behavior.Debug;
-import funkin.behavior.SaveData;
+import funkin.util.assets.GraphicsAssets;
 import funkin.behavior.options.PlayerSettings;
-#if FEATURE_DISCORD
-import funkin.behavior.api.Discord.DiscordClient;
-#end
-import funkin.util.HelperFunctions;
+import funkin.behavior.SaveData;
+import funkin.ui.component.Cursor;
+import funkin.util.Util;
+import funkin.util.assets.SongAssets;
 import haxe.Exception;
 import lime.app.Application;
 import openfl.display.BitmapData;
 import openfl.utils.Assets as OpenFlAssets;
+#if FEATURE_DISCORD
+import funkin.behavior.api.Discord.DiscordClient;
+#end
+#if FEATURE_FILESYSTEM
 import sys.FileSystem;
 import sys.io.File;
 
@@ -69,7 +95,7 @@ class Caching extends MusicBeatState
 		text.alignment = FlxTextAlign.CENTER;
 		text.alpha = 0;
 
-		gameLogo = new FlxSprite(FlxG.width / 2, FlxG.height / 2).loadGraphic(Paths.loadImage('logo'));
+		gameLogo = new FlxSprite(FlxG.width / 2, FlxG.height / 2).loadGraphic(GraphicsAssets.loadImage('logo'));
 		gameLogo.x -= gameLogo.width / 2;
 		gameLogo.y -= gameLogo.height / 2 + 100;
 		text.y -= gameLogo.height / 2 - 125;
@@ -100,8 +126,7 @@ class Caching extends MusicBeatState
 
 		trace("caching music...");
 
-		// TODO: Get the song list from OpenFlAssets.
-		music = Paths.listSongsToCache();
+		music = SongAssets.listMusicFilesToCache();
 		#end
 
 		toBeDone = Lambda.count(images) + Lambda.count(music);
@@ -125,7 +150,7 @@ class Caching extends MusicBeatState
 			{
 				if (toBeDone != 0 && done != toBeDone)
 				{
-					var alpha = HelperFunctions.truncateFloat(done / toBeDone * 100, 2) / 100;
+					var alpha = Util.truncateFloat(done / toBeDone * 100, 2) / 100;
 					gameLogo.alpha = alpha;
 					text.alpha = alpha;
 					text.text = "Loading... (" + done + "/" + toBeDone + ")";
@@ -174,14 +199,14 @@ class Caching extends MusicBeatState
 		{
 			Debug.logTrace('Caching song "$i"...');
 			var inst = Paths.inst(i);
-			if (Paths.doesSoundAssetExist(inst))
+			if (AudioAssets.doesSoundAssetExist(inst))
 			{
 				FlxG.sound.cache(inst);
 				Debug.logTrace('  Cached inst for song "$i"');
 			}
 
 			var voices = Paths.voices(i);
-			if (Paths.doesSoundAssetExist(voices))
+			if (AudioAssets.doesSoundAssetExist(voices))
 			{
 				FlxG.sound.cache(voices);
 				Debug.logTrace('  Cached voices for song "$i"');

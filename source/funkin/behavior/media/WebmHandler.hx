@@ -170,7 +170,7 @@ class WebmHandler
 
 	public function new()
 	{
-		trace("THIS IS ANDROID! or some shit...");
+		Debug.logTrace("WebMHandler initialized on an unsupported platform, nothing will happen.");
 	}
 	#end
 }

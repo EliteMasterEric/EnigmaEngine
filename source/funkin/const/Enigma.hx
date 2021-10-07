@@ -1,41 +1,62 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * Enigma.hx
+ * A static class which contains compile-time values and other useful info.
+ * Check the end of this file for several useful values you can modify to disable game features.
+ */
 package funkin.const;
 
 import funkin.util.macro.HaxeCommit;
 import funkin.ui.state.MusicBeatState;
 
-/**
- * Static class which contains compiler flags and other useful info.
- */
 class Enigma extends MusicBeatState
 {
 	/**
 	 * The git commit of this build, calculated at build time. Powered by a fancy Haxe macro.
+	 * No, this line does NOT have an error.
 	 */
 	@:keep public static var COMMIT_HASH(default, never):String = HaxeCommit.getGitCommitHash();
 
 	/**
 	 * enigma balls lol.
 	 */
-	public static var ENGINE_NAME:String = 'Enigma Engine';
+	public static final ENGINE_NAME:String = 'Enigma Engine';
 
 	/**
 	 * The suffix applied to the engine version. Make sure to change this with each respective release.
 	 */
-	// public static var ENGINE_SUFFIX:String = ''; // For RELEASES
-	public static var ENGINE_SUFFIX:String = '-prerelease'; // For PRERELEASES
+	// public static final ENGINE_SUFFIX:String = ''; // For RELEASES
+	public static final ENGINE_SUFFIX:String = '-prerelease'; // For PRERELEASES
 
-	// public static var ENGINE_SUFFIX:String = '-${COMMIT_HASH}'; // For DEVELOP
+	// public static final ENGINE_SUFFIX:String = '-${COMMIT_HASH}'; // For DEVELOP
 
 	/**
 	 * The full engine version with -prerelease suffix if applicable.
 	 */
-	public static var ENGINE_VERSION:String = '0.2.0' + ENGINE_SUFFIX;
+	public static final ENGINE_VERSION:String = '0.2.0' + ENGINE_SUFFIX;
 
 	/**
 	 * This is the version of Friday Night Funkin' the engine is based on.
 	 * The release of Week 8 is going to send a lot of waves through the modding community...
 	 */
-	public static var GAME_VERSION:String = '0.2.7.1';
+	public static final GAME_VERSION:String = '0.2.7.1';
 
 	/**
 	 * The URL to use for version checks.

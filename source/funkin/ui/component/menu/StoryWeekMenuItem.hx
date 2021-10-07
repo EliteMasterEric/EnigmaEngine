@@ -1,3 +1,26 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * StoryWeekMenuItem.hx
+ * An item in the list of weeks in the story menu.
+ * Handles graphics loading and flashing animations.
+ */
 package funkin.ui.component.menu;
 
 import flixel.FlxG;
@@ -6,21 +29,24 @@ import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
-import funkin.assets.menu.WeekData;
-import funkin.assets.Paths;
+import funkin.behavior.play.Week;
+import funkin.util.assets.Paths;
+import funkin.util.assets.GraphicsAssets;
 
 class StoryWeekMenuItem extends FlxSpriteGroup
 {
 	public var targetY:Float = 0;
 	public var week:FlxSprite;
 	public var flashingInt:Int = 0;
+	public var weekData(default, null):Week;
 
-	public function new(x:Float, y:Float, weekData:WeekData)
+	public function new(x:Float, y:Float, weekData:Week)
 	{
 		super(x, y);
-		week = new FlxSprite().loadGraphic(Paths.loadImage(weekData.titleGraphic));
-		week.antialiasing = FlxG.save.data.antialiasing;
-		add(week);
+		this.weekData = weekData;
+		this.week = new FlxSprite().loadGraphic(GraphicsAssets.loadImage(weekData.titleGraphic));
+		this.week.antialiasing = FlxG.save.data.antialiasing;
+		add(this.week);
 	}
 
 	private var isFlashing:Bool = false;

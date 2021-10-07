@@ -1,3 +1,27 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * Alphabet.hx
+ * Alphabet acts similarly to FlxText, but isn't.
+ * It manually creates text from individual letters off a spritesheet.
+ * This spritesheet is located at `assets/preload/images/alphabet.png`.
+ */
 package funkin.ui.component;
 
 import flixel.FlxG;
@@ -10,21 +34,15 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import openfl.Lib;
-import funkin.assets.Paths;
+import funkin.util.assets.Paths;
+import funkin.util.assets.GraphicsAssets;
 
 using StringTools;
 
-/**
- * Alphabet acts similarly to FlxText, but isn't.
- * It manually creates text from individual letters off a spritesheet.
- * This spritesheet is located at `assets/preload/images/alphabet.png`.
- */
 class Alphabet extends FlxSpriteGroup
 {
 	public var delay:Float = 0.05;
 	public var paused:Bool = false;
-
-	// for menu shit
 	public var targetY:Float = 0;
 	public var isMenuItem:Bool = false;
 
@@ -37,7 +55,6 @@ class Alphabet extends FlxSpriteGroup
 
 	var yMulti:Float = 1;
 
-	// custom shit
 	// amp, backslash, question mark, apostrophy, comma, angry faic, period
 	var lastSprite:AlphaCharacter;
 	var xPosResetted:Bool = false;
@@ -318,7 +335,7 @@ class AlphaCharacter extends FlxSprite
 	public function new(x:Float, y:Float)
 	{
 		super(x, y);
-		var tex = Paths.getSparrowAtlas('alphabet');
+		var tex = GraphicsAssets.loadSparrowAtlas('alphabet');
 		frames = tex;
 		if (FlxG.save.data.antialiasing)
 		{

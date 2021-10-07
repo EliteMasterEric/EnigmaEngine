@@ -46,7 +46,7 @@ typedef ReplayJSON =
 	public var replayGameVer:String;
 	public var timestamp:Date;
 	public var songName:String;
-	public var songDiff:Int;
+	public var songDiff:String;
 	public var songNotes:Array<Dynamic>;
 	public var songJudgements:Array<String>;
 	public var noteSpeed:Float;
@@ -69,7 +69,7 @@ class Replay
 		this.path = path;
 		replay = {
 			songName: "No Song Found",
-			songDiff: 1,
+			songDiff: 'normal',
 			noteSpeed: 1.5,
 			isDownscroll: false,
 			songNotes: [],
@@ -125,7 +125,7 @@ class Replay
 		#if FEATURE_FILESYSTEM
 		File.saveContent("assets/replays/replay-" + PlayState.SONG.songId + "-time" + time + ".enigmaReplay", data);
 
-		path = "replay-" + PlayState.SONG.songId + "-time" + time + ".enigmaReplay"; // for score screen shit
+		path = "replay-" + PlayState.SONG.songId + "-time" + time + ".enigmaReplay";
 
 		LoadFromJSON();
 

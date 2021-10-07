@@ -1,10 +1,10 @@
 package funkin.behavior.stepmania;
 
 #if FEATURE_STEPMANIA
-import funkin.assets.play.Song;
-import funkin.assets.play.Song.SongEvent;
+import funkin.behavior.play.Song;
+import funkin.behavior.play.Song.SongEvent;
 import funkin.behavior.play.TimingStruct;
-import funkin.util.HelperFunctions;
+import funkin.util.Util;
 
 class SMHeader
 {
@@ -80,7 +80,7 @@ class SMHeader
 					TimingStruct.AllTimings[currentIndex].startTime = data.startTime + data.length;
 				}
 
-				changeEvents.push(new SongEvent(HelperFunctions.truncateFloat(beat, 0) + "SM", beat, bpm, "BPM Change"));
+				changeEvents.push(new SongEvent(Util.truncateFloat(beat, 0) + "SM", beat, bpm, "BPM Change"));
 
 				if (bpmSplit.length == 1)
 					break;

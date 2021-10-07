@@ -2,7 +2,7 @@
 
 Changes marked with ⛧ will be listed in the short version of the changelog in `version.downloadMe`.
 
-Initial release.
+First public release. Now has support for data-driven custom weeks, data-driven title sequence, 9-key songs, custom difficulties, and a mod configuration menu, among other things.
 
 ### Changes
 - ⛧Reworked title and intro credits to be fully data driven.
@@ -10,24 +10,37 @@ Initial release.
 - ⛧Added 9-key support for songs.
   - Technically it's any number from 1 to 9.
 - ⛧Added custom keybinds for 9-key songs.
+- ⛧Split the game into `vanilla` and `base` builds.
+  - Vanilla builds include Weeks 1-6 and the corresponding enemy characters and are good if you want to play the base game with the improved engine.
+  - Base builds only include the Tutorial and are good if you want a baseline to install mods with.
 - ⛧Rebindable fullscreen button.
+- ⛧Mod Configuration menu
+- ⛧Made weeks data driven and added support for custom weeks.
+- ⛧Added support for custom difficulties.
+- Revamped the project XML file to be more functional.
+  - Added print calls to display what platform is being built.
+  - Added define to include vanilla game data into the build. Use `-DincludeDefaultWeeks` to enable it.
+- Split story mode menu assets into separate graphics so they can be individually reskinned or replaced.
 - Move all the classes into packages for better organization.
 - Replaced JSON parser with `tjson` to make data structure less strict on end users.
 - Various bug fixes.
   - Fixed a bug where the game would crash if the `_meta.json` file for a song was missing.
+  - Cut out informational logging calls for macros (people thought they were errors).
+  - Fixed a bug where compiling the project outside of a Git repository would cause the build to fail.
+  - Removed Herobrine.
 
-### Plans before release
+## To Implement
 
-- Revamped the project XML file to be more 
-- ⛧Split the game into `vanilla` and `base` builds.
-  - Vanilla builds include Weeks 1-6 and the corresponding enemy characters and are good if you want to play the base game with the improved engine.
-  - Base builds only include the Tutorial and are good if you want a baseline to install mods with.
-- Split story mode menu assets into separate graphics so they can be individually reskinned or replaced.
+- Finish mod menu.
+- Test out custom weeks.
+- Test out custom difficulties.
 - ⛧Basic script hook implementation.
   - The only available hooks right now are `onStartTitleScreen` and `onFinishTitleScreen`.
-- ⛧Mod Configuration menu
-- ⛧Made weeks data driven and added support for custom weeks.
-- ⛧Added support for custom difficulties.
-- Various bug fixes.
-  - Cut out informational logging calls for macros (people thought they were errors).
-  - Removed Herobrine.
+- Formatting changes.
+  - Clean up the codebase to get rid of swears and unreadable variable names (shit, daThing, stuff).
+  - Replace all instances of string concatenation with templating.
+  - Replace all double quotes with single quotes.
+  - Sort all import lines.
+  - Add license header and docs header to every file.
+  - Replace all uses of `StringTools` with `haxe-strings`.
+- Test for and fix any bugs.

@@ -1,8 +1,11 @@
-package funkin.assets.menu;
+package funkin.behavior.play;
 
-import funkin.assets.Paths;
+import funkin.util.assets.Paths;
 import flixel.FlxSprite;
 import funkin.behavior.Debug;
+import funkin.const.Enigma;
+import funkin.util.assets.DataAssets;
+import flixel.util.FlxColor;
 
 using StringTools;
 
@@ -10,35 +13,35 @@ using StringTools;
  * A structure which contains data from a week's `data/weeks/<id>.json` file.
  * Also contains utility functions to load song data and retrieve associated assets.
  */
-class WeekData
+class Week
 {
 	/**
 	 * The internal ID of the week. Mandatory.
 	 */
-	var id(default, null):String;
+	public var id(default, null):String;
 
 	/**
 	 * An ordered list of songs to play.
 	 */
-	var playlist(default, null):Array<String> = [];
+	public var playlist(default, null):Array<String> = [];
 
 	/**
 	 * The flavor name/title to display.
 	 */
-	var title(default, null):String = "UNKNOWN";
+	public var title(default, null):String = "UNKNOWN";
 
 	/**
 	 * If specified, set in the save data that the week with that ID should be unlocked upon completion.
 	 * 
 	 * Fun idea, combine this with LockedWeekBehavior.HIDE for secret cross-mod content ;)
 	 */
-	var nextWeek(default, null):String = null;
+	public var nextWeek(default, null):String = null;
 
 	/**
 	 * If this week is locked, choose the behavior.
 	 * Currently either shows with a lock symbol or hides from the menu completely.
 	 */
-	var lockedBehavior(default, null):LockedWeekBehavior = SHOW_LOCKED;
+	public var lockedBehavior(default, null):LockedWeekBehavior = SHOW_LOCKED;
 
 	/**
 	 * Whether the week is always unlocked by default.
@@ -48,24 +51,24 @@ class WeekData
 	/**
 	 * The graphic to display on the menu item.
 	 */
-	var titleGraphic(default, null):String = null;
+	public var titleGraphic(default, null):String = null;
 
 	/**
 	 * The character graphics to display.
 	 */
-	var menuCharacters(default, null):Array<String> = ["", "bf", "gf"];
+	public var menuCharacters(default, null):Array<String> = ["", "bf", "gf"];
 
 	/**
 	 * The sound file relative to the `sounds` folder to play when choosing the week.
 	 */
-	var startSound(default, null):String = 'confirmMenu';
+	public var startSound(default, null):String = 'confirmMenu';
 
 	/**
 	 * This string value will determine what the background for the characters is.
 	 * The value is either an asset path, or a hex color code starting in `#`.
 	 * Defaults to the yellow color from the base game.
 	 */
-	var backgroundGraphic(default, null):String = "#F9CF51";
+	public var backgroundGraphic(default, null):String = "#F9CF51";
 
 	function new(id:String, rawWeekData:RawWeekData)
 	{
@@ -80,7 +83,7 @@ class WeekData
 			this.lockedBehavior = rawWeekData.hideWhileLocked ? HIDE : SHOW_LOCKED;
 
 		if (rawWeekData.unlocked != null)
-			this.title = rawWeekData.unlocked;
+			this.alwaysUnlocked = rawWeekData.unlocked;
 
 		if (rawWeekData.assets != null)
 		{
@@ -95,35 +98,17 @@ class WeekData
 		}
 	}
 
-	/**
-	 * The factory method to fetch and assemble a week's data by its ID.
-	 * @param weekId The ID
-	 * @return WeekData
-	 */
-	public static function fetchWeekData(weekId:String):WeekData
+	public static function generateStub():Week
 	{
-		var rawJsonData = Paths.loadJSON('weeks/$week');
-
-		var rawWeekData:RawWeekData = cast rawJsonData;
-
-		if (!verifyRawWeekData(rawWeekData))
-			return null;
-
-		return new WeekData(weekId, rawWeekData);
-	}
-
-	static function verifyRawWeekData(rawWeekData:RawWeekData):Bool
-	{
-		if (rawWeekData.name == null)
-		{
-			Debug.logError("Error: Week data is missing attribute 'name'");
-			return false;
-		}
-		if (rawWeekData.songs == null || rawWeekData.songs == [])
-		{
-			Debug.logError("Error: Week data is missing attribute 'songs'");
-			return false;
-		}
+		return new Week('unknown', {
+			name: "UNKNOWN",
+			unlocked: true,
+			songs: ["tutorial"],
+			assets: {
+				characters: ["", "gf", "bf"],
+				title: "storymenu/weeks/week0"
+			}
+		});
 	}
 
 	public function createBackgroundSprite():FlxSprite
@@ -154,11 +139,86 @@ class WeekData
 
 		// Is unlocked in save data?
 		if (FlxG.save.data.weeksUnlocked != null)
-			if (FlxG.save.data.weeksUnlocked[this.id])
+			if (FlxG.save.data.weeksUnlocked.get(this.id))
 				return true;
 
 		// Else, only unlock based on the compile time flag.
 		return Enigma.UNLOCK_ALL_WEEKS;
+	}
+}
+
+class WeekCache
+{
+	static var elements:Map<String, Week> = [];
+
+	public static function get(weekId:String):Null<Week>
+	{
+		if (elements.exists(weekId))
+		{
+			return elements.get(weekId);
+		}
+		else
+		{
+			// Attempt to fetch it from disk.
+			var weekDataElement = fetchWeek(weekId);
+			elements.set(weekId, weekDataElement);
+			return weekDataElement;
+		}
+	}
+
+	public static function set(weekId:String, value:Week)
+	{
+		return elements.set(weekId, value);
+	}
+
+	/**
+	 * The factory method to fetch and assemble a week's data by its ID.
+	 * @param weekId The ID
+	 * @return Week
+	 */
+	static function fetchWeek(weekId:String):Week
+	{
+		var rawJsonData = DataAssets.loadJSON('weeks/$weekId');
+
+		var rawWeekData:RawWeekData = cast rawJsonData;
+
+		if (!verifyRawWeekData(rawWeekData))
+			return null;
+
+		@:privateAccess
+		return new Week(weekId, rawWeekData);
+	}
+
+	public static function isWeekUnlocked(weekId:String)
+	{
+		var week = get(weekId);
+		return week != null ? week.isWeekUnlocked() : false;
+	}
+
+	public static function isWeekHidden(weekId:String)
+	{
+		var week = get(weekId);
+		if (week == null)
+			return true;
+
+		return !week.isWeekUnlocked() && week.lockedBehavior == HIDE;
+	}
+
+	static function verifyRawWeekData(rawWeekData:RawWeekData):Bool
+	{
+		if (rawWeekData.name == null)
+		{
+			Debug.logError("Error: Week data is missing attribute 'name'");
+			return false;
+		}
+		if (rawWeekData.songs == null || rawWeekData.songs == [])
+		{
+			Debug.logError("Error: Week data is missing attribute 'songs'");
+			return false;
+		}
+
+		// No problems here!
+		return true;
 	}
 }
 
@@ -175,6 +235,11 @@ typedef RawWeekAssets =
 	 */
 	title:String,
 
+	/**
+	 * This is either a color in hex starting with `#`, or an asset path to a 1280x400 image.
+	 * @default The yellow color from the vanilla Story menu.
+	 */
+	?background:String,
 	/**
 	 * The sound to play when starting the week.
 	 * @default confirmMenu

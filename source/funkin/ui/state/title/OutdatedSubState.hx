@@ -1,9 +1,32 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * OutdatedSubState.hx
+ * This screen displays if the current version of Enigma Engine is outdated,
+ * and prompts the user to update.
+ */
 package funkin.ui.state.title;
 
 import funkin.ui.state.menu.MainMenuState;
 import funkin.util.FunneUtil;
 import funkin.const.Enigma;
-import funkin.assets.Paths;
+import funkin.util.assets.Paths;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
@@ -12,6 +35,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import funkin.util.assets.GraphicsAssets;
 import lime.app.Application;
 
 class OutdatedSubState extends MusicBeatState
@@ -27,14 +51,14 @@ class OutdatedSubState extends MusicBeatState
 	override function create()
 	{
 		super.create();
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.loadImage('week54prototype', 'shared'));
+		var bg:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('week54prototype', 'shared'));
 		bg.scale.x *= 1.55;
 		bg.scale.y *= 1.55;
 		bg.screenCenter();
 		bg.antialiasing = FlxG.save.data.antialiasing;
 		add(bg);
 
-		var gameLogo:FlxSprite = new FlxSprite(FlxG.width, 0).loadGraphic(Paths.loadImage('logo'));
+		var gameLogo:FlxSprite = new FlxSprite(FlxG.width, 0).loadGraphic(GraphicsAssets.loadImage('logo'));
 		gameLogo.scale.y = 0.3;
 		gameLogo.scale.x = 0.3;
 		gameLogo.x -= gameLogo.frameHeight;

@@ -1,14 +1,14 @@
 package funkin.behavior.options;
 
 import funkin.ui.state.LoadingState;
-import funkin.assets.play.Song;
+import funkin.behavior.play.Song;
 import funkin.behavior.play.Highscore;
 import funkin.ui.state.menu.StoryMenuState;
 import funkin.ui.state.play.PlayState;
 import funkin.ui.state.options.GameplayCustomizeState;
 import funkin.ui.state.play.LoadReplayState;
-import funkin.util.HelperFunctions;
-import funkin.util.HelperFunctions;
+import funkin.util.Util;
+import funkin.util.Util;
 import funkin.behavior.play.Conductor;
 import funkin.ui.state.options.KeyBindMenu;
 import funkin.ui.state.options.OptionsMenu;
@@ -500,19 +500,9 @@ class Judgement extends Option
 
 	override function getValue():String
 	{
-		return "Safe Frames: "
-			+ Conductor.safeFrames
-			+ " - SIK: "
-			+ HelperFunctions.truncateFloat(45 * Conductor.timeScale, 0)
-			+ "ms GD: "
-			+ HelperFunctions.truncateFloat(90 * Conductor.timeScale, 0)
-			+ "ms BD: "
-			+ HelperFunctions.truncateFloat(135 * Conductor.timeScale, 0)
-			+ "ms SHT: "
-			+ HelperFunctions.truncateFloat(166 * Conductor.timeScale, 0)
-			+ "ms TOTAL: "
-			+ HelperFunctions.truncateFloat(Conductor.safeZoneOffset, 0)
-			+ "ms";
+		return "Safe Frames: " + Conductor.safeFrames + " - SIK: " + Util.truncateFloat(45 * Conductor.timeScale, 0) + "ms GD: "
+			+ Util.truncateFloat(90 * Conductor.timeScale, 0) + "ms BD: " + Util.truncateFloat(135 * Conductor.timeScale, 0) + "ms SHT: "
+			+ Util.truncateFloat(166 * Conductor.timeScale, 0) + "ms TOTAL: " + Util.truncateFloat(Conductor.safeZoneOffset, 0) + "ms";
 	}
 
 	override function right():Bool
@@ -657,7 +647,7 @@ class ScrollSpeedOption extends Option
 
 	override function getValue():String
 	{
-		return "Current Scroll Speed: " + HelperFunctions.truncateFloat(FlxG.save.data.scrollSpeed, 1);
+		return "Current Scroll Speed: " + Util.truncateFloat(FlxG.save.data.scrollSpeed, 1);
 	}
 
 	override function left():Bool
@@ -811,14 +801,14 @@ class OffsetMenu extends Option
 
 	public override function press():Bool
 	{
-		trace("switch");
+		Debug.logTrace("Options: Press test offest...");
 
 		PlayState.SONG = Song.loadFromJson('tutorial', '');
 		PlayState.isStoryMode = false;
 		PlayState.storyDifficulty = "easy";
-		PlayState.storyWeek = 0;
+		PlayState.storyWeek = null;
 		PlayState.offsetTesting = true;
-		trace('CUR WEEK' + PlayState.storyWeek);
+		Debug.logTrace('Entering week ' + PlayState.storyWeek.id);
 		LoadingState.loadAndSwitchState(new PlayState());
 		return false;
 	}
@@ -882,16 +872,17 @@ class LockWeeksOption extends Option
 
 	public override function press():Bool
 	{
+		// Double-press to reset the story progress.
 		if (!confirm)
 		{
 			confirm = true;
 			display = updateDisplay();
 			return true;
 		}
-		FlxG.save.data.weekUnlocked = 1;
-		StoryMenuState.weekUnlocked = [true, true];
+
+		Debug.logInfo('Options: Reset Story Progress');
+		FlxG.save.data.weeksUnlocked = {};
 		confirm = false;
-		trace('Weeks Locked');
 		display = updateDisplay();
 		return true;
 	}

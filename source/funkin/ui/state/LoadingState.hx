@@ -1,3 +1,26 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * LoadingState.hx
+ * A state used for loading screens.
+ * Mainly gets used on platforms where nothing is preloaded, such as HTML5.
+ */
 package funkin.ui.state;
 
 import flixel.FlxG;
@@ -5,7 +28,7 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.util.FlxTimer;
-import funkin.assets.Paths;
+import funkin.util.assets.Paths;
 import funkin.ui.state.play.PlayState;
 import haxe.io.Path;
 import lime.app.Future;
@@ -14,6 +37,7 @@ import lime.utils.AssetLibrary;
 import lime.utils.AssetManifest;
 import lime.utils.Assets as LimeAssets;
 import openfl.utils.Assets as OpenFlAssets;
+import funkin.util.assets.GraphicsAssets;
 
 class LoadingState extends MusicBeatState
 {
@@ -37,14 +61,14 @@ class LoadingState extends MusicBeatState
 	override function create()
 	{
 		logo = new FlxSprite(-150, -100);
-		logo.frames = Paths.getSparrowAtlas('logoBumpin');
+		logo.frames = GraphicsAssets.loadSparrowAtlas('logoBumpin');
 		logo.antialiasing = FlxG.save.data.antialiasing;
 		logo.animation.addByPrefix('bump', 'logo bumpin', 24);
 		logo.animation.play('bump');
 		logo.updateHitbox();
 
 		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
-		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
+		gfDance.frames = GraphicsAssets.loadSparrowAtlas('gfDanceTitle');
 		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		gfDance.antialiasing = FlxG.save.data.antialiasing;
@@ -59,10 +83,7 @@ class LoadingState extends MusicBeatState
 			if (PlayState.SONG.needsVoices)
 				checkLoadSong(getVocalPath());
 			checkLibrary("shared");
-			if (PlayState.storyWeek > 0)
-				checkLibrary("week" + PlayState.storyWeek);
-			else
-				checkLibrary("tutorial");
+			checkLibrary(PlayState.storyWeek.id);
 
 			var fadeTime = 0.5;
 			FlxG.camera.fade(FlxG.camera.bgColor, fadeTime, true);
@@ -91,7 +112,9 @@ class LoadingState extends MusicBeatState
 		{
 			@:privateAccess
 			if (!LimeAssets.libraryPaths.exists(library))
-				throw "Missing library: " + library;
+			{
+				trace("Missing library: " + library);
+			}
 
 			var callback = callbacks.add("library:" + library);
 			OpenFlAssets.loadLibrary(library).onComplete(function(_)

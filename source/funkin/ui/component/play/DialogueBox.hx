@@ -1,3 +1,26 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * DialogueBox.hx
+ * A dialog box, as used for the cutscene in Week 6.
+ * TODO: Make this generic and usable in all weeks.
+ */
 package funkin.ui.component.play;
 
 import flixel.addons.text.FlxTypeText;
@@ -10,9 +33,10 @@ import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import funkin.assets.Paths;
+import funkin.util.assets.Paths;
 import funkin.ui.state.play.PlayState;
 import funkin.behavior.options.PlayerSettings;
+import funkin.util.assets.GraphicsAssets;
 
 using StringTools;
 
@@ -25,7 +49,6 @@ class DialogueBox extends FlxSpriteGroup
 	var dialogue:Alphabet;
 	var dialogueList:Array<String> = [];
 
-	// SECOND DIALOGUE FOR THE PIXEL SHIT INSTEAD???
 	var swagDialogue:FlxTypeText;
 
 	var dropText:FlxText;
@@ -78,24 +101,24 @@ class DialogueBox extends FlxSpriteGroup
 		{
 			case 'senpai':
 				hasDialog = true;
-				box.frames = Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-pixel');
+				box.frames = GraphicsAssets.loadSparrowAtlas('weeb/pixelUI/dialogueBox-pixel');
 				box.animation.addByPrefix('normalOpen', 'Text Box Appear', 24, false);
 				box.animation.addByIndices('normal', 'Text Box Appear', [4], "", 24);
 			case 'roses':
 				hasDialog = true;
 				FlxG.sound.play(Paths.sound('ANGRY_TEXT_BOX'));
 
-				box.frames = Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-senpaiMad');
+				box.frames = GraphicsAssets.loadSparrowAtlas('weeb/pixelUI/dialogueBox-senpaiMad');
 				box.animation.addByPrefix('normalOpen', 'SENPAI ANGRY IMPACT SPEECH', 24, false);
 				box.animation.addByIndices('normal', 'SENPAI ANGRY IMPACT SPEECH', [4], "", 24);
 
 			case 'thorns':
 				hasDialog = true;
-				box.frames = Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-evil');
+				box.frames = GraphicsAssets.loadSparrowAtlas('weeb/pixelUI/dialogueBox-evil');
 				box.animation.addByPrefix('normalOpen', 'Spirit Textbox spawn', 24, false);
 				box.animation.addByIndices('normal', 'Spirit Textbox spawn', [11], "", 24);
 
-				var face:FlxSprite = new FlxSprite(320, 170).loadGraphic(Paths.loadImage('weeb/spiritFaceForward'));
+				var face:FlxSprite = new FlxSprite(320, 170).loadGraphic(GraphicsAssets.loadImage('weeb/spiritFaceForward'));
 				face.setGraphicSize(Std.int(face.width * 6));
 				add(face);
 		}
@@ -106,25 +129,25 @@ class DialogueBox extends FlxSpriteGroup
 			return;
 
 		portraitLeft = new FlxSprite(-20, 40);
-		portraitLeft.frames = Paths.getSparrowAtlas('weeb/senpaiPortrait');
+		portraitLeft.frames = GraphicsAssets.loadSparrowAtlas('weeb/senpaiPortrait');
 		portraitLeft.animation.addByPrefix('enter', 'Senpai Portrait Enter', 24, false);
-		portraitLeft.setGraphicSize(Std.int(portraitLeft.width * PlayState.daPixelZoom * 0.9));
+		portraitLeft.setGraphicSize(Std.int(portraitLeft.width * PlayState.PIXEL_ZOOM_FACTOR * 0.9));
 		portraitLeft.updateHitbox();
 		portraitLeft.scrollFactor.set();
 		add(portraitLeft);
 		portraitLeft.visible = false;
 
 		portraitRight = new FlxSprite(0, 40);
-		portraitRight.frames = Paths.getSparrowAtlas('weeb/bfPortrait');
+		portraitRight.frames = GraphicsAssets.loadSparrowAtlas('weeb/bfPortrait');
 		portraitRight.animation.addByPrefix('enter', 'Boyfriend portrait enter', 24, false);
-		portraitRight.setGraphicSize(Std.int(portraitRight.width * PlayState.daPixelZoom * 0.9));
+		portraitRight.setGraphicSize(Std.int(portraitRight.width * PlayState.PIXEL_ZOOM_FACTOR * 0.9));
 		portraitRight.updateHitbox();
 		portraitRight.scrollFactor.set();
 		add(portraitRight);
 		portraitRight.visible = false;
 
 		box.animation.play('normalOpen');
-		box.setGraphicSize(Std.int(box.width * PlayState.daPixelZoom * 0.9));
+		box.setGraphicSize(Std.int(box.width * PlayState.PIXEL_ZOOM_FACTOR * 0.9));
 		box.updateHitbox();
 		add(box);
 
@@ -135,7 +158,7 @@ class DialogueBox extends FlxSpriteGroup
 		skipText.color = 0x000000;
 		skipText.text = 'press back to skip';
 		add(skipText);
-		handSelect = new FlxSprite(FlxG.width * 0.9, FlxG.height * 0.9).loadGraphic(Paths.loadImage('weeb/pixelUI/hand_textbox'));
+		handSelect = new FlxSprite(FlxG.width * 0.9, FlxG.height * 0.9).loadGraphic(GraphicsAssets.loadImage('weeb/pixelUI/hand_textbox'));
 		add(handSelect);
 
 		if (!talkingRight)

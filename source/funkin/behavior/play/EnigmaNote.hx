@@ -3,7 +3,7 @@ package funkin.behavior.play;
 import funkin.ui.component.play.StaticArrow;
 import funkin.ui.component.play.Note;
 import funkin.util.NoteUtil;
-import funkin.assets.Paths;
+import funkin.util.assets.Paths;
 import flixel.tweens.FlxEase;
 import flixel.input.keyboard.FlxKey;
 import flixel.FlxG;
@@ -13,6 +13,7 @@ import funkin.ui.state.play.PlayState;
 import funkin.behavior.play.PlayStateChangeables;
 import funkin.behavior.options.CustomControls;
 import openfl.events.KeyboardEvent;
+import funkin.util.assets.GraphicsAssets;
 
 using StringTools;
 
@@ -118,7 +119,7 @@ class EnigmaNote
 
 	public static function loadNoteSprite(instance:FlxSprite, noteStyle:String, noteType:String, noteData:Int, isSustainNote:Bool, strumlineSize:Int):Void
 	{
-		instance.frames = Paths.getSparrowAtlas('notes/${noteStyle}/${noteType}Note', 'shared');
+		instance.frames = GraphicsAssets.loadSparrowAtlas('notes/${noteStyle}/${noteType}Note', 'shared');
 
 		// Only add the animation for the note we are using.
 		var dirName = getDirectionName(noteData, true);
@@ -130,8 +131,8 @@ class EnigmaNote
 		switch (noteStyle)
 		{
 			case 'pixel':
-				var widthSize = Std.int(PlayState.Stage.curStage.startsWith('school') ? (instance.width * PlayState.daPixelZoom) : (isSustainNote ? (instance.width * (PlayState.daPixelZoom
-					- 1.5)) : (instance.width * PlayState.daPixelZoom)) * noteScale);
+				var widthSize = Std.int(PlayState.Stage.curStage.startsWith('school') ? (instance.width * PlayState.PIXEL_ZOOM_FACTOR) : (isSustainNote ? (instance.width * (PlayState.PIXEL_ZOOM_FACTOR
+					- 1.5)) : (instance.width * PlayState.PIXEL_ZOOM_FACTOR)) * noteScale);
 
 				instance.setGraphicSize(widthSize);
 				instance.updateHitbox();
@@ -190,7 +191,7 @@ class EnigmaNote
 
 			// Load the spritesheet.
 			// With my reworked sprite sheets, the animation names are the same.
-			babyArrow.frames = Paths.getSparrowAtlas('notes/${noteStyle}/normalNote', 'shared');
+			babyArrow.frames = GraphicsAssets.loadSparrowAtlas('notes/${noteStyle}/normalNote', 'shared');
 
 			// Add the proper animations to the strumline item.
 			babyArrow.animation.addByPrefix('static', arrowDir + ' Strumline');
@@ -458,7 +459,7 @@ class EnigmaNote
 	}
 
 	/**
-	 * [Description] Given a KeyboardEvent and the strumline size for this song,
+	 * Given a KeyboardEvent and the strumline size for this song,
 	 * return what note index was pressed (or released), if any.
 	 * @param event Key that was just pressed or released.
 	 * @param strumlineSize Song's strumline size.

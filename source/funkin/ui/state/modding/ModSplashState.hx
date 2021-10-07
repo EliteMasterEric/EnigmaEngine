@@ -23,12 +23,13 @@
  */
 package funkin.ui.state.modding;
 
-import funkin.assets.Paths;
+import funkin.util.assets.Paths;
 import funkin.ui.state.title.Caching;
 import funkin.ui.state.title.TitleState;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
+import funkin.util.assets.GraphicsAssets;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
@@ -54,7 +55,7 @@ class ModSplashState extends MusicBeatState
 
 		super.create();
 
-		var gameLogo:FlxSprite = new FlxSprite(FlxG.width, 0).loadGraphic(Paths.loadImage('logo'));
+		var gameLogo:FlxSprite = new FlxSprite(FlxG.width, 0).loadGraphic(GraphicsAssets.loadImage('logo'));
 		gameLogo.scale.y = 0.3;
 		gameLogo.scale.x = 0.3;
 		gameLogo.x -= gameLogo.frameHeight;

@@ -36,14 +36,14 @@ class HaxeCommit
 		if (process.exitCode() != 0)
 		{
 			var message = process.stderr.readAll().toString();
-			haxe.macro.Context.error("Cannot execute `git rev-parse HEAD`. " + message, pos);
+			haxe.macro.Context.info('[WARN] Could not determine current git commit; is this a proper Git repository?', pos);
 		}
 
 		// read the output of the process
 		var commitHash:String = process.stdout.readLine();
 		var commitHashSplice:String = commitHash.substr(0, 7);
 
-		haxe.macro.Context.info('We are in git commit ${commitHashSplice}', pos);
+		haxe.macro.Context.info('[INFO] We are building in git commit ${commitHashSplice}', pos);
 
 		// Generates a string expression
 		return macro $v{commitHashSplice};

@@ -1,3 +1,27 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * Note.hx
+ * A sprite for a note in the Play state.
+ * Keeps track of its own distance from the strumline to determine if it is valid to hit,
+ * among other important logic.
+ */
 package funkin.ui.component.play;
 
 import funkin.ui.state.charting.ChartingState;
@@ -9,7 +33,7 @@ import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
-import funkin.assets.Paths;
+import funkin.util.assets.Paths;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.PlayStateChangeables;
 import funkin.ui.state.play.PlayState;
@@ -169,18 +193,11 @@ class Note extends FlxSprite
 		}
 		else
 		{
-			if (PlayState.SONG.noteStyle == null)
-			{
-				switch (PlayState.storyWeek)
-				{
-					case 6:
-						this.noteStyle = 'pixel';
-				}
-			}
-			else
+			if (PlayState.SONG.noteStyle != null)
 			{
 				this.noteStyle = PlayState.SONG.noteStyle;
 			}
+			// Else, we default to 'normal'.
 		}
 
 		buildNoteGraphic();
