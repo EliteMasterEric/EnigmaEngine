@@ -21,6 +21,24 @@ class MusicBeatSubstate extends FlxSubState
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
 
+	override function add(Object:flixel.FlxBasic):flixel.FlxBasic
+	{
+		if (FlxG.save.data.optimize)
+			members.push(Object);
+		return super.add(Object);
+	}
+
+	public function clean()
+	{
+		if (FlxG.save.data.optimize)
+		{
+			for (i in members)
+			{
+				remove(i);
+			}
+		}
+	}
+
 	override function update(elapsed:Float)
 	{
 		// everyStep();

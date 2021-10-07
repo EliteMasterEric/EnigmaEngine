@@ -32,7 +32,11 @@ class FreeplayState extends MusicBeatState
 
 	var selector:FlxText;
 
+	public static var instance:FreeplayState;
+
 	public static var rate:Float = 1.0;
+
+	public var acceptInput:Bool = true;
 
 	public static var curSelected:Int = 0;
 	public static var curDifficulty:Int = 1;
@@ -200,6 +204,8 @@ class FreeplayState extends MusicBeatState
 		var swag:Alphabet = new Alphabet(1, 0, "swag");
 
 		super.create();
+
+		instance = this;
 	}
 
 	/**
@@ -298,9 +304,10 @@ class FreeplayState extends MusicBeatState
 			FlxG.sound.music.volume -= 0.5 * FlxG.elapsed;
 		}
 
-		var upP = FlxG.keys.justPressed.UP;
-		var downP = FlxG.keys.justPressed.DOWN;
-		var accepted = FlxG.keys.justPressed.ENTER;
+		var upP = controls.UP_P;
+		var downP = controls.DOWN_P;
+		var accepted = controls.ACCEPT;
+		var viewMeta = FlxG.keys.justPressed.SPACE;
 		var charting = FlxG.keys.justPressed.SEVEN;
 
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
@@ -382,15 +389,37 @@ class FreeplayState extends MusicBeatState
 		}
 		#end
 
-		if (controls.BACK)
+		if (acceptInput)
 		{
-			FlxG.switchState(new MainMenuState());
-		}
+			if (controls.BACK)
+			{
+				FlxG.switchState(new MainMenuState());
+			}
 
-		if (accepted)
-			loadSong();
-		else if (charting)
-			loadSong(true);
+			if (accepted)
+				loadSong();
+			else if (charting)
+				loadSong(true);
+			else if (viewMeta)
+			{
+				// loadSongFromFreeplay but wack
+				var currentSongData;
+				try
+				{
+					if (songData.get(songs[curSelected].songName) == null)
+						return;
+					currentSongData = songData.get(songs[curSelected].songName)[curDifficulty];
+					if (songData.get(songs[curSelected].songName)[curDifficulty] == null)
+						return;
+				}
+				catch (ex)
+				{
+					return;
+				}
+
+				openSubState(new SongInfoSubstate(Song.conversionChecks(currentSongData)));
+			}
+		}
 	}
 
 	function loadSong(isCharting:Bool = false)
@@ -477,10 +506,8 @@ class FreeplayState extends MusicBeatState
 				songHighscore = 'Milf';
 		}
 
-		#if !switch
 		intendedScore = Highscore.getScore(songHighscore, curDifficulty);
 		combo = Highscore.getCombo(songHighscore, curDifficulty);
-		#end
 		diffCalcText.text = 'RATING: ${DiffCalc.CalculateDiff(songData.get(songs[curSelected].songName)[curDifficulty])}';
 		diffText.text = CoolUtil.difficultyFromInt(curDifficulty).toUpperCase();
 	}
