@@ -28,7 +28,7 @@ class ModCore
 		Debug.logInfo("Initializing ModCore...");
 		loadModsById(getModIds());
 		#else
-		Debug.logInfo("ModCore not initialized; not supported on this platform.");
+		Debug.logInfo("ModCore not initialized; not supported on this platform or disabled by developer.");
 		#end
 	}
 
