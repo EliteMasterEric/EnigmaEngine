@@ -90,8 +90,9 @@ class GraphicsAssets
 		}
 		#end
 
-		if (doesImageExist(key))
+		if (doesImageExist(key, library))
 		{
+			trace('Loading image ${library}:${key}');
 			var bitmap = OpenFlAssets.getBitmapData(Paths.image(key, library));
 			return FlxGraphic.fromBitmapData(bitmap);
 		}

@@ -31,11 +31,18 @@ class InteractableUIState extends FlxUIState implements IInteractable
 {
 	var gestureStateData:GestureStateData = {};
 
+	public function new()
+	{
+		super();
+		trace('InteractableUIState.new');
+	}
+
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		trace('InteractableUIState.create');
 
-		gestureStateData = GestureUtil.handleGestureState(this, gestureStateData);
+		// gestureStateData = GestureUtil.handleGestureState(this, gestureStateData);
 	}
 
 	public function onJustPressed(pos:FlxPoint)

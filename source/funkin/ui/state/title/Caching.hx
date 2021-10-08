@@ -93,7 +93,7 @@ class Caching extends MusicBeatState
 		text = new FlxText(FlxG.width / 2, FlxG.height / 2 + 300, 0, "Loading...");
 		text.size = 34;
 		text.alignment = FlxTextAlign.CENTER;
-		text.alpha = 0;
+		text.alpha = 1;
 
 		gameLogo = new FlxSprite(FlxG.width / 2, FlxG.height / 2).loadGraphic(GraphicsAssets.loadImage('logo'));
 		gameLogo.x -= gameLogo.width / 2;
@@ -146,16 +146,16 @@ class Caching extends MusicBeatState
 
 		sys.thread.Thread.create(() ->
 		{
-			while (!loaded)
+			do
 			{
-				if (toBeDone != 0 && done != toBeDone)
-				{
-					var alpha = Util.truncateFloat(done / toBeDone * 100, 2) / 100;
-					gameLogo.alpha = alpha;
-					text.alpha = alpha;
-					text.text = "Loading... (" + done + "/" + toBeDone + ")";
-				}
+				Sys.sleep(1);
+				trace('Update loading text...');
+
+				var alpha = Util.truncateFloat(done / toBeDone * 100, 2) / 100;
+				gameLogo.alpha = alpha;
+				text.text = "Loading... (" + done + "/" + toBeDone + ")";
 			}
+			while (!loaded);
 		});
 
 		// cache thread
@@ -165,6 +165,7 @@ class Caching extends MusicBeatState
 		});
 		#end
 
+		trace('Done making cache thread...');
 		super.create();
 	}
 
@@ -173,6 +174,7 @@ class Caching extends MusicBeatState
 	override function update(elapsed)
 	{
 		super.update(elapsed);
+		trace('update');
 	}
 
 	function cache()

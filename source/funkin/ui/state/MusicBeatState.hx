@@ -39,7 +39,7 @@ import funkin.behavior.api.Discord.DiscordClient;
 import funkin.behavior.play.Conductor.BPMChangeEvent;
 import openfl.Lib;
 
-class MusicBeatState extends InteractableUIState
+class MusicBeatState extends FlxUIState // InteractableUIState
 {
 	private var lastBeat:Float = 0;
 	private var lastStep:Float = 0;
@@ -76,6 +76,7 @@ class MusicBeatState extends InteractableUIState
 
 	override function create()
 	{
+		trace('MusicBeatState.create');
 		TimingStruct.clearTimings();
 		(cast(Lib.current.getChildAt(0), Main)).setFPSCap(FlxG.save.data.fpsCap);
 

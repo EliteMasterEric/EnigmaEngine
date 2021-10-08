@@ -208,20 +208,20 @@ class Debug
 		trace('Initializing Debug tools...');
 
 		// Override Haxe's vanilla trace() calls to use the Flixel console.
-		Log.trace = function(data:Dynamic, ?info:PosInfos)
-		{
-			var paramArray:Array<Dynamic> = [data];
-
-			if (info != null && info.customParams != null)
-			{
-				for (i in info.customParams)
-				{
-					paramArray.push(i);
-				}
-			}
-
-			logTrace(paramArray, info);
-		};
+		// Log.trace = function(data:Dynamic, ?info:PosInfos)
+		// {
+		//	var paramArray:Array<Dynamic> = [data];
+		//
+		//	if (info != null && info.customParams != null)
+		//	{
+		//		for (i in info.customParams)
+		//		{
+		//			paramArray.push(i);
+		//		}
+		//	}
+		//
+		//	logTrace(paramArray, info);
+		// };
 
 		// Start the log file writer.
 		// We have to set it to TRACE for now.

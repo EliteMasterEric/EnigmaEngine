@@ -43,4 +43,5 @@ First public release. Now has support for data-driven custom weeks, data-driven 
   - Sort all import lines.
   - Add license header and docs header to every file.
   - Replace all uses of `StringTools` with `haxe-strings`.
+- Get hxTelemetry working to help triage bugs.
 - Test for and fix any bugs.

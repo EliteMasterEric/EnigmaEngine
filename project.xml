@@ -141,21 +141,6 @@
 			<library name="week5"    preload="false" />
 			<library name="week6"    preload="false" />
 		</section>
-
-		<assets path="assets/tutorial" library="tutorial" exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/tutorial" library="tutorial" exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/week1"    library="week1"    exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/week1"    library="week1"    exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/week2"    library="week2"    exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/week2"    library="week2"    exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/week3"    library="week3"    exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/week3"    library="week3"    exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/week4"    library="week4"    exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/week4"    library="week4"    exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/week5"    library="week5"    exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/week5"    library="week5"    exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/week6"    library="week6"    exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/week6"    library="week6"    exclude="*.md|*.mp3" unless="web"/>	
 	</section>
 
 	<assets path="assets/preload" rename="assets" exclude="*.ogg" if="web"/>
@@ -173,7 +158,7 @@
 		<library name="sm"       preload="false" />
 	</section>
 
-	<library name="scripts" preload="true" />
+	<library name="scripts" preload="true" embed="true" />
 	
 	<!-- Exclude .md files to add documentation to the codebase without including them in builds. -->
 	<assets path="assets/songs"    library="songs"    exclude="*.md|*.ogg" if="web"/>
@@ -184,6 +169,23 @@
 	<assets path="assets/scripts"  library="scripts"  exclude="*.md|*.mp3" unless="web"/>
 	<assets path="assets/sm"       library="sm"       exclude="*.md|*.ogg" if="web"/>
 	<assets path="assets/sm"       library="sm"       exclude="*.md|*.mp3" unless="web"/>
+
+	<section if="includeDefaultWeeks">
+		<assets path="assets/_includeDefaultWeeks/tutorial" library="tutorial" exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/_includeDefaultWeeks/tutorial" library="tutorial" exclude="*.md|*.mp3" unless="web"/>
+		<assets path="assets/_includeDefaultWeeks/week1"    library="week1"    exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/_includeDefaultWeeks/week1"    library="week1"    exclude="*.md|*.mp3" unless="web"/>
+		<assets path="assets/_includeDefaultWeeks/week2"    library="week2"    exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/_includeDefaultWeeks/week2"    library="week2"    exclude="*.md|*.mp3" unless="web"/>
+		<assets path="assets/_includeDefaultWeeks/week3"    library="week3"    exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/_includeDefaultWeeks/week3"    library="week3"    exclude="*.md|*.mp3" unless="web"/>
+		<assets path="assets/_includeDefaultWeeks/week4"    library="week4"    exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/_includeDefaultWeeks/week4"    library="week4"    exclude="*.md|*.mp3" unless="web"/>
+		<assets path="assets/_includeDefaultWeeks/week5"    library="week5"    exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/_includeDefaultWeeks/week5"    library="week5"    exclude="*.md|*.mp3" unless="web"/>
+		<assets path="assets/_includeDefaultWeeks/week6"    library="week6"    exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/_includeDefaultWeeks/week6"    library="week6"    exclude="*.md|*.mp3" unless="web"/>	
+  </section>
 
 	<!-- Move the example mods to the `mods` folder of the build. -->
 	<assets path='example_mods'   rename='mods' embed='false'/>
@@ -257,13 +259,23 @@
 	<!--Enable this for Nape release builds for a serious peformance improvement-->
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
 
-	<!-- Enable this to allow for stack traces in the CrashDumper.
-    <haxedef name="HXCPP_CHECK_POINTER" if="release" />
-    <haxedef name="HXCPP_STACK_LINE" if="release" />
-  -->
-
 	<haxeflag name="--no-traces" unless="debug" />
 	<haxeflag name="--dce full" if="release" />
+
+  <haxedef name="HXCPP_CHECK_POINTER" />
+  <haxedef name="HXCPP_STACK_LINE" />
+
+  <!-- On desktop debug builds, you can use '-Dtelemetry' to enable the hxtelemetry library. -->
+  <!-- Download the program hxScout to see memory usage and frame timings.-->
+  <!-- I can't for the life of me get this stuff to work. -->
+  <!-- 
+    <section if="telemetry">
+      <haxedef name="HXCPP_STACK_TRACE" />
+
+      <haxelib name="hxtelemetry" />
+      <config:hxtelemetry app_name="Funkin" host="localhost" port="7934" profiler="true" allocations="true" /> 
+    </section>
+  -->
 
 	<!-- _________________________________ Custom _______________________________ -->
 
