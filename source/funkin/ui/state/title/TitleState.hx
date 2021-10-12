@@ -189,7 +189,7 @@ class TitleState extends MusicBeatState // implements IHook
 	public override function create():Void
 	{
 		trace('Started initializing TitleState...');
-		onStartCreateTitleScreen();
+		// onStartCreateTitleScreen();
 
 		// TODO: Refactor this to use OpenFlAssets for compatibility with ModCore.
 		#if FEATURE_FILESYSTEM

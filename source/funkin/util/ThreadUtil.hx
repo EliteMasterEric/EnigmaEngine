@@ -17,37 +17,25 @@
  */
 
 /*
- * FunneUtil.hx
- * Contains static utility functions used for doing funny weird stuff.
+ * ThreadUtil.hx
+ * Contains utility functions to simplify the process of performing tasks in a background thread.
+ * Good for fully utilizing multi-processor support.
  */
 package funkin.util;
 
-import flixel.FlxG;
-
-class FunneUtil
+class ThreadUtil
 {
-	/**
-	 * Crashes the game, like Bob does at the end of ONSLAUGHT.
-	 * Only works on SYS platforms like Windows/Mac/Linux/Android/iOS
-	 */
-	public static function crashTheGame()
+	public static function doInBackground(cb:Void->Void)
 	{
-		#if sys
-		Sys.exit(0);
-		#end
-	}
-
-	/**
-	 * Opens the given URL in the user's browser.
-	 * @param targetURL The URL to open.
-	 */
-	public static function openURL(targetURL:String)
-	{
-		// Different behavior for certain platforms.
-		#if linux
-		Sys.command('/usr/bin/xdg-open', [targetURL, "&"]);
+		#if FEATURE_MULTITHREADING
+		sys.thread.Thread.create(() ->
+		{
+			// Run in the background.
+			cb();
+		});
 		#else
-		FlxG.openURL(targetURL);
+		trace('WARNING: Tried to run callback with doInBackground, but multithreading is disabled on this platform.');
+		cb();
 		#end
 	}
 }

@@ -116,14 +116,14 @@ class Main extends Sprite
 
 		#if FEATURE_FILESYSTEM
 		Debug.logTrace("App has access to file system. Begin mod check and precaching...");
-		// if (ModCore.hasMods())
-		// {
-		//	initialState = ModSplashState;
-		// }
-		// else
-		// {
-		initialState = Caching;
-		// }
+		if (ModCore.hasMods())
+		{
+			initialState = ModSplashState;
+		}
+		else
+		{
+			initialState = Caching;
+		}
 		game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
 		#else
 		Debug.logTrace("App has no access to file system. Starting game...");

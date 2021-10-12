@@ -2,48 +2,51 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Enigma Engine" file="Enigma Engine" packageName="com.mastereric.enigmaengine" package="com.mastereric.enigmaengine" main="Main" version="0.2.0" company="mastereric" />
+	<app title="Enigma Engine" file="Enigma" packageName="com.mastereric.enigmaengine" package="com.mastereric.enigmaengine" main="Main" version="0.2.0" company="mastereric" />
 
-	<echo value="_____________________________________________" />
-	<echo value="___________________6666666___________________" />
-	<echo value="____________66666__________66666_____________" />
-	<echo value="_________6666___________________666__________" />
-	<echo value="_______666__6____________________6_666_______" />
-	<echo value="_____666_____66_______________666____66______" />
-	<echo value="____66_______66666_________66666______666____" />
-	<echo value="___66_________6___66_____66___66_______666___" />
-	<echo value="__66__________66____6666_____66_________666__" />
-	<echo value="_666___________66__666_66___66___________66__" />
-	<echo value="_66____________6666_______6666___________666_" />
-	<echo value="_66___________6666_________6666__________666_" />
-	<echo value="_66________666_________________666_______666_" />
-	<echo value="_66_____666______66_______66______666____666_" />
-	<echo value="_666__666666666666666666666666666666666__66__" />
-	<echo value="__66_______________6____66______________666__" />
-	<echo value="___66______________66___66_____________666___" />
-	<echo value="____66______________6__66_____________666____" />
-	<echo value="_______666___________666___________666_______" />
-	<echo value="_________6666_________6_________666__________" />
-	<echo value="____________66666_____6____66666_____________" />
-	<echo value="___________________6666666___________________" />
-	<echo value="_____________________________________________" />
-	<echo value="=============================================" />
-	<echo value="    _____ _   _ _____ _____ ___  ___  ___    " />
-	<echo value="   |  ___| \ | |_   _|  __ \|  \/  | / _ \   " />
-	<echo value="   | |__ |  \| | | | | |  \/| .  . |/ /_\ \  " />
-	<echo value="   |  __|| . ` | | | | | __ | |\/| ||  _  |  " />
-	<echo value="   | |___| |\  |_| |_| |_\ \| |  | || | | |  " />
-	<echo value="   \____/\_| \_/\___/ \____/\_|  |_/\_| |_/  " />
-	<echo value="     _____ _   _ _____ _____ _   _  _____    " />
-	<echo value="    |  ___| \ | |  __ \_   _| \ | ||  ___|   " />
-	<echo value="    | |__ |  \| | |  \/ | | |  \| || |__     " />
-	<echo value="    |  __|| . ` | | __  | | | . ` ||  __|    " />
-	<echo value="    | |___| |\  | |_\ \_| |_| |\  || |___    " />
-	<echo value="    \____/\_| \_/\____/\___/\_| \_/\____/    " />
-	<echo value="    										  " />
-
-	<echo value="Initializing build..." />
-
+	<!--
+		What can I say? You gotta make your project.xml fancy.
+		Print a cool ASCII logo at the start of each build.
+		<echo value="_____________________________________________" />
+		<echo value="___________________6666666___________________" />
+		<echo value="____________66666__________66666_____________" />
+		<echo value="_________6666___________________666__________" />
+		<echo value="_______666__6____________________6_666_______" />
+		<echo value="_____666_____66_______________666____66______" />
+		<echo value="____66_______66666_________66666______666____" />
+		<echo value="___66_________6___66_____66___66_______666___" />
+		<echo value="__66__________66____6666_____66_________666__" />
+		<echo value="_666___________66__666_66___66___________66__" />
+		<echo value="_66____________6666_______6666___________666_" />
+		<echo value="_66___________6666_________6666__________666_" />
+		<echo value="_66________666_________________666_______666_" />
+		<echo value="_66_____666______66_______66______666____666_" />
+		<echo value="_666__666666666666666666666666666666666__66__" />
+		<echo value="__66_______________6____66______________666__" />
+		<echo value="___66______________66___66_____________666___" />
+		<echo value="____66______________6__66_____________666____" />
+		<echo value="_______666___________666___________666_______" />
+		<echo value="_________6666_________6_________666__________" />
+		<echo value="____________66666_____6____66666_____________" />
+		<echo value="___________________6666666___________________" />
+		<echo value="_____________________________________________" />
+		<echo value="I  _____ _   _ _____ _____ ___  ___  ___    I" />
+		<echo value="I |  ___| \ | |_   _|  __ \|  \/  | / _ \   I" />
+		<echo value="I | |__ |  \| | | | | |  \/| .  . |/ /_\ \  I" />
+		<echo value="I |  __|| . ` | | | | | __ | |\/| ||  _  |  I" />
+		<echo value="I | |___| |\  |_| |_| |_\ \| |  | || | | |  I" />
+		<echo value="I \____/\_| \_/\___/ \____/\_|  |_/\_| |_/  I" />
+		<echo value="I   _____ _   _ _____ _____ _   _  _____    I" />
+		<echo value="I  |  ___| \ | |  __ \_   _| \ | ||  ___|   I" />
+		<echo value="I  | |__ |  \| | |  \/ | | |  \| || |__     I" />
+		<echo value="I  |  __|| . ` | | __  | | | . ` ||  __|    I" />
+		<echo value="I  | |___| |\  | |_\ \_| |_| |\  || |___    I" />
+		<echo value="I  \____/\_| \_/\____/\___/\_| \_/\____/    I" />
+		<echo value="I___________________________________________I" />
+		<echo value="Initializing build..." />
+	-->
+		
+		
 	<!-- If you want me to try to build for these platforms, make an issue on the repo and state your case. -->
 	<error value="Target platform iOS is not supported." if="ios" />
 	<error value="Target platform HashLink is not supported." if="hl" />
@@ -57,20 +60,21 @@
 	<error value="Target platform FirefoxOS is not supported." if="firefox" />
 	<error value="Target platform NodeJS is not supported" if="nodejs" /> 
 
-	<!-- Print out the target platform. -->
-	<echo value="Target platform: Windows"   if="windows" />
-	<echo value="Target platform: MacOS"     if="mac" />
-	<echo value="Target platform: Linux"     if="linux" />
-	<echo value="Target platform: HTML5/Web" if="html5" unless="electron" />
-	<echo value="Target platform: Electron"  if="html5 electron" /> 
-	<echo value="Target platform: Android"   if="android" />
-
-	<echo value="Platform host: Desktop" if="desktop" />
-	<echo value="Platform host: Mobile"  if="mobile" />
-	<echo value="Platform host: Web"     if="web" />
-
-	<echo value="Platform architecture: 32-bit" if="HXCPP_M32" />
-	<echo value="Platform architecture: 64-bit" if="HXCPP_M64" />
+	<!-- Print out the target platform.
+		<echo value="Target platform: Windows"   if="windows" />
+		<echo value="Target platform: MacOS"     if="mac" />
+		<echo value="Target platform: Linux"     if="linux" />
+		<echo value="Target platform: HTML5/Web" if="html5" unless="electron" />
+		<echo value="Target platform: Electron"  if="html5 electron" /> 
+		<echo value="Target platform: Android"   if="android" />
+		
+		<echo value="Platform host: Desktop" if="desktop" />
+		<echo value="Platform host: Mobile"  if="mobile" />
+		<echo value="Platform host: Web"     if="web" />
+		
+		<echo value="Platform architecture: 32-bit" if="HXCPP_M32" />
+		<echo value="Platform architecture: 64-bit" if="HXCPP_M64" />
+	-->
 
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
@@ -97,7 +101,6 @@
 	<!-- Builds go to the export/ folder, depending on build type and operating system. -->
 	<set name="BUILD_DIR" value="export/debug" if="debug" />
 	<set name="BUILD_DIR" value="export/release" unless="debug" />
-  	<set name="BUILD_DIR" value="export/32bit" if="32bit" />
 
 	<!--
 		Split the Windows and Linux build folder by platform.
@@ -141,6 +144,21 @@
 			<library name="week5"    preload="false" />
 			<library name="week6"    preload="false" />
 		</section>
+
+		<assets path="assets/_includeDefaultWeeks/tutorial" library="tutorial" exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/_includeDefaultWeeks/tutorial" library="tutorial" exclude="*.md|*.mp3" unless="web"/>
+		<assets path="assets/_includeDefaultWeeks/week1"    library="week1"    exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/_includeDefaultWeeks/week1"    library="week1"    exclude="*.md|*.mp3" unless="web"/>
+		<assets path="assets/_includeDefaultWeeks/week2"    library="week2"    exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/_includeDefaultWeeks/week2"    library="week2"    exclude="*.md|*.mp3" unless="web"/>
+		<assets path="assets/_includeDefaultWeeks/week3"    library="week3"    exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/_includeDefaultWeeks/week3"    library="week3"    exclude="*.md|*.mp3" unless="web"/>
+		<assets path="assets/_includeDefaultWeeks/week4"    library="week4"    exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/_includeDefaultWeeks/week4"    library="week4"    exclude="*.md|*.mp3" unless="web"/>
+		<assets path="assets/_includeDefaultWeeks/week5"    library="week5"    exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/_includeDefaultWeeks/week5"    library="week5"    exclude="*.md|*.mp3" unless="web"/>
+		<assets path="assets/_includeDefaultWeeks/week6"    library="week6"    exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/_includeDefaultWeeks/week6"    library="week6"    exclude="*.md|*.mp3" unless="web"/>	
 	</section>
 
 	<assets path="assets/preload" rename="assets" exclude="*.ogg" if="web"/>
@@ -251,10 +269,6 @@
 
 	<!--Disable the Flixel core debugger. Automatically gets set whenever you compile in release mode!-->
 	<haxedef name="FLX_NO_DEBUG" unless="debug" />
-
-  <!--
-	<haxedef name="HXCPP_GC_BIG_BLOCKS"/>
-  -->
 
 	<!--Enable this for Nape release builds for a serious peformance improvement-->
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />

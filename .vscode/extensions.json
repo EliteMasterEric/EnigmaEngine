@@ -3,6 +3,7 @@
     "nadako.vshaxe",
     "wiggin77.codedox",
     "vshaxe.hxcpp-debugger",
-    "openfl.lime-vscode-extension"
+    "openfl.lime-vscode-extension",
+    "firefox-devtools.vscode-firefox-debug"
   ]
 }

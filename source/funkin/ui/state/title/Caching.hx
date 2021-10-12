@@ -43,8 +43,10 @@ import funkin.util.assets.Paths;
 import funkin.behavior.Debug;
 import funkin.util.assets.GraphicsAssets;
 import funkin.behavior.options.PlayerSettings;
+import funkin.util.WindowUtil;
 import funkin.behavior.SaveData;
 import funkin.ui.component.Cursor;
+import funkin.util.ThreadUtil;
 import funkin.util.Util;
 import funkin.util.assets.SongAssets;
 import haxe.Exception;
@@ -142,27 +144,7 @@ class Caching extends MusicBeatState
 		trace('starting caching..');
 
 		#if FEATURE_MULTITHREADING
-		// update thread
-
-		sys.thread.Thread.create(() ->
-		{
-			do
-			{
-				Sys.sleep(1);
-				trace('Update loading text...');
-
-				var alpha = Util.truncateFloat(done / toBeDone * 100, 2) / 100;
-				gameLogo.alpha = alpha;
-				text.text = "Loading... (" + done + "/" + toBeDone + ")";
-			}
-			while (!loaded);
-		});
-
-		// cache thread
-		sys.thread.Thread.create(() ->
-		{
-			cache();
-		});
+		ThreadUtil.doInBackground(cache);
 		#end
 
 		trace('Done making cache thread...');
@@ -174,7 +156,14 @@ class Caching extends MusicBeatState
 	override function update(elapsed)
 	{
 		super.update(elapsed);
-		trace('update');
+
+		trace('Update loading text...');
+
+		// Update the loading text. This should be done in the main UI thread.
+		var alpha = Util.truncateFloat(done / toBeDone * 100, 2) / 100;
+		gameLogo.alpha = alpha;
+		trace('Update loading text (${alpha})...');
+		text.text = "Loading... (" + done + "/" + toBeDone + ")";
 	}
 
 	function cache()
@@ -223,7 +212,7 @@ class Caching extends MusicBeatState
 
 		trace(OpenFlAssets.cache.hasBitmapData('GF_assets'));
 		#end
-		FlxG.switchState(new TitleState());
+		// FlxG.switchState(new TitleState());
 	}
 }
 #end

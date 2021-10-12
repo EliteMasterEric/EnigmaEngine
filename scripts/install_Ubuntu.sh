@@ -20,8 +20,6 @@ haxelib run lime setup flixel
 haxelib run lime setup
 haxelib install flixel-ui
 haxelib install flixel-tools
-haxelib install hscript
-haxelib install actuate 
 
 # Enigma-specific dependencies
 haxelib install haxe-strings
@@ -29,6 +27,10 @@ haxelib install tjson
 haxelib install firetongue
 
 # Use specific bleeding-edge builds
+haxelib remove hscript
+haxelib git hscript https://github.com/HaxeFoundation/hscript
+haxelib remove actuate 
+haxelib git actuate https://github.com/jgranick/actuate
 haxelib remove discord_rpc
 haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
 haxelib remove hxvm-luajit

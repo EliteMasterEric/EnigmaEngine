@@ -24,7 +24,7 @@
 package funkin.ui.state.title;
 
 import funkin.ui.state.menu.MainMenuState;
-import funkin.util.FunneUtil;
+import funkin.util.WindowUtil;
 import funkin.const.Enigma;
 import funkin.util.assets.Paths;
 import flixel.FlxG;
@@ -125,7 +125,7 @@ class OutdatedSubState extends MusicBeatState
 	{
 		if (controls.ACCEPT && Enigma.ENGINE_SUFFIX == "")
 		{
-			FunneUtil.openURL('https://github.com/EnigmaEngine/EnigmaEngine/blob/stable/docs/changelogs/changelog-${needVer}.md');
+			WindowUtil.openURL('https://github.com/EnigmaEngine/EnigmaEngine/blob/stable/docs/changelogs/changelog-${needVer}.md');
 		}
 		else if (controls.ACCEPT)
 		{
