@@ -111,8 +111,6 @@ class Main extends Sprite
 		framerate = 60;
 		#end
 
-		framerate = Std.int(Lib.current.stage.frameRate);
-
 		// Run this first so we can see logs.
 		Debug.onInitProgram();
 
