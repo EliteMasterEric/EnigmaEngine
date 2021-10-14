@@ -23,6 +23,7 @@
  */
 package funkin.ui.state.title;
 
+import funkin.util.assets.LibraryAssets;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
 import flixel.addons.transition.TransitionData;
@@ -115,7 +116,7 @@ class Caching extends MusicBeatState
 		#if FEATURE_FILESYSTEM
 		if (FlxG.save.data.cacheImages)
 		{
-			trace("caching images...");
+			Debug.logTrace("Planning to cache character images...");
 
 			// TODO: Refactor this to use OpenFlAssets.
 			for (i in FileSystem.readDirectory(FileSystem.absolutePath("assets/shared/images/characters")))
@@ -126,7 +127,7 @@ class Caching extends MusicBeatState
 			}
 		}
 
-		trace("caching music...");
+		Debug.logTrace("Planning to cache music files...");
 
 		music = SongAssets.listMusicFilesToCache();
 		#end
@@ -141,13 +142,13 @@ class Caching extends MusicBeatState
 		add(gameLogo);
 		add(text);
 
-		trace('starting caching..');
+		Debug.logTrace('Begin caching..');
 
 		#if FEATURE_MULTITHREADING
 		ThreadUtil.doInBackground(cache);
 		#end
 
-		trace('Done making cache thread...');
+		Debug.logTrace('Created cache thread.');
 		super.create();
 	}
 
@@ -157,19 +158,16 @@ class Caching extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		trace('Update loading text...');
-
 		// Update the loading text. This should be done in the main UI thread.
 		var alpha = Util.truncateFloat(done / toBeDone * 100, 2) / 100;
 		gameLogo.alpha = alpha;
-		trace('Update loading text (${alpha})...');
 		text.text = "Loading... (" + done + "/" + toBeDone + ")";
 	}
 
 	function cache()
 	{
 		#if FEATURE_FILESYSTEM
-		trace("LOADING: " + toBeDone + " OBJECTS.");
+		Debug.logTrace("Cache thread initialized. Caching " + toBeDone + " items...");
 
 		for (i in images)
 		{
@@ -190,14 +188,14 @@ class Caching extends MusicBeatState
 		{
 			Debug.logTrace('Caching song "$i"...');
 			var inst = Paths.inst(i);
-			if (AudioAssets.doesSoundAssetExist(inst))
+			if (LibraryAssets.soundExists(inst))
 			{
 				FlxG.sound.cache(inst);
 				Debug.logTrace('  Cached inst for song "$i"');
 			}
 
 			var voices = Paths.voices(i);
-			if (AudioAssets.doesSoundAssetExist(voices))
+			if (LibraryAssets.soundExists(voices))
 			{
 				FlxG.sound.cache(voices);
 				Debug.logTrace('  Cached voices for song "$i"');
@@ -206,13 +204,14 @@ class Caching extends MusicBeatState
 			done++;
 		}
 
-		trace("Finished caching...");
+		Debug.logTrace("Finished caching...");
 
 		loaded = true;
-
-		trace(OpenFlAssets.cache.hasBitmapData('GF_assets'));
 		#end
-		// FlxG.switchState(new TitleState());
+
+		// If the file system is supported, move to the title state after caching is done.
+		// If the file system isn't supported, move to the title state immediately.
+		FlxG.switchState(new TitleState());
 	}
 }
 #end

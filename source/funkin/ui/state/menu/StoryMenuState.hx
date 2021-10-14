@@ -158,8 +158,15 @@ class StoryMenuState extends MusicBeatState
 		// Load the filtered week list.
 		weekIds = DataAssets.loadLinesFromFile(Paths.txt('data/weekOrder')).filter(function(weekId)
 		{
-			return WeekCache.isWeekHidden(weekId);
+			// Filter by whether the week is currently hidden.
+			return !WeekCache.isWeekHidden(weekId);
 		});
+
+		if (weekIds.length == 0)
+		{
+			Debug.logError('WARNING: There are no story weeks available!');
+			Debug.logError('Check your configuration!');
+		}
 
 		// Make sure the diamond fade in is used.
 		transIn = FlxTransitionableState.defaultTransIn;
@@ -192,11 +199,15 @@ class StoryMenuState extends MusicBeatState
 
 		grpWeekCharacters = new FlxTypedGroup<MenuCharacter>();
 
+		Debug.logInfo('Displaying entries for ${weekIds.length} week IDs.');
+
 		for (i in 0...weekIds.length)
 		{
+			Debug.logTrace('Rendering entry for week ${weekIds[i]}');
+
 			var weekDataEntry:Week = WeekCache.get(weekIds[i]);
 
-			var weekMenuItem:StoryWeekMenuItem = new StoryWeekMenuItem(0, characterBG.y + characterBG.height + 10, weekDataEntry);
+			var weekMenuItem:StoryWeekMenuItem = new StoryWeekMenuItem(0, 56 + 400 + 10, weekDataEntry);
 			weekMenuItem.y += ((weekMenuItem.height + 20) * i);
 			weekMenuItem.targetY = i;
 			grpWeekText.add(weekMenuItem);
@@ -207,14 +218,19 @@ class StoryMenuState extends MusicBeatState
 			// Needs an offset thingie
 			if (!weekDataEntry.isWeekUnlocked())
 			{
-				trace('locking week $i');
+				trace('Locking week ${weekIds[i]}');
 				var lock:FlxSprite = new FlxSprite(weekMenuItem.width + 10 + weekMenuItem.x);
-				lock.loadGraphic(Paths.image('images/storymenu/lock'));
+				lock.loadGraphic(Paths.image('storymenu/lock'));
 				lock.ID = i;
 				lock.antialiasing = FlxG.save.data.antialiasing;
 				grpLocks.add(lock);
 			}
 		}
+
+		// Build and display the week background (yellow square in vanilla).
+		characterBG = getCurrentWeek().createBackgroundSprite();
+		characterBG.y = 56;
+		add(characterBG);
 
 		grpWeekCharacters.add(new MenuCharacter(0, 100, ""));
 		grpWeekCharacters.add(new MenuCharacter(450, 25, "gf"));
@@ -247,7 +263,7 @@ class StoryMenuState extends MusicBeatState
 
 		add(grpWeekCharacters);
 
-		txtTracklist = new FlxText(FlxG.width * 0.05, characterBG.x + characterBG.height + 100, 0, 'Tracks', 32);
+		txtTracklist = new FlxText(FlxG.width * 0.05, 56 + 400 + 100, 0, 'Tracks', 32);
 		txtTracklist.alignment = CENTER;
 		txtTracklist.color = 0xFFe55777;
 		add(txtTracklist);
@@ -527,15 +543,15 @@ class StoryMenuState extends MusicBeatState
 	function updateText()
 	{
 		// Update character background
-		remove(characterBG);
-		characterBG = getCurrentWeek().createBackgroundSprite();
-		characterBG.y = 56;
-		add(characterBG);
+		// remove(characterBG);
+		// characterBG = getCurrentWeek().createBackgroundSprite();
+		// characterBG.y = 56;
+		// add(characterBG);
 
 		// Update characters.
-		grpWeekCharacters.members[0].setCharacter(getCurrentWeek().menuCharacters[0]);
-		grpWeekCharacters.members[1].setCharacter(getCurrentWeek().menuCharacters[1]);
-		grpWeekCharacters.members[2].setCharacter(getCurrentWeek().menuCharacters[2]);
+		// grpWeekCharacters.members[0].setCharacter(getCurrentWeek().menuCharacters[0]);
+		// grpWeekCharacters.members[1].setCharacter(getCurrentWeek().menuCharacters[1]);
+		// grpWeekCharacters.members[2].setCharacter(getCurrentWeek().menuCharacters[2]);
 
 		// Update track list.
 		txtTracklist.text = "Tracks\n";

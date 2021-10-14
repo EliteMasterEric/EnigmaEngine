@@ -26,10 +26,4 @@ import openfl.Assets as OpenFlAssets;
 
 class AudioAssets
 {
-	public static function doesSoundAssetExist(path:String)
-	{
-		if (path == null || path == "")
-			return false;
-		return OpenFlAssets.exists(path, SOUND) || OpenFlAssets.exists(path, MUSIC);
-	}
 }

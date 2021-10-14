@@ -71,7 +71,6 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
-		trace(0 / 2);
 		clean();
 		#if FEATURE_DISCORD
 		// Updating Discord Rich Presence

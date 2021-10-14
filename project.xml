@@ -5,8 +5,8 @@
 	<app title="Enigma Engine" file="Enigma" packageName="com.mastereric.enigmaengine" package="com.mastereric.enigmaengine" main="Main" version="0.2.0" company="mastereric" />
 
 	<!--
-		What can I say? You gotta make your project.xml fancy.
-		Print a cool ASCII logo at the start of each build.
+		I wanted to print a cool ASCII logo at the start of each build,
+		but apparently the "echo" command breaks the Haxe VSCode integration.
 		<echo value="_____________________________________________" />
 		<echo value="___________________6666666___________________" />
 		<echo value="____________66666__________66666_____________" />
@@ -30,6 +30,7 @@
 		<echo value="____________66666_____6____66666_____________" />
 		<echo value="___________________6666666___________________" />
 		<echo value="_____________________________________________" />
+		<echo value="I-------------------------------------------I" />
 		<echo value="I  _____ _   _ _____ _____ ___  ___  ___    I" />
 		<echo value="I |  ___| \ | |_   _|  __ \|  \/  | / _ \   I" />
 		<echo value="I | |__ |  \| | | | | |  \/| .  . |/ /_\ \  I" />
@@ -42,16 +43,21 @@
 		<echo value="I  |  __|| . ` | | __  | | | . ` ||  __|    I" />
 		<echo value="I  | |___| |\  | |_\ \_| |_| |\  || |___    I" />
 		<echo value="I  \____/\_| \_/\____/\___/\_| \_/\____/    I" />
-		<echo value="I___________________________________________I" />
+		<echo value="I                                           I" />
+		<echo value="I-------------------------------------------I" />
 		<echo value="Initializing build..." />
 	-->
 		
-		
-	<!-- If you want me to try to build for these platforms, make an issue on the repo and state your case. -->
+	<!-- Make sure people don't try to build for a weird platform. -->
+	<!-- I can't support iOS right now, since I don't have the ability to build -->
 	<error value="Target platform iOS is not supported." if="ios" />
-	<error value="Target platform HashLink is not supported." if="hl" />
-	<!-- Emscripten is a compiler for WebAssembly. -->
+	<!-- Emscripten is a compiler for WebAssembly. This could result in high-performance browser builds. -->
 	<error value="Target platform Emscripten is not supported." if="emscripten" />
+	<!--
+		I don't know why you'd want to build the game for one of these other ones.
+		If you have a good reason, post an issue about it on the GitHub repo, I'll read it.
+	-->
+	<error value="Target platform HashLink is not supported." if="hl" />
 	<error value="Target platform Neko is not supported." if="neko" />
 	<error value="Target platform tvOS is not supported." if="tvos" />
 	<error value="Target platform Adobe AIR is not supported." if="air" />
@@ -59,13 +65,13 @@
 	<error value="Target platform Java is not supported" if="java" /> 
 	<error value="Target platform FirefoxOS is not supported." if="firefox" />
 	<error value="Target platform NodeJS is not supported" if="nodejs" /> 
+	<error value="Target platform Electron is not supported" if="html5 electron" /> 
 
 	<!-- Print out the target platform.
 		<echo value="Target platform: Windows"   if="windows" />
 		<echo value="Target platform: MacOS"     if="mac" />
 		<echo value="Target platform: Linux"     if="linux" />
 		<echo value="Target platform: HTML5/Web" if="html5" unless="electron" />
-		<echo value="Target platform: Electron"  if="html5 electron" /> 
 		<echo value="Target platform: Android"   if="android" />
 		
 		<echo value="Platform host: Desktop" if="desktop" />
@@ -75,8 +81,8 @@
 		<echo value="Platform architecture: 32-bit" if="HXCPP_M32" />
 		<echo value="Platform architecture: 64-bit" if="HXCPP_M64" />
 	-->
-
-	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
+		
+		<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
 	<!-- <app preloader="Preloader" resizable="true" /> -->
 	<app preloader="flixel.system.FlxPreloader" />

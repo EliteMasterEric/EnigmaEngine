@@ -1,5 +1,6 @@
 package funkin.behavior.play;
 
+import funkin.util.assets.Paths;
 import flixel.graphics.FlxGraphic;
 import funkin.util.assets.DataAssets;
 import funkin.util.assets.GraphicsAssets;
@@ -23,7 +24,7 @@ class DifficultyCache
 		if (Lambda.count(difficultyData) > 0)
 			return;
 
-		var difficultyRawList:Array<String> = DataAssets.loadLinesFromFile("data/difficulties.txt");
+		var difficultyRawList:Array<String> = DataAssets.loadLinesFromFile(Paths.txt("data/difficulties"));
 		for (element in difficultyRawList)
 		{
 			// Each item is of the format id:songSuffix

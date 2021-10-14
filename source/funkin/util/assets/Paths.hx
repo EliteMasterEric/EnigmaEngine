@@ -60,11 +60,11 @@ class Paths
 		if (currentLevel != null)
 		{
 			var levelPath = getLibraryPathForce(file, currentLevel);
-			if (OpenFlAssets.exists(levelPath, type))
+			if (LibraryAssets.assetExists(levelPath, type))
 				return levelPath;
 
 			levelPath = getLibraryPathForce(file, "shared");
-			if (OpenFlAssets.exists(levelPath, type))
+			if (LibraryAssets.assetExists(levelPath, type))
 				return levelPath;
 		}
 
@@ -169,14 +169,14 @@ class Paths
 	{
 		var result = 'songs:assets/songs/${song}/Voices.$SOUND_EXT';
 		// Return null if the file does not exist.
-		return AudioAssets.doesSoundAssetExist(result) ? result : null;
+		return LibraryAssets.soundExists(result) ? result : null;
 	}
 
 	public static inline function inst(song:String)
 	{
 		// Return null if the file does not exist.
 		var result = 'songs:assets/songs/${song}/Inst.$SOUND_EXT';
-		return AudioAssets.doesSoundAssetExist(result) ? result : null;
+		return LibraryAssets.soundExists(result) ? result : null;
 	}
 
 	public static inline function image(key:String, ?library:String)

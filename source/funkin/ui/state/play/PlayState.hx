@@ -101,7 +101,7 @@ import funkin.util.assets.GraphicsAssets;
 import funkin.util.assets.Paths;
 import funkin.util.Util;
 import funkin.util.NoteUtil;
-import funkin.util.Util;
+import funkin.util.assets.LibraryAssets;
 import haxe.EnumTools;
 import haxe.Exception;
 import lime.app.Application;
@@ -523,7 +523,7 @@ class PlayState extends MusicBeatState
 			+ Conductor.timeScale + '\nBotPlay : ' + PlayStateChangeables.botPlay);
 
 		// if the song has dialogue, so we don't accidentally try to load a nonexistant file and crash the game
-		if (DataAssets.doesTextAssetExist(Paths.txt('data/songs/${PlayState.SONG.songId}/dialogue')))
+		if (LibraryAssets.textExists(Paths.txt('data/songs/${PlayState.SONG.songId}/dialogue')))
 		{
 			dialogue = DataAssets.loadLinesFromFile(Paths.txt('data/songs/${PlayState.SONG.songId}/dialogue'));
 		}

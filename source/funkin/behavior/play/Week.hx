@@ -139,8 +139,11 @@ class Week
 
 		// Is unlocked in save data?
 		if (FlxG.save.data.weeksUnlocked != null)
+		{
+			trace(FlxG.save.data.weeksUnlocked);
 			if (FlxG.save.data.weeksUnlocked.get(this.id))
 				return true;
+		}
 
 		// Else, only unlock based on the compile time flag.
 		return Enigma.UNLOCK_ALL_WEEKS;
@@ -178,6 +181,7 @@ class WeekCache
 	 */
 	static function fetchWeek(weekId:String):Week
 	{
+		Debug.logTrace('Fetching week data for ${weekId}');
 		var rawJsonData = DataAssets.loadJSON('weeks/$weekId');
 
 		var rawWeekData:RawWeekData = cast rawJsonData;
@@ -206,6 +210,12 @@ class WeekCache
 
 	static function verifyRawWeekData(rawWeekData:RawWeekData):Bool
 	{
+		if (rawWeekData == null)
+		{
+			Debug.logError("Error: Week data is empty! Was it read correctly?");
+			return false;
+		}
+
 		if (rawWeekData.name == null)
 		{
 			Debug.logError("Error: Week data is missing attribute 'name'");

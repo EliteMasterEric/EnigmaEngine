@@ -76,12 +76,11 @@ class MusicBeatState extends FlxUIState // InteractableUIState
 
 	override function create()
 	{
-		trace('MusicBeatState.create');
 		TimingStruct.clearTimings();
 		(cast(Lib.current.getChildAt(0), Main)).setFPSCap(FlxG.save.data.fpsCap);
 
-		if (transIn != null)
-			trace('reg ' + transIn.region);
+		// if (transIn != null)
+		// 	trace('reg ' + transIn.region);
 
 		super.create();
 	}

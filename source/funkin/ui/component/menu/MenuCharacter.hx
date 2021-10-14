@@ -23,6 +23,7 @@
  */
 package funkin.ui.component.menu;
 
+import funkin.behavior.Debug;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -67,17 +68,18 @@ class MenuCharacter extends FlxSprite
 	public function new(baseX, baseY, menuCharId:String)
 	{
 		super(0, 0);
-		this.charId = menuCharId;
-		loadCharacterSettings();
 
 		this.baseX = baseX;
 		this.baseY = baseY;
 
-		buildCharacter();
+		setCharacter(menuCharId);
 	}
 
 	function loadCharacterSettings()
 	{
+		if (this.charId == '')
+			return;
+
 		var jsonData = DataAssets.loadJSON('storymenu/${this.charId}');
 		this.charSettings = cast jsonData;
 
@@ -99,6 +101,10 @@ class MenuCharacter extends FlxSprite
 			// Fallback to default values if null.
 			this.flipX = this.charSettings.flipped != null ? this.charSettings.flipped : false;
 			this.frameRate = this.charSettings.frameRate != null ? this.charSettings.frameRate : 24;
+		}
+		else
+		{
+			Debug.logError('Could not load settings for storymenu character ${this.charId}! They will probably look weird.');
 		}
 	}
 
@@ -135,7 +141,7 @@ class MenuCharacter extends FlxSprite
 		this.charId = id;
 
 		// Make invisible and show no anims if character is blank.
-		this.visible = this.charId == '';
+		this.visible = this.charId != '';
 		if (!this.visible)
 			return;
 

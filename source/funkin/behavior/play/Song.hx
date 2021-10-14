@@ -101,7 +101,7 @@ class Song
 	public static function loadMetadata(songId:String):SongMeta
 	{
 		var rawMetaJson = null;
-		if (LibraryAssets.exists(Paths.songMeta(songId)))
+		if (LibraryAssets.textExists(Paths.songMeta(songId)))
 		{
 			rawMetaJson = DataAssets.loadJSON('songs/$songId/_meta');
 		}

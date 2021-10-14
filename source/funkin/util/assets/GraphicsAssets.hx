@@ -64,11 +64,6 @@ class GraphicsAssets
 		return results;
 	}
 
-	public static function doesImageExist(key:String, ?library:String):Bool
-	{
-		return OpenFlAssets.exists(Paths.image(key, library), IMAGE);
-	}
-
 	/**
 	 * For a given key and library for an image, returns the corresponding BitmapData.
 	 * Includes handling for cache and modded content.
@@ -90,9 +85,9 @@ class GraphicsAssets
 		}
 		#end
 
-		if (doesImageExist(key, library))
+		if (LibraryAssets.imageExists(key, library))
 		{
-			trace('Loading image ${library}:${key}');
+			trace('Loading image ${library == null ? '' : '${library}:'}${key}');
 			var bitmap = OpenFlAssets.getBitmapData(Paths.image(key, library));
 			return FlxGraphic.fromBitmapData(bitmap);
 		}
@@ -112,9 +107,22 @@ class GraphicsAssets
 	{
 		if (isCharacter)
 		{
+			if (!LibraryAssets.textExists(Paths.file('images/characters/$key.xml', library)))
+			{
+				Debug.logError('Character ${key} has no spritesheet data! Make sure the XML file isn\'t missing.');
+				return null;
+			}
 			return FlxAtlasFrames.fromSparrow(loadImage('characters/$key', library), Paths.file('images/characters/$key.xml', library));
 		}
-		return FlxAtlasFrames.fromSparrow(loadImage(key, library), Paths.file('images/$key.xml', library));
+		else
+		{
+			if (!LibraryAssets.textExists(Paths.file('images/$key.xml', library)))
+			{
+				Debug.logWarn('Image ${key} has no spritesheet data! Were you expecting some?');
+				return null;
+			}
+			return FlxAtlasFrames.fromSparrow(loadImage(key, library), Paths.file('images/$key.xml', library));
+		}
 	}
 
 	/**

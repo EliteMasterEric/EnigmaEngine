@@ -72,7 +72,7 @@ class SongAssets
 		if (songId == null || songId == "")
 			return false;
 		var suffix = DifficultyCache.getSuffix(difficultyId);
-		return OpenFlAssets.exists(Paths.json('${songId}/${songId}${suffix}'), TEXT);
+		return LibraryAssets.textExists(Paths.json('${songId}/${songId}${suffix}'));
 	}
 
 	/**

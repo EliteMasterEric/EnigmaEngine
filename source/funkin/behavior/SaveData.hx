@@ -34,8 +34,11 @@ class SaveData
 	public static function initSave()
 	{
 		// weeksUnlocked is a map of week IDs.
-		if (FlxG.save.data.weeksUnlocked == null)
-			FlxG.save.data.weeksUnlocked = {};
+		if (FlxG.save.data.weeksUnlocked == null || FlxG.save.data.weeksUnlocked.get == null)
+		{
+			var properValue:Map<String, Bool> = ['tutorial' => true];
+			FlxG.save.data.weeksUnlocked = properValue;
+		}
 
 		if (FlxG.save.data.newInput == null)
 			FlxG.save.data.newInput = true;
@@ -149,6 +152,9 @@ class SaveData
 
 		if (FlxG.save.data.zoom == null)
 			FlxG.save.data.zoom = 1;
+
+		// Commit the default values.
+		FlxG.save.flush();
 
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 

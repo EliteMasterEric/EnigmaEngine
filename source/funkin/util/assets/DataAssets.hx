@@ -39,6 +39,11 @@ class DataAssets
 	 */
 	public static function loadLinesFromFile(path:String):Array<String>
 	{
+		if (!LibraryAssets.textExists(path))
+		{
+			Debug.logError('Could not load data from non-existant file ${path}');
+			return [];
+		}
 		var rawText:String = OpenFlAssets.getText(path);
 		var result:Array<String> = rawText.trim().split('\n');
 
@@ -112,10 +117,5 @@ class DataAssets
 			// Return null.
 			return null;
 		}
-	}
-
-	public static inline function doesTextAssetExist(path:String)
-	{
-		return OpenFlAssets.exists(path, TEXT);
 	}
 }

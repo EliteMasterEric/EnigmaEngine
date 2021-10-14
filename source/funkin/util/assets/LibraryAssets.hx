@@ -23,12 +23,40 @@
  */
 package funkin.util.assets;
 
+import funkin.behavior.Debug;
 import openfl.Assets as OpenFlAssets;
 
 class LibraryAssets
 {
-	public static function exists(path:String)
+	public static function assetExists(path:String, type:openfl.utils.AssetType)
 	{
-		return OpenFlAssets.exists(path);
+		if (type == null)
+		{
+			Debug.logError('Don\'t specify a null AssetType when querying for assets! ${path}');
+			return false;
+		}
+		return OpenFlAssets.exists(path, type);
+	}
+
+	public static function binaryExists(path:String)
+	{
+		return assetExists(path, BINARY);
+	}
+
+	public static function soundExists(path:String)
+	{
+		if (path == null || path == "")
+			return false;
+		return assetExists(path, SOUND) || assetExists(path, MUSIC);
+	}
+
+	public static inline function textExists(path:String)
+	{
+		return assetExists(path, TEXT);
+	}
+
+	public static function imageExists(key:String, ?library:String):Bool
+	{
+		return assetExists(Paths.image(key, library), IMAGE);
 	}
 }

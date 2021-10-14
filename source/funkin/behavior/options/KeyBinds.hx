@@ -200,6 +200,6 @@ class KeyBinds
 			trace("No FULLSCREEN");
 		}
 
-		trace('${FlxG.save.data.leftBind}-${FlxG.save.data.downBind}-${FlxG.save.data.upBind}-${FlxG.save.data.rightBind}');
+		Debug.logTrace('Current basic keybinds are: ${FlxG.save.data.leftBind}-${FlxG.save.data.downBind}-${FlxG.save.data.upBind}-${FlxG.save.data.rightBind}');
 	}
 }
