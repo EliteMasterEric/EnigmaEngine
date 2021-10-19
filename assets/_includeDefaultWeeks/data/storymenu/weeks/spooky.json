@@ -1,0 +1,16 @@
+{
+    "name": "Spooky Month",
+    "assets": {
+        "characters": ["spooky", "bf", "gf"],
+        "title": "storymenu/weeks/week3",
+        "background": "#6BE9AD"
+    },
+    "startSound": "confirmMenu",
+    "unlocked": false,
+    "nextWeek": "pico",
+    "songs": [
+        "spookeez",
+        "south",
+        "monster"
+    ]
+}

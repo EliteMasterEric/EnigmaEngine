@@ -44,7 +44,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
 import funkin.util.assets.Paths;
-import funkin.behavior.options.KeyBinds;
+import funkin.behavior.options.CustomControls;
 import funkin.behavior.options.Options.Option;
 import funkin.behavior.options.PlayerSettings;
 import funkin.behavior.play.Conductor;
@@ -60,9 +60,6 @@ import haxe.Exception;
 import lime.app.Application;
 import openfl.display.BitmapData;
 import openfl.geom.Matrix;
-#if FEATURE_STEPMANIA
-import funkin.behavior.stepmania.SMFile;
-#end
 #if FEATURE_FILESYSTEM
 import sys.FileSystem;
 import sys.io.File;
@@ -135,7 +132,7 @@ class ResultsScreen extends FlxSubState
 		comboText.scrollFactor.set();
 		add(comboText);
 
-		contText = new FlxText(FlxG.width - 475, FlxG.height + 50, 0, 'Press ${KeyBinds.gamepad ? 'A' : 'ENTER'} to continue.');
+		contText = new FlxText(FlxG.width - 475, FlxG.height + 50, 0, 'Press ${CustomControls.gamepad ? 'A' : 'ENTER'} to continue.');
 		contText.size = 28;
 		contText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 4, 1);
 		contText.color = FlxColor.WHITE;

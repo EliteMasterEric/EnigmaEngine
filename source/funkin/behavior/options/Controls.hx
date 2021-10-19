@@ -1,3 +1,25 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * Controls.hx
+ * The handler which provides an easy interface for querying basic rebindable keyboard binds.
+ */
 package funkin.behavior.options;
 
 import flixel.FlxG;
@@ -230,6 +252,83 @@ class Controls extends FlxActionSet
 		setKeyboardScheme(scheme, false);
 	}
 
+	public static var gamepad:Bool = false;
+
+	public static function resetBinds():Void
+	{
+		// DFJK for the win
+		FlxG.save.data.leftBind = "D";
+		FlxG.save.data.downBind = "F";
+		FlxG.save.data.upBind = "J";
+		FlxG.save.data.rightBind = "K";
+		FlxG.save.data.killBind = "R";
+		FlxG.save.data.fullscreenBind = "F11";
+		FlxG.save.data.gpupBind = "DPAD_UP";
+		FlxG.save.data.gpdownBind = "DPAD_DOWN";
+		FlxG.save.data.gpleftBind = "DPAD_LEFT";
+		FlxG.save.data.gprightBind = "DPAD_RIGHT";
+
+		// PlayerSettings.player1.controls.loadKeyBinds();
+	}
+
+	public static function keyCheck():Void
+	{
+		if (FlxG.save.data.leftBind == null)
+		{
+			FlxG.save.data.leftBind = "D";
+			trace("No LEFT");
+		}
+		if (FlxG.save.data.downBind == null)
+		{
+			FlxG.save.data.downBind = "F";
+			trace("No DOWN");
+		}
+		if (FlxG.save.data.upBind == null)
+		{
+			FlxG.save.data.upBind = "J";
+			trace("No UP");
+		}
+		if (FlxG.save.data.rightBind == null)
+		{
+			FlxG.save.data.rightBind = "K";
+			trace("No RIGHT");
+		}
+
+		if (FlxG.save.data.gpupBind == null)
+		{
+			FlxG.save.data.gpupBind = "DPAD_UP";
+			trace("No GUP");
+		}
+		if (FlxG.save.data.gpdownBind == null)
+		{
+			FlxG.save.data.gpdownBind = "DPAD_DOWN";
+			trace("No GDOWN");
+		}
+		if (FlxG.save.data.gpleftBind == null)
+		{
+			FlxG.save.data.gpleftBind = "DPAD_LEFT";
+			trace("No GLEFT");
+		}
+		if (FlxG.save.data.gprightBind == null)
+		{
+			FlxG.save.data.gprightBind = "DPAD_RIGHT";
+			trace("No GRIGHT");
+		}
+
+		if (FlxG.save.data.killBind == null)
+		{
+			FlxG.save.data.killBind = "R";
+			trace("No KILL");
+		}
+		if (FlxG.save.data.fullscreenBind == null)
+		{
+			FlxG.save.data.fullscreenBind = "F11";
+			trace("No FULLSCREEN");
+		}
+
+		Debug.logTrace('Current basic keybinds are: ${FlxG.save.data.leftBind}-${FlxG.save.data.downBind}-${FlxG.save.data.upBind}-${FlxG.save.data.rightBind}');
+	}
+
 	override function update()
 	{
 		super.update();
@@ -438,7 +537,12 @@ class Controls extends FlxActionSet
 		removeKeyboard();
 		if (gamepadsAdded.length != 0)
 			removeGamepad();
-		KeyBinds.keyCheck();
+
+		trace('Double-checking basic keybinds...');
+
+		Controls.keyCheck();
+
+		trace('Mapping basic keybinds...');
 
 		var buttons = new Map<Control, Array<FlxGamepadInputID>>();
 

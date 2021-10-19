@@ -61,6 +61,7 @@ class MainMenuState extends MusicBeatState
 
 	public static var firstStart:Bool = true;
 
+	var yellow:FlxSprite;
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
 
@@ -81,19 +82,21 @@ class MainMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
-		var bg:FlxSprite = new FlxSprite(-100).loadGraphic(GraphicsAssets.loadImage('menuBG'));
-		bg.scrollFactor.x = 0;
-		bg.scrollFactor.y = 0.10;
-		bg.setGraphicSize(Std.int(bg.width * 1.1));
-		bg.updateHitbox();
-		bg.screenCenter();
-		bg.antialiasing = FlxG.save.data.antialiasing;
-		add(bg);
+		yellow = new FlxSprite(-100).loadGraphic(GraphicsAssets.loadImage('menuBackground'));
+		yellow.scrollFactor.x = 0;
+		yellow.scrollFactor.y = 0.10;
+		yellow.setGraphicSize(Std.int(yellow.width * 1.1));
+		yellow.updateHitbox();
+		yellow.screenCenter();
+		yellow.visible = true;
+		yellow.antialiasing = FlxG.save.data.antialiasing;
+		yellow.color = 0xFFfde871;
+		add(yellow);
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 
-		magenta = new FlxSprite(-80).loadGraphic(GraphicsAssets.loadImage('menuDesat'));
+		magenta = new FlxSprite(-80).loadGraphic(GraphicsAssets.loadImage('menuBackground'));
 		magenta.scrollFactor.x = 0;
 		magenta.scrollFactor.y = 0.10;
 		magenta.setGraphicSize(Std.int(magenta.width * 1.1));

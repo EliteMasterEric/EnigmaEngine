@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="icon-test.png">
+	<SubTexture name="idle-base0000" x="0" y="0" width="96" height="96" frameX="24" frameY="24" frameWidth="150" frameHeight="150" />
+	<SubTexture name="winning-base0000" x="96" y="0" width="96" height="96" frameX="24" frameY="24" frameWidth="150" frameHeight="150" />
+	<SubTexture name="losing-base0000" x="192" y="0" width="96" height="96" frameX="24" frameY="24" frameWidth="150" frameHeight="150" />
+
+	<SubTexture name="idle-winning0000" x="0" y="96" width="96" height="96" frameX="24" frameY="24" frameWidth="150" frameHeight="150" />
+	<SubTexture name="idle-winning0001" x="96" y="96" width="96" height="96" frameX="24" frameY="24" frameWidth="150" frameHeight="150" />
+	<SubTexture name="idle-winning0002" x="192" y="96" width="96" height="96" frameX="24" frameY="24" frameWidth="150" frameHeight="150" />
+	<SubTexture name="idle-winning0003" x="288" y="96" width="96" height="96" frameX="24" frameY="24" frameWidth="150" frameHeight="150" />
+
+	<SubTexture name="idle-losing0000" x="0" y="192" width="96" height="96" frameX="24" frameY="24" frameWidth="150" frameHeight="150" />
+	<SubTexture name="idle-losing0001" x="96" y="192" width="96" height="96" frameX="24" frameY="24" frameWidth="150" frameHeight="150" />
+	<SubTexture name="idle-losing0002" x="192" y="192" width="96" height="96" frameX="24" frameY="24" frameWidth="150" frameHeight="150" />
+	<SubTexture name="idle-losing0003" x="288" y="192" width="96" height="96" frameX="24" frameY="24" frameWidth="150" frameHeight="150" />
+
+	<SubTexture name="winning-idle0000" x="288" y="96" width="96" height="96" frameX="24" frameY="24" frameWidth="150" frameHeight="150" />
+	<SubTexture name="winning-idle0001" x="192" y="96" width="96" height="96" frameX="24" frameY="24" frameWidth="150" frameHeight="150" />
+	<SubTexture name="winning-idle0002" x="96" y="96" width="96" height="96" frameX="24" frameY="24" frameWidth="150" frameHeight="150" />
+	<SubTexture name="winning-idle0003" x="0" y="96" width="96" height="96" frameX="24" frameY="24" frameWidth="150" frameHeight="150" />
+
+	<SubTexture name="losing-idle0000" x="288" y="192" width="96" height="96" frameX="24" frameY="24" frameWidth="150" frameHeight="150" />
+	<SubTexture name="losing-idle0001" x="192" y="192" width="96" height="96" frameX="24" frameY="24" frameWidth="150" frameHeight="150" />
+	<SubTexture name="losing-idle0002" x="96" y="192" width="96" height="96" frameX="24" frameY="24" frameWidth="150" frameHeight="150" />
+	<SubTexture name="losing-idle0003" x="0" y="192" width="96" height="96" frameX="24" frameY="24" frameWidth="150" frameHeight="150" />
+</TextureAtlas>

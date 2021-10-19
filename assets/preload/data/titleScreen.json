@@ -17,10 +17,10 @@
     "scale": 1
   },
   "logo": {
-    // The logo moves over time. It takes <duration> seconds to rotate, and moves from -<angle> to +<angle>.
-    "x": -200,
+    "x": -150,
     "y": -160,
     "scale": 1,
+    // The logo moves over time. It takes <duration> seconds to rotate, and moves from -<angle> to +<angle>.
     "angle": 4,
     "duration": 4
   },
@@ -43,11 +43,11 @@
       "action": "addText",
       "values": ["present"]
     },
+    {
+      "action": "clearText"
+    },
     [
-      {
-        // Use a nested array to form a group of actions that occur in the same beat.
-        "action": "clearText"
-      },
+      // Use a nested array to form a group of actions that occur in the same beat.
       {
         "action": "addText",
         "values": ["Enigma Engine", "by MasterEric"]

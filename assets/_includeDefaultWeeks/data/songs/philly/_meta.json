@@ -1,4 +1,5 @@
 {
   "name": "Philly Nice",
-  "offset": 0
+  "offset": 0,
+  "freeplayColor": "#223344"
 }

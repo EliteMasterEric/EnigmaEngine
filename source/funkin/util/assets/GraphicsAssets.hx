@@ -23,10 +23,10 @@
  */
 package funkin.util.assets;
 
+import flixel.graphics.frames.FlxFramesCollection;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import funkin.behavior.Debug;
-import funkin.ui.state.title.Caching;
 import funkin.util.assets.Paths;
 import openfl.Assets as OpenFlAssets;
 
@@ -34,7 +34,81 @@ using hx.strings.Strings;
 
 class GraphicsAssets
 {
-	// TODO: Move the graphics cache from ui.title.Caching to here.
+	static var flxImageCache:Map<String, FlxGraphic> = new Map<String, FlxGraphic>();
+	static var flxAnimationCache:Map<String, FlxFramesCollection> = new Map<String, FlxFramesCollection>();
+
+	/**
+	 * List all the music files in the `songs` folder, so we can precache them all.
+	 */
+	public static function listImageFilesToCache(prefixes:Array<String>)
+	{
+		// We need to query OpenFlAssets, not the file system, because of Polymod.
+		var graphicsAssets = OpenFlAssets.list(MUSIC).concat(OpenFlAssets.list(SOUND));
+
+		var graphicsNames = [];
+
+		for (graphic in graphicsAssets)
+		{
+			// Parse end-to-beginning to support mods.
+			var path = graphic.split('/');
+			path.reverse();
+
+			// TODO: Fix this logic!
+
+			// var graphicsName = '';
+			// Remove duplicates.
+			// if (graphicsNames.indexOf(songName) != -1)
+			// 	continue;
+			//
+			// graphicsNames.push(songName);
+		}
+
+		return graphicsNames;
+	}
+
+	public static function cacheImage(key:String, graphic:FlxGraphic)
+	{
+		graphic.persist = true;
+		graphic.destroyOnNoUse = false;
+
+		flxImageCache.set(key, graphic);
+	}
+
+	/**
+	 * Given a list of keys in the graphics cache, unload those graphics.
+	 * This is useful to free up memory if you know the graphic won't be used for a while.
+	 * @param keys A list of filenames relative to `./assets/images` to remove from the cache.
+	 */
+	public static function purgeCachedImages(keys:Array<String>)
+	{
+		for (key in keys)
+		{
+			flxImageCache.remove(key);
+		}
+	}
+
+	/**
+	 * Add an animation to the cache. When loading from `fromSparrowAtlas`, it will check here first.
+	 * @param key The filename to store the atlas under, relative to `./assets/images/`.
+	 * @param frames The frame data to place in the cache.
+	 */
+	public static function cacheAnimation(key:String, frames:FlxFramesCollection)
+	{
+		flxAnimationCache.set(key, frames);
+	}
+
+	/**
+	 * Given a list of keys in the animation cache, unload those animations.
+	 * This is useful to free up memory if you know the animation won't be used for a while.
+	 * @param keys A list of filenames relative to `./assets/images` to remove from the cache.
+	 */
+	public static function purgeCachedAnimations(keys:Array<String>)
+	{
+		for (key in keys)
+		{
+			flxAnimationCache.remove(key);
+		}
+	}
 
 	/**
 	 * List all the image files under a given subdirectory.
@@ -71,25 +145,28 @@ class GraphicsAssets
 	 * @param library 
 	 * @return FlxGraphic
 	 */
-	public static function loadImage(key:String, ?library:String):FlxGraphic
+	public static function loadImage(key:String, ?library:String, ?shouldCache:Bool = false):FlxGraphic
 	{
-		#if FEATURE_FILESYSTEM
-		if (Caching.bitmapData != null)
+		if (flxImageCache != null)
 		{
-			if (Caching.bitmapData.exists(key))
+			if (flxImageCache.exists(key))
 			{
-				Debug.logTrace('Loading image from bitmap cache: $key');
+				Debug.logTrace('Loading image from image cache: $key');
 				// Get data from cache.
-				return Caching.bitmapData.get(key);
+				return flxImageCache.get(key);
 			}
 		}
-		#end
 
 		if (LibraryAssets.imageExists(key, library))
 		{
 			trace('Loading image ${library == null ? '' : '${library}:'}${key}');
 			var bitmap = OpenFlAssets.getBitmapData(Paths.image(key, library));
-			return FlxGraphic.fromBitmapData(bitmap);
+			var graphic = FlxGraphic.fromBitmapData(bitmap);
+			if (shouldCache)
+			{
+				cacheImage(key, graphic);
+			}
+			return graphic;
 		}
 		else
 		{
@@ -99,30 +176,54 @@ class GraphicsAssets
 	}
 
 	/**
+	 * If there's a sprite file associated with the image, it's animated.
+	 * Otherwise, it isn't, and we shouldn't try to load it as a sparrow atlas.
+	 */
+	public static function isAnimated(key:String, ?library:String)
+	{
+		return LibraryAssets.textExists(Paths.file('images/$key.xml', library));
+	}
+
+	/**
 	 * Loads an image, along with a Sparrow v2 spritesheet file with the matching name,
 	 * and uses the spritesheet to split the image into a collection of named frames.
+	 * @param shouldCache Whether the associated graphic and animation should be cached.
+	 *   Use this if you're storing the animation statically. If you try to access an unloaded image, you'll crash the game.
 	 * @returns An FlxFramesCollection
 	 */
-	public static function loadSparrowAtlas(key:String, ?library:String, ?isCharacter:Bool = false)
+	public static function loadSparrowAtlas(key:String, ?library:String, ?shouldCache = false):Null<FlxFramesCollection>
 	{
-		if (isCharacter)
+		// Check the animation cache first, we might just get to skip all of this.
+		if (flxAnimationCache != null)
 		{
-			if (!LibraryAssets.textExists(Paths.file('images/characters/$key.xml', library)))
+			if (flxAnimationCache.exists(key))
 			{
-				Debug.logError('Character ${key} has no spritesheet data! Make sure the XML file isn\'t missing.');
-				return null;
+				Debug.logTrace('Loading animation from animation cache: $key');
+				// Get data from cache.
+				return flxAnimationCache.get(key);
 			}
-			return FlxAtlasFrames.fromSparrow(loadImage('characters/$key', library), Paths.file('images/characters/$key.xml', library));
 		}
-		else
+
+		if (!LibraryAssets.textExists(Paths.file('images/$key.xml', library)))
 		{
-			if (!LibraryAssets.textExists(Paths.file('images/$key.xml', library)))
-			{
-				Debug.logWarn('Image ${key} has no spritesheet data! Were you expecting some?');
-				return null;
-			}
-			return FlxAtlasFrames.fromSparrow(loadImage(key, library), Paths.file('images/$key.xml', library));
+			Debug.logWarn('Image ${key} has no spritesheet data! Were you expecting some?');
+			return null;
 		}
+
+		// loadImage will check the cache first.
+		var image:FlxGraphic = loadImage(key, library);
+		if (shouldCache)
+		{
+			cacheImage(key, image);
+		}
+
+		var frames:FlxFramesCollection = FlxAtlasFrames.fromSparrow(image, Paths.file('images/$key.xml', library));
+		if (shouldCache)
+		{
+			cacheAnimation(key, frames);
+		}
+
+		return frames;
 	}
 
 	/**

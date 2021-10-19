@@ -46,9 +46,6 @@ import funkin.ui.state.menu.FreeplayState;
 import funkin.ui.state.menu.FreeplayState.FreeplaySongMetadata;
 import haxe.Exception;
 import lime.app.Application;
-#if FEATURE_STEPMANIA
-import funkin.behavior.stepmania.SMFile;
-#end
 #if FEATURE_FILESYSTEM
 import sys.FileSystem;
 import sys.io.File;
@@ -70,7 +67,7 @@ class LoadReplayState extends MusicBeatState
 
 	override function create()
 	{
-		var menuBG:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('menuDesat'));
+		var menuBG:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('menuBackground'));
 		// TODO: Refactor this to use OpenFlAssets.
 		#if FEATURE_FILESYSTEM
 		controlsStrings = sys.FileSystem.readDirectory(Sys.getCwd() + "/assets/replays/");
@@ -219,53 +216,10 @@ class LoadReplayState extends MusicBeatState
 
 				var songPath = "";
 
-				#if FEATURE_STEPMANIA
-				if (PlayState.rep.replay.sm)
-					if (!FileSystem.exists(StringTools.replace(PlayState.rep.replay.chartPath, "converted.json", "")))
-					{
-						Application.current.window.alert("The SM file in this replay does not exist!", "SM Replays");
-						return;
-					}
-				#end
-
-				PlayState.isSM = PlayState.rep.replay.sm;
-				#if FEATURE_STEPMANIA
-				if (PlayState.isSM)
-					PlayState.pathToSm = StringTools.replace(PlayState.rep.replay.chartPath, "converted.json", "");
-				#end
-
-				#if FEATURE_STEPMANIA
-				if (PlayState.isSM)
-				{
-					songPath = File.getContent(PlayState.rep.replay.chartPath);
-					try
-					{
-						PlayState.sm = SMFile.loadFile(PlayState.pathToSm + "/" + StringTools.replace(PlayState.rep.replay.songName, " ", "_") + ".sm");
-					}
-					catch (e:Exception)
-					{
-						Application.current.window.alert("Make sure that the SM file is called "
-							+ PlayState.pathToSm
-							+ "/"
-							+ StringTools.replace(PlayState.rep.replay.songName, " ", "_")
-							+ ".sm!\nAs I couldn't read it.",
-							"SM Replays");
-						return;
-					}
-				}
-				#end
-
 				try
 				{
-					if (PlayState.isSM)
-					{
-						PlayState.SONG = Song.loadFromJsonRAW(songPath);
-					}
-					else
-					{
-						var diffSuffix = DifficultyCache.getSuffix(PlayState.rep.replay.songDiff);
-						PlayState.SONG = Song.loadFromJson(PlayState.rep.replay.songName, diffSuffix);
-					}
+					var diffSuffix = DifficultyCache.getSuffix(PlayState.rep.replay.songDiff);
+					PlayState.SONG = Song.loadFromJson(PlayState.rep.replay.songName, diffSuffix);
 				}
 				catch (e:Exception)
 				{

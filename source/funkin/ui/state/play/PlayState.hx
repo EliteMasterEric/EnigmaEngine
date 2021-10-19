@@ -63,7 +63,7 @@ import funkin.behavior.Debug;
 import funkin.behavior.EtternaFunctions;
 import funkin.behavior.media.GlobalVideo;
 import funkin.behavior.media.WebmHandler;
-import funkin.behavior.options.KeyBinds;
+import funkin.behavior.options.CustomControls;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.EnigmaNote;
 import funkin.behavior.play.Highscore;
@@ -124,14 +124,11 @@ import openfl.utils.AssetLibrary;
 import openfl.utils.AssetManifest;
 import openfl.utils.AssetType;
 #if FEATURE_LUAMODCHART
-import funkin.behavior.modchart.ModchartState;
+import funkin.behavior.modchart.ModchartHandler;
 import funkin.behavior.modchart.LuaClass;
 import funkin.behavior.modchart.LuaClass.LuaCamera;
 import funkin.behavior.modchart.LuaClass.LuaCharacter;
 import funkin.behavior.modchart.LuaClass.LuaNote;
-#end
-#if FEATURE_STEPMANIA
-import funkin.behavior.stepmania.SMFile;
 #end
 #if FEATURE_FILESYSTEM
 import sys.io.File;
@@ -194,12 +191,6 @@ class PlayState extends MusicBeatState
 
 	private var vocals:FlxSound;
 
-	public static var isSM:Bool = false;
-	#if FEATURE_STEPMANIA
-	public static var sm:SMFile;
-	public static var pathToSm:String;
-	#end
-
 	public var originalX:Float;
 
 	public static var dad:Character;
@@ -253,8 +244,8 @@ class PlayState extends MusicBeatState
 	private var generatedMusic:Bool = false;
 	private var startingSong:Bool = false;
 
-	public var iconP1:HealthIcon; // making these public again because i may be stupid
-	public var iconP2:HealthIcon; // what could go wrong?
+	public var iconP1:HealthIcon;
+	public var iconP2:HealthIcon;
 	public var camHUD:FlxCamera;
 	public var camSustains:FlxCamera;
 	public var camNotes:FlxCamera;
@@ -264,8 +255,6 @@ class PlayState extends MusicBeatState
 	public var cannotDie = false;
 
 	public static var offsetTesting:Bool = false;
-
-	public var isSMFile:Bool = false;
 
 	var notesHitArray:Array<Date> = [];
 	var currentFrames:Int = 0;
@@ -399,8 +388,6 @@ class PlayState extends MusicBeatState
 		#if FEATURE_LUAMODCHART
 		// TODO: Refactor this to use OpenFlAssets.
 		executeModchart = FileSystem.exists(Paths.lua('songs/${PlayState.SONG.songId}/modchart'));
-		if (isSM)
-			executeModchart = FileSystem.exists(pathToSm + "/modchart.lua");
 		if (executeModchart)
 			PlayStateChangeables.Optimize = false;
 		#end
@@ -663,7 +650,7 @@ class PlayState extends MusicBeatState
 			var playerTurn = false;
 			for (index => section in SONG.notes)
 			{
-				if (section.sectionNotes.length > 0 && !isSM)
+				if (section.sectionNotes.length > 0)
 				{
 					if (section.startTime > 5000)
 					{
@@ -671,38 +658,6 @@ class PlayState extends MusicBeatState
 						skipTo = section.startTime - 1000;
 					}
 					break;
-				}
-				else if (isSM)
-				{
-					for (note in section.sectionNotes)
-					{
-						if (note[0] < firstNoteTime)
-						{
-							if (!PlayStateChangeables.Optimize)
-							{
-								firstNoteTime = note[0];
-								if (note[1] > 3)
-									playerTurn = true;
-								else
-									playerTurn = false;
-							}
-							else if (note[1] > 3)
-							{
-								firstNoteTime = note[0];
-							}
-						}
-					}
-					if (index + 1 == SONG.notes.length)
-					{
-						var timing = ((!playerTurn && !PlayStateChangeables.Optimize) ? firstNoteTime : TimingStruct.getTimeFromBeat(TimingStruct.getBeatFromTime(firstNoteTime)
-							- 4));
-
-						if (timing > 5000)
-						{
-							needSkip = true;
-							skipTo = timing - 1000;
-						}
-					}
 				}
 			}
 		}
@@ -726,20 +681,20 @@ class PlayState extends MusicBeatState
 		#if FEATURE_LUAMODCHART
 		if (executeModchart)
 		{
-			luaModchart = ModchartState.createModchartState(isStoryMode);
+			luaModchart = ModchartHandler.createModchartHandler(isStoryMode);
 			luaModchart.executeState('start', [PlayState.SONG.songId]);
 		}
 		#end
 		#if FEATURE_LUAMODCHART
 		if (executeModchart)
 		{
-			new LuaCamera(camGame, "camGame").Register(ModchartState.lua);
-			new LuaCamera(camHUD, "camHUD").Register(ModchartState.lua);
-			new LuaCamera(camSustains, "camSustains").Register(ModchartState.lua);
-			new LuaCamera(camSustains, "camNotes").Register(ModchartState.lua);
-			new LuaCharacter(dad, "dad").Register(ModchartState.lua);
-			new LuaCharacter(gf, "gf").Register(ModchartState.lua);
-			new LuaCharacter(boyfriend, "boyfriend").Register(ModchartState.lua);
+			new LuaCamera(camGame, "camGame").Register(ModchartHandler.lua);
+			new LuaCamera(camHUD, "camHUD").Register(ModchartHandler.lua);
+			new LuaCamera(camSustains, "camSustains").Register(ModchartHandler.lua);
+			new LuaCamera(camSustains, "camNotes").Register(ModchartHandler.lua);
+			new LuaCharacter(dad, "dad").Register(ModchartHandler.lua);
+			new LuaCharacter(gf, "gf").Register(ModchartHandler.lua);
+			new LuaCharacter(boyfriend, "boyfriend").Register(ModchartHandler.lua);
 		}
 		#end
 		var index = 0;
@@ -1047,7 +1002,7 @@ class PlayState extends MusicBeatState
 	var luaWiggles:Array<WiggleEffect> = [];
 
 	#if FEATURE_LUAMODCHART
-	public static var luaModchart:ModchartState = null;
+	public static var luaModchart:ModchartHandler = null;
 	#end
 
 	function startCountdown():Void
@@ -1398,17 +1353,10 @@ class PlayState extends MusicBeatState
 
 		curSong = songData.songId;
 
-		#if FEATURE_STEPMANIA
-		if (SONG.needsVoices && !isSM)
-			vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.songId));
-		else
-			vocals = new FlxSound();
-		#else
 		if (SONG.needsVoices)
 			vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.songId));
 		else
 			vocals = new FlxSound();
-		#end
 
 		trace('loaded vocals');
 
@@ -1416,20 +1364,7 @@ class PlayState extends MusicBeatState
 
 		if (!paused)
 		{
-			#if FEATURE_STEPMANIA
-			if (!isStoryMode && isSM)
-			{
-				trace("Loading " + pathToSm + "/" + sm.header.MUSIC);
-				var bytes = File.getBytes(pathToSm + "/" + sm.header.MUSIC);
-				var sound = new Sound();
-				sound.loadCompressedDataFromByteArray(bytes.getData(), bytes.length);
-				FlxG.sound.playMusic(sound);
-			}
-			else
-				FlxG.sound.playMusic(Paths.inst(PlayState.SONG.songId), 1, false);
-			#else
 			FlxG.sound.playMusic(Paths.inst(PlayState.SONG.songId), 1, false);
-			#end
 		}
 
 		FlxG.sound.music.onComplete = endSong;
@@ -1437,8 +1372,7 @@ class PlayState extends MusicBeatState
 
 		if (SONG.needsVoices)
 			FlxG.sound.cache(Paths.voices(PlayState.SONG.songId));
-		if (!PlayState.isSM)
-			FlxG.sound.cache(Paths.inst(PlayState.SONG.songId));
+		FlxG.sound.cache(Paths.inst(PlayState.SONG.songId));
 
 		// Song duration in a float, useful for the time left feature
 		songLength = FlxG.sound.music.length / 1000;
@@ -2040,17 +1974,12 @@ class PlayState extends MusicBeatState
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 
+		// TODO: Make this dynamic.
 		if (health > 2)
 			health = 2;
-		if (healthBar.percent < 20)
-			iconP1.animation.curAnim.curFrame = 1;
-		else
-			iconP1.animation.curAnim.curFrame = 0;
 
-		if (healthBar.percent > 80)
-			iconP2.animation.curAnim.curFrame = 1;
-		else
-			iconP2.animation.curAnim.curFrame = 0;
+		iconP1.handleHealth(health);
+		iconP2.handleHealth(health);
 
 		#if debug
 		if (FlxG.keys.justPressed.SIX)
@@ -3523,7 +3452,7 @@ class PlayState extends MusicBeatState
 			});
 		}
 
-		if ((KeyBinds.gamepad && !FlxG.keys.justPressed.ANY))
+		if ((CustomControls.gamepad && !FlxG.keys.justPressed.ANY))
 		{
 			// PRESSES, check for note hits
 			if (pressArray.contains(true) && generatedMusic)

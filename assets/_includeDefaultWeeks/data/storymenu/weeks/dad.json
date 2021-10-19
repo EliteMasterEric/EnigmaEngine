@@ -1,0 +1,16 @@
+{
+    "name": "Daddy Dearest",
+    "assets": {
+        "characters": ["dad", "bf", "gf"],
+        "title": "storymenu/weeks/week1",
+        "background": "#9271FD"
+    },
+    "startSound": "confirmMenu",
+    "unlocked": true,
+    "nextWeek": "pico",
+    "songs": [
+        "bopeebo",
+        "fresh",
+        "dadbattle"
+    ]
+}

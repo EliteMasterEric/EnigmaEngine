@@ -1,3 +1,26 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * Difficulty.hx
+ * Contains functionality to handle default and custom difficulties.
+ * Keeps track of the chart suffix and caches the graphic.
+ */
 package funkin.behavior.play;
 
 import funkin.util.assets.Paths;
@@ -29,7 +52,7 @@ class DifficultyCache
 		{
 			// Each item is of the format id:songSuffix
 			var elementItems = element.split(":");
-			var difficultyGraphic = GraphicsAssets.loadImage('storymenu/difficulty/${elementItems[0]}');
+			var difficultyGraphic = GraphicsAssets.loadImage('storymenu/difficulty/${elementItems[0]}', null, true);
 			if (difficultyGraphic != null)
 			{
 				var difficulty:Difficulty = {
@@ -40,6 +63,10 @@ class DifficultyCache
 
 				difficultyList.push(difficulty.id);
 				difficultyData.set(difficulty.id, difficulty);
+			}
+			else
+			{
+				Debug.logError('Could not initialize difficulty "${element}": missing graphic!');
 			}
 		}
 	}
@@ -52,14 +79,37 @@ class DifficultyCache
 	public static function get(?difficultyId:String = ''):Null<Difficulty>
 	{
 		if (difficultyId == '')
-			return difficultyData.get(defaultDifficulty);
-		return difficultyData.get(difficultyId);
+			difficultyId = defaultDifficulty;
+		var result = difficultyData.get(difficultyId);
+
+		if (result == null)
+		{
+			if (size() == 0)
+			{
+				Debug.logError('No difficulties in list! Did you initialize it?');
+			}
+			else
+			{
+				Debug.logWarn('Could not find difficulty data for $difficultyId! Make sure to add a graphic and an entry to the data/difficulties file.');
+			}
+		}
+		return result;
 	}
 
 	public static function getByIndex(index:Int):Null<Difficulty>
 	{
 		var diffId = difficultyList[index];
 		return get(diffId);
+	}
+
+	public static function indexOfId(diff:String):Int
+	{
+		return difficultyList.indexOf(diff);
+	}
+
+	public static function indexOf(diff:Difficulty):Int
+	{
+		return indexOfId(diff.id);
 	}
 
 	/**

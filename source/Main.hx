@@ -29,7 +29,7 @@ import funkin.behavior.media.WebmHandler;
 import funkin.behavior.mods.ModCore;
 import funkin.ui.component.Cursor;
 import funkin.ui.state.modding.ModSplashState;
-import funkin.ui.state.title.Caching;
+import funkin.ui.state.title.CachingState;
 import funkin.ui.state.title.TitleState;
 import funkin.util.input.GestureUtil;
 import lime.app.Application;
@@ -122,7 +122,7 @@ class Main extends Sprite
 		}
 		else
 		{
-			initialState = Caching;
+			initialState = CachingState;
 		}
 		game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
 		#else
@@ -131,10 +131,8 @@ class Main extends Sprite
 		#end
 		addChild(game);
 
-		// Setup custom cursor logic.
+		// Perform custom initialization.
 		Cursor.setupCursor();
-
-		// Init gestures (click or tap/swipe on UI elements).
 		GestureUtil.initMouseControls();
 
 		#if FEATURE_DISCORD

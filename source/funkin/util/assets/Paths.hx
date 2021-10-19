@@ -23,7 +23,6 @@
 package funkin.util.assets;
 
 import funkin.behavior.Debug;
-import funkin.ui.state.title.Caching;
 import flixel.FlxG;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;

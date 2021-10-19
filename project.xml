@@ -7,47 +7,47 @@
 	<!--
 		I wanted to print a cool ASCII logo at the start of each build,
 		but apparently the "echo" command breaks the Haxe VSCode integration.
-		<echo value="_____________________________________________" />
-		<echo value="___________________6666666___________________" />
-		<echo value="____________66666__________66666_____________" />
-		<echo value="_________6666___________________666__________" />
-		<echo value="_______666__6____________________6_666_______" />
-		<echo value="_____666_____66_______________666____66______" />
-		<echo value="____66_______66666_________66666______666____" />
-		<echo value="___66_________6___66_____66___66_______666___" />
-		<echo value="__66__________66____6666_____66_________666__" />
-		<echo value="_666___________66__666_66___66___________66__" />
-		<echo value="_66____________6666_______6666___________666_" />
-		<echo value="_66___________6666_________6666__________666_" />
-		<echo value="_66________666_________________666_______666_" />
-		<echo value="_66_____666______66_______66______666____666_" />
-		<echo value="_666__666666666666666666666666666666666__66__" />
-		<echo value="__66_______________6____66______________666__" />
-		<echo value="___66______________66___66_____________666___" />
-		<echo value="____66______________6__66_____________666____" />
-		<echo value="_______666___________666___________666_______" />
-		<echo value="_________6666_________6_________666__________" />
-		<echo value="____________66666_____6____66666_____________" />
-		<echo value="___________________6666666___________________" />
-		<echo value="_____________________________________________" />
-		<echo value="I-------------------------------------------I" />
-		<echo value="I  _____ _   _ _____ _____ ___  ___  ___    I" />
-		<echo value="I |  ___| \ | |_   _|  __ \|  \/  | / _ \   I" />
-		<echo value="I | |__ |  \| | | | | |  \/| .  . |/ /_\ \  I" />
-		<echo value="I |  __|| . ` | | | | | __ | |\/| ||  _  |  I" />
-		<echo value="I | |___| |\  |_| |_| |_\ \| |  | || | | |  I" />
-		<echo value="I \____/\_| \_/\___/ \____/\_|  |_/\_| |_/  I" />
-		<echo value="I   _____ _   _ _____ _____ _   _  _____    I" />
-		<echo value="I  |  ___| \ | |  __ \_   _| \ | ||  ___|   I" />
-		<echo value="I  | |__ |  \| | |  \/ | | |  \| || |__     I" />
-		<echo value="I  |  __|| . ` | | __  | | | . ` ||  __|    I" />
-		<echo value="I  | |___| |\  | |_\ \_| |_| |\  || |___    I" />
-		<echo value="I  \____/\_| \_/\____/\___/\_| \_/\____/    I" />
-		<echo value="I                                           I" />
-		<echo value="I-------------------------------------------I" />
-		<echo value="Initializing build..." />
 	-->
-		
+	<echo value="_____________________________________________" />
+	<echo value="___________________6666666___________________" />
+	<echo value="____________66666__________66666_____________" />
+	<echo value="_________6666___________________666__________" />
+	<echo value="_______666__6____________________6_666_______" />
+	<echo value="_____666_____66_______________666____66______" />
+	<echo value="____66_______66666_________66666______666____" />
+	<echo value="___66_________6___66_____66___66_______666___" />
+	<echo value="__66__________66____6666_____66_________666__" />
+	<echo value="_666___________66__666_66___66___________66__" />
+	<echo value="_66____________6666_______6666___________666_" />
+	<echo value="_66___________6666_________6666__________666_" />
+	<echo value="_66________666_________________666_______666_" />
+	<echo value="_66_____666______66_______66______666____666_" />
+	<echo value="_666__666666666666666666666666666666666__66__" />
+	<echo value="__66_______________6____66______________666__" />
+	<echo value="___66______________66___66_____________666___" />
+	<echo value="____66______________6__66_____________666____" />
+	<echo value="_______666___________666___________666_______" />
+	<echo value="_________6666_________6_________666__________" />
+	<echo value="____________66666_____6____66666_____________" />
+	<echo value="___________________6666666___________________" />
+	<echo value="_____________________________________________" />
+	<echo value="I-------------------------------------------I" />
+	<echo value="I  _____ _   _ _____ _____ ___  ___  ___    I" />
+	<echo value="I |  ___| \ | |_   _|  __ \|  \/  | / _ \   I" />
+	<echo value="I | |__ |  \| | | | | |  \/| .  . |/ /_\ \  I" />
+	<echo value="I |  __|| . ` | | | | | __ | |\/| ||  _  |  I" />
+	<echo value="I | |___| |\  |_| |_| |_\ \| |  | || | | |  I" />
+	<echo value="I \____/\_| \_/\___/ \____/\_|  |_/\_| |_/  I" />
+	<echo value="I   _____ _   _ _____ _____ _   _  _____    I" />
+	<echo value="I  |  ___| \ | |  __ \_   _| \ | ||  ___|   I" />
+	<echo value="I  | |__ |  \| | |  \/ | | |  \| || |__     I" />
+	<echo value="I  |  __|| . ` | | __  | | | . ` ||  __|    I" />
+	<echo value="I  | |___| |\  | |_\ \_| |_| |\  || |___    I" />
+	<echo value="I  \____/\_| \_/\____/\___/\_| \_/\____/    I" />
+	<echo value="I                                           I" />
+	<echo value="I-------------------------------------------I" />
+	<echo value="Initializing build..." />
+	
 	<!-- Make sure people don't try to build for a weird platform. -->
 	<!-- I can't support iOS right now, since I don't have the ability to build -->
 	<error value="Target platform iOS is not supported." if="ios" />
@@ -67,22 +67,21 @@
 	<error value="Target platform NodeJS is not supported" if="nodejs" /> 
 	<error value="Target platform Electron is not supported" if="html5 electron" /> 
 
-	<!-- Print out the target platform.
-		<echo value="Target platform: Windows"   if="windows" />
-		<echo value="Target platform: MacOS"     if="mac" />
-		<echo value="Target platform: Linux"     if="linux" />
-		<echo value="Target platform: HTML5/Web" if="html5" unless="electron" />
-		<echo value="Target platform: Android"   if="android" />
+	<!-- Print out the target platform. -->
+	<echo value="Target platform: Windows"   if="windows" />
+	<echo value="Target platform: MacOS"     if="mac" />
+	<echo value="Target platform: Linux"     if="linux" />
+	<echo value="Target platform: HTML5/Web" if="html5" unless="electron" />
+	<echo value="Target platform: Android"   if="android" />
+	
+	<echo value="Platform host: Desktop" if="desktop" />
+	<echo value="Platform host: Mobile"  if="mobile" />
+	<echo value="Platform host: Web"     if="web" />
+	
+	<echo value="Platform architecture: 32-bit" if="HXCPP_M32" />
+	<echo value="Platform architecture: 64-bit" if="HXCPP_M64" />
 		
-		<echo value="Platform host: Desktop" if="desktop" />
-		<echo value="Platform host: Mobile"  if="mobile" />
-		<echo value="Platform host: Web"     if="web" />
-		
-		<echo value="Platform architecture: 32-bit" if="HXCPP_M32" />
-		<echo value="Platform architecture: 64-bit" if="HXCPP_M64" />
-	-->
-		
-		<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
+	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
 	<!-- <app preloader="Preloader" resizable="true" /> -->
 	<app preloader="flixel.system.FlxPreloader" />
@@ -111,25 +110,116 @@
 	<!--
 		Split the Windows and Linux build folder by platform.
 		The <config> option wasn't documented ANYWHERE, this was a massive pain.
+		TODO: ACTUALLY FIX THIS IT DOESN'T WORK
 	-->
-	<!-- TODO: ACTUALLY FIX THIS IT DOESN'T WORK -->
 	<!-- <config:windows output-directory="Windows32" if="HXCPP_M32" /> -->
 	<!-- <config:windows output-directory="Windows64" if="HXCPP_M64" /> -->
 	<!-- <config:linux output-directory="Linux32" if="HXCPP_M32" /> -->
 	<!-- <config:linux output-directory="Linux64" if="HXCPP_M64" /> -->
 
-	<!-- All the code files are in the source/ folder. -->
+	<!-- All the code files are in the `source` folder. -->
 	<classpath name="source" />
 
 	<define name="PRELOAD_ALL" unless="web" />
 
+	<section if="embedAssets">
+		<assets path="assets/preload" rename="assets" embed="true" exclude="*.ogg" if="web"/>
+		<assets path="assets/preload" rename="assets" embed="true" exclude="*.mp3" unless="web"/>
+	</section>
+	<section unless="embedAssets">
+		<assets path="assets/preload" rename="assets" embed="false" exclude="*.ogg" if="web"/>
+		<assets path="assets/preload" rename="assets" embed="false" exclude="*.mp3" unless="web"/>
+	</section>
+
+	<section if="PRELOAD_ALL">
+		<library name="songs"    preload="true" />
+		<library name="shared"   preload="true" />
+		<library name="sm"       preload="true" />
+	</section>
+	
+	<section unless="PRELOAD_ALL">
+		<library name="songs"    preload="false" />
+		<library name="shared"   preload="false" />
+		<library name="sm"       preload="false" />
+	</section>
+
+	<!-- Always embed scripts. -->
+	<library name="scripts" preload="true" embed="true" />
+	
+	<!--
+		Use -DembedAssets to put the base game's files INSIDE the exe.
+		If users want to access them they can view the repo, and if they want to replace them they can use a mod.
+	-->
+	<section if="embedAssets">
+		<!-- Exclude .md files to add documentation to the codebase without including them in builds. -->
+		<assets path="assets/songs"    library="songs"    embed="true"  exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/songs"    library="songs"    embed="true"  exclude="*.md|*.mp3" unless="web"/>
+		<assets path="assets/shared"   library="shared"   embed="true" exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/shared"   library="shared"   embed="true" exclude="*.md|*.mp3" unless="web"/>
+		<assets path="assets/scripts"  library="scripts"  embed="true"  exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/scripts"  library="scripts"  embed="true"  exclude="*.md|*.mp3" unless="web"/>
+		<assets path="assets/sm"       library="sm"       embed="true" exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/sm"       library="sm"       embed="true" exclude="*.md|*.mp3" unless="web"/>
+	</section>
+	<section unless="embedAssets">
+		<assets path="assets/songs"    library="songs"    embed="false"  exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/songs"    library="songs"    embed="false"  exclude="*.md|*.mp3" unless="web"/>
+		<assets path="assets/shared"   library="shared"   embed="false" exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/shared"   library="shared"   embed="false" exclude="*.md|*.mp3" unless="web"/>
+		<assets path="assets/scripts"  library="scripts"  embed="false"  exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/scripts"  library="scripts"  embed="false"  exclude="*.md|*.mp3" unless="web"/>
+		<assets path="assets/sm"       library="sm"       embed="false" exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/sm"       library="sm"       embed="false" exclude="*.md|*.mp3" unless="web"/>
+	</section>
+
+	<section if="includeDefaultWeeks">
+		<section if="embedAssets">
+			<assets path="assets/_includeDefaultWeeks/tutorial" rename="assets/tutorial" library="tutorial" embed="true" exclude="*.md|*.ogg" if="web"/>
+			<assets path="assets/_includeDefaultWeeks/tutorial" rename="assets/tutorial" library="tutorial" embed="true" exclude="*.md|*.mp3" unless="web"/>
+			<assets path="assets/_includeDefaultWeeks/week1"    rename="assets/week1"    library="week1"    embed="true" exclude="*.md|*.ogg" if="web"/>
+			<assets path="assets/_includeDefaultWeeks/week1"    rename="assets/week1"    library="week1"    embed="true" exclude="*.md|*.mp3" unless="web"/>
+			<assets path="assets/_includeDefaultWeeks/week2"    rename="assets/week2"    library="week2"    embed="true" exclude="*.md|*.ogg" if="web"/>
+			<assets path="assets/_includeDefaultWeeks/week2"    rename="assets/week2"    library="week2"    embed="true" exclude="*.md|*.mp3" unless="web"/>
+			<assets path="assets/_includeDefaultWeeks/week3"    rename="assets/week3"    library="week3"    embed="true" exclude="*.md|*.ogg" if="web"/>
+			<assets path="assets/_includeDefaultWeeks/week3"    rename="assets/week3"    library="week3"    embed="true" exclude="*.md|*.mp3" unless="web"/>
+			<assets path="assets/_includeDefaultWeeks/week4"    rename="assets/week4"    library="week4"    embed="true" exclude="*.md|*.ogg" if="web"/>
+			<assets path="assets/_includeDefaultWeeks/week4"    rename="assets/week4"    library="week4"    embed="true" exclude="*.md|*.mp3" unless="web"/>
+			<assets path="assets/_includeDefaultWeeks/week5"    rename="assets/week5"    library="week5"    embed="true" exclude="*.md|*.ogg" if="web"/>
+			<assets path="assets/_includeDefaultWeeks/week5"    rename="assets/week5"    library="week5"    embed="true" exclude="*.md|*.mp3" unless="web"/>
+			<assets path="assets/_includeDefaultWeeks/week6"    rename="assets/week6"    library="week6"    embed="true" exclude="*.md|*.ogg" if="web"/>
+			<assets path="assets/_includeDefaultWeeks/week6"    rename="assets/week6"    library="week6"    embed="true" exclude="*.md|*.mp3" unless="web"/>	
+		</section>
+		<section unless="embedAssets">
+			<assets path="assets/_includeDefaultWeeks/tutorial" rename="assets/tutorial" library="tutorial" embed="false" exclude="*.md|*.ogg" if="web"/>
+			<assets path="assets/_includeDefaultWeeks/tutorial" rename="assets/tutorial" library="tutorial" embed="false" exclude="*.md|*.mp3" unless="web"/>
+			<assets path="assets/_includeDefaultWeeks/week1"    rename="assets/week1"    library="week1"    embed="false" exclude="*.md|*.ogg" if="web"/>
+			<assets path="assets/_includeDefaultWeeks/week1"    rename="assets/week1"    library="week1"    embed="false" exclude="*.md|*.mp3" unless="web"/>
+			<assets path="assets/_includeDefaultWeeks/week2"    rename="assets/week2"    library="week2"    embed="false" exclude="*.md|*.ogg" if="web"/>
+			<assets path="assets/_includeDefaultWeeks/week2"    rename="assets/week2"    library="week2"    embed="false" exclude="*.md|*.mp3" unless="web"/>
+			<assets path="assets/_includeDefaultWeeks/week3"    rename="assets/week3"    library="week3"    embed="false" exclude="*.md|*.ogg" if="web"/>
+			<assets path="assets/_includeDefaultWeeks/week3"    rename="assets/week3"    library="week3"    embed="false" exclude="*.md|*.mp3" unless="web"/>
+			<assets path="assets/_includeDefaultWeeks/week4"    rename="assets/week4"    library="week4"    embed="false" exclude="*.md|*.ogg" if="web"/>
+			<assets path="assets/_includeDefaultWeeks/week4"    rename="assets/week4"    library="week4"    embed="false" exclude="*.md|*.mp3" unless="web"/>
+			<assets path="assets/_includeDefaultWeeks/week5"    rename="assets/week5"    library="week5"    embed="false" exclude="*.md|*.ogg" if="web"/>
+			<assets path="assets/_includeDefaultWeeks/week5"    rename="assets/week5"    library="week5"    embed="false" exclude="*.md|*.mp3" unless="web"/>
+			<assets path="assets/_includeDefaultWeeks/week6"    rename="assets/week6"    library="week6"    embed="false" exclude="*.md|*.ogg" if="web"/>
+			<assets path="assets/_includeDefaultWeeks/week6"    rename="assets/week6"    library="week6"    embed="false" exclude="*.md|*.mp3" unless="web"/>	
+		</section>
+  </section>
+
 	<!--
 		Assets that provide weeks 1-6 are in a separate folder.
 		To include them in a game build, run with the `-DincludeDefaultWeeks` argument.
+		NOTE: When embedding, the default weeks need to be included after. If you set embed=false, you need to move them before the EXE.
 	-->
 	<section if="includeDefaultWeeks">
 		<echo value="NOTICE: Build will include default weeks!" />
-		<assets path="assets/_includeDefaultWeeks" rename="assets" exclude="*.md" />
+		<section if="embedAssets">
+			<assets path="assets/_includeDefaultWeeks" rename="assets" embed="true" exclude="*.md" />
+		</section>
+		<section unless="embedAssets">
+			<assets path="assets/_includeDefaultWeeks" rename="assets" embed="false" exclude="*.md" />
+		</section>
 
 		<section if="PRELOAD_ALL">
 			<library name="tutorial" preload="true" />
@@ -150,69 +240,13 @@
 			<library name="week5"    preload="false" />
 			<library name="week6"    preload="false" />
 		</section>
-
-		<assets path="assets/_includeDefaultWeeks/tutorial" library="tutorial" exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/_includeDefaultWeeks/tutorial" library="tutorial" exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/_includeDefaultWeeks/week1"    library="week1"    exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/_includeDefaultWeeks/week1"    library="week1"    exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/_includeDefaultWeeks/week2"    library="week2"    exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/_includeDefaultWeeks/week2"    library="week2"    exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/_includeDefaultWeeks/week3"    library="week3"    exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/_includeDefaultWeeks/week3"    library="week3"    exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/_includeDefaultWeeks/week4"    library="week4"    exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/_includeDefaultWeeks/week4"    library="week4"    exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/_includeDefaultWeeks/week5"    library="week5"    exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/_includeDefaultWeeks/week5"    library="week5"    exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/_includeDefaultWeeks/week6"    library="week6"    exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/_includeDefaultWeeks/week6"    library="week6"    exclude="*.md|*.mp3" unless="web"/>	
 	</section>
-
-	<assets path="assets/preload" rename="assets" exclude="*.ogg" if="web"/>
-	<assets path="assets/preload" rename="assets" exclude="*.mp3" unless="web"/>
-	
-	<section if="PRELOAD_ALL">
-		<library name="songs"    preload="true" />
-		<library name="shared"   preload="true" />
-		<library name="sm"       preload="true" />
-	</section>
-	
-	<section unless="PRELOAD_ALL">
-		<library name="songs"    preload="false" />
-		<library name="shared"   preload="false" />
-		<library name="sm"       preload="false" />
-	</section>
-
-	<library name="scripts" preload="true" embed="true" />
-	
-	<!-- Exclude .md files to add documentation to the codebase without including them in builds. -->
-	<assets path="assets/songs"    library="songs"    exclude="*.md|*.ogg" if="web"/>
-	<assets path="assets/songs"    library="songs"    exclude="*.md|*.mp3" unless="web"/>
-	<assets path="assets/shared"   library="shared"   exclude="*.md|*.ogg" if="web"/>
-	<assets path="assets/shared"   library="shared"   exclude="*.md|*.mp3" unless="web"/>
-	<assets path="assets/scripts"  library="scripts"  exclude="*.md|*.ogg" if="web"/>
-	<assets path="assets/scripts"  library="scripts"  exclude="*.md|*.mp3" unless="web"/>
-	<assets path="assets/sm"       library="sm"       exclude="*.md|*.ogg" if="web"/>
-	<assets path="assets/sm"       library="sm"       exclude="*.md|*.mp3" unless="web"/>
-
-	<section if="includeDefaultWeeks">
-		<assets path="assets/_includeDefaultWeeks/tutorial" library="tutorial" exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/_includeDefaultWeeks/tutorial" library="tutorial" exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/_includeDefaultWeeks/week1"    library="week1"    exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/_includeDefaultWeeks/week1"    library="week1"    exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/_includeDefaultWeeks/week2"    library="week2"    exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/_includeDefaultWeeks/week2"    library="week2"    exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/_includeDefaultWeeks/week3"    library="week3"    exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/_includeDefaultWeeks/week3"    library="week3"    exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/_includeDefaultWeeks/week4"    library="week4"    exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/_includeDefaultWeeks/week4"    library="week4"    exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/_includeDefaultWeeks/week5"    library="week5"    exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/_includeDefaultWeeks/week5"    library="week5"    exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/_includeDefaultWeeks/week6"    library="week6"    exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/_includeDefaultWeeks/week6"    library="week6"    exclude="*.md|*.mp3" unless="web"/>	
-  </section>
 
 	<!-- Move the example mods to the `mods` folder of the build. -->
-	<assets path='example_mods'   rename='mods' embed='false'/>
+	<section unless="excludeExampleMods">
+		<assets path='example_mods'   rename='mods' embed='false'/>
+	</section>
+		
 	<assets path='art/readme.txt' rename='do NOT readme.txt' />
 	<assets path='LICENSE'        rename='LICENSE.txt' />
 
@@ -330,9 +364,6 @@
 	<!-- Defines whether WebM videos should be enabled. Currently only enabled on Windows. -->
 	<haxedef name="FEATURE_WEBM" if="windows" />
 	<echo value="Platform supports feature: WebM" if="FEATURE_WEBM" />
-	<!-- Defines whether StepMania files can be loaded. -->
-	<haxedef name="FEATURE_STEPMANIA" if="desktop" />
-	<echo value="Platform supports feature: StepMania" if="FEATURE_STEPMANIA" />
 	<!-- Defines whether the Thread class can be used. -->
 	<haxedef name="FEATURE_MULTITHREADING" if="cpp" />
 	<echo value="Platform supports feature: Multithreading" if="FEATURE_MULTITHREADING" />

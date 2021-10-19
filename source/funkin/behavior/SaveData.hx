@@ -23,8 +23,9 @@
 package funkin.behavior;
 
 import funkin.behavior.options.PlayerSettings;
-import funkin.behavior.options.KeyBinds;
+import funkin.behavior.options.CustomControls;
 import funkin.behavior.play.Conductor;
+import funkin.behavior.options.CustomControls;
 import flixel.FlxG;
 import flixel.input.gamepad.FlxGamepad;
 import openfl.Lib;
@@ -158,11 +159,11 @@ class SaveData
 
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
-		KeyBinds.gamepad = gamepad != null;
+		CustomControls.gamepad = gamepad != null;
 
 		Conductor.recalculateTimings();
 		PlayerSettings.player1.controls.loadKeyBinds();
-		KeyBinds.keyCheck();
+		CustomControls.keyCheck();
 
 		(cast(Lib.current.getChildAt(0), Main)).setFPSCap(FlxG.save.data.fpsCap);
 	}

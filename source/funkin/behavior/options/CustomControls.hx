@@ -1,19 +1,25 @@
-/**
- * Apache License, Version 2.0
+/*
+ * GNU General Public License, Version 3.0
  *
  * Copyright (c) 2021 MasterEric
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at:
- *     http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/*
+ * CustomControls.hx
+ * The handler which provides an easy interface for querying advanced and custom rebindable keyboard binds.
+ */
 package funkin.behavior.options;
 
 import flixel.input.gamepad.FlxGamepad;
@@ -89,6 +95,8 @@ enum CustomControl
  */
 class CustomControls extends Controls
 {
+	public static var gamepad:Bool = false;
+
 	var _left9K = new FlxActionDigital(CustomAction.LEFT_9K);
 	var _left9KP = new FlxActionDigital(CustomAction.LEFT_9K_P);
 	var _left9KR = new FlxActionDigital(CustomAction.LEFT_9K_R);
@@ -205,6 +213,130 @@ class CustomControls extends Controls
 		setKeyboardScheme(scheme, false);
 	}
 
+	public static function resetBinds():Void
+	{
+		Controls.resetBinds();
+		FlxG.save.data.fullscreenBind = "F11";
+
+		FlxG.save.data.left9KBind = "S";
+		FlxG.save.data.down9KBind = "";
+		FlxG.save.data.up9KBind = "D";
+		FlxG.save.data.right9KBind = "F";
+		FlxG.save.data.altLeftBind = "J";
+		FlxG.save.data.altDownBind = "";
+		FlxG.save.data.altUpBind = "K";
+		FlxG.save.data.altRightBind = "L";
+		FlxG.save.data.centerBind = "SPACE";
+
+		// TODO: Fix these.
+		FlxG.save.data.gpleft9KBind = "";
+		FlxG.save.data.gpdown9KBind = "";
+		FlxG.save.data.gpup9KBind = "";
+		FlxG.save.data.gpright9KBind = "";
+		FlxG.save.data.gpcenterBind = "";
+		FlxG.save.data.gpaltLeftBind = "";
+		FlxG.save.data.gpaltDownBind = "";
+		FlxG.save.data.gpaltUpBind = "";
+		FlxG.save.data.gpaltRightBind = "";
+
+		PlayerSettings.player1.controls.loadKeyBinds();
+	}
+
+	public static function keyCheck():Void
+	{
+		if (FlxG.save.data.left9KBind == null)
+		{
+			trace("No LEFT9K");
+			FlxG.save.data.left9KBind = "S";
+		}
+		if (FlxG.save.data.down9KBind == null)
+		{
+			trace("No DOWN9K");
+			FlxG.save.data.down9KBind = "";
+		}
+		if (FlxG.save.data.up9KBind == null)
+		{
+			trace("No UP9K");
+			FlxG.save.data.up9KBind = "D";
+		}
+		if (FlxG.save.data.right9KBind == null)
+		{
+			trace("No RIGHT9K");
+			FlxG.save.data.right9KBind = "F";
+		}
+		if (FlxG.save.data.centerBind == null)
+		{
+			trace("No CENTER");
+			FlxG.save.data.centerBind = "SPACE";
+		}
+		if (FlxG.save.data.altLeftBind == null)
+		{
+			trace("No ALTLEFT");
+			FlxG.save.data.altLeftBind = "J";
+		}
+		if (FlxG.save.data.altDownBind == null)
+		{
+			trace("No ALTDOWN");
+			FlxG.save.data.altDownBind = "";
+		}
+		if (FlxG.save.data.altUpBind == null)
+		{
+			trace("No ALTUP");
+			FlxG.save.data.altUpBind = "K";
+		}
+		if (FlxG.save.data.altRightBind == null)
+		{
+			trace("No ALTRIGHT");
+			FlxG.save.data.altRightBind = "L";
+		}
+
+		if (FlxG.save.data.gpleft9KBind == null)
+		{
+			trace("No gpLEFT9K");
+			FlxG.save.data.gpleft9KBind = "";
+		}
+		if (FlxG.save.data.gpdown9KBind == null)
+		{
+			trace("No gpDOWN9K");
+			FlxG.save.data.gpdown9KBind = "";
+		}
+		if (FlxG.save.data.gpup9KBind == null)
+		{
+			trace("No gpUP9K");
+			FlxG.save.data.gpup9KBind = "";
+		}
+		if (FlxG.save.data.gpright9KBind == null)
+		{
+			trace("No gpRIGHT9K");
+			FlxG.save.data.gpright9KBind = "";
+		}
+		if (FlxG.save.data.gpcenterBind == null)
+		{
+			trace("No gpCENTER");
+			FlxG.save.data.gpcenterBind = "";
+		}
+		if (FlxG.save.data.gpaltLeftBind == null)
+		{
+			trace("No gpALTLEFT");
+			FlxG.save.data.gpaltLeftBind = "";
+		}
+		if (FlxG.save.data.gpaltDownBind == null)
+		{
+			trace("No gpALTDOWN");
+			FlxG.save.data.gpaltDownBind = "";
+		}
+		if (FlxG.save.data.gpaltUpBind == null)
+		{
+			trace("No gpALTUP");
+			FlxG.save.data.gpaltUpBind = "";
+		}
+		if (FlxG.save.data.gpaltRightBind == null)
+		{
+			trace("No gpALTRIGHT");
+			FlxG.save.data.gpaltRightBind = "";
+		}
+	}
+
 	override function update()
 	{
 		super.update();
@@ -317,6 +449,12 @@ class CustomControls extends Controls
 	public override function loadKeyBinds()
 	{
 		super.loadKeyBinds();
+
+		trace('Double-checking advanced keybinds...');
+
+		CustomControls.keyCheck();
+
+		trace('Mapping advanced keybinds...');
 
 		var buttons = new Map<CustomControl, Array<FlxGamepadInputID>>();
 

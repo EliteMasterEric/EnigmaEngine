@@ -25,7 +25,7 @@ package funkin.ui.state.modding;
 import funkin.behavior.mods.ModCore;
 import funkin.ui.component.modding.ModList;
 import flixel.addons.ui.interfaces.IFlxUIWidget;
-import funkin.ui.state.title.Caching;
+import funkin.ui.state.title.CachingState;
 import funkin.ui.state.title.TitleState;
 import flixel.addons.ui.FlxUIList;
 import flixel.FlxG;
@@ -128,7 +128,7 @@ class ModMenuState extends MusicBeatState
 	function loadMainGame()
 	{
 		#if FEATURE_FILESYSTEM
-		FlxG.switchState(new Caching());
+		FlxG.switchState(new CachingState());
 		#else
 		FlxG.switchState(new TitleState());
 		#end

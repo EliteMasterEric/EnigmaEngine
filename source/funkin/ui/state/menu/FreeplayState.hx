@@ -1,5 +1,6 @@
 package funkin.ui.state.menu;
 
+import funkin.behavior.play.Difficulty;
 import flash.text.TextField;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.FlxCamera;
@@ -29,9 +30,6 @@ import funkin.behavior.api.Discord.DiscordClient;
 #end
 import funkin.behavior.play.Song;
 import funkin.behavior.play.Song.SongData;
-#if FEATURE_STEPMANIA
-import funkin.behavior.stepmania.SMFile;
-#end
 import funkin.ui.component.Alphabet;
 import funkin.ui.component.play.HealthIcon;
 import funkin.ui.state.debug.AnimationDebug;
@@ -65,6 +63,8 @@ class FreeplayState extends MusicBeatState
 	var intendedScore:Int = 0;
 	var combo:String = '';
 
+	var bg:FlxSprite;
+
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
 
@@ -94,48 +94,6 @@ class FreeplayState extends MusicBeatState
 
 		populateSongData();
 
-		trace("tryin to load sm files");
-
-		#if FEATURE_STEPMANIA
-		// TODO: Refactor this to use OpenFlAssets.
-		for (i in FileSystem.readDirectory("assets/sm/"))
-		{
-			trace(i);
-			if (FileSystem.isDirectory("assets/sm/" + i))
-			{
-				trace("Reading SM file dir " + i);
-				for (file in FileSystem.readDirectory("assets/sm/" + i))
-				{
-					if (file.contains(" "))
-						FileSystem.rename("assets/sm/" + i + "/" + file, "assets/sm/" + i + "/" + file.replace(" ", "_"));
-					if (file.endsWith(".sm") && !FileSystem.exists("assets/sm/" + i + "/converted.json"))
-					{
-						trace("reading " + file);
-						var file:SMFile = SMFile.loadFile("assets/sm/" + i + "/" + file.replace(" ", "_"));
-						trace("Converting " + file.header.TITLE);
-						var data = file.convertToFNF("assets/sm/" + i + "/converted.json");
-						var meta = new FreeplaySongMetadata(file.header.TITLE, 0, "sm", file, "assets/sm/" + i);
-						songs.push(meta);
-						var song = Song.loadFromJsonRAW(data);
-						songData.set(file.header.TITLE, ['normal' => song]);
-					}
-					else if (FileSystem.exists("assets/sm/" + i + "/converted.json") && file.endsWith(".sm"))
-					{
-						trace("reading " + file);
-						var file:SMFile = SMFile.loadFile("assets/sm/" + i + "/" + file.replace(" ", "_"));
-						trace("Converting " + file.header.TITLE);
-						var data = file.convertToFNF("assets/sm/" + i + "/converted.json");
-						var meta = new FreeplaySongMetadata(file.header.TITLE, 0, "sm", file, "assets/sm/" + i);
-						songs.push(meta);
-						var song = Song.loadFromJsonRAW(File.getContent("assets/sm/" + i + "/converted.json"));
-						trace("got content lol");
-						songData.set(file.header.TITLE, ['normal' => song]);
-					}
-				}
-			}
-		}
-		#end
-
 		#if FEATURE_DISCORD
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Freeplay Menu", null);
@@ -153,7 +111,7 @@ class FreeplayState extends MusicBeatState
 
 		// LOAD CHARACTERS
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('menuBGBlue'));
+		bg = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('menuBackground'));
 		bg.antialiasing = FlxG.save.data.antialiasing;
 		add(bg);
 
@@ -227,7 +185,6 @@ class FreeplayState extends MusicBeatState
 		{
 			var data:Array<String> = initSonglist[i].split(':');
 			var songId = data[0];
-			var meta = new FreeplaySongMetadata(songId, Std.parseInt(data[2]), data[1]);
 
 			var diffs:Map<String, SongData> = [];
 			var diffsThatExist:Array<String> = [];
@@ -240,7 +197,7 @@ class FreeplayState extends MusicBeatState
 			// If none exist, display a popup (VERY high priority notification).
 			if (diffsThatExist.length == 0)
 			{
-				Debug.displayAlert('${meta.songName} Chart', "No difficulties found for chart, skipping.");
+				Debug.displayAlert('${songId} Chart', "No difficulties found for chart, skipping.");
 				continue;
 			}
 
@@ -250,7 +207,11 @@ class FreeplayState extends MusicBeatState
 				FreeplayState.loadDiff(diffThatExists, songId, diffs);
 			}
 
+			var validDiff:SongData = diffs.get(diffs.keys().next());
+			var meta = new FreeplaySongMetadata(songId, Std.parseInt(data[2]), data[1], validDiff.freeplayColor);
+
 			meta.diffs = diffsThatExist;
+			meta.songName = validDiff.songName;
 
 			// Store the `diffs` array in the `songData` map.
 			FreeplayState.songData.set(songId, diffs);
@@ -260,9 +221,9 @@ class FreeplayState extends MusicBeatState
 		trace('Loaded diffs for ${FreeplayState.songs.length} songs.');
 	}
 
-	public function addSong(songId:String, weekNum:Int, songCharacter:String)
+	public function addSong(songId:String, weekNum:Int, songCharacter:String, color:String = "#9271FD")
 	{
-		songs.push(new FreeplaySongMetadata(songId, weekNum, songCharacter));
+		songs.push(new FreeplaySongMetadata(songId, weekNum, songCharacter, color));
 	}
 
 	override function update(elapsed:Float)
@@ -472,19 +433,6 @@ class FreeplayState extends MusicBeatState
 		PlayState.storyDifficulty = difficultyId;
 		PlayState.storyWeek = null;
 		Debug.logInfo('Loading song ${PlayState.SONG.songId} from week ${PlayState.storyWeek} into Free Play...');
-		#if FEATURE_STEPMANIA
-		if (songs[curSongIndex].songCharacter == "sm")
-		{
-			Debug.logInfo('Song is a StepMania song!');
-			PlayState.isSM = true;
-			PlayState.sm = songs[curSongIndex].sm;
-			PlayState.pathToSm = songs[curSongIndex].path;
-		}
-		else
-			PlayState.isSM = false;
-		#else
-		PlayState.isSM = false;
-		#end
 
 		PlayState.songMultiplier = rate;
 
@@ -529,39 +477,24 @@ class FreeplayState extends MusicBeatState
 		if (curSongIndex >= songs.length)
 			curSongIndex = 0;
 
-		if (songs[curSongIndex].diffs.length != 3)
+		var curDiffId = DifficultyCache.getByIndex(curDiffIndex).id;
+
+		// Does existing difficulty count?
+		if (!songs[curSongIndex].diffs.contains(curDiffId))
 		{
-			switch (songs[curSongIndex].diffs[0])
-			{
-				case "Easy":
-					curDiffIndex = 0;
-				case "Normal":
-					curDiffIndex = 1;
-				case "Hard":
-					curDiffIndex = 2;
-			}
+			curDiffIndex = DifficultyCache.indexOfId(songs[curSongIndex].diffs[0]);
 		}
 
-		var curDiffId = DifficultyCache.getByIndex(curDiffIndex).id;
+		// Recolor the background.
+		this.bg.color = songs[curSongIndex].color;
+
 		intendedScore = Highscore.getScore(songs[curSongIndex].songId, curDiffId);
 		combo = Highscore.getCombo(songs[curSongIndex].songId, curDiffId);
 
 		updateDifficultyText();
 
 		#if PRELOAD_ALL
-		#if FEATURE_STEPMANIA
-		if (songs[curSongIndex].songCharacter == "sm")
-		{
-			var data = songs[curSongIndex];
-			trace("Loading " + data.path + "/" + data.sm.header.MUSIC);
-			var bytes = File.getBytes(data.path + "/" + data.sm.header.MUSIC);
-			var sound = new Sound();
-			sound.loadCompressedDataFromByteArray(bytes.getData(), bytes.length);
-			FlxG.sound.playMusic(sound);
-		}
-		else
-			FlxG.sound.playMusic(Paths.inst(songs[curSongIndex].songId), 0);
-		#end
+		FlxG.sound.playMusic(Paths.inst(songs[curSongIndex].songId), 0);
 		#end
 
 		try
@@ -604,32 +537,18 @@ class FreeplaySongMetadata
 {
 	public var songName:String = "";
 	public var songId:String = "";
+	public var color:FlxColor;
 	public var week:Int = 0;
-	#if FEATURE_STEPMANIA
-	public var sm:SMFile;
-	public var path:String;
-	#end
 	public var songCharacter:String = "";
 
-	public var diffs = [];
+	public var diffs:Array<String> = [];
 
-	#if FEATURE_STEPMANIA
-	public function new(song:String, week:Int, songCharacter:String, ?sm:SMFile = null, ?path:String = "")
+	public function new(song:String, week:Int, songCharacter:String, ?color = "#9271FD")
 	{
 		this.songId = song;
 		this.songName = song;
 		this.week = week;
 		this.songCharacter = songCharacter;
-		this.sm = sm;
-		this.path = path;
+		this.color = FlxColor.fromString(color);
 	}
-	#else
-	public function new(song:String, week:Int, songCharacter:String)
-	{
-		this.songId = song;
-		this.songName = song;
-		this.week = week;
-		this.songCharacter = songCharacter;
-	}
-	#end
 }

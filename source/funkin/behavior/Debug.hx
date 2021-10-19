@@ -240,40 +240,39 @@ class Debug
 		logInfo('Git commit: ${Enigma.COMMIT_HASH}');
 
 		// Add a crash handler.
-		// openfl.Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onUncaughtError);
+		openfl.Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onUncaughtError);
 	}
 
-	/*
-		static function onUncaughtError(error:UncaughtErrorEvent)
+	static function onUncaughtError(error:UncaughtErrorEvent)
+	{
+		logError('FATAL ERROR: An uncaught error was thrown by OpenFL.');
+
+		var errorCallStack:Array<StackItem> = CallStack.exceptionStack(true);
+
+		for (line in errorCallStack)
 		{
-			logError('FATAL ERROR: An uncaught error was thrown by OpenFL.');
-
-			var errorCallStack:Array<StackItem> = CallStack.exceptionStack(true);
-
-			for (line in errorCallStack)
+			switch (line)
 			{
-				switch (line)
-				{
-					case CFunction:
-						logError('  function:');
-					case Module(m):
-						logError('  module:${m}');
-					case FilePos(s, file, line, column):
-						logError('  (${file}#${line},${column})');
-					case Method(className, method):
-						logError('  method:(${className}/${method}');
-					case LocalFunction(v):
-						logError('  localFunction:${v}');
-				}
+				case CFunction:
+					logError('  function:');
+				case Module(m):
+					logError('  module:${m}');
+				case FilePos(s, file, line, column):
+					logError('  (${file}#${line},${column})');
+				case Method(className, method):
+					logError('  method:(${className}/${method}');
+				case LocalFunction(v):
+					logError('  localFunction:${v}');
 			}
-
-			logError('ADDITIONAL INFO:');
-			logError('Type of instigator: ${Util.getTypeName(error.error)}');
-			displayAlert('Fatal Crash Error',
-				'A fatal error has occurred. ' +
-				'Please retrieve your log file from the "logs" folder and report it to the GitHub page: https://github.com/EnigmaEngine/EnigmaEngine');
 		}
-	 */
+
+		logError('ADDITIONAL INFO:');
+		logError('Type of instigator: ${Util.getTypeName(error.error)}');
+		displayAlert('Fatal Crash Error',
+			'A fatal error has occurred. ' +
+			'Please retrieve your log file from the "logs" folder and report it to the GitHub page: https://github.com/EnigmaEngine/EnigmaEngine');
+	}
+
 	/**
 	 * The game runs this function when it starts, but after Flixel is initialized.
 	 */

@@ -23,6 +23,7 @@
  */
 package funkin.ui.state.title;
 
+import funkin.behavior.play.Difficulty.DifficultyCache;
 import funkin.ui.component.Cursor;
 import polymod.hscript.HScriptable;
 import funkin.behavior.play.Highscore;
@@ -52,12 +53,10 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import openfl.Assets as OpenFlAssets;
 import funkin.behavior.Debug;
 #if FEATURE_DISCORD
 import funkin.behavior.api.Discord.DiscordClient;
-#end
-#if FEATURE_STEPMANIA
-import funkin.behavior.stepmania.SMFile;
 #end
 import funkin.behavior.mods.IHook;
 import haxe.extern.EitherType;
@@ -190,6 +189,12 @@ class TitleState extends MusicBeatState // implements IHook
 	{
 		trace('Started initializing TitleState...');
 		// onStartCreateTitleScreen();
+
+		Debug.logTrace('Listing all text assets:');
+		Debug.logTrace(OpenFlAssets.list(TEXT));
+
+		// No reason not to do this step as early as possible.
+		DifficultyCache.initDifficulties();
 
 		// TODO: Refactor this to use OpenFlAssets for compatibility with ModCore.
 		#if FEATURE_FILESYSTEM
@@ -341,8 +346,18 @@ class TitleState extends MusicBeatState // implements IHook
 		creditsGraphicCache = new Map<String, FlxSprite>();
 		for (creditsGraphicPath in listAllCreditsGraphics())
 		{
-			var sprite = new FlxSprite(0, 0).loadGraphic(GraphicsAssets.loadImage(creditsGraphicPath));
-			sprite.animation.addByPrefix('Animation', 'Animation', 30, true, false, false);
+			var sprite = new FlxSprite(0, 0);
+			if (GraphicsAssets.isAnimated(creditsGraphicPath))
+			{
+				// Load it as an animation!
+				sprite.frames = GraphicsAssets.loadSparrowAtlas(creditsGraphicPath);
+				sprite.animation.addByPrefix('Animation', 'Animation', 30, true, false, false);
+			}
+			else
+			{
+				// Load it as a static image!
+				sprite.loadGraphic(GraphicsAssets.loadImage(creditsGraphicPath));
+			}
 			creditsGraphicCache.set(creditsGraphicPath, sprite);
 		}
 
@@ -360,8 +375,7 @@ class TitleState extends MusicBeatState // implements IHook
 		{
 			// Play a fancy titled diamond animation when transitioning into and out of ANY state..
 			var diamond:FlxGraphic = FlxGraphic.fromClass(GraphicTransTileDiamond);
-			diamond.persist = true;
-			diamond.destroyOnNoUse = false;
+			GraphicsAssets.cacheImage('transitionDiamond', diamond);
 
 			// We're setting the DEFAULT transition here.
 			FlxTransitionableState.defaultTransIn = new TransitionData(FADE, FlxColor.BLACK, 1, new FlxPoint(0, -1), {asset: diamond, width: 32, height: 32},
@@ -689,7 +703,7 @@ class TitleState extends MusicBeatState // implements IHook
 					{
 						if (currentWackyText.length < entryIndex || currentWackyText[entryIndex] == null)
 						{
-							Debug.logWarn('NO VALUE FOUND for index, skipping...');
+							Debug.logTrace('Wacky text: No value for index ${entryIndex}, skipping...');
 						}
 						else
 						{
@@ -699,7 +713,7 @@ class TitleState extends MusicBeatState // implements IHook
 				}
 				else
 				{
-					Debug.logWarn('NO INDEX FOUND, skipping...');
+					Debug.logWarn('Wacky text: Could not get index argument, skipping...');
 				}
 			case 'setTextOffset':
 				Debug.logTrace('Setting text offset...');

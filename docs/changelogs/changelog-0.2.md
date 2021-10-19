@@ -16,10 +16,15 @@ First public release. Now has support for data-driven custom weeks, data-driven 
 - ⛧Rebindable fullscreen button.
 - ⛧Mod Configuration menu
 - ⛧Made weeks data driven and added support for custom weeks.
+  - Added the ability to use custom backgrounds for the story menu (either a color or a 1280x400 image).
+  - Changed the default weeks to use the custom colors from the Newgrounds release.
 - ⛧Added support for custom difficulties.
+- ⛧Added support for animated health icons.
 - Revamped the project XML file to be more functional.
   - Added print calls to display what platform is being built.
   - Added define to include vanilla game data into the build. Use `-DincludeDefaultWeeks` to enable it.
+- ⛧Bundled default assets into the executable file.
+- Removed code related to importing StepMania charts. Never heard of anyone actually using this...
 - Split story mode menu assets into separate graphics so they can be individually reskinned or replaced.
 - Move all the classes into packages for better organization.
 - Replaced JSON parser with `tjson` to make data structure less strict on end users.
@@ -43,5 +48,4 @@ First public release. Now has support for data-driven custom weeks, data-driven 
   - Sort all import lines.
   - Add license header and docs header to every file.
   - Replace all uses of `StringTools` with `haxe-strings`.
-- Get hxTelemetry working to help triage bugs.
 - Test for and fix any bugs.

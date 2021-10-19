@@ -485,6 +485,18 @@
       "typeOfSection": 0,
       "lengthInSteps": 16,
       "sectionNotes": []
+    },
+    {
+      "mustHitSection": true,
+      "typeOfSection": 0,
+      "lengthInSteps": 16,
+      "sectionNotes": []
+    },
+    {
+      "mustHitSection": true,
+      "typeOfSection": 0,
+      "lengthInSteps": 16,
+      "sectionNotes": []
     }
   ]
 }

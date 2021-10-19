@@ -1,3 +1,26 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * DiffCalc.hx
+ * Contains static functions used to generate song difficulty ratings in the Freeplay menu.
+ * TODO: Figure out how this logic works.
+ */
 package funkin.behavior.play;
 
 import funkin.util.Util;
@@ -6,7 +29,11 @@ import funkin.behavior.play.Song.SongData;
 import funkin.ui.state.menu.FreeplayState;
 import openfl.system.System;
 
-class SmallNote // basically Note.hx but small as fuck
+/**
+ * It's Note, but only contains the information needed
+ * to perform a difficulty calculation.
+ */
+class SmallNote
 {
 	public var strumTime:Float;
 	public var noteData:Int;
@@ -50,7 +77,7 @@ class DiffCalc
 			}
 		}
 
-		trace('calcuilafjwaf ' + cleanedNotes.length);
+		Debug.logTrace('Calculating song difficulty based on ${cleanedNotes.length} notes...');
 
 		var handOne:Array<SmallNote> = [];
 		var handTwo:Array<SmallNote> = [];

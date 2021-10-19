@@ -1,6 +1,7 @@
 {
   "song": {
     "song": "Tutorial",
+    "strumlineSize": 9,
     "notes": [
       {
         "mustHitSection": true,

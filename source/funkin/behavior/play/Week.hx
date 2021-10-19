@@ -1,5 +1,29 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+ * Week.hx
+ * A structure which contains data from a week's `data/storymenu/weeks/<id>.json` file.
+ * Also contains utility functions to load song data and retrieve associated assets.
+ */
 package funkin.behavior.play;
 
+import tjson.TJSON;
 import funkin.util.assets.Paths;
 import flixel.FlxSprite;
 import funkin.behavior.Debug;
@@ -9,10 +33,6 @@ import flixel.util.FlxColor;
 
 using StringTools;
 
-/**
- * A structure which contains data from a week's `data/weeks/<id>.json` file.
- * Also contains utility functions to load song data and retrieve associated assets.
- */
 class Week
 {
 	/**
@@ -72,8 +92,8 @@ class Week
 
 	function new(id:String, rawWeekData:RawWeekData)
 	{
+		this.id = id;
 		this.playlist = rawWeekData.songs;
-
 		this.title = rawWeekData.name;
 
 		if (rawWeekData.nextWeek != null)
@@ -140,13 +160,17 @@ class Week
 		// Is unlocked in save data?
 		if (FlxG.save.data.weeksUnlocked != null)
 		{
-			trace(FlxG.save.data.weeksUnlocked);
 			if (FlxG.save.data.weeksUnlocked.get(this.id))
 				return true;
 		}
 
 		// Else, only unlock based on the compile time flag.
 		return Enigma.UNLOCK_ALL_WEEKS;
+	}
+
+	public function toString()
+	{
+		return TJSON.encode(this);
 	}
 }
 
@@ -156,6 +180,12 @@ class WeekCache
 
 	public static function get(weekId:String):Null<Week>
 	{
+		if (weekId == null)
+		{
+			Debug.logError('Tried to fetch a null week.');
+			return null;
+		}
+
 		if (elements.exists(weekId))
 		{
 			return elements.get(weekId);
@@ -182,7 +212,7 @@ class WeekCache
 	static function fetchWeek(weekId:String):Week
 	{
 		Debug.logTrace('Fetching week data for ${weekId}');
-		var rawJsonData = DataAssets.loadJSON('weeks/$weekId');
+		var rawJsonData = DataAssets.loadJSON('storymenu/weeks/$weekId');
 
 		var rawWeekData:RawWeekData = cast rawJsonData;
 

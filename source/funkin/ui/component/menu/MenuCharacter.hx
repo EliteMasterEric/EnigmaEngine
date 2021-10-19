@@ -59,11 +59,10 @@ class MenuCharacter extends FlxSprite
 	private var charId:String = '';
 	private var charSettings:CharacterSetting = null;
 
-	private static var menuCharCache = new Map<String, FlxFramesCollection>();
-
-	var baseX:Float;
-	var baseY:Float;
-	var frameRate:Int;
+	var baseX:Float = 0.0;
+	var baseY:Float = 0.0;
+	var frameRate:Int = 24;
+	var charScale:Float = 1.0;
 
 	public function new(baseX, baseY, menuCharId:String)
 	{
@@ -80,7 +79,7 @@ class MenuCharacter extends FlxSprite
 		if (this.charId == '')
 			return;
 
-		var jsonData = DataAssets.loadJSON('storymenu/${this.charId}');
+		var jsonData = DataAssets.loadJSON('storymenu/characters/${this.charId}');
 		this.charSettings = cast jsonData;
 
 		// Validation.
@@ -101,6 +100,7 @@ class MenuCharacter extends FlxSprite
 			// Fallback to default values if null.
 			this.flipX = this.charSettings.flipped != null ? this.charSettings.flipped : false;
 			this.frameRate = this.charSettings.frameRate != null ? this.charSettings.frameRate : 24;
+			this.charScale = this.charSettings.scale != null ? this.charSettings.scale : 1.0;
 		}
 		else
 		{
@@ -110,16 +110,8 @@ class MenuCharacter extends FlxSprite
 
 	function loadCharacterGraphic():FlxFramesCollection
 	{
-		if (menuCharCache.get(this.charId) == null)
-		{
-			var frameCollection = GraphicsAssets.loadSparrowAtlas('storymenu/characters/${this.charId}');
-			menuCharCache.set(this.charId, frameCollection);
-			return frameCollection;
-		}
-		else
-		{
-			return menuCharCache.get(this.charId);
-		}
+		// The animation should cache itself so it can be reused.
+		return GraphicsAssets.loadSparrowAtlas('storymenu/characters/${this.charId}', null, true);
 	}
 
 	function buildCharacter()
@@ -131,7 +123,7 @@ class MenuCharacter extends FlxSprite
 		animation.addByPrefix("confirm", "confirm", this.frameRate, false, false, false);
 		antialiasing = FlxG.save.data.antialiasing;
 
-		setGraphicSize(Std.int(width * scale.x), Std.int(height * scale.y));
+		setGraphicSize(Std.int(width * this.charScale), Std.int(height * this.charScale));
 		updateHitbox();
 	}
 

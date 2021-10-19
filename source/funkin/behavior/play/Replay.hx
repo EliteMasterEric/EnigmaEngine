@@ -1,3 +1,25 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * Replay.hx
+ * Code used for replays. Pretty sure this is completely unused right now, will probably cut it.
+ */
 package funkin.behavior.play;
 
 import funkin.behavior.options.Controls.Control;
@@ -96,18 +118,13 @@ class Replay
 
 	public function SaveReplay(notearray:Array<Dynamic>, judge:Array<String>, ana:Analysis)
 	{
-		#if FEATURE_STEPMANIA
-		var chartPath = PlayState.isSM ? PlayState.pathToSm + "/converted.json" : "";
-		#else
 		var chartPath = "";
-		#end
 
 		var json = {
 			"songName": PlayState.SONG.songName,
 			"songId": PlayState.SONG.songId,
 			"songDiff": PlayState.storyDifficulty,
 			"chartPath": chartPath,
-			"sm": PlayState.isSM,
 			"timestamp": Date.now(),
 			"replayGameVer": version,
 			"sf": Conductor.safeFrames,

@@ -115,7 +115,7 @@ class OptionsMenu extends MusicBeatState
 	{
 		clean();
 		instance = this;
-		var menuBG:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage("menuDesat"));
+		var menuBG:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage("menuBackground"));
 
 		menuBG.color = 0xFFea71fd;
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));

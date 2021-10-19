@@ -38,7 +38,6 @@ class SongAssets
 		// We need to query OpenFlAssets, not the file system, because of Polymod.
 		var soundAssets = OpenFlAssets.list(MUSIC).concat(OpenFlAssets.list(SOUND));
 
-		// TODO: Maybe rework this to pull from a text file rather than scan the list of assets.
 		var songNames = [];
 
 		for (sound in soundAssets)
@@ -72,7 +71,8 @@ class SongAssets
 		if (songId == null || songId == "")
 			return false;
 		var suffix = DifficultyCache.getSuffix(difficultyId);
-		return LibraryAssets.textExists(Paths.json('${songId}/${songId}${suffix}'));
+		var path = Paths.json('songs/${songId}/${songId}${suffix}');
+		return LibraryAssets.textExists(path);
 	}
 
 	/**
@@ -82,8 +82,7 @@ class SongAssets
 	{
 		return DifficultyCache.difficultyList.filter(function(diffId)
 		{
-			var suffix = DifficultyCache.get(diffId).songSuffix;
-			return doesSongExist(songId, suffix);
+			return doesSongExist(songId, diffId);
 		});
 	}
 }

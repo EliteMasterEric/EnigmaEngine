@@ -36,7 +36,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import funkin.util.assets.Paths;
 import funkin.behavior.options.Controls.Control;
-import funkin.behavior.options.KeyBinds;
+import funkin.behavior.options.CustomControls;
 import funkin.ui.component.Alphabet;
 import funkin.ui.state.menu.FreeplayState;
 import funkin.ui.state.menu.StoryMenuState;
@@ -136,7 +136,7 @@ class PauseSubState extends MusicBeatSubstate
 		var rightPcontroller:Bool = false;
 		var oldOffset:Float = 0;
 
-		if (gamepad != null && KeyBinds.gamepad)
+		if (gamepad != null && CustomControls.gamepad)
 		{
 			upPcontroller = gamepad.justPressed.DPAD_UP;
 			downPcontroller = gamepad.justPressed.DPAD_DOWN;
@@ -145,11 +145,6 @@ class PauseSubState extends MusicBeatSubstate
 		}
 
 		var songPath = 'assets/data/songs/${PlayState.SONG.songId}/';
-
-		#if FEATURE_STEPMANIA
-		if (PlayState.isSM && !PlayState.isStoryMode)
-			songPath = PlayState.pathToSm;
-		#end
 
 		if (controls.UP_P || upPcontroller)
 		{

@@ -1,3 +1,26 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * Song.hx
+ * A class used to hold data about a song, including its metadata
+ * and its notes.
+ */
 package funkin.behavior.play;
 
 import funkin.util.assets.SongAssets;
@@ -35,14 +58,14 @@ typedef SongData =
 
 	/**
 	 * The readable name of the song, as displayed to the user.
-	 		* Can be any string.
+	 * Can be any string.
 	 */
-	var songName:String;
+	var ?songName:String;
 
 	/**
 	 * The internal name of the song, as used in the file system.
 	 */
-	var songId:String;
+	var ?songId:String;
 
 	var chartVersion:String;
 	var notes:Array<SwagSection>;
@@ -55,6 +78,7 @@ typedef SongData =
 	var gfVersion:String;
 	var stage:String;
 	var ?offset:Int;
+	var ?freeplayColor:String;
 	var ?noteStyle:String;
 	var ?validScore:Bool;
 	var ?strumlineSize:Int;
@@ -64,6 +88,7 @@ typedef SongMeta =
 {
 	var ?offset:Int;
 	var ?name:String;
+	var ?freeplayColor:String;
 }
 
 class Song
@@ -263,7 +288,11 @@ class Song
 
 	public static function parseJSONData(songId:String, jsonData:Dynamic, jsonMetaData:Dynamic):SongData
 	{
-		var songData:SongData = cast jsonData.song;
+		if (jsonData == null)
+			return null;
+		var songData:SongData = cast jsonData;
+
+		trace(songData);
 
 		songData.songId = songId;
 
@@ -294,6 +323,7 @@ class Song
 			}
 
 			songData.offset = songMetaData.offset != null ? songMetaData.offset : 0;
+			songData.freeplayColor = songMetaData.freeplayColor != null ? songMetaData.freeplayColor : "#9271FD";
 		}
 
 		return Song.conversionChecks(songData);

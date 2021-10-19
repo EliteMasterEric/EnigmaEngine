@@ -1,3 +1,26 @@
+/*
+ * GNU General Public License, Version 3.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * EnigmaNote.hx
+ * Utility class which abstracts the rendering of notes out of PlayState.
+ * Designed to make it easy to add custom note types and note styles.
+ */
 package funkin.behavior.play;
 
 import funkin.ui.component.play.StaticArrow;
@@ -119,7 +142,7 @@ class EnigmaNote
 
 	public static function loadNoteSprite(instance:FlxSprite, noteStyle:String, noteType:String, noteData:Int, isSustainNote:Bool, strumlineSize:Int):Void
 	{
-		instance.frames = GraphicsAssets.loadSparrowAtlas('notes/${noteStyle}/${noteType}Note', 'shared');
+		instance.frames = GraphicsAssets.loadSparrowAtlas('notes/${noteStyle}/${noteType}Note', 'shared', false);
 
 		// Only add the animation for the note we are using.
 		var dirName = getDirectionName(noteData, true);

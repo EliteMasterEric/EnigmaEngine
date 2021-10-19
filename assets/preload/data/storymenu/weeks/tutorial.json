@@ -1,0 +1,15 @@
+{
+    "name": "Tutorial",
+    "assets": {
+        "characters": ["", "bf", "gf"],
+        "title": "storymenu/weeks/week0",
+        // Background is either a hex color code or an image.
+        "background": "#9271FD"
+    },
+    "startSound": "confirmMenu",
+    "unlocked": true,
+    "nextWeek": "dad",
+    "songs": [
+        "tutorial"
+    ]
+}

@@ -24,7 +24,7 @@
 package funkin.ui.state.modding;
 
 import funkin.util.assets.Paths;
-import funkin.ui.state.title.Caching;
+import funkin.ui.state.title.CachingState;
 import funkin.ui.state.title.TitleState;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -136,7 +136,7 @@ class ModSplashState extends MusicBeatState
 	function loadMainGame()
 	{
 		#if FEATURE_FILESYSTEM
-		FlxG.switchState(new Caching());
+		FlxG.switchState(new CachingState());
 		#else
 		FlxG.switchState(new TitleState());
 		#end

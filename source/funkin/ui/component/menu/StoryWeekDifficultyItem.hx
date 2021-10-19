@@ -55,7 +55,7 @@ class StoryWeekDifficultyItem extends InteractableSprite
 		var diff = DifficultyCache.get(newValue);
 		if (diff != null)
 		{
-			trace('Updating difficulty graphic...');
+			trace('Updating difficulty graphic (${newValue}:${diff})...');
 			this.curDifficultyId = newValue;
 			this.curDifficultyData = diff;
 			loadDifficultyGraphic();
@@ -89,8 +89,6 @@ class StoryWeekDifficultyItem extends InteractableSprite
 	{
 		super(x, y);
 
-		DifficultyCache.initDifficulties();
-
 		loadDifficultyGraphic();
 	}
 
@@ -98,11 +96,30 @@ class StoryWeekDifficultyItem extends InteractableSprite
 	{
 		if (DifficultyCache.difficultyList.contains(curDifficultyId))
 		{
-			this.loadGraphic(DifficultyCache.get(curDifficultyId).graphic);
+			var g = DifficultyCache.get(curDifficultyId).graphic;
+			if (DifficultyCache.get(curDifficultyId).graphic != null)
+			{
+				this.loadGraphic(g);
+				this.updateHitbox();
+			}
+			else
+			{
+				Debug.logError('Could not load difficulty graphic (${curDifficultyId})!');
+			}
 		}
 		else
 		{
-			this.loadGraphic(DifficultyCache.getFallback().graphic);
+			Debug.logWarn('Could not load difficulty data (${curDifficultyId}), using fallback graphic!');
+			var g = DifficultyCache.getFallback().graphic;
+			if (g != null)
+			{
+				this.loadGraphic(g);
+				this.updateHitbox();
+			}
+			else
+			{
+				Debug.logError('Could not load difficulty graphic <fallback>!');
+			}
 		}
 	}
 

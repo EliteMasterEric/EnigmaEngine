@@ -24,7 +24,7 @@ package funkin.ui.state.options;
 
 import funkin.behavior.options.PlayerSettings;
 import funkin.util.assets.Paths;
-import funkin.behavior.options.KeyBinds;
+import funkin.behavior.options.CustomControls;
 import flixel.effects.FlxFlicker;
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -106,7 +106,7 @@ class KeyBindMenu extends FlxSubState
 		add(blackBox);
 
 		infoText = new FlxText(-10, 580, 1280,
-			'Current Mode: ${KeyBinds.gamepad ? 'GAMEPAD' : 'KEYBOARD'}. Press TAB to switch\n(${KeyBinds.gamepad ? 'RIGHT Trigger' : 'Escape'} to save, ${KeyBinds.gamepad ? 'LEFT Trigger' : 'Backspace'} to leave without saving. ${KeyBinds.gamepad ? 'START To change a keybind' : ''})',
+			'Current Mode: ${CustomControls.gamepad ? 'GAMEPAD' : 'KEYBOARD'}. Press TAB to switch\n(${CustomControls.gamepad ? 'RIGHT Trigger' : 'Escape'} to save, ${CustomControls.gamepad ? 'LEFT Trigger' : 'Backspace'} to leave without saving. ${CustomControls.gamepad ? 'START To change a keybind' : ''})',
 			72);
 		infoText.scrollFactor.set(0, 0);
 		infoText.setFormat("VCR OSD Mono", 24, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -140,7 +140,7 @@ class KeyBindMenu extends FlxSubState
 		if (frames <= 10)
 			frames++;
 
-		infoText.text = 'Current Mode: ${KeyBinds.gamepad ? 'GAMEPAD' : 'KEYBOARD'}. Press TAB to switch\n(${KeyBinds.gamepad ? 'RIGHT Trigger' : 'Escape'} to save, ${KeyBinds.gamepad ? 'LEFT Trigger' : 'Backspace'} to leave without saving. ${KeyBinds.gamepad ? 'START To change a keybind' : ''})\n${lastKey != "" ? lastKey + " is blacklisted!" : ""}';
+		infoText.text = 'Current Mode: ${CustomControls.gamepad ? 'GAMEPAD' : 'KEYBOARD'}. Press TAB to switch\n(${CustomControls.gamepad ? 'RIGHT Trigger' : 'Escape'} to save, ${CustomControls.gamepad ? 'LEFT Trigger' : 'Backspace'} to leave without saving. ${CustomControls.gamepad ? 'START To change a keybind' : ''})\n${lastKey != "" ? lastKey + " is blacklisted!" : ""}';
 
 		switch (state)
 		{
@@ -159,7 +159,7 @@ class KeyBindMenu extends FlxSubState
 
 				if (FlxG.keys.justPressed.TAB)
 				{
-					KeyBinds.gamepad = !KeyBinds.gamepad;
+					CustomControls.gamepad = !CustomControls.gamepad;
 					textUpdate();
 				}
 
@@ -207,7 +207,7 @@ class KeyBindMenu extends FlxSubState
 				}
 
 			case "input":
-				if (KeyBinds.gamepad)
+				if (CustomControls.gamepad)
 				{
 					tempKey = gpKeys[curSelected];
 					gpKeys[curSelected] = "?";
@@ -221,7 +221,7 @@ class KeyBindMenu extends FlxSubState
 				state = "waiting";
 
 			case "waiting":
-				if (gamepad != null && KeyBinds.gamepad) // GP Logic
+				if (gamepad != null && CustomControls.gamepad) // GP Logic
 				{
 					if (FlxG.keys.justPressed.ESCAPE)
 					{ // just in case you get stuck
@@ -284,7 +284,7 @@ class KeyBindMenu extends FlxSubState
 	{
 		keyTextDisplay.text = "\n\n";
 
-		if (KeyBinds.gamepad)
+		if (CustomControls.gamepad)
 		{
 			for (i in 0...4)
 			{
