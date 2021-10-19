@@ -1911,10 +1911,10 @@ class LuaGame extends LuaClass
 			},
 
 			"accuracy" => {
-				defaultValue: PlayState.instance.accuracy,
+				defaultValue: Scoring.currentScore.getAccuracy(),
 				getter: function(l:State, data:Any):Int
 				{
-					Lua.pushnumber(l, PlayState.instance.accuracy);
+					Lua.pushnumber(l, Scoring.currentScore.getAccuracy());
 					return 1;
 				},
 				setter: SetNumProperty

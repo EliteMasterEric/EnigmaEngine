@@ -164,7 +164,7 @@ class HealthIcon extends FlxSprite
 			loadIconLegacy('face');
 			return;
 		}
-		frames = GraphicsAssets.loadSparrowAtlas('icons/icon-${char}');
+		frames = GraphicsAssets.loadSparrowAtlas('icons/icon-${char}', null, true);
 
 		animation.addByPrefix("idle", "idle-base", 24, true, isPlayer);
 		animation.addByPrefix("winning", "winning-base", 24, true, isPlayer);

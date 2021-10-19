@@ -192,7 +192,7 @@ class FreeplayState extends MusicBeatState
 			// Scan for valid difficulties for this song.
 			if (SongAssets.doesSongExist(songId, ''))
 				diffsThatExist.push(DifficultyCache.defaultDifficulty);
-			diffsThatExist.concat(SongAssets.listDifficultiesForSong(songId));
+			diffsThatExist = diffsThatExist.concat(SongAssets.listDifficultiesForSong(songId));
 
 			// If none exist, display a popup (VERY high priority notification).
 			if (diffsThatExist.length == 0)
@@ -335,9 +335,15 @@ class FreeplayState extends MusicBeatState
 		}
 
 		if (accepted)
+		{
+			trace('Attempting to load current song...');
 			loadSong();
+		}
 		else if (charting)
+		{
+			trace('Attempting to chart current song...');
 			loadSong(true);
+		}
 
 		// AnimationDebug and StageDebug are only enabled in debug builds.
 		#if debug
@@ -396,7 +402,7 @@ class FreeplayState extends MusicBeatState
 
 	function loadSong(isCharting:Bool = false)
 	{
-		loadSongInFreePlay(songs[curSongIndex].songName, DifficultyCache.getByIndex(curDiffIndex).id, isCharting);
+		loadSongInFreePlay(songs[curSongIndex].songId, DifficultyCache.getByIndex(curDiffIndex).id, isCharting);
 
 		clean();
 	}
@@ -407,7 +413,6 @@ class FreeplayState extends MusicBeatState
 	 * @param songId The id of the song to load. Use the internal ID, with dashes.
 	 * @param isCharting If true, load into the Chart Editor instead.
 	 */
-	// TODO: Fix references
 	public static function loadSongInFreePlay(songId:String, difficultyId:String, isCharting:Bool, reloadSong:Bool = false)
 	{
 		// Make sure song data is initialized first.
@@ -429,9 +434,8 @@ class FreeplayState extends MusicBeatState
 		}
 
 		PlayState.SONG = Song.conversionChecks(currentSongData);
-		PlayState.isStoryMode = false;
-		PlayState.storyDifficulty = difficultyId;
 		PlayState.storyWeek = null;
+		PlayState.storyDifficulty = difficultyId;
 		Debug.logInfo('Loading song ${PlayState.SONG.songId} from week ${PlayState.storyWeek} into Free Play...');
 
 		PlayState.songMultiplier = rate;
@@ -480,7 +484,7 @@ class FreeplayState extends MusicBeatState
 		var curDiffId = DifficultyCache.getByIndex(curDiffIndex).id;
 
 		// Does existing difficulty count?
-		if (!songs[curSongIndex].diffs.contains(curDiffId))
+		if (songs[curSongIndex] != null && !songs[curSongIndex].diffs.contains(curDiffId))
 		{
 			curDiffIndex = DifficultyCache.indexOfId(songs[curSongIndex].diffs[0]);
 		}

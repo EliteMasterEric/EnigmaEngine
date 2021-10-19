@@ -80,9 +80,11 @@ class SongAssets
 	 */
 	public static function listDifficultiesForSong(songId:String)
 	{
-		return DifficultyCache.difficultyList.filter(function(diffId)
+		var diffList = DifficultyCache.difficultyList;
+		var filteredDiffs = diffList.filter(function(diffId)
 		{
 			return doesSongExist(songId, diffId);
 		});
+		return filteredDiffs;
 	}
 }

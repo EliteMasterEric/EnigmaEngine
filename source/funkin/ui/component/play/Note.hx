@@ -49,9 +49,19 @@ class Note extends FlxSprite
 
 	public var rStrumTime:Float = 0;
 
-	public var mustPress:Bool = false;
+	/**
+	 * The corrected note data value.
+	 * strumline.members[index] will point to the parent strumline.
+	 */
 	public var noteData:Int = 0;
+
+	/**
+	 * The RAW, unmodified note data value in the charter.
+	 * Value jumps around a lot because reasons.
+	 */
 	public var rawNoteData:Int = 0;
+
+	public var mustPress:Bool = false;
 	public var canBeHit:Bool = false;
 	public var tooLate:Bool = false;
 	public var wasGoodHit:Bool = false;
@@ -200,11 +210,10 @@ class Note extends FlxSprite
 		// That makes it really easy for me to add new notes.
 		EnigmaNote.loadNoteSprite(this, this.noteStyle, this.noteType, this.rawNoteData, isSustainNote, NoteUtil.fetchStrumlineSize());
 
-		x += NoteUtil.getNoteOffset(this.noteData, NoteUtil.fetchStrumlineSize());
-
 		animation.play(EnigmaNote.getDirectionName(this.rawNoteData, true) + ' Note');
 		originColor = this.rawNoteData; // The note's origin color will be checked by its sustain notes
 
+		// TODO: Code for note quantization. Redo this.
 		if (FlxG.save.data.stepMania && !isSustainNote && !PlayState.instance.executeModchart)
 		{
 			var col:Int = 0;

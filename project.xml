@@ -6,8 +6,10 @@
 
 	<!--
 		I wanted to print a cool ASCII logo at the start of each build,
-		but apparently the "echo" command breaks the Haxe VSCode integration.
+		but apparently the "echo" command breaks the Lime VSCode integration on Windows.
+    See: https://github.com/haxelime/lime-vscode-extension/issues/88
 	-->
+  <!--
 	<echo value="_____________________________________________" />
 	<echo value="___________________6666666___________________" />
 	<echo value="____________66666__________66666_____________" />
@@ -31,7 +33,7 @@
 	<echo value="____________66666_____6____66666_____________" />
 	<echo value="___________________6666666___________________" />
 	<echo value="_____________________________________________" />
-	<echo value="I-------------------------------------------I" />
+	<echo value="II" />
 	<echo value="I  _____ _   _ _____ _____ ___  ___  ___    I" />
 	<echo value="I |  ___| \ | |_   _|  __ \|  \/  | / _ \   I" />
 	<echo value="I | |__ |  \| | | | | |  \/| .  . |/ /_\ \  I" />
@@ -45,8 +47,9 @@
 	<echo value="I  | |___| |\  | |_\ \_| |_| |\  || |___    I" />
 	<echo value="I  \____/\_| \_/\____/\___/\_| \_/\____/    I" />
 	<echo value="I                                           I" />
-	<echo value="I-------------------------------------------I" />
+	<echo value="II" />
 	<echo value="Initializing build..." />
+  -->
 	
 	<!-- Make sure people don't try to build for a weird platform. -->
 	<!-- I can't support iOS right now, since I don't have the ability to build -->
@@ -68,6 +71,7 @@
 	<error value="Target platform Electron is not supported" if="html5 electron" /> 
 
 	<!-- Print out the target platform. -->
+  <!--
 	<echo value="Target platform: Windows"   if="windows" />
 	<echo value="Target platform: MacOS"     if="mac" />
 	<echo value="Target platform: Linux"     if="linux" />
@@ -80,6 +84,7 @@
 	
 	<echo value="Platform architecture: 32-bit" if="HXCPP_M32" />
 	<echo value="Platform architecture: 64-bit" if="HXCPP_M64" />
+  -->
 		
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
@@ -123,12 +128,20 @@
 	<define name="PRELOAD_ALL" unless="web" />
 
 	<section if="embedAssets">
+    <!--
+    <echo value="NOTICE: Build will embed assets to create a standalone executable!" />
+    -->
 		<assets path="assets/preload" rename="assets" embed="true" exclude="*.ogg" if="web"/>
 		<assets path="assets/preload" rename="assets" embed="true" exclude="*.mp3" unless="web"/>
 	</section>
 	<section unless="embedAssets">
 		<assets path="assets/preload" rename="assets" embed="false" exclude="*.ogg" if="web"/>
 		<assets path="assets/preload" rename="assets" embed="false" exclude="*.mp3" unless="web"/>
+
+    <!-- Default weeks are moved up here when not embedding, and down near the end if we are embedding. -->
+    <section if="includeDefaultWeeks">
+			<assets path="assets/_includeDefaultWeeks" rename="assets" embed="false" exclude="*.md" />
+  </section>
 	</section>
 
 	<section if="PRELOAD_ALL">
@@ -213,12 +226,11 @@
 		NOTE: When embedding, the default weeks need to be included after. If you set embed=false, you need to move them before the EXE.
 	-->
 	<section if="includeDefaultWeeks">
+    <!--
 		<echo value="NOTICE: Build will include default weeks!" />
+    -->
 		<section if="embedAssets">
 			<assets path="assets/_includeDefaultWeeks" rename="assets" embed="true" exclude="*.md" />
-		</section>
-		<section unless="embedAssets">
-			<assets path="assets/_includeDefaultWeeks" rename="assets" embed="false" exclude="*.md" />
 		</section>
 
 		<section if="PRELOAD_ALL">

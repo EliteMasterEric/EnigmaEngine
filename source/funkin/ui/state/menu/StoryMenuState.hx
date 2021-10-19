@@ -332,21 +332,18 @@ class StoryMenuState extends MusicBeatState
 
 		if (chosenWeek.isWeekUnlocked())
 		{
-			PlayState.storyPlaylist = chosenWeek.playlist;
-			PlayState.isStoryMode = true;
+			PlayState.storyPlaylistPos = 0;
+			PlayState.storyWeek = chosenWeek;
 			PlayState.songMultiplier = 1;
-
 			PlayState.storyDifficulty = difficultyId;
 
-			PlayState.sicks = 0;
-			PlayState.bads = 0;
-			PlayState.shits = 0;
-			PlayState.goods = 0;
-			PlayState.campaignMisses = 0;
 			var diffSuffix = DifficultyCache.getSuffix(PlayState.storyDifficulty);
 			PlayState.SONG = Song.conversionChecks(Song.loadFromJson(PlayState.storyPlaylist[0], diffSuffix));
-			PlayState.storyWeek = chosenWeek;
-			PlayState.campaignScore = 0;
+
+			// Reset the score.
+			Scoring.currentScore = new Scoring.SongScore();
+			Scoring.campaignScore = new Scoring.SongScore();
+
 			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
 				LoadingState.loadAndSwitchState(new PlayState(), true);

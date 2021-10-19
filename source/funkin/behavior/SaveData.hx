@@ -34,6 +34,8 @@ class SaveData
 {
 	public static function initSave()
 	{
+		trace('Checking save data...');
+
 		// weeksUnlocked is a map of week IDs.
 		if (FlxG.save.data.weeksUnlocked == null || FlxG.save.data.weeksUnlocked.get == null)
 		{
@@ -121,8 +123,12 @@ class SaveData
 		if (FlxG.save.data.InstantRespawn == null)
 			FlxG.save.data.InstantRespawn = false;
 
+		var value = FlxG.save.data.botplay;
 		if (FlxG.save.data.botplay == null)
+		{
+			trace('BotPlay was null');
 			FlxG.save.data.botplay = false;
+		}
 
 		if (FlxG.save.data.cpuStrums == null)
 			FlxG.save.data.cpuStrums = false;
@@ -155,6 +161,7 @@ class SaveData
 			FlxG.save.data.zoom = 1;
 
 		// Commit the default values.
+		trace('Done checking save data. Flushing...');
 		FlxG.save.flush();
 
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;

@@ -79,10 +79,13 @@ class CachingState extends MusicBeatState
 
 	override function create()
 	{
+		// Load the save file.
 		FlxG.save.bind('funkin', 'ninjamuffin99');
 
+		// Initialize the player settings.
 		PlayerSettings.init();
 
+		// Load the player's save data.
 		SaveData.initSave();
 
 		Cursor.showCursor(false);

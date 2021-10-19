@@ -263,7 +263,7 @@ class ResultsScreen extends FlxSubState
 			if (music != null)
 				music.fadeOut(0.3);
 
-			PlayState.isStoryMode = false;
+			PlayState.storyWeek = null;
 			LoadingState.loadAndSwitchState(new PlayState());
 			PlayState.instance.clean();
 		}

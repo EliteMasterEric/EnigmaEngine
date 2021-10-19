@@ -69,6 +69,8 @@ class DifficultyCache
 				Debug.logError('Could not initialize difficulty "${element}": missing graphic!');
 			}
 		}
+
+		Debug.logInfo('Initialized ${difficultyList.length} difficulties: ${difficultyList}');
 	}
 
 	public static function size():Int

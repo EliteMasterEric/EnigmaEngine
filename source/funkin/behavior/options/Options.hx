@@ -827,9 +827,8 @@ class OffsetMenu extends Option
 		Debug.logTrace("Options: Press test offest...");
 
 		PlayState.SONG = Song.loadFromJson('tutorial', '');
-		PlayState.isStoryMode = false;
-		PlayState.storyDifficulty = "easy";
 		PlayState.storyWeek = null;
+		PlayState.storyDifficulty = "easy";
 		PlayState.offsetTesting = true;
 		Debug.logTrace('Entering week ' + PlayState.storyWeek.id);
 		LoadingState.loadAndSwitchState(new PlayState());
@@ -968,13 +967,14 @@ class ResetSettings extends Option
 
 	public override function press():Bool
 	{
+		Debug.logWarn('User opted to reset their preferences.');
 		if (!confirm)
 		{
 			confirm = true;
 			display = updateDisplay();
 			return true;
 		}
-		FlxG.save.data.weekUnlocked = null;
+		FlxG.save.data.weeksUnlocked = null;
 		FlxG.save.data.newInput = null;
 		FlxG.save.data.downscroll = null;
 		FlxG.save.data.antialiasing = null;
@@ -1009,6 +1009,7 @@ class ResetSettings extends Option
 		FlxG.save.data.cacheImages = null;
 		FlxG.save.data.editor = null;
 
+		// After blanking out the values, reset to default.
 		SaveData.initSave();
 		confirm = false;
 		trace('All settings have been reset');

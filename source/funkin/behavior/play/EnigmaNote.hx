@@ -79,6 +79,12 @@ class EnigmaNote
 	private static final PIXEL_ZOOM = 6 / 0.7;
 
 	/**
+	 * I found that notes were rendering a bit to the left by default.
+	 * Not sure if this is the correct solution.
+	 */
+	public static final NOTE_NUDGE = 2;
+
+	/**
 	 * From the raw note data, 
 	 * @param rawNoteData 
 	 * @param allowAltNames Set this to true to allow 
@@ -272,7 +278,7 @@ class EnigmaNote
 			}
 
 			// In FreePlay, ease the arrows into frame vertically.
-			if (!PlayState.isStoryMode)
+			if (!PlayState.isStoryMode())
 			{
 				babyArrow.y -= 10;
 				FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: 1}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});

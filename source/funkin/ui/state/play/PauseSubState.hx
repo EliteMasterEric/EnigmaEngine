@@ -202,7 +202,7 @@ class PauseSubState extends MusicBeatSubstate
 
 					PlayState.instance.clean();
 
-					if (PlayState.isStoryMode)
+					if (PlayState.isStoryMode())
 						FlxG.switchState(new StoryMenuState());
 					else
 						FlxG.switchState(new FreeplayState());

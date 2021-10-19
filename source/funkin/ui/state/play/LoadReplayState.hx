@@ -226,9 +226,8 @@ class LoadReplayState extends MusicBeatState
 					Application.current.window.alert("Failed to load the song! Does the JSON exist?", "Replays");
 					return;
 				}
-				PlayState.isStoryMode = false;
-				PlayState.storyDifficulty = PlayState.rep.replay.songDiff;
 				PlayState.storyWeek = null;
+				PlayState.storyDifficulty = PlayState.rep.replay.songDiff;
 				LoadingState.loadAndSwitchState(new PlayState());
 			}
 			else

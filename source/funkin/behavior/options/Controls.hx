@@ -267,8 +267,6 @@ class Controls extends FlxActionSet
 		FlxG.save.data.gpdownBind = "DPAD_DOWN";
 		FlxG.save.data.gpleftBind = "DPAD_LEFT";
 		FlxG.save.data.gprightBind = "DPAD_RIGHT";
-
-		// PlayerSettings.player1.controls.loadKeyBinds();
 	}
 
 	public static function keyCheck():Void

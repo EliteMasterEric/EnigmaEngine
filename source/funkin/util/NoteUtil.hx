@@ -23,6 +23,8 @@
  */
 package funkin.util;
 
+import funkin.behavior.Debug;
+import funkin.ui.component.play.Note;
 import flixel.FlxG;
 import funkin.ui.state.play.PlayState;
 import funkin.behavior.play.EnigmaNote;
@@ -94,7 +96,7 @@ class NoteUtil
 	/**
 	 * Determine this note is on the player's side of the field.
 	 * 
-	 * Note that this 
+	 * Slightly misleading name; hazard notes that appear on the player's side will return true.
 	 * @param rawNoteData The raw note data value (no modulus performed).
 	 * @param mustHitSection The mustHitSection value from this note's section from the JSON file.
 	 * @return Whether the note needs to be hit by the player.
@@ -170,10 +172,22 @@ class NoteUtil
 	 * @param rawNoteData 
 	 * @param strumlineSize 
 	 */
-	public static function getNoteOffset(rawNoteData:Int, strumlineSize:Int = 4):Int
+	public static function positionNote(note:Note, strumline:Array<Note>)
 	{
-		var correctedNoteData = getStrumlineIndex(rawNoteData, strumlineSize);
-		var strumlineNoteWidth = NOTE_GEOMETRY_DATA[strumlineSize][0];
-		return Std.int(correctedNoteData * strumlineNoteWidth);
+		var strumlineNote = strumline[note.noteData];
+
+		if (strumlineNote == null)
+		{
+			Debug.logError('Could not get parent strumline note when positioning note: ${note.noteData}');
+		}
+
+		// Visibility should match. Used by modcharts.
+		note.visible = strumlineNote.visible;
+		note.alpha = strumlineNote.alpha;
+		// Angle of the note should match. Defined by modcharts.
+		note.modAngle = strumlineNote.modAngle;
+
+		// Position of the note should line up.
+		note.x = strumlineNote.x + EnigmaNote.NOTE_NUDGE;
 	}
 }
