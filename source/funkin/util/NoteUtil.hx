@@ -25,6 +25,7 @@ package funkin.util;
 
 import funkin.behavior.Debug;
 import funkin.ui.component.play.Note;
+import funkin.ui.component.play.StrumlineArrow;
 import flixel.FlxG;
 import funkin.ui.state.play.PlayState;
 import funkin.behavior.play.EnigmaNote;
@@ -53,6 +54,10 @@ class NoteUtil
 	];
 
 	static final Z = -1; // Invalid/Unused.
+
+	/**
+	 * Maps note data from the chart to an index in the strumline, starting with the CPU.
+	 */
 	public static final NOTE_DATA_TO_STRUMLINE_MAP:Map<Int, Array<Int>> = [
 		// No controls are 9Key
 		2 => [Z, 0, 1, Z, Z, 2, 3, Z], // Down/Up.
@@ -166,13 +171,20 @@ class NoteUtil
 		return result;
 	}
 
+	public static function isCPUNote(rawNoteData:Int, strumlineSize:Int = 4, mustHitNote:Bool = false):Bool
+	{
+		// If the strumline is in the first half (the player notes), return false.
+		// If the strumline is in the second half (the CPU notes), return true.
+		return getStrumlineIndex(rawNoteData, strumlineSize, mustHitNote) < strumlineSize;
+	}
+
 	/**
 	 * From a note's direction and the song's strumline size,
 	 * get the distance to offset by, in pixels.
 	 * @param rawNoteData 
 	 * @param strumlineSize 
 	 */
-	public static function positionNote(note:Note, strumline:Array<Note>)
+	public static function positionNote(note:Note, strumline:Array<StrumlineArrow>)
 	{
 		var strumlineNote = strumline[note.noteData];
 

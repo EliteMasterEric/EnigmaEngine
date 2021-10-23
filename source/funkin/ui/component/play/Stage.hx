@@ -568,8 +568,8 @@ class Stage extends MusicBeatState
 		lightningStrikeBeat = curBeat;
 		lightningOffset = FlxG.random.int(8, 24);
 
-		PlayState.boyfriend.playAnim('scared', true);
-		PlayState.gf.playAnim('scared', true);
+		PlayState.playerChar.playAnim('scared', true);
+		PlayState.gfChar.playAnim('scared', true);
 	}
 
 	var trainMoving:Bool = false;
@@ -598,7 +598,7 @@ class Stage extends MusicBeatState
 			if (trainSound.time >= 4700)
 			{
 				startedMoving = true;
-				PlayState.gf.playAnim('hairBlow');
+				PlayState.gfChar.playAnim('hairBlow');
 			}
 
 			if (startedMoving)
@@ -625,7 +625,7 @@ class Stage extends MusicBeatState
 	{
 		if (FlxG.save.data.distractions)
 		{
-			PlayState.gf.playAnim('hairFall');
+			PlayState.gfChar.playAnim('hairFall');
 			swagBacks['phillyTrain'].x = FlxG.width + 200;
 			trainMoving = false;
 			trainCars = 8;

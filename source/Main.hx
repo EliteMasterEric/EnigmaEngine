@@ -20,6 +20,9 @@
  * Main.hx
  * The main class of the application. The constructor sets up and loads the game.
  */
+package;
+
+import funkin.const.GameDimensions;
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxState;
@@ -46,20 +49,42 @@ import funkin.behavior.api.Discord.DiscordClient;
 
 class Main extends Sprite
 {
-	var gameWidth:Int = 1280; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).
-	var gameHeight:Int = 720; // Height of the game in pixels (might be less / more in actual pixels depending on your zoom).
-	var initialState:Class<FlxState> = TitleState; // The FlxState the game starts with.
-	var zoom:Float = -1; // If -1, zoom is automatically calculated to fit the window dimensions.
-	var framerate:Int = 120; // How many frames per second the game should run at.
-	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
-	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
+	/**
+	 * Width of the game in pixels.
+	 */
+	var gameWidth:Int = GameDimensions.width;
 
-	// You can pretty much ignore everything from here on - your code should go in your states.
+	/**
+	 * Height of the game in pixels.
+	 */
+	var gameHeight:Int = GameDimensions.height;
+
+	var initialState:Class<FlxState> = TitleState; // The FlxState the game starts with.
+
+	/**
+	 * The zoom of the game.
+	 * Set to `-1` to automatically calculate to fit your window dimensions.
+	 * Set to `1` to prevent scaling the graphics with the game window.
+	 */
+	var zoom:Float = -1; // If -1, zoom is automatically calculated to fit the window dimensions.
+
+	/**
+	 * The framerate of the game in frames per second.
+	 */
+	var framerate:Int = 120;
+
+	/**
+	 * Whether to skip the HaxeFlixel logo and 'do do dlip do DAH' tune that appears in release mode.
+	 */
+	var skipSplash:Bool = true;
+
+	/**
+	 * Whether to start the game in fullscreen on desktop targets
+	 */
+	var startFullscreen:Bool = false;
 
 	public static function main():Void
 	{
-		// quick checks
-
 		Lib.current.addChild(new Main());
 	}
 

@@ -23,6 +23,7 @@
  */
 package funkin.behavior.modchart;
 
+import funkin.behavior.play.Scoring;
 #if FEATURE_LUAMODCHART
 import flash.display.BitmapData;
 import flixel.FlxCamera;
@@ -34,7 +35,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxAxes;
 import funkin.ui.component.play.Character;
 import funkin.ui.component.play.Note;
-import funkin.ui.component.play.StaticArrow;
+import funkin.ui.component.play.StrumlineArrow;
 import funkin.ui.component.play.Stage;
 import funkin.ui.state.play.PlayState;
 import haxe.DynamicAccess;
@@ -280,7 +281,8 @@ class LuaNote extends LuaClass
 				defaultValue: 1,
 				getter: function(l:State, data:Any):Int
 				{
-					Lua.pushboolean(l, connectedNote.mustPress);
+					// TODO: Fix this.
+					Lua.pushboolean(l, false);
 					return 1;
 				},
 				setter: SetNumProperty
@@ -557,9 +559,9 @@ class LuaReceptor extends LuaClass
 { // again, stolen from andromeda but improved a lot for better thinking interoperability (I made that up)
 	private static var state:State;
 
-	public var sprite:StaticArrow;
+	public var sprite:StrumlineArrow;
 
-	public function new(connectedSprite:StaticArrow, name:String)
+	public function new(connectedSprite:StrumlineArrow, name:String)
 	{
 		super();
 		var defaultY = connectedSprite.y;
@@ -1413,11 +1415,11 @@ class LuaCharacter extends LuaClass
 
 		PlayState.instance.remove(char);
 
-		PlayState.dad = new Character(x, y, newName, char.isPlayer);
+		PlayState.cpuChar = new Character(x, y, newName, char.isPlayer);
 
-		property.char = PlayState.dad;
+		property.char = PlayState.cpuChar;
 
-		PlayState.instance.add(PlayState.dad);
+		PlayState.instance.add(PlayState.cpuChar);
 
 		return 0;
 	}
@@ -1941,14 +1943,14 @@ class LuaGame extends LuaClass
 		// 2 = stage
 		var stageName = LuaL.checkstring(state, 2);
 
-		for (i in PlayState.Stage.toAdd)
+		for (i in PlayState.STAGE.toAdd)
 		{
 			PlayState.instance.remove(i);
 		}
 
-		PlayState.Stage = new Stage(stageName);
+		PlayState.STAGE = new Stage(stageName);
 
-		for (i in PlayState.Stage.toAdd)
+		for (i in PlayState.STAGE.toAdd)
 		{
 			PlayState.instance.add(i);
 		}

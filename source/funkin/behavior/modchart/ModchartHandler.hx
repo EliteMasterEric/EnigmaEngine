@@ -275,13 +275,13 @@ class ModchartHandler
 		{
 			case 'boyfriend':
 				@:privateAccess
-				return PlayState.boyfriend;
+				return PlayState.playerChar;
 			case 'girlfriend':
 				@:privateAccess
-				return PlayState.gf;
+				return PlayState.gfChar;
 			case 'dad':
 				@:privateAccess
-				return PlayState.dad;
+				return PlayState.cpuChar;
 		}
 		// lua objects or what ever
 		if (luaSprites.get(id) == null)
@@ -302,22 +302,22 @@ class ModchartHandler
 
 	function changeDadCharacter(id:String)
 	{
-		var olddadx = PlayState.dad.x;
-		var olddady = PlayState.dad.y;
-		PlayState.instance.removeObject(PlayState.dad);
-		PlayState.dad = new Character(olddadx, olddady, id);
-		PlayState.instance.addObject(PlayState.dad);
-		PlayState.instance.iconP2.changeIcon(id);
+		var olddadx = PlayState.cpuChar.x;
+		var olddady = PlayState.cpuChar.y;
+		PlayState.instance.removeObject(PlayState.cpuChar);
+		PlayState.cpuChar = new Character(olddadx, olddady, id);
+		PlayState.instance.addObject(PlayState.cpuChar);
+		PlayState.instance.healthIconCPU.changeIcon(id);
 	}
 
 	function changeBoyfriendCharacter(id:String)
 	{
-		var oldboyfriendx = PlayState.boyfriend.x;
-		var oldboyfriendy = PlayState.boyfriend.y;
-		PlayState.instance.removeObject(PlayState.boyfriend);
-		PlayState.boyfriend = new Boyfriend(oldboyfriendx, oldboyfriendy, id);
-		PlayState.instance.addObject(PlayState.boyfriend);
-		PlayState.instance.iconP1.changeIcon(id);
+		var oldboyfriendx = PlayState.playerChar.x;
+		var oldboyfriendy = PlayState.playerChar.y;
+		PlayState.instance.removeObject(PlayState.playerChar);
+		PlayState.playerChar = new Boyfriend(oldboyfriendx, oldboyfriendy, id);
+		PlayState.instance.addObject(PlayState.playerChar);
+		PlayState.instance.healthIconPlayer.changeIcon(id);
 	}
 
 	function makeAnimatedLuaSprite(spritePath:String, names:Array<String>, prefixes:Array<String>, startAnim:String, id:String)
@@ -394,16 +394,16 @@ class ModchartHandler
 		{
 			if (drawBehind)
 			{
-				PlayState.instance.removeObject(PlayState.gf);
-				PlayState.instance.removeObject(PlayState.boyfriend);
-				PlayState.instance.removeObject(PlayState.dad);
+				PlayState.instance.removeObject(PlayState.gfChar);
+				PlayState.instance.removeObject(PlayState.playerChar);
+				PlayState.instance.removeObject(PlayState.cpuChar);
 			}
 			PlayState.instance.addObject(sprite);
 			if (drawBehind)
 			{
-				PlayState.instance.addObject(PlayState.gf);
-				PlayState.instance.addObject(PlayState.boyfriend);
-				PlayState.instance.addObject(PlayState.dad);
+				PlayState.instance.addObject(PlayState.gfChar);
+				PlayState.instance.addObject(PlayState.playerChar);
+				PlayState.instance.addObject(PlayState.cpuChar);
 			}
 		}
 		#end
@@ -455,7 +455,7 @@ class ModchartHandler
 
 		// get some fukin globals up in here bois
 
-		setVar("difficulty", PlayState.storyDifficulty);
+		setVar("difficulty", PlayState.songDifficulty);
 		setVar("bpm", Conductor.bpm);
 		setVar("scrollspeed", FlxG.save.data.scrollSpeed != 1 ? FlxG.save.data.scrollSpeed : PlayState.SONG.speed);
 		setVar("fpsCap", FlxG.save.data.fpsCap);

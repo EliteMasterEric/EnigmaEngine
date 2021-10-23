@@ -4,7 +4,7 @@
     // Wondering how to switch platforms? Select it in the status bar next to 'Lime',
     // or press CTRL-SHIFT-P and select Lime: Select Target Configuration.
     {
-			"name": "Build + Debug",
+			"name": "Build and Launch",
 			"type": "lime",
 			"request": "launch"
 		}

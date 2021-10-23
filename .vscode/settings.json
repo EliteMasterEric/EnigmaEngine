@@ -5,6 +5,38 @@
   },
   // Chrome doesn't work.
   "lime.browser": "firefox",
+  "lime.targetConfigurations": [
+    {
+      "label": "Windows (Test Suite)",
+      "target": "windows",
+      "args": [
+        "-DexecuteTests"
+      ]
+    },
+    {
+      "label": "Windows / Debug (Test Suite)",
+      "target": "windows",
+      "args": [
+        "-debug",
+        "-DexecuteTests"
+      ]
+    },
+    {
+      "label": "Windows (Default Weeks)",
+      "target": "windows",
+      "args": [
+        "-DincludeDefaultWeeks"
+      ]
+    },
+    {
+      "label": "Windows / Debug (Default Weeks)",
+      "target": "windows",
+      "args": [
+        "-debug",
+        "-DincludeDefaultWeeks"
+      ]
+    }
+  ],
   "files.associations": {
     "*.json": "jsonc",
     "*.hxp": "haxe"

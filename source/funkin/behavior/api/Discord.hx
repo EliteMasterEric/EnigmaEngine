@@ -33,7 +33,7 @@ class DiscordClient
 {
 	public function new()
 	{
-		trace("Discord Client starting...");
+		Debug.logInfo("Discord Client starting...");
 		DiscordRpc.start({
 			// Specify a custom client ID here.
 			clientID: "557069829501091850",
@@ -41,7 +41,7 @@ class DiscordClient
 			onError: onError,
 			onDisconnected: onDisconnected
 		});
-		trace("Discord Client started.");
+		Debug.logInfo("Discord Client started.");
 
 		while (true)
 		{
@@ -86,7 +86,7 @@ class DiscordClient
 		trace("Discord Client initialized");
 	}
 
-	public static function changePresence(details:String, state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float)
+	public static function changePresence(details:String, state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool = false, ?endTimestamp:Float = 0)
 	{
 		var startTimestamp:Float = if (hasStartTimestamp) Date.now().getTime() else 0;
 

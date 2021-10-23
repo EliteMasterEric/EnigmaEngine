@@ -55,7 +55,7 @@ class StageDebugState extends FlxState
 	var gf:Character;
 	var boyfriend:Boyfriend;
 	var dad:Character;
-	var Stage:Stage;
+	var STAGE:Stage;
 	var camFollow:FlxObject;
 	var posText:FlxText;
 	var curChar:FlxSprite;
@@ -85,22 +85,22 @@ class StageDebugState extends FlxState
 		FlxG.sound.music.stop();
 		Cursor.showCursor();
 
-		Stage = PlayState.Stage;
+		STAGE = PlayState.STAGE;
 
-		gf = PlayState.gf;
-		boyfriend = PlayState.boyfriend;
-		dad = PlayState.dad;
+		gf = PlayState.gfChar;
+		boyfriend = PlayState.playerChar;
+		dad = PlayState.cpuChar;
 		curChars = [dad, boyfriend, gf];
 		if (!gf.visible) // for when gf is an opponent
 			curChars.pop();
 		curChar = curChars[curCharIndex];
 
-		for (i in Stage.toAdd)
+		for (i in STAGE.toAdd)
 		{
 			add(i);
 		}
 
-		for (index => array in Stage.layInFront)
+		for (index => array in STAGE.layInFront)
 		{
 			switch (index)
 			{
@@ -240,17 +240,17 @@ class StageDebugState extends FlxState
 		{
 			FlxG.switchState(new PlayState());
 			PlayState.stageTesting = true;
-			for (i in Stage.toAdd)
+			for (i in STAGE.toAdd)
 			{
 				remove(i);
 			}
 
-			for (group in Stage.swagGroup)
+			for (group in STAGE.swagGroup)
 			{
 				remove(group);
 			}
 
-			for (index => array in Stage.layInFront)
+			for (index => array in STAGE.layInFront)
 			{
 				switch (index)
 				{
@@ -289,7 +289,7 @@ class StageDebugState extends FlxState
 
 	function getNextObject():Void
 	{
-		for (key => value in Stage.swagBacks)
+		for (key => value in STAGE.swagBacks)
 		{
 			if (!usedObjects.contains(value))
 			{
@@ -328,7 +328,7 @@ class StageDebugState extends FlxState
 	{
 		var result = "";
 
-		for (spriteName => sprite in Stage.swagBacks)
+		for (spriteName => sprite in STAGE.swagBacks)
 		{
 			var text = spriteName + " X: " + sprite.x + " Y: " + sprite.y + " Rotation: " + sprite.angle;
 			result += text + "\n";

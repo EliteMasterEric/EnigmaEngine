@@ -1,6 +1,5 @@
 package funkin.ui.state.menu;
 
-import funkin.behavior.play.Difficulty;
 import flash.text.TextField;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.FlxCamera;
@@ -15,27 +14,29 @@ import flixel.util.FlxColor;
 import funkin.behavior.Debug;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.DiffCalc;
+import funkin.behavior.play.Difficulty;
 import funkin.behavior.play.Difficulty.DifficultyCache;
 import funkin.behavior.play.Highscore;
+import funkin.behavior.play.Scoring;
+import funkin.behavior.play.Song;
+import funkin.behavior.play.Song.SongData;
 import funkin.ui.audio.MainMenuMusic;
+import funkin.ui.component.Alphabet;
+import funkin.ui.component.play.HealthIcon;
 import funkin.ui.state.charting.ChartingState;
+import funkin.ui.state.debug.AnimationDebug;
+import funkin.ui.state.play.PlayState;
 import funkin.util.assets.DataAssets;
 import funkin.util.assets.GraphicsAssets;
 import funkin.util.assets.Paths;
 import funkin.util.assets.SongAssets;
 import funkin.util.Util;
 import hx.strings.collection.StringArray;
+import openfl.media.Sound;
+import openfl.utils.Future;
 #if FEATURE_DISCORD
 import funkin.behavior.api.Discord.DiscordClient;
 #end
-import funkin.behavior.play.Song;
-import funkin.behavior.play.Song.SongData;
-import funkin.ui.component.Alphabet;
-import funkin.ui.component.play.HealthIcon;
-import funkin.ui.state.debug.AnimationDebug;
-import funkin.ui.state.play.PlayState;
-import openfl.media.Sound;
-import openfl.utils.Future;
 #if FEATURE_FILESYSTEM
 import sys.FileSystem;
 import sys.io.File;
@@ -435,7 +436,7 @@ class FreeplayState extends MusicBeatState
 
 		PlayState.SONG = Song.conversionChecks(currentSongData);
 		PlayState.storyWeek = null;
-		PlayState.storyDifficulty = difficultyId;
+		PlayState.songDifficulty = difficultyId;
 		Debug.logInfo('Loading song ${PlayState.SONG.songId} from week ${PlayState.storyWeek} into Free Play...');
 
 		PlayState.songMultiplier = rate;
@@ -465,8 +466,8 @@ class FreeplayState extends MusicBeatState
 			return;
 		}
 
-		intendedScore = Highscore.getScore(songs[curSongIndex].songId, DifficultyCache.getByIndex(curDiffIndex).id);
-		combo = Highscore.getCombo(songs[curSongIndex].songId, DifficultyCache.getByIndex(curDiffIndex).id);
+		intendedScore = Highscore.getSongScore(songs[curSongIndex].songId, DifficultyCache.getByIndex(curDiffIndex).id);
+		combo = Highscore.getSongCombo(songs[curSongIndex].songId, DifficultyCache.getByIndex(curDiffIndex).id);
 		updateDifficultyText();
 	}
 
@@ -492,8 +493,8 @@ class FreeplayState extends MusicBeatState
 		// Recolor the background.
 		this.bg.color = songs[curSongIndex].color;
 
-		intendedScore = Highscore.getScore(songs[curSongIndex].songId, curDiffId);
-		combo = Highscore.getCombo(songs[curSongIndex].songId, curDiffId);
+		intendedScore = Highscore.getSongScore(songs[curSongIndex].songId, curDiffId);
+		combo = Highscore.getSongCombo(songs[curSongIndex].songId, curDiffId);
 
 		updateDifficultyText();
 

@@ -1,0 +1,14 @@
+I am a major fan of open-source software, as is ninjamuffin99. Enigma was built on it, Funkin was built on it, and many great new things will continue to be built off of it. Back in May, ninjamuffin99 stated that GPL was considered but ultimately rejected for Funkin, due to the restrictive nature of console platforms like the Nintendo Switch. This is not a concern for Enigma, which seeks to only be available on platforms for which source code can be fully open sourced.
+
+Licensing is something that people should take more seriously than they often do, for the most part. If there was no license file in the Funkin repository, users would have no legal right to copy the code in the first place. In order to ensure my work isn't put to waste, and to ensure the community will 'pay it forward', I have made the decision early in development of Enigma Engine to convert this repository from the permissive Apache v2 license to the copyleft GPLv3 license. I believe this is possible since Engima is an entirely separate fork than the projects it was derived from, and a significant part of the codebase has been refactored to the extent that large parts of it are mostly my code.
+
+Notably, the use of the GPLv3 includes the following instructions, that software developers who are forking Enigma Engine and using its code MUST comply with:
+
+* This software's license must be included in any derivative works.
+  * The build process for Enigma Engine spits out the GPLv3 license into the output files. Please leave it there.
+* This software's license obligates developers to make the source code of any modifications or derivative works available under the same license.
+  * Enigma Engine is open source software. If you modify the original source code to create your mod and distribute a new executable using my code, you MUST also make the source code publically available.
+    * This is basically identical to GameBanana's Rule 7, so if you're following that rule you will be fine: `Mods that recompile the executable for the game must be open source and include a link to your GitHub for the file.`
+  * To be clear, this doesn't apply to using the ModCore system, which doesn't change the executable at all.
+
+Remember, the game is thriving BECAUSE of its open source nature, certainly not despite it. If you make a mod, I want people to be able to see how you made it and to learn from that, and if you try to keep it hidden for selfish reasons, I will be upset at you.

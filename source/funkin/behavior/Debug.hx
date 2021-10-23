@@ -338,17 +338,17 @@ class Debug
 		addConsoleCommand("trackBoyfriend", function()
 		{
 			Debug.logInfo("CONSOLE: Begin tracking Boyfriend...");
-			trackObject(PlayState.boyfriend);
+			trackObject(PlayState.playerChar);
 		});
 		addConsoleCommand("trackGirlfriend", function()
 		{
 			Debug.logInfo("CONSOLE: Begin tracking Girlfriend...");
-			trackObject(PlayState.gf);
+			trackObject(PlayState.gfChar);
 		});
 		addConsoleCommand("trackDad", function()
 		{
 			Debug.logInfo("CONSOLE: Begin tracking Dad...");
-			trackObject(PlayState.dad);
+			trackObject(PlayState.cpuChar);
 		});
 
 		addConsoleCommand("setLogLevel", function(logLevel:String)
@@ -431,9 +431,10 @@ class DebugLogWriter
 		#if FEATURE_FILESYSTEM
 		printDebug("Initializing log file...");
 
+		// The path of the log file.
 		var logFilePath = '$LOG_FOLDER/${Sys.time()}.log';
 
-		// Make sure that the path exists
+		// Make sure that the log directory exists.
 		if (logFilePath.indexOf("/") != -1)
 		{
 			var lastIndex:Int = logFilePath.lastIndexOf("/");

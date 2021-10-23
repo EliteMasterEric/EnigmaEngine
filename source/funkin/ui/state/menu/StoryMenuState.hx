@@ -23,6 +23,8 @@
  */
 package funkin.ui.state.menu;
 
+import funkin.behavior.play.Scoring;
+import funkin.behavior.play.Scoring.SongScore;
 import funkin.util.assets.GraphicsAssets;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxG;
@@ -335,14 +337,14 @@ class StoryMenuState extends MusicBeatState
 			PlayState.storyPlaylistPos = 0;
 			PlayState.storyWeek = chosenWeek;
 			PlayState.songMultiplier = 1;
-			PlayState.storyDifficulty = difficultyId;
+			PlayState.songDifficulty = difficultyId;
 
-			var diffSuffix = DifficultyCache.getSuffix(PlayState.storyDifficulty);
-			PlayState.SONG = Song.conversionChecks(Song.loadFromJson(PlayState.storyPlaylist[0], diffSuffix));
+			var diffSuffix = DifficultyCache.getSuffix(PlayState.songDifficulty);
+			PlayState.SONG = Song.conversionChecks(Song.loadFromJson(PlayState.storyWeek.playlist[PlayState.storyPlaylistPos], diffSuffix));
 
 			// Reset the score.
-			Scoring.currentScore = new Scoring.SongScore();
-			Scoring.campaignScore = new Scoring.SongScore();
+			Scoring.currentScore = new SongScore(PlayState.songMultiplier);
+			Scoring.weekScore = new SongScore(PlayState.songMultiplier);
 
 			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{

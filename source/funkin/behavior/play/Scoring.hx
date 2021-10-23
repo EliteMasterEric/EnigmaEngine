@@ -32,11 +32,11 @@ import funkin.ui.state.play.PlayState;
 
 enum abstract Judgement(String) to String
 {
-	var Miss; // = 'miss'
-	var Shit; // = 'shit'
-	var Bad; // = 'bad'
-	var Good; // = 'good'
-	var Sick; // = 'sick'
+	var Miss = 'miss';
+	var Shit = 'shit';
+	var Bad = 'bad';
+	var Good = 'good';
+	var Sick = 'sick';
 }
 
 /**
@@ -65,7 +65,7 @@ class SongScore
 	// The contribution of each judgement to accuracy if WIFE accuracy is off.
 	public static final MISS_ACCURACY = -1.0;
 	public static final SHIT_ACCURACY = -1.0;
-	public static final BAD_SACCURACY = 0.5;
+	public static final BAD_ACCURACY = 0.5;
 	public static final GOOD_ACCURACY = 0.75;
 	public static final SICK_ACCURACY = 1.0;
 
@@ -249,13 +249,19 @@ class Scoring
 		}
 		else if (Scoring.currentScore.shit == 0)
 		{
-			//
+			// Full Clear (100% notes Hit)
 			ranking = "(FC)";
 		}
-		else if (Scoring.currentScore.shit < 10) // Single Digit Combo Breaks
+		else if (Scoring.currentScore.shit < 10)
+		{
+			// Single Digit Combo Breaks (< 10 notes Missed)
 			ranking = "(SDCB)";
+		}
 		else
+		{
+			// Cleared without losing.
 			ranking = "(Clear)";
+		}
 
 		// WIFE TIME :)))) (based on Wife3)
 
@@ -378,7 +384,7 @@ class Scoring
 	 * @param accuracy 
 	 * @return String
 	 */
-	public static function calculateRanking(score:Int, scoreDef:Int, nps:Int, maxNPS:Int, accuracy:Float):String
+	public static function calculateRanking(score:Int, nps:Int, maxNPS:Int, accuracy:Float):String
 	{
 		var rankingText = '';
 
@@ -394,10 +400,6 @@ class Scoring
 		if (!FlxG.save.data.botplay)
 		{
 			rankingText += 'Score: $score';
-			if (Conductor.safeFrames != 10)
-			{
-				rankingText += ' ($scoreDef)';
-			}
 
 			if (FlxG.save.data.accuracyDisplay)
 			{

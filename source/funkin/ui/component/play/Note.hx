@@ -24,6 +24,7 @@
  */
 package funkin.ui.component.play;
 
+import funkin.behavior.play.Scoring;
 import funkin.ui.state.charting.ChartingState;
 import funkin.util.NoteUtil;
 import funkin.behavior.play.EnigmaNote;
@@ -42,12 +43,35 @@ using StringTools;
 
 class Note extends FlxSprite
 {
-	public var strumTime:Float = 0;
-	public var baseStrum:Float = 0;
+	/**
+	 * The note type, such as `normal` or `hazard`.
+	 * Note type should determine the GAMEPLAY of the note,
+	 * such as whether it should be hit or avoided,
+	 * and what happens if it isn't.
+	 */
+	public var noteType(default, set):String = "normal";
 
-	public var charterSelected:Bool = false;
+	function set_noteType(newValue:String):String
+	{
+		this.noteType = newValue;
+		// Changing the note type triggers a re-render.
+		buildNoteGraphic();
+		return this.noteType;
+	}
 
-	public var rStrumTime:Float = 0;
+	/**
+	 * The note style, such as `normal` or `pixel`.
+	 * Should only determine the APPEARANCE of the note.
+	 */
+	public var noteStyle(default, set):String = 'normal';
+
+	function set_noteStyle(newValue:String):String
+	{
+		this.noteStyle = newValue;
+		// Changing the note style triggers a re-render.
+		buildNoteGraphic();
+		return this.noteStyle;
+	}
 
 	/**
 	 * The corrected note data value.
@@ -61,11 +85,44 @@ class Note extends FlxSprite
 	 */
 	public var rawNoteData:Int = 0;
 
-	public var mustPress:Bool = false;
-	public var canBeHit:Bool = false;
-	public var tooLate:Bool = false;
-	public var wasGoodHit:Bool = false;
+	/**
+	 * The time in the song, in seconds, at which the note should be played.
+	 */
+	public var strumTime:Float = 0;
+
+	/**
+	 * The previous sustain note. Refers to itself if it's not a sustain note.
+	 */
 	public var prevNote:Note;
+
+	/**
+	 * If false, the note is on the player's side of the field.
+	 * If true, the note is on the CPU's side of the field (it will always be hit, etc).
+	 */
+	public var isCPUNote:Bool = false;
+
+	/**
+	 * Each frame, each note measures how long it'll be until it can be hit.
+	 * When the note is within the timing window, this value is true.
+	 */
+	public var canBeHit:Bool = false;
+
+	/**
+	 * Will be true if the strumTime is in the past and outside the timing window.
+	 */
+	public var tooLateToHit:Bool = false;
+
+	/**
+	 * Will be true if the note was hit within the timing window.
+	 */
+	public var wasGoodHit:Bool = false;
+
+	public var baseStrum:Float = 0;
+
+	public var charterSelected:Bool = false;
+
+	public var rStrumTime:Float = 0;
+
 	public var modifiedByLua:Bool = false;
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
@@ -83,26 +140,6 @@ class Note extends FlxSprite
 	public var noteYOff:Int = 0;
 
 	public var beat:Float = 0;
-
-	public var noteType(default, set):String = "normal";
-
-	function set_noteType(newValue:String):String
-	{
-		this.noteType = newValue;
-		// Changing the note style triggers a re-render.
-		buildNoteGraphic();
-		return this.noteType;
-	}
-
-	public var noteStyle(default, set):String = 'normal';
-
-	function set_noteStyle(newValue:String):String
-	{
-		this.noteStyle = newValue;
-		// Changing the note style triggers a re-render.
-		buildNoteGraphic();
-		return this.noteStyle;
-	}
 
 	public var inCharter:Bool = false;
 
@@ -135,29 +172,40 @@ class Note extends FlxSprite
 	 * @param strumTime The time in seconds at which this note should appear in the song.
 	 * @param noteData The note data (used to determine the direction of the note).
 	 * @param prevNote A reference to the note before this in the song.
+	 * @param mustPress Whether the current section is on the player's side. (Not related to whether the note is a hazard).
 	 * @param sustainNote Whether this note is a held note.
 	 * @param inCharter Whether this note is being created for use in `ChartingState`.
 	 */
-	public function new(strumTime:Float, rawNoteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inCharter:Bool = false, ?noteType:String = "normal")
+	public function new(strumTime:Float, rawNoteData:Int, ?prevNote:Note, ?mustPress:Bool = false, ?sustainNote:Bool = false, ?inCharter:Bool = false,
+			?noteType:String = "normal")
 	{
 		// Refactored to only include values required to build the note initially.
 		// Values like `isAlt` and `beat` are helpful but should be set later to de-clutter the constructor.
 
+		// Initialize the FlxSprite.
 		super();
 
-		// Previous note is part of the logic used by sustain notes.
+		// The raw note data is the original value specified by the charter.
+		this.rawNoteData = rawNoteData;
+		// The note data is the position in the strumline.
+		// The utility function accounts for strumline size and what side the note is on.
+		this.noteData = NoteUtil.getStrumlineIndex(rawNoteData, NoteUtil.fetchStrumlineSize(), mustPress);
+		this.isCPUNote = NoteUtil.isCPUNote(rawNoteData, NoteUtil.fetchStrumlineSize(), mustPress);
+		trace('Translated ${rawNoteData} to ${noteData} (${isCPUNote})'); // Previous note is part of the logic used by sustain notes.
+
+		// Set the note type.
+		this.noteType = noteType;
+
 		if (prevNote == null)
 			prevNote = this;
-
-		this.noteType = noteType;
 
 		this.prevNote = prevNote;
 		this.inCharter = inCharter;
 
 		isSustainNote = sustainNote;
 
-		x += 50;
-		// MAKE SURE ITS DEFINITELY OFF SCREEN?
+		// x += 50;
+		// Ensure the note is definitely off-screen while initializing.
 		y -= 2000;
 
 		if (this.inCharter)
@@ -174,13 +222,11 @@ class Note extends FlxSprite
 		if (this.strumTime < 0)
 			this.strumTime = 0;
 
+		// If we are in the charter, we will position
 		if (!this.inCharter)
 			y += FlxG.save.data.offset + PlayState.songOffset;
 
-		this.rawNoteData = rawNoteData;
-		this.noteData = NoteUtil.getStrumlineIndex(rawNoteData, NoteUtil.fetchStrumlineSize());
-
-		// defaults if no noteStyle was found in chart
+		// Default if no noteStyle was found in chart
 		this.noteStyle = 'normal';
 
 		if (inCharter)
@@ -194,6 +240,7 @@ class Note extends FlxSprite
 		}
 		else
 		{
+			// Get the note style from the song.
 			if (PlayState.SONG.noteStyle != null)
 			{
 				this.noteStyle = PlayState.SONG.noteStyle;
@@ -210,11 +257,16 @@ class Note extends FlxSprite
 		// That makes it really easy for me to add new notes.
 		EnigmaNote.loadNoteSprite(this, this.noteStyle, this.noteType, this.rawNoteData, isSustainNote, NoteUtil.fetchStrumlineSize());
 
+		// Play the proper animation for this note based on its direction.
 		animation.play(EnigmaNote.getDirectionName(this.rawNoteData, true) + ' Note');
-		originColor = this.rawNoteData; // The note's origin color will be checked by its sustain notes
+
+		// The note's origin color will be checked by its sustain notes
+		originColor = this.rawNoteData;
 
 		// TODO: Code for note quantization. Redo this.
-		if (FlxG.save.data.stepMania && !isSustainNote && !PlayState.instance.executeModchart)
+		// Choose what direction to use based on the beat the note is on, rather than the direction.
+		// Since the note will be in the wrong direction, we have to rotate it to compensate.
+		if (FlxG.save.data.stepMania && !isSustainNote && !PlayState.instance.modchartActive)
 		{
 			var col:Int = 0;
 
@@ -247,17 +299,17 @@ class Note extends FlxSprite
 		// THIS DOESN'T FUCKING FLIP THE NOTE, CONTRIBUTERS DON'T JUST COMMENT THIS OUT JESUS
 		// then what is this lol
 		// BRO IT LITERALLY SAYS IT FLIPS IF ITS A TRAIL AND ITS DOWNSCROLL
+		// ERIC: TODO Figure out what this fixes/breaks.
 		if (FlxG.save.data.downscroll && this.isSustainNote)
 			flipY = true;
 
-		var stepHeight = (((0.45 * Conductor.stepCrochet) / (PlayState.songMultiplier < 1 ? PlayState.songMultiplier : 1)) * FlxMath.roundDecimal(PlayStateChangeables.scrollSpeed == 1 ? PlayState.SONG.speed : PlayStateChangeables.scrollSpeed,
+		var stepHeight = (((0.45 * Conductor.stepCrochet) / PlayState.songMultiplier) * FlxMath.roundDecimal(PlayStateChangeables.scrollSpeed == 1 ? PlayState.SONG.speed : PlayStateChangeables.scrollSpeed,
 			2));
 
 		if (isSustainNote && prevNote != null)
 		{
 			noteYOff = Math.round(-stepHeight + swagWidth * 0.5);
 
-			noteScore * 0.2;
 			alpha = 0.6;
 
 			x += width / 2;
@@ -288,47 +340,77 @@ class Note extends FlxSprite
 		}
 	}
 
+	/**
+	 * Called each frame of the game.
+	 * Checks whether the note is "in range" to be played or not.
+	 * @param elapsed 
+	 */
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		if (!modifiedByLua)
-			angle = modAngle + localAngle;
-		else
-			angle = modAngle;
 
-		if (!modifiedByLua)
+		angle = modAngle + (modifiedByLua ? 0 : localAngle);
+
+		if (!modifiedByLua && !sustainActive)
 		{
-			if (!sustainActive)
-			{
-				alpha = 0.3;
-			}
+			alpha = 0.3;
 		}
 
-		if (mustPress)
+		// Do canBeHit calculation.
+		// Set to true if this note's strumtime is within the largest timing window.
+		if (isCPUNote)
 		{
+			// Don't calculate for CPU notes.
+			canBeHit = false;
+		}
+		else
+		{
+			// This code makes DRASTICALLY more sense now that everything is labelled.
+			// Creating a named variable is a microscopic performance hit that the compiler should optimize away.
+
+			// Difference between the current time and the strumtime.
+			var timeToNote = strumTime - Conductor.songPosition;
+			// The farthest timing window, taking into account song speed.
+			var timingWindow = Scoring.TIMING_WINDOWS[0] * Conductor.timeScale / PlayState.songMultiplier;
+
+			// The farthest timing window, BEFORE the note.
+			var earlyTimingWindow = timingWindow;
+			// The farthest timing window, AFTER the note.
+			var lateTimingWindow = -1 * timingWindow;
+
+			// Sustain notes have an early hit window of half size.
 			if (isSustainNote)
+				earlyTimingWindow *= 0.5;
+
+			// Actual logic here.
+			if (timeToNote <= earlyTimingWindow)
 			{
-				if (strumTime - Conductor.songPosition <= (((166 * Conductor.timeScale) / (PlayState.songMultiplier < 1 ? PlayState.songMultiplier : 1) * 0.5))
-					&& strumTime - Conductor.songPosition >= (((-166 * Conductor.timeScale) / (PlayState.songMultiplier < 1 ? PlayState.songMultiplier : 1))))
-					canBeHit = true;
+				if (timeToNote >= 0)
+				{
+					// We can hit the note (early)!
+					this.canBeHit = true;
+				}
+				else if (timeToNote >= lateTimingWindow)
+				{
+					// We can hit the note (late)!
+					this.canBeHit = true;
+				}
 				else
-					canBeHit = false;
+				{
+					// Too late to hit this note!
+					this.canBeHit = false;
+					this.tooLateToHit = true;
+				}
 			}
 			else
 			{
-				if (strumTime - Conductor.songPosition <= (((166 * Conductor.timeScale) / (PlayState.songMultiplier < 1 ? PlayState.songMultiplier : 1)))
-					&& strumTime - Conductor.songPosition >= (((-166 * Conductor.timeScale) / (PlayState.songMultiplier < 1 ? PlayState.songMultiplier : 1))))
-					canBeHit = true;
-				else
-					canBeHit = false;
+				// Too early to hit this note!
+				this.canBeHit = false;
 			}
 		}
-		else
-		{
-			canBeHit = false;
-		}
 
-		if (tooLate && !wasGoodHit)
+		// Fade the note if it was too late to hit and we missed it.
+		if (tooLateToHit && !wasGoodHit)
 		{
 			if (alpha > 0.3)
 				alpha = 0.3;

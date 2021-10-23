@@ -23,7 +23,7 @@
  */
 package funkin.behavior.play;
 
-import funkin.ui.component.play.StaticArrow;
+import funkin.ui.component.play.StrumlineArrow;
 import funkin.ui.component.play.Note;
 import funkin.util.NoteUtil;
 import funkin.util.assets.Paths;
@@ -160,7 +160,7 @@ class EnigmaNote
 		switch (noteStyle)
 		{
 			case 'pixel':
-				var widthSize = Std.int(PlayState.Stage.curStage.startsWith('school') ? (instance.width * PlayState.PIXEL_ZOOM_FACTOR) : (isSustainNote ? (instance.width * (PlayState.PIXEL_ZOOM_FACTOR
+				var widthSize = Std.int(PlayState.STAGE.curStage.startsWith('school') ? (instance.width * PlayState.PIXEL_ZOOM_FACTOR) : (isSustainNote ? (instance.width * (PlayState.PIXEL_ZOOM_FACTOR
 					- 1.5)) : (instance.width * PlayState.PIXEL_ZOOM_FACTOR)) * noteScale);
 
 				instance.setGraphicSize(widthSize);
@@ -211,7 +211,7 @@ class EnigmaNote
 			var arrowDir = strumlineDirs[i];
 
 			// Create a new note.
-			var babyArrow:StaticArrow = new StaticArrow(0, yPos);
+			var babyArrow:StrumlineArrow = new StrumlineArrow(0, yPos);
 
 			// The Optimize setting hides everything but the player's notes.
 			// No bf or gf, no stage or enemy notes. Disabled if the song is using a modchart.
@@ -396,10 +396,10 @@ class EnigmaNote
 				// Super Saiyan Shaggy Plus Space
 				// 7-key: Left/Down/Right/Center/Alt Left/Up/Alt Right
 				[
-					FlxG.save.data.leftBind,
-					FlxG.save.data.downBind,
-					FlxG.save.data.rightBind,
-					FlxG.save.data.centerBind,
+					FlxG.save.data.left9KBind,
+					FlxG.save.data.down9KBind,
+					FlxG.save.data.right9KBind,
+					FlxG.save.data.center9KBind,
 					FlxG.save.data.altLeft9KBind,
 					FlxG.save.data.altUp9KBind,
 					FlxG.save.data.altRight9KBind
@@ -408,10 +408,10 @@ class EnigmaNote
 				// God Eater Shaggy Minus Space
 				// 8-key: Left/Down/Up/Right/Alt Left/Alt Down/Alt Up/Alt Right
 				[
-					FlxG.save.data.leftBind,
-					FlxG.save.data.downBind,
-					FlxG.save.data.upBind,
-					FlxG.save.data.rightBind,
+					FlxG.save.data.left9KBind,
+					FlxG.save.data.down9KBind,
+					FlxG.save.data.up9KBind,
+					FlxG.save.data.right9KBind,
 					FlxG.save.data.altLeft9KBind,
 					FlxG.save.data.altDown9KBind,
 					FlxG.save.data.altUp9KBind,
@@ -489,10 +489,10 @@ class EnigmaNote
 
 	/**
 	 * Given a KeyboardEvent and the strumline size for this song,
-	 * return what note index was pressed (or released), if any.
+   * return the strumline index of the note from that keyboard event.
 	 * @param event Key that was just pressed or released.
 	 * @param strumlineSize Song's strumline size.
-	 * @return Int Note index pressed.
+	 * @return The strumline index of the note.
 	 */
 	public static function getKeyNoteData(event:KeyboardEvent, strumlineSize:Int = 4):Int
 	{

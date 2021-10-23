@@ -23,6 +23,7 @@
  */
 package funkin.ui.component.play;
 
+import funkin.behavior.play.Scoring;
 import funkin.ui.state.play.PlayState;
 import flash.display.Graphics;
 import flash.display.Shape;
@@ -50,8 +51,8 @@ class HitGraph extends Sprite
 	public var maxLabel:TextField;
 	public var avgLabel:TextField;
 
-	public var minValue:Float = -(Math.floor((PlayState.rep.replay.sf / 60) * 1000) + 95);
-	public var maxValue:Float = Math.floor((PlayState.rep.replay.sf / 60) * 1000) + 95;
+	public var minValue:Float = -(Math.floor((PlayState.currentReplay.replay.sf / 60) * 1000) + 95);
+	public var maxValue:Float = Math.floor((PlayState.currentReplay.replay.sf / 60) * 1000) + 95;
 
 	public var showInput:Bool = FlxG.save.data.inputShow;
 
@@ -85,13 +86,13 @@ class HitGraph extends Sprite
 		_axis = new Shape();
 		_axis.x = _labelWidth + 10;
 
-		ts = Math.floor((PlayState.rep.replay.sf / 60) * 1000) / 166;
+		ts = Math.floor((PlayState.currentReplay.replay.sf / 60) * 1000) / Scoring.TIMING_WINDOWS[0];
 
 		var early = createTextField(10, 10, FlxColor.WHITE, 12);
 		var late = createTextField(10, _height - 20, FlxColor.WHITE, 12);
 
-		early.text = "Early (" + -166 * ts + "ms)";
-		late.text = "Late (" + 166 * ts + "ms)";
+		early.text = "Early (" + -Scoring.TIMING_WINDOWS[0] * ts + "ms)";
+		late.text = "Late (" + Scoring.TIMING_WINDOWS[0] * ts + "ms)";
 
 		addChild(early);
 		addChild(late);
@@ -151,7 +152,7 @@ class HitGraph extends Sprite
 
 		gfx.lineStyle(1, graphColor, 0.3);
 
-		var ts = Math.floor((PlayState.rep.replay.sf / 60) * 1000) / 166;
+		var ts = Math.floor((PlayState.currentReplay.replay.sf / 60) * 1000) / Scoring.TIMING_WINDOWS[0];
 		var range:Float = Math.max(maxValue - minValue, maxValue * 0.1);
 
 		var value = ((ms * ts) - minValue) / range;
@@ -180,35 +181,35 @@ class HitGraph extends Sprite
 		gfx.lineStyle(1, graphColor, 1);
 
 		gfx.beginFill(0x00FF00);
-		drawJudgementLine(45);
+		drawJudgementLine(Scoring.TIMING_WINDOWS[3]);
 		gfx.endFill();
 
 		gfx.beginFill(0xFF0000);
-		drawJudgementLine(90);
+		drawJudgementLine(Scoring.TIMING_WINDOWS[2]);
 		gfx.endFill();
 
 		gfx.beginFill(0x8b0000);
-		drawJudgementLine(135);
+		drawJudgementLine(Scoring.TIMING_WINDOWS[1]);
 		gfx.endFill();
 
 		gfx.beginFill(0x580000);
-		drawJudgementLine(166);
+		drawJudgementLine(Scoring.TIMING_WINDOWS[0]);
 		gfx.endFill();
 
 		gfx.beginFill(0x00FF00);
-		drawJudgementLine(-45);
+		drawJudgementLine(-Scoring.TIMING_WINDOWS[3]);
 		gfx.endFill();
 
 		gfx.beginFill(0xFF0000);
-		drawJudgementLine(-90);
+		drawJudgementLine(-Scoring.TIMING_WINDOWS[2]);
 		gfx.endFill();
 
 		gfx.beginFill(0x8b0000);
-		drawJudgementLine(-135);
+		drawJudgementLine(-Scoring.TIMING_WINDOWS[1]);
 		gfx.endFill();
 
 		gfx.beginFill(0x580000);
-		drawJudgementLine(-166);
+		drawJudgementLine(-Scoring.TIMING_WINDOWS[0]);
 		gfx.endFill();
 
 		var range:Float = Math.max(maxValue - minValue, maxValue * 0.1);
@@ -216,9 +217,9 @@ class HitGraph extends Sprite
 
 		if (showInput)
 		{
-			for (i in 0...PlayState.rep.replay.ana.anaArray.length)
+			for (i in 0...PlayState.currentReplay.replay.ana.anaArray.length)
 			{
-				var ana = PlayState.rep.replay.ana.anaArray[i];
+				var ana = PlayState.currentReplay.replay.ana.anaArray[i];
 
 				var value = (ana.key * 25 - minValue) / range;
 

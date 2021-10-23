@@ -24,6 +24,7 @@ package funkin.behavior;
 
 import funkin.ui.state.play.PlayState;
 import funkin.behavior.play.Song.SongData;
+import funkin.behavior.play.Scoring;
 
 class EtternaFunctions
 {
@@ -116,7 +117,7 @@ class EtternaFunctions
 		var max_points = 1.0;
 		var miss_weight = -5.5;
 		var ridic = 5 * ts;
-		var max_boo_weight = 166 * (ts / PlayState.songMultiplier);
+		var max_boo_weight = Scoring.TIMING_WINDOWS[0] * (ts / PlayState.songMultiplier);
 		var ts_pow = 0.75;
 		var zero = 65 * (Math.pow(ts, ts_pow));
 		var power = 2.5;

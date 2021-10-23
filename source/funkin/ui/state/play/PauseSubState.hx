@@ -86,7 +86,7 @@ class PauseSubState extends MusicBeatSubstate
 		add(levelInfo);
 
 		var levelDifficulty:FlxText = new FlxText(20, 15 + 32, 0, "", 32);
-		levelDifficulty.text += PlayState.storyDifficulty.toUpperCase();
+		levelDifficulty.text += PlayState.songDifficulty.toUpperCase();
 		levelDifficulty.scrollFactor.set();
 		levelDifficulty.setFormat(Paths.font('vcr.ttf'), 32);
 		levelDifficulty.updateHitbox();
@@ -182,13 +182,14 @@ class PauseSubState extends MusicBeatSubstate
 						PlayState.instance.remove(PlayState.instance.videoSprite);
 						PlayState.instance.removedVideo = true;
 					}
-					if (PlayState.loadRep)
+					// TODO: Why is this here?
+					if (PlayState.replayActive)
 					{
 						FlxG.save.data.botplay = false;
 						FlxG.save.data.scrollSpeed = 1;
 						FlxG.save.data.downscroll = false;
 					}
-					PlayState.loadRep = false;
+					PlayState.replayActive = false;
 					PlayState.stageTesting = false;
 					#if FEATURE_LUAMODCHART
 					if (PlayState.luaModchart != null)

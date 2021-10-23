@@ -25,6 +25,8 @@ haxelib install flixel-tools
 haxelib install haxe-strings
 haxelib install tjson
 haxelib install firetongue
+haxelib install munit
+haxelib install hamcrest
 
 # Use specific bleeding-edge builds
 haxelib remove hscript
@@ -39,6 +41,8 @@ haxelib remove polymod
 haxelib git polymod https://github.com/EnigmaEngine/polymod
 haxelib remove linc_luajit
 haxelib git linc_luajit https://github.com/EnigmaEngine/linc_luajit
+haxelib remove mockatoo
+haxelib git mockatoo https://github.com/EnigmaEngine/mockatoo
 haxelib remove extension-webm
 haxelib git extension-webm https://github.com/EnigmaEngine/extension-webm
 haxelib run lime rebuild extension-webm linux

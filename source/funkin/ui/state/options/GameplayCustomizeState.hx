@@ -1,13 +1,5 @@
 package funkin.ui.state.options;
 
-import funkin.ui.component.Cursor;
-import funkin.ui.component.play.Note;
-import funkin.behavior.play.Conductor;
-import funkin.behavior.play.EnigmaNote;
-import funkin.const.Enigma;
-import funkin.util.assets.Paths;
-import funkin.ui.component.play.Character;
-import funkin.ui.component.play.Boyfriend;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -17,9 +9,18 @@ import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
-import funkin.util.assets.GraphicsAssets;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import funkin.behavior.play.Conductor;
+import funkin.behavior.play.EnigmaNote;
+import funkin.behavior.play.Scoring;
+import funkin.const.Enigma;
+import funkin.ui.component.Cursor;
+import funkin.ui.component.play.Boyfriend;
+import funkin.ui.component.play.Character;
+import funkin.ui.component.play.Note;
+import funkin.util.assets.GraphicsAssets;
+import funkin.util.assets.Paths;
 #if FEATURE_DISCORD
 import funkin.behavior.api.Discord.DiscordClient;
 #end
@@ -27,7 +28,7 @@ import openfl.ui.Keyboard;
 
 class GameplayCustomizeState extends MusicBeatState
 {
-	var defaultX:Float = FlxG.width * 0.55 - 135;
+	var defaultX:Float = FlxG.width * 0.55 - Scoring.TIMING_WINDOWS[1];
 	var defaultY:Float = FlxG.height / 2 - 50;
 
 	var background:FlxSprite;
@@ -126,8 +127,8 @@ class GameplayCustomizeState extends MusicBeatState
 		strumLine.cameras = [camHUD];
 		playerStrums.cameras = [camHUD];
 
-		generateStaticArrows(0);
-		generateStaticArrows(1);
+		generateStrumlineArrows(false);
+		generateStrumlineArrows(true);
 
 		text = new FlxText(5, FlxG.height + 40, 0,
 			"Click and drag around gameplay elements to customize their positions. Press R to reset. Q/E to change zoom. Press Escape to go back.", 12);
@@ -248,8 +249,8 @@ class GameplayCustomizeState extends MusicBeatState
 
 	// ripped from play state cuz im lazy
 
-	private function generateStaticArrows(player:Int):Void
+	private function generateStrumlineArrows(isPlayer):Void
 	{
-		EnigmaNote.buildStrumlines(player == 1, strumLine.y, Enigma.USE_CUSTOM_KEYBINDS ? 9 : 4);
+		EnigmaNote.buildStrumlines(isPlayer, strumLine.y, Enigma.USE_CUSTOM_KEYBINDS ? 9 : 4);
 	}
 }

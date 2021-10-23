@@ -232,7 +232,7 @@ class ChartingState extends MusicBeatState
 
 		if (PlayState.SONG != null)
 		{
-			var diffSuffix = DifficultyCache.getSuffix(PlayState.storyDifficulty);
+			var diffSuffix = DifficultyCache.getSuffix(PlayState.songDifficulty);
 			_song = Song.conversionChecks(Song.loadFromJson(PlayState.SONG.songId, diffSuffix));
 		}
 		else
@@ -1532,7 +1532,7 @@ class ChartingState extends MusicBeatState
 		{
 			FlxG.sound.playMusic(Paths.inst(daSong), 0.6);
 
-			var diffSuffix = DifficultyCache.getSuffix(PlayState.storyDifficulty);
+			var diffSuffix = DifficultyCache.getSuffix(PlayState.songDifficulty);
 			_song = Song.conversionChecks(Song.loadFromJson(PlayState.SONG.songId, diffSuffix));
 		}
 		// WONT WORK FOR TUTORIAL OR TEST SONG!!! REDO LATER
@@ -3270,7 +3270,7 @@ class ChartingState extends MusicBeatState
 
 	function loadJson(songId:String):Void
 	{
-		var diffSuffix = DifficultyCache.getSuffix(PlayState.storyDifficulty);
+		var diffSuffix = DifficultyCache.getSuffix(PlayState.songDifficulty);
 		PlayState.SONG = Song.loadFromJson(songId, diffSuffix);
 
 		while (curRenderedNotes.members.length > 0)
@@ -3392,7 +3392,7 @@ class ChartingState extends MusicBeatState
 		};
 
 		var data:String = TJSON.encode(json, "fancy");
-		var diffSuffix = DifficultyCache.getSuffix(PlayState.storyDifficulty);
+		var diffSuffix = DifficultyCache.getSuffix(PlayState.songDifficulty);
 		var fileName = '${_song.songId.toLowerCase()}${diffSuffix}.json';
 
 		// TODO: Does this work on HTML5? Lime supports it...

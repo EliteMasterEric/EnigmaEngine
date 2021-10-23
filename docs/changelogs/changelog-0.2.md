@@ -48,4 +48,6 @@ First public release. Now has support for data-driven custom weeks, data-driven 
   - Sort all import lines.
   - Add license header and docs header to every file.
   - Replace all uses of `StringTools` with `haxe-strings`.
+  - Replace `FlxG.log.warn` with `Debug`
+  - Replace `dad` with `cpu` and `bf` with `player` where applicable.
 - Test for and fix any bugs.

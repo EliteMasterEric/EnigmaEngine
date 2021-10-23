@@ -55,49 +55,47 @@ class OptionsMenu extends MusicBeatState
 
 	var options:Array<OptionCategory> = [
 		new OptionCategory("Gameplay", [
-			new DFJKOption(controls),
+			new BasicKeybindOption(controls),
 			Enigma.USE_CUSTOM_KEYBINDS ? new CustomKeybindsOption(controls) : null,
-			new DownscrollOption("Toggle making the notes scroll down rather than up."),
-			new GhostTapOption("Toggle counting pressing a directional input when no arrow is there as a miss."),
-			new Judgement("Customize your Hit Timings. (LEFT or RIGHT)"),
-			#if desktop new FPSCapOption("Change your FPS Cap."),
+			new DownscrollOption(),
+			new AntiMashOption(),
+			new SafeFrames(),
+			#if desktop new FramerateCapOption(),
 			#end
-			new ScrollSpeedOption("Change your scroll speed. (1 = Chart dependent)"),
-			new AccuracyDOption("Change how accuracy is calculated. (Accurate = Simple, Complex = Milisecond Based)"),
-			new ResetButtonOption("Toggle pressing R to gameover."),
-			new InstantRespawn("Toggle if you instantly respawn after dying."),
-			// new OffsetMenu("Get a note offset based off of your inputs!"),
-			new CustomizeGameplay("Drag and drop gameplay modules to your prefered positions!")
+			new ScrollSpeedOption(),
+			new WIFE3AccuracyOption(),
+			new ResetButtonOption(),
+			new InstantRespawnOption(),
+			new CustomizeGameplayOption()
 		]),
 		new OptionCategory("Appearance", [
-			new EditorRes("Not showing the editor grid will greatly increase editor performance"),
-			new DistractionsAndEffectsOption("Toggle stage distractions that can hinder your gameplay."),
-			new CamZoomOption("Toggle the camera zoom in-game."),
-			new StepManiaOption("Sets the colors of the arrows depending on quantization instead of direction."),
-			new AccuracyOption("Display accuracy information on the info bar."),
-			new SongPositionOption("Show the song's current position as a scrolling bar."),
-			new Colour("The color behind icons now fit with their theme. (e.g. Pico = green)"),
-			new NPSDisplayOption("Shows your current Notes Per Second on the info bar."),
-			new RainbowFPSOption("Make the FPS Counter flicker through rainbow colors."),
-			new CpuStrums("Toggle the CPU's strumline lighting up when it hits a note."),
+			new EditorGridOption(),
+			new DistractionsAndEffectsOption(),
+			new CameraZoomOption(),
+			new NoteQuantizationOption(),
+			new ShowAccuracyOption(),
+			new SongPositionOption(),
+			new HPBarColorOption(),
+			new NPSDisplayOption(),
+			new RainbowFPSCounterOption(),
+			new CPUStrumOption(),
 		]),
 		new OptionCategory("Misc", [
-			new FPSOption("Toggle the FPS Counter"),
-			new FlashingLightsOption("Toggle flashing lights that can cause epileptic seizures and strain."),
-			new AntialiasingOption("Toggle antialiasing, improving graphics quality at a slight performance penalty."),
-			new MissSoundsOption("Toggle miss sounds playing when you don't hit a note."),
-			new ScoreScreen("Show the score screen after the end of a song"),
-			new ShowInput("Display every single input on the score screen."),
-			new Optimization("No characters or backgrounds. Just a usual rhythm game layout."),
-			new GraphicLoading("On startup, cache every character. Significantly decrease load times. (HIGH MEMORY)"),
-			new BotPlay("Showcase your charts and mods with autoplay.")
+			new FPSCounterOption(),
+			new FlashingLightsOption(),
+			new AntialiasingOption(),
+			new MissSoundsOption(),
+			new ScoreScreenOption(),
+			new ExtendedScoreInfoOption(),
+			new MinimalModeOption(),
+			new CharacterPreloadOption(),
+			new BotPlayOption()
 		]),
 		new OptionCategory("Saves and Data", [
-			#if desktop // new ReplayOption("View saved song replays."),
-			#end
-			new ResetScoreOption("Reset your score on all songs and weeks. This is irreversible!"),
-			new LockWeeksOption("Reset your story mode progress. This is irreversible!"),
-			new ResetSettings("Reset ALL your settings. This is irreversible!")
+			new ReplayOption(),
+			new ResetScoreOption(),
+			new ResetWeekProgressOption(),
+			new ResetPreferencesOption()
 		])
 	];
 
@@ -162,7 +160,7 @@ class OptionsMenu extends MusicBeatState
 		super.create();
 	}
 
-	var isCat:Bool = false;
+	var isInCategory:Bool = false;
 
 	override function update(elapsed:Float)
 	{
@@ -170,13 +168,13 @@ class OptionsMenu extends MusicBeatState
 
 		if (acceptInput)
 		{
-			if (controls.BACK && !isCat)
+			if (controls.BACK && !isInCategory)
 			{
 				FlxG.switchState(new MainMenuState());
 			}
 			else if (controls.BACK)
 			{
-				isCat = false;
+				isInCategory = false;
 				grpControls.clear();
 				for (i in 0...options.length)
 				{
@@ -184,7 +182,6 @@ class OptionsMenu extends MusicBeatState
 					controlLabel.isMenuItem = true;
 					controlLabel.targetY = i;
 					grpControls.add(controlLabel);
-					// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
 				}
 
 				curSelected = 0;
@@ -208,88 +205,49 @@ class OptionsMenu extends MusicBeatState
 				}
 			}
 
+      // Select a different option.
 			if (FlxG.keys.justPressed.UP)
 				changeSelection(-1);
 			if (FlxG.keys.justPressed.DOWN)
 				changeSelection(1);
 
-			if (isCat)
-			{
-				if (currentSelectedCat.getOptions()[curSelected].getAccept())
-				{
-					if (FlxG.keys.pressed.SHIFT)
-					{
-						if (FlxG.keys.pressed.RIGHT)
-							currentSelectedCat.getOptions()[curSelected].right();
-						if (FlxG.keys.pressed.LEFT)
-							currentSelectedCat.getOptions()[curSelected].left();
-					}
-					else
-					{
-						if (FlxG.keys.justPressed.RIGHT)
-							currentSelectedCat.getOptions()[curSelected].right();
-						if (FlxG.keys.justPressed.LEFT)
-							currentSelectedCat.getOptions()[curSelected].left();
-					}
-				}
-				else
-				{
-					if (FlxG.keys.pressed.SHIFT)
-					{
-						if (FlxG.keys.justPressed.RIGHT)
-							FlxG.save.data.offset += 0.1;
-						else if (FlxG.keys.justPressed.LEFT)
-							FlxG.save.data.offset -= 0.1;
-					}
-					else if (FlxG.keys.pressed.RIGHT)
-						FlxG.save.data.offset += 0.1;
-					else if (FlxG.keys.pressed.LEFT)
-						FlxG.save.data.offset -= 0.1;
+      // Increment or decrement a value.
+      if (FlxG.keys.justPressed.LEFT)
+        if (currentSelectedCat.getOptions()[curSelected].onLeft())
+          rerenderCurrentOption();
+      if (FlxG.keys.justPressed.RIGHT)
+        if (currentSelectedCat.getOptions()[curSelected].onRight())
+          rerenderCurrentOption();
+      if (FlxG.keys.pressed.SHIFT) {
+        if (FlxG.keys.pressed.LEFT)
+          if (currentSelectedCat.getOptions()[curSelected].onLeftHold())
+            rerenderCurrentOption();
+        if (FlxG.keys.pressed.RIGHT)
+          if (currentSelectedCat.getOptions()[curSelected].onRightHold())
+            rerenderCurrentOption();
+      }
 
-					versionText.text = "Offset (Left, Right, Shift for slow): " + Util.truncateFloat(FlxG.save.data.offset, 2) + " - Description - "
-						+ currentDescription;
-				}
-				if (currentSelectedCat.getOptions()[curSelected].getAccept())
-					versionText.text = currentSelectedCat.getOptions()[curSelected].getValue() + " - Description - " + currentDescription;
-				else
-					versionText.text = "Offset (Left, Right, Shift for slow): " + Util.truncateFloat(FlxG.save.data.offset, 2) + " - Description - "
-						+ currentDescription;
-			}
-			else
-			{
-				if (FlxG.keys.pressed.SHIFT)
-				{
-					if (FlxG.keys.justPressed.RIGHT)
-						FlxG.save.data.offset += 0.1;
-					else if (FlxG.keys.justPressed.LEFT)
-						FlxG.save.data.offset -= 0.1;
-				}
-				else if (FlxG.keys.pressed.RIGHT)
-					FlxG.save.data.offset += 0.1;
-				else if (FlxG.keys.pressed.LEFT)
-					FlxG.save.data.offset -= 0.1;
+      // Kade handled offsets in the controls globally.
+      // Whover made it that way was awful at UI design I was so confused for a while.
+      // Now they're in their own option.
 
-				versionText.text = "Offset (Left, Right, Shift for slow): " + Util.truncateFloat(FlxG.save.data.offset, 2) + " - Description - "
-					+ currentDescription;
-			}
-
-			if (controls.RESET)
-				FlxG.save.data.offset = 0;
+			if (controls.RESET)				
+        if (currentSelectedCat.getOptions()[curSelected].onReset())
+          rerenderCurrentOption();
 
 			if (controls.ACCEPT)
 			{
-				if (isCat)
+				if (isInCategory)
 				{
-					if (currentSelectedCat.getOptions()[curSelected].press())
-					{
-						grpControls.members[curSelected].reType(currentSelectedCat.getOptions()[curSelected].getDisplay());
-						trace(currentSelectedCat.getOptions()[curSelected].getDisplay());
-					}
+          // Press an option.
+					if (currentSelectedCat.getOptions()[curSelected].onPress())
+					  rerenderCurrentOption();
 				}
 				else
 				{
+          // Enter a category.
 					currentSelectedCat = options[curSelected];
-					isCat = true;
+					isInCategory = true;
 					grpControls.clear();
 					for (i in 0...currentSelectedCat.getOptions().length)
 					{
@@ -301,11 +259,17 @@ class OptionsMenu extends MusicBeatState
 					}
 					curSelected = 0;
 				}
-
 				changeSelection();
 			}
 		}
 	}
+
+  function rerenderCurrentOption() {
+    // Name.
+    grpControls.members[curSelected].reType(currentSelectedCat.getOptions()[curSelected].name);
+    // Description.
+    versionText.text = currentSelectedCat.getOptions()[curSelected].description;
+  }
 
 	var isSettingControl:Bool = false;
 

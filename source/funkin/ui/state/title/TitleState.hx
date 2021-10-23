@@ -188,19 +188,20 @@ class TitleState extends MusicBeatState // implements IHook
 	public override function create():Void
 	{
 		trace('Started initializing TitleState...');
-		// onStartCreateTitleScreen();
+
+		#if FEATURE_FILESYSTEM
+		// If the replay folder does not exist, create it.
+		if (!sys.FileSystem.exists('${Sys.getCwd()}/replays'))
+		{
+			sys.FileSystem.createDirectory('${Sys.getCwd()}/replays');
+		}
+		#end
 
 		Debug.logTrace('Listing all text assets:');
 		Debug.logTrace(OpenFlAssets.list(TEXT));
 
 		// No reason not to do this step as early as possible.
 		DifficultyCache.initDifficulties();
-
-		// TODO: Refactor this to use OpenFlAssets for compatibility with ModCore.
-		#if FEATURE_FILESYSTEM
-		if (!sys.FileSystem.exists(Sys.getCwd() + "/assets/replays"))
-			sys.FileSystem.createDirectory(Sys.getCwd() + "/assets/replays");
-		#end
 
 		@:privateAccess
 		{

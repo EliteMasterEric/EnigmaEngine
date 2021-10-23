@@ -70,7 +70,7 @@ class LoadReplayState extends MusicBeatState
 		var menuBG:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('menuBackground'));
 		// TODO: Refactor this to use OpenFlAssets.
 		#if FEATURE_FILESYSTEM
-		controlsStrings = sys.FileSystem.readDirectory(Sys.getCwd() + "/assets/replays/");
+		controlsStrings = [];
 		#end
 		trace(controlsStrings);
 
@@ -187,14 +187,14 @@ class LoadReplayState extends MusicBeatState
 		if (controls.ACCEPT && grpControls.members[curSelected].text != "No Replays...")
 		{
 			trace('loading ' + actualNames[curSelected]);
-			PlayState.rep = Replay.LoadReplay(actualNames[curSelected]);
+			PlayState.currentReplay = Replay.LoadReplay(actualNames[curSelected]);
 
-			PlayState.loadRep = true;
+			PlayState.replayActive = true;
 
-			if (PlayState.rep.replay.replayGameVer == Replay.version)
+			if (PlayState.currentReplay.replay.replayGameVer == Replay.version)
 			{
 				// adjusting the song name to be compatible
-				var songFormat = StringTools.replace(PlayState.rep.replay.songName, " ", "-");
+				var songFormat = StringTools.replace(PlayState.currentReplay.replay.songName, " ", "-");
 				switch (songFormat)
 				{
 					// Support non-Enigma replays.
@@ -218,8 +218,8 @@ class LoadReplayState extends MusicBeatState
 
 				try
 				{
-					var diffSuffix = DifficultyCache.getSuffix(PlayState.rep.replay.songDiff);
-					PlayState.SONG = Song.loadFromJson(PlayState.rep.replay.songName, diffSuffix);
+					var diffSuffix = DifficultyCache.getSuffix(PlayState.currentReplay.replay.songDiff);
+					PlayState.SONG = Song.loadFromJson(PlayState.currentReplay.replay.songName, diffSuffix);
 				}
 				catch (e:Exception)
 				{
@@ -227,13 +227,13 @@ class LoadReplayState extends MusicBeatState
 					return;
 				}
 				PlayState.storyWeek = null;
-				PlayState.storyDifficulty = PlayState.rep.replay.songDiff;
+				PlayState.songDifficulty = PlayState.currentReplay.replay.songDiff;
 				LoadingState.loadAndSwitchState(new PlayState());
 			}
 			else
 			{
-				PlayState.rep = null;
-				PlayState.loadRep = false;
+				PlayState.currentReplay = null;
+				PlayState.replayActive = false;
 			}
 		}
 	}

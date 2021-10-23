@@ -17,7 +17,7 @@
  */
 
 /*
- * StaticArrow.hx
+ * StrumlineArrow.hx
  * A sprite which is used for the strumline.
  * Graphics loading is handled by EnigmaNote, but this keeps track of its own angle
  * so it can be adjusted and rotated by modcharts. 
@@ -31,7 +31,7 @@ import flixel.graphics.frames.FlxAtlasFrames;
 
 using StringTools;
 
-class StaticArrow extends FlxSprite
+class StrumlineArrow extends FlxSprite
 {
 	public var modifiedByLua:Bool = false;
 	public var modAngle:Float = 0; // The angle set by modcharts
