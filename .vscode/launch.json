@@ -7,6 +7,11 @@
 			"name": "Build and Launch",
 			"type": "lime",
 			"request": "launch"
-		}
+		},
+    {
+			"name": "Test and Launch",
+			"type": "lime",
+			"request": "launch"
+		},
   ],
 }

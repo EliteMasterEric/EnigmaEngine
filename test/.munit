@@ -1,0 +1,7 @@
+version=2.3.5
+src=src
+bin=export/test
+report=report
+hxml=test.hxml
+classPaths=src
+resources=assets

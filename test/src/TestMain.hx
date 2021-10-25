@@ -29,7 +29,6 @@ import flixel.FlxState;
 import massive.munit.TestRunner;
 import massive.munit.client.HTTPClient;
 import massive.munit.client.SummaryReportClient;
-import funkin.TestSuite;
 
 /**
  * Auto generated Test Application.
@@ -48,7 +47,7 @@ class TestMain
 		Lib.current.stage.addChild(new FlxGame(640, 480, FlxState, 1, 60, 60, true));
 
 		var suites = new Array<Class<massive.munit.TestSuite>>();
-		suites.push(funkin.TestSuite);
+		suites.push(TestSuite);
 
 		#if fdb
 		var client = new massive.munit.client.AbstractTestResultClient();

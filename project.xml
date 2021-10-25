@@ -5,8 +5,7 @@
   xsi:schemaLocation="http://lime.software/project/1.0.2 http://lime.software/xsd/project-1.0.2.xsd">
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Enigma Engine" file="Enigma" packageName="com.mastereric.enigmaengine" package="com.mastereric.enigmaengine" main="Main" version="0.2.0" company="mastereric" unless="executeTests" />
-  <app title="Enigma Engine" file="Enigma" packageName="com.mastereric.enigmaengine" package="com.mastereric.enigmaengine" main="TestMain" version="0.2.0" company="mastereric" if="executeTests" />
+	<app title="Enigma Engine" file="Enigma" packageName="com.mastereric.enigmaengine" package="com.mastereric.enigmaengine" main="Main" version="0.2.0" company="mastereric" />
 
 	<!--
 		I wanted to print a cool ASCII logo at the start of each build,
@@ -130,7 +129,6 @@
 
 	<!-- All the code files are in the `source` folder. -->
 	<classpath path="source" />
-  <classpath path="test" if="executeTests" />
 
 	<define name="PRELOAD_ALL" unless="web" />
 
@@ -320,18 +318,6 @@
 	<haxelib name="linc_luajit" if="desktop"/>
 	<haxelib name="hxvm-luajit" if="desktop"/>
 	<haxedef name="LINC_LUA_RELATIVE_DYNAMIC_LIB"/>
-
-  <section if="executeTests">
-    <!-- Manages and runs suites of tests and reports results. -->
-  	<haxelib name="munit" />
-    <!-- An advanced matching library. Use when isEqual doesn't cut it. -->
-  	<haxelib name="hamcrest" />
-    <!--
-      An advanced mocking library.
-      Use when the object you want to test depends on another (complex) object.
-    -->
-    <haxelib name="mockatoo" />
-  </section>
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 

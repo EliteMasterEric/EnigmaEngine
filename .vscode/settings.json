@@ -3,24 +3,14 @@
     "editor.formatOnSave": true,
     "editor.formatOnPaste": true
   },
-  // Chrome doesn't work.
-  "lime.browser": "firefox",
+  "files.exclude": {
+    "**/.unittest": true
+  },
+  "haxeTestExplorer.testCommand": [
+    // "test.sh"
+    "test.bat"
+  ],
   "lime.targetConfigurations": [
-    {
-      "label": "Windows (Test Suite)",
-      "target": "windows",
-      "args": [
-        "-DexecuteTests"
-      ]
-    },
-    {
-      "label": "Windows / Debug (Test Suite)",
-      "target": "windows",
-      "args": [
-        "-debug",
-        "-DexecuteTests"
-      ]
-    },
     {
       "label": "Windows (Default Weeks)",
       "target": "windows",

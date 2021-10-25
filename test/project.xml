@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project
+  xmlns="http://lime.software/project/1.0.2"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://lime.software/project/1.0.2 http://lime.software/xsd/project-1.0.2.xsd">
+
+	<meta title="FlixelUnitTests" version="1.0.0" />
+	<app file="TestMain" main="TestMain" />
+	
+	<!-- Test source. -->
+  <source path="src" />
+  <!-- Original source. -->
+  <source path="../source" />
+	
+	<set name="no-custom-backend" />
+	<set name="unit-test" />
+	
+
+	<!-- _______________________________ Libraries ______________________________ -->
+
+	<!-- HaxeFlixel is the game engine that the game runs on. It handles rendering, game loop, inputs, etc. -->
+	<haxelib name="flixel" />
+	<!--<haxedev set='webgl' /> -->
+
+	<!-- A set of powerful additional -->
+	<haxelib name="flixel-addons" />
+
+	<!-- A set of additional functions for working with strings. -->
+	<haxelib name="haxe-strings"/>
+
+	<!-- A localization library. We'll start using this eventually for multiple language support. -->
+	<haxelib name="firetongue"/>
+
+	<!-- Used for parsing and executing uncompiled Haxe code. This will be useful for future modding stuff. -->
+	<haxelib name="hscript" />
+
+	<!-- A motion library. Used by VideoHandler. -->
+	<haxelib name="actuate" />
+
+	<!-- A library which allows loading and parting of WEBM video files. Used for cutscenes. -->
+	<haxelib name="extension-webm"/>
+
+	<!-- A library providing a consistent set of user interface widgets. -->
+	<haxelib name="flixel-ui" />
+
+	<!-- A library for tolerant JSON parsing. Fewer bugs caused by typos means fewer issues on GitHub. -->
+	<haxelib name="tjson" />
+
+	<!-- An FMOD wrapper for Haxe. Includes APIs for sound manipulation. -->
+	<!--<haxelib name="haxefmod" />-->
+
+	<!-- Allows for atomic mod loading and asset replacement. Powers the ModCore system. -->
+	<haxelib name="polymod"/>
+
+	<!-- Discord API, powers presence integration. -->
+	<haxelib name="discord_rpc" if="desktop"/>
+
+	<!-- LuaJIT is used for parsing Lua files. Required for modcharts. -->
+	<haxelib name="linc_luajit" if="desktop"/>
+	<haxelib name="hxvm-luajit" if="desktop"/>
+	<haxedef name="LINC_LUA_RELATIVE_DYNAMIC_LIB"/>
+
+  <!-- Manages and runs suites of tests and reports results. -->
+	<haxelib name="munit" />
+  <!-- An advanced matching library. Use when isEqual doesn't cut it. -->
+	<haxelib name="hamcrest" />
+  <!--
+    An advanced mocking library.
+    Use when the object you want to test depends on another (complex) object.
+  -->
+  <haxelib name="mockatoo" />
+  <!-- A library to record test results to a file for display in Haxe Test Explorer -->
+  <haxelib name="test-adapter" />
+	
+	<haxedef name="FLX_UNIT_TEST" />
+	<haxedef name="FLX_RECORD" />
+</project>

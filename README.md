@@ -11,13 +11,9 @@
 
 ## What is Enigma Engine?
 
-Enigma Engine is a project developed as a love letter to the open source game development community, and to the many talented people who have been developing mods for Friday Night Funkin'.
-
-Built on Kade Engine v1.7.0, Engima is striving to provide features to help hardcore players improve, casual players have more fun with the game, 
+Enigma Engine is a project developed as a love letter to the open source game development community, and to the many talented people who have been developing mods for Friday Night Funkin'. Engima is striving to provide features to help hardcore players improve, casual players have more fun with the game, 
 
 ## What is ModCore?
-
-**DISCLAIMER: MODCORE HAS BEEN SUBMITTED TO AND APPROVED FOR A FUTURE VERSION OF KADE ENGINE. IT WAS ORIGINALLY DEVELOPED HERE.**
 
 Engima's flagstone feature is its ModCore feature. Utilizing new improvements made to the Polymod library for Haxe, Enigma Engine boasts true mod support. No, not like the literal tens of thousands of people rebuilding the game with edited code to include new characters and songs, and no, not like Psych Engine which reads image files that you put in a folder.
 
