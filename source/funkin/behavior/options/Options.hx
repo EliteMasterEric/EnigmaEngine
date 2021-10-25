@@ -31,9 +31,9 @@ import funkin.behavior.play.Highscore;
 import funkin.behavior.play.Scoring;
 import funkin.behavior.play.Song;
 import funkin.ui.state.LoadingState;
+import funkin.ui.state.options.EnigmaKeyBindMenu;
 import funkin.ui.state.options.GameplayCustomizeState;
 import funkin.ui.state.options.KeyBindMenu;
-import funkin.ui.state.options.EnigmaKeyBindMenu;
 import funkin.ui.state.options.OptionsMenu;
 import funkin.ui.state.play.LoadReplayState;
 import funkin.ui.state.play.PlayState;
@@ -330,6 +330,8 @@ class AntiAliasingOption extends Option
   public static final DEFAULT:Bool = true;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.antiAliasing;
   }
 
@@ -368,6 +370,8 @@ class AntiMashOption extends Option
   public static final DEFAULT:Bool = false;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.antiMash;
   }
 
@@ -425,6 +429,8 @@ class BotPlayOption extends Option
   public static final DEFAULT:Bool = false;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.botPlay;
   }
 
@@ -463,6 +469,8 @@ class CameraZoomOption extends Option
   public static final DEFAULT:Bool = false;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.cameraZoom;
   }
 
@@ -492,6 +500,8 @@ class CharacterPreloadOption extends Option
   public static final DEFAULT:Bool = true;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.preloadCharacters;
   }
 
@@ -530,6 +540,8 @@ class CPUStrumOption extends Option
   public static final DEFAULT:Bool = true;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.cpuStrums;
   }
 
@@ -606,6 +618,8 @@ class DistractionsAndEffectsOption extends Option
   public static final DEFAULT:Bool = true;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.distractions;
   }
 
@@ -644,6 +658,8 @@ class DownscrollOption extends Option
   public static final DEFAULT:Bool = false;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.downscroll;
   }
 
@@ -682,6 +698,8 @@ class EditorGridOption extends Option
   public static final DEFAULT:Bool = false;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.editorGrid;
   }
 
@@ -720,6 +738,8 @@ class ExtendedScoreInfoOption extends Option
   public static final DEFAULT:Bool = true;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.extendedScoreInfo;
   }
 
@@ -758,6 +778,8 @@ class FlashingLightsOption extends Option
   public static final DEFAULT:Bool = true;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.flashingLights;
   }
 
@@ -796,6 +818,8 @@ class FPSCounterOption extends Option
   public static final DEFAULT:Bool = true;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.fpsCounter;
   }
 
@@ -834,6 +858,8 @@ class FramerateCapOption extends Option
   public static final DEFAULT:Int = 120;
 
   public static inline function get():Null<Int> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.framerateCap;
   }
 
@@ -899,6 +925,8 @@ class HPBarColorOption extends Option
   public static final DEFAULT:Bool = true;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.coloredHPBar;
   }
 
@@ -934,9 +962,11 @@ class HPBarColorOption extends Option
 
 class InstantRespawnOption extends Option
 {
-  public static final DEFAULT:Bool = true;
+  public static final DEFAULT:Bool = false;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.instantRespawn;
   }
 
@@ -975,6 +1005,8 @@ class MinimalModeOption extends Option
   public static final DEFAULT:Bool = false;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.minimalMode;
   }
 
@@ -1014,6 +1046,8 @@ class MissSoundsOption extends Option
   public static final DEFAULT:Bool = false;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.missSounds;
   }
 
@@ -1052,6 +1086,8 @@ class NoteQuantizationOption extends Option
   public static final DEFAULT:Bool = false;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.noteQuantization;
   }
 
@@ -1090,6 +1126,8 @@ class NPSDisplayOption extends Option
   public static final DEFAULT:Bool = false;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.npsDisplay;
   }
 
@@ -1128,6 +1166,8 @@ class RainbowFPSCounterOption extends Option
   public static final DEFAULT:Bool = true;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.rainbowFpsCounter;
   }
 
@@ -1185,6 +1225,8 @@ class ResetButtonOption extends Option
   public static final DEFAULT:Bool = true;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.resetButton;
   }
 
@@ -1328,6 +1370,8 @@ class SafeFramesOption extends Option
   public static final DEFAULT:Int = 10;
 
   public static inline function get():Null<Int> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.safeFrames;
   }
 
@@ -1397,6 +1441,8 @@ class ScrollSpeedOption extends Option
   public static final DEFAULT:Float = 1.0;
 
   public static inline function get():Null<Float> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.scrollSpeed;
   }
 
@@ -1453,6 +1499,8 @@ class ScoreScreenOption extends Option
   public static final DEFAULT:Bool = true;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.scoreScreenEnabled;
   }
 
@@ -1491,6 +1539,8 @@ class ShowAccuracyOption extends Option
   public static final DEFAULT:Bool = true;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.showAccuracy;
   }
 
@@ -1529,6 +1579,8 @@ class SongOffsetOption extends Option
   public static final DEFAULT:Float = 0.0;
 
   public static inline function get():Null<Float> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.songOffset;
   }
 
@@ -1595,6 +1647,8 @@ class SongPositionOption extends Option
   public static final DEFAULT:Bool = true;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.songPosition;
   }
 
@@ -1633,6 +1687,8 @@ class WIFE3AccuracyOption extends Option
   public static final DEFAULT:Bool = true;
 
   public static inline function get():Null<Bool> {
+    if (FlxG.save.data.preferences == null)
+      return DEFAULT;
     return FlxG.save.data.preferences.wife3Accuracy;
   }
 

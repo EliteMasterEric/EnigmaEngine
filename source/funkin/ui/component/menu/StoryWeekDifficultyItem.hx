@@ -31,15 +31,15 @@ import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import funkin.behavior.play.Week.WeekCache;
-import funkin.behavior.play.Difficulty;
-import funkin.util.assets.Paths;
 import funkin.behavior.Debug;
+import funkin.behavior.play.Difficulty;
+import funkin.behavior.play.Week.WeekCache;
 import funkin.ui.component.input.InteractableSprite;
 import funkin.ui.state.menu.MainMenuState;
-import funkin.util.Util;
 import funkin.util.assets.DataAssets;
 import funkin.util.assets.GraphicsAssets;
+import funkin.util.assets.Paths;
+import funkin.util.Util;
 
 class StoryWeekDifficultyItem extends InteractableSprite
 {

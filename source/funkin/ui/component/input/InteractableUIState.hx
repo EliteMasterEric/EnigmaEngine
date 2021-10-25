@@ -22,10 +22,10 @@
  */
 package funkin.ui.component.input;
 
-import funkin.util.input.GestureUtil;
-import flixel.math.FlxPoint;
-import flixel.FlxG;
 import flixel.addons.ui.FlxUIState;
+import flixel.FlxG;
+import flixel.math.FlxPoint;
+import funkin.util.input.GestureUtil;
 
 class InteractableUIState extends FlxUIState implements IInteractable
 {

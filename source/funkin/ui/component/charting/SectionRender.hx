@@ -22,13 +22,13 @@
  */
 package funkin.ui.component.charting;
 
-import funkin.ui.state.charting.ChartingState;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.util.FlxColor;
 import funkin.behavior.play.Section.SwagSection;
+import funkin.ui.state.charting.ChartingState;
 
 class SectionRender extends FlxSprite
 {

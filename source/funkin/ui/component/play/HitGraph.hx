@@ -23,8 +23,6 @@
  */
 package funkin.ui.component.play;
 
-import funkin.behavior.play.Scoring;
-import funkin.ui.state.play.PlayState;
 import flash.display.Graphics;
 import flash.display.Shape;
 import flash.display.Sprite;
@@ -35,6 +33,8 @@ import flixel.math.FlxMath;
 import flixel.system.FlxAssets;
 import flixel.util.FlxColor;
 import flixel.util.FlxDestroyUtil;
+import funkin.behavior.play.Scoring;
+import funkin.ui.state.play.PlayState;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.text.TextFieldAutoSize;

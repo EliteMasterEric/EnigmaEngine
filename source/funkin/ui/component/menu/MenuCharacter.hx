@@ -23,14 +23,14 @@
  */
 package funkin.ui.component.menu;
 
-import funkin.behavior.Debug;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.graphics.frames.FlxFramesCollection;
-import funkin.util.assets.Paths;
+import funkin.behavior.Debug;
 import funkin.util.assets.DataAssets;
 import funkin.util.assets.GraphicsAssets;
+import funkin.util.assets.Paths;
 
 typedef CharacterSetting =
 {

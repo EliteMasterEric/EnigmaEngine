@@ -24,11 +24,11 @@
  */
 package funkin.behavior.play;
 
+import flixel.FlxG;
 import funkin.behavior.EtternaFunctions;
 import funkin.behavior.play.Conductor;
-import flixel.FlxG;
-import funkin.util.Util;
 import funkin.ui.state.play.PlayState;
+import funkin.util.Util;
 
 enum abstract Judgement(String) to String
 {

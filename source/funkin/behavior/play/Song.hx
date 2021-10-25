@@ -23,14 +23,14 @@
  */
 package funkin.behavior.play;
 
-import funkin.util.assets.SongAssets;
 import funkin.behavior.Debug;
-import funkin.util.assets.Paths;
+import funkin.behavior.play.Section.SwagSection;
+import funkin.behavior.play.Song.SongEvent;
+import funkin.behavior.play.TimingStruct;
 import funkin.util.assets.DataAssets;
 import funkin.util.assets.LibraryAssets;
-import funkin.behavior.play.Song.SongEvent;
-import funkin.behavior.play.Section.SwagSection;
-import funkin.behavior.play.TimingStruct;
+import funkin.util.assets.Paths;
+import funkin.util.assets.SongAssets;
 import tjson.TJSON;
 
 using hx.strings.Strings;

@@ -23,13 +23,13 @@
  */
 package funkin.ui.component.modding;
 
-import flixel.addons.ui.FlxUIButton;
-import flixel.math.FlxPoint;
 import flixel.addons.ui.FlxUI9SliceSprite;
 import flixel.addons.ui.FlxUIAssets;
+import flixel.addons.ui.FlxUIButton;
 import flixel.addons.ui.FlxUISprite;
 import flixel.addons.ui.FlxUIText;
 import flixel.FlxSprite;
+import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import funkin.ui.component.input.InteractableUIGroup;
 import openfl.geom.Rectangle;

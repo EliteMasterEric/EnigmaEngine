@@ -197,7 +197,7 @@ class NoteUtil
 
     // Readjust the horizontal position of sustain notes.
     if (note.isSustainNote) {
-      note.x += daNote.width / 2;
+      note.x += note.width / 2;
       switch (note.noteStyle) {
         case 'pixel':
           note.x += 9;

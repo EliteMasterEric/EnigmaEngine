@@ -23,10 +23,10 @@
  */
 package funkin.behavior.play;
 
-import funkin.util.Util;
 import flixel.math.FlxMath;
 import funkin.behavior.play.Song.SongData;
 import funkin.ui.state.menu.FreeplayState;
+import funkin.util.Util;
 import openfl.system.System;
 
 /**

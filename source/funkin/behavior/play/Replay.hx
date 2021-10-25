@@ -22,19 +22,19 @@
  */
 package funkin.behavior.play;
 
-import funkin.behavior.options.Controls.Control;
 import flixel.FlxG;
 import flixel.input.keyboard.FlxKey;
+import funkin.behavior.options.Controls.Control;
+import funkin.behavior.options.Options;
 import funkin.ui.state.play.PlayState;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
 import openfl.net.FileReference;
 import openfl.utils.Dictionary;
-import funkin.behavior.options.Options;
+import tjson.TJSON;
 #if FEATURE_FILESYSTEM
 import sys.io.File;
 #end
-import tjson.TJSON;
 
 /**
  * An object representing a press made by the player,
@@ -47,9 +47,6 @@ class ReplayInput
 	 * The position in the song at which the key was pressed was hit.
 	 */
 	public var hitTime:Float;
-	/**
-	 * The 
-	 */
 	public var nearestNote:Array<Dynamic>;
 	public var hit:Bool;
 	public var hitJudge:String;

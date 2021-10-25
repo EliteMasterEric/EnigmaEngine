@@ -22,9 +22,9 @@
  */
 package funkin.ui.component.input;
 
+import flixel.addons.ui.FlxUIList;
 import flixel.math.FlxPoint;
 import funkin.util.input.GestureUtil.SwipeDirection;
-import flixel.addons.ui.FlxUIList;
 
 class InteractableUIList extends FlxUIList implements IInteractable implements IRelative
 {

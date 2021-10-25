@@ -159,7 +159,7 @@ class GraphicsAssets
 
 		if (LibraryAssets.imageExists(key, library))
 		{
-			trace('Loading image ${library == null ? '' : '${library}:'}${key}');
+			Debug.logTrace('Loading image ${library == null ? '' : '${library}:'}${key}');
 			var bitmap = OpenFlAssets.getBitmapData(Paths.image(key, library));
 			var graphic = FlxGraphic.fromBitmapData(bitmap);
 			if (shouldCache)

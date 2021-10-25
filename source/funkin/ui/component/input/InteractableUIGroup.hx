@@ -22,12 +22,12 @@
  */
 package funkin.ui.component.input;
 
-import flixel.FlxSprite;
 import flixel.addons.ui.FlxUIGroup;
-import funkin.util.input.GestureUtil;
-import flixel.math.FlxPoint;
-import flixel.FlxG;
 import flixel.addons.ui.FlxUIState;
+import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.math.FlxPoint;
+import funkin.util.input.GestureUtil;
 
 class InteractableUIGroup extends FlxUIGroup implements IInteractable implements IRelative
 {

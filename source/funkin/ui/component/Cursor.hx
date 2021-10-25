@@ -23,8 +23,8 @@
 package funkin.ui.component;
 
 import flixel.FlxG;
-import flixel.util.FlxColor;
 import flixel.FlxSprite;
+import flixel.util.FlxColor;
 
 // Add fancy utility functions to sprites.
 using flixel.util.FlxSpriteUtil;

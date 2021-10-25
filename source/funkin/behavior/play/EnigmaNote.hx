@@ -23,21 +23,21 @@
  */
 package funkin.behavior.play;
 
-import funkin.ui.component.play.StrumlineArrow;
-import funkin.ui.component.play.Note;
-import funkin.util.NoteUtil;
-import funkin.util.assets.Paths;
-import flixel.tweens.FlxEase;
-import flixel.input.keyboard.FlxKey;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.input.keyboard.FlxKey;
+import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import funkin.ui.state.play.PlayState;
-import funkin.behavior.play.PlayStateChangeables;
 import funkin.behavior.options.CustomControls;
 import funkin.behavior.options.Options;
-import openfl.events.KeyboardEvent;
+import funkin.behavior.play.PlayStateChangeables;
+import funkin.ui.component.play.Note;
+import funkin.ui.component.play.StrumlineArrow;
+import funkin.ui.state.play.PlayState;
 import funkin.util.assets.GraphicsAssets;
+import funkin.util.assets.Paths;
+import funkin.util.NoteUtil;
+import openfl.events.KeyboardEvent;
 
 using StringTools;
 
@@ -288,20 +288,21 @@ class EnigmaNote
 			// Add the graphic to the strumline.
 			if (isPlayer)
 			{
-				PlayState.playerStrums.add(babyArrow);
+				PlayState.playerStrumLineNotes.add(babyArrow);
 			}
 			else
 			{
-				PlayState.cpuStrums.add(babyArrow);
+				PlayState.cpuStrumLineNotes.add(babyArrow);
 			}
 			PlayState.strumLineNotes.add(babyArrow);
 
-			PlayState.cpuStrums.forEach(function(spr:FlxSprite)
+      // CPU arrows start out slightly off-center
+			PlayState.cpuStrumLineNotes.forEach(function(spr:FlxSprite)
 			{
-				spr.centerOffsets(); // CPU arrows start out slightly off-center
+				spr.centerOffsets();
 			});
 			// ERIC: I think this happens to Player arrows too.
-			PlayState.playerStrums.forEach(function(spr:FlxSprite)
+			PlayState.playerStrumLineNotes.forEach(function(spr:FlxSprite)
 			{
 				spr.centerOffsets();
 			});
@@ -321,7 +322,7 @@ class EnigmaNote
 		// ERIC: Currently, singing 9-key alt left/down/up/right notes uses the same animations,
 		// and the center note uses the up animation, on both players.
 		// Use this code to add overrides for that.
-		var directionName = getDirectionName(note.rawNoteData, allowAltNames).toUpperCase();
+		var directionName = getDirectionName(note.rawNoteData, false).toUpperCase();
 
     var missedName = missed ? 'miss' : '';
     var altName = note.isAlt ? '-alt' : '';

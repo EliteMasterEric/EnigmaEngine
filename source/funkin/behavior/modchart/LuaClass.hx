@@ -23,7 +23,6 @@
  */
 package funkin.behavior.modchart;
 
-import funkin.behavior.play.Scoring;
 #if FEATURE_LUAMODCHART
 import flash.display.BitmapData;
 import flixel.FlxCamera;
@@ -33,10 +32,11 @@ import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxAxes;
+import funkin.behavior.play.Scoring;
 import funkin.ui.component.play.Character;
 import funkin.ui.component.play.Note;
-import funkin.ui.component.play.StrumlineArrow;
 import funkin.ui.component.play.Stage;
+import funkin.ui.component.play.StrumlineArrow;
 import funkin.ui.state.play.PlayState;
 import haxe.DynamicAccess;
 import lime.app.Application;

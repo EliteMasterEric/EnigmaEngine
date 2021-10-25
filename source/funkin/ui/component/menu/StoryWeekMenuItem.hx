@@ -29,10 +29,10 @@ import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
-import funkin.behavior.play.Week;
-import funkin.util.assets.Paths;
 import funkin.behavior.options.Options;
+import funkin.behavior.play.Week;
 import funkin.util.assets.GraphicsAssets;
+import funkin.util.assets.Paths;
 
 class StoryWeekMenuItem extends FlxSpriteGroup
 {

@@ -26,25 +26,25 @@
  */
 package funkin.behavior;
 
-import funkin.util.Util;
-import haxe.CallStack;
-import openfl.events.UncaughtErrorEvent;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.system.debug.log.LogStyle;
 import flixel.system.debug.watch.Tracker.TrackerProfile;
 import flixel.util.FlxStringUtil;
+import funkin.behavior.play.Song;
+import funkin.behavior.play.Song.SongData;
 import funkin.const.Enigma;
 import funkin.ui.component.play.Character;
 import funkin.ui.component.play.HealthIcon;
 import funkin.ui.component.play.Note;
-import funkin.behavior.play.Song;
-import funkin.behavior.play.Song.SongData;
 import funkin.ui.state.menu.FreeplayState;
 import funkin.ui.state.play.PlayState;
+import funkin.util.Util;
+import haxe.CallStack;
 import haxe.Log;
 import haxe.PosInfos;
 import lime.app.Application;
+import openfl.events.UncaughtErrorEvent;
 import polymod.Polymod.PolymodError;
 
 using hx.strings.Strings;

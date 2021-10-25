@@ -24,21 +24,21 @@
  */
 package funkin.ui.component.play;
 
-import funkin.behavior.play.Scoring;
-import funkin.ui.state.charting.ChartingState;
-import funkin.util.NoteUtil;
-import funkin.behavior.play.EnigmaNote;
 import flixel.addons.effects.FlxSkewedSprite;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import funkin.behavior.options.Options;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
-import funkin.util.assets.Paths;
+import funkin.behavior.options.Options;
 import funkin.behavior.play.Conductor;
+import funkin.behavior.play.EnigmaNote;
 import funkin.behavior.play.PlayStateChangeables;
+import funkin.behavior.play.Scoring;
+import funkin.ui.state.charting.ChartingState;
 import funkin.ui.state.play.PlayState;
+import funkin.util.assets.Paths;
+import funkin.util.NoteUtil;
 
 using StringTools;
 
@@ -166,6 +166,17 @@ class Note extends FlxSprite
 	public var isAlt:Bool = false;
 
 	/**
+	 * Flag set to true if this note is in the charter.
+	 */
+	public var inCharter:Bool = false;
+
+	/**
+	 * Flag set to true if this note is in the charter,
+   * and it has been selected by clicking or through the drag selection box.
+	 */
+	public var charterSelected:Bool = false;
+
+	/**
 	 * The current judgement assigned to this note.
 	 */
 	public var rating:String = "shit";
@@ -197,7 +208,6 @@ class Note extends FlxSprite
 	public var noteScore:Float = 1;
 	public var noteYOff:Int = 0;
 	public var beat:Float = 0;
-	public var inCharter:Bool = false;
 
 	/**
 	 * TODO: Move this one into EnigmaNote?
@@ -464,4 +474,9 @@ class Note extends FlxSprite
 				alpha = 0.3;
 		}
 	}
+
+  public override function toString() {
+    var sustain:String = isSustainNote ? '$sustainLength' : 'false';
+    return '(Note | noteData:$noteData | rawNoteData:$rawNoteData | strumTime:$strumTime | cpu:$isCPUNote | sustain:$sustain )';
+  }
 }

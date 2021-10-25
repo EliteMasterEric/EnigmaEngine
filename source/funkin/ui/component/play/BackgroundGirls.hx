@@ -23,11 +23,11 @@
  */
 package funkin.ui.component.play;
 
-import funkin.util.assets.Paths;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
-import funkin.util.Util;
 import funkin.util.assets.GraphicsAssets;
+import funkin.util.assets.Paths;
+import funkin.util.Util;
 
 class BackgroundGirls extends FlxSprite
 {

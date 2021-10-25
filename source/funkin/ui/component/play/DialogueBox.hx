@@ -33,10 +33,10 @@ import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import funkin.util.assets.Paths;
-import funkin.ui.state.play.PlayState;
 import funkin.behavior.options.PlayerSettings;
+import funkin.ui.state.play.PlayState;
 import funkin.util.assets.GraphicsAssets;
+import funkin.util.assets.Paths;
 
 using StringTools;
 

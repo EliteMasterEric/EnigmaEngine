@@ -23,13 +23,13 @@
  */
 package funkin.behavior.play;
 
-import tjson.TJSON;
-import funkin.util.assets.Paths;
 import flixel.FlxSprite;
+import flixel.util.FlxColor;
 import funkin.behavior.Debug;
 import funkin.const.Enigma;
 import funkin.util.assets.DataAssets;
-import flixel.util.FlxColor;
+import funkin.util.assets.Paths;
+import tjson.TJSON;
 
 using StringTools;
 

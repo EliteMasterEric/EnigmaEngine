@@ -23,21 +23,25 @@
  */
 package funkin.ui.state;
 
-import funkin.ui.component.input.InteractableUIState;
-import funkin.behavior.play.TimingStruct;
-import funkin.behavior.options.PlayerSettings;
-import funkin.behavior.play.Conductor;
-import funkin.behavior.options.Controls;
-import funkin.behavior.options.CustomControls;
 import flixel.addons.ui.FlxUIState;
 import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.util.FlxColor;
+import funkin.behavior.Debug;
+import funkin.behavior.options.Controls;
+import funkin.behavior.options.CustomControls;
+import funkin.behavior.options.PlayerSettings;
+import funkin.behavior.play.Conductor;
+import funkin.behavior.play.Conductor.BPMChangeEvent;
+import funkin.behavior.play.TimingStruct;
+import funkin.ui.component.input.InteractableUIState;
+import openfl.events.GameInputEvent;
+import openfl.Lib;
+import openfl.ui.GameInput;
+import openfl.ui.GameInputDevice;
 #if FEATURE_DISCORD
 import funkin.behavior.api.Discord.DiscordClient;
 #end
-import funkin.behavior.play.Conductor.BPMChangeEvent;
-import openfl.Lib;
 
 class MusicBeatState extends FlxUIState // InteractableUIState
 {
@@ -83,12 +87,12 @@ class MusicBeatState extends FlxUIState // InteractableUIState
 
     gameInput = new GameInput();
 
-    gameInput.addEventListener(GameInputDevice.DEVICE_ADDED, function(event:GameInputEvent) {
+    gameInput.addEventListener(GameInputEvent.DEVICE_ADDED, function(event:GameInputEvent) {
       Debug.logTrace('New device connected: ${event.device.name} (${event.device.numControls} controls)');
       onGamepadAdded(event);
     });
 
-    gameInput.addEventListener(GameInputDevice.DEVICE_ADDED, function(event:GameInputEvent) {
+    gameInput.addEventListener(GameInputEvent.DEVICE_ADDED, function(event:GameInputEvent) {
       Debug.logTrace('New device connected: ${event.device.name} (${event.device.numControls} controls)');
       onGamepadRemoved(event);
     });

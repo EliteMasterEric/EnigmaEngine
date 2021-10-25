@@ -23,19 +23,19 @@
  */
 package funkin.ui.component.play;
 
-import flixel.graphics.frames.FlxFramesCollection;
 import flixel.animation.FlxBaseAnimation;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.graphics.frames.FlxFramesCollection;
 import flixel.util.FlxColor;
 import funkin.behavior.Debug;
 import funkin.behavior.play.Conductor;
-import funkin.util.assets.Paths;
 import funkin.ui.state.play.PlayState;
-import funkin.util.Util;
 import funkin.util.assets.DataAssets;
 import funkin.util.assets.GraphicsAssets;
+import funkin.util.assets.Paths;
+import funkin.util.Util;
 
 using StringTools;
 
@@ -112,7 +112,7 @@ class Character extends FlxSprite
 
 			case 'dad':
 				// DAD ANIMATION LOADING CODE
-				tex = GraphicsAssets.loadSparrowAtlas('characters/DADDY_DEAREST', 'shared');
+				tex = GraphicsAssets.loadSparrowAtlas('characters/DADDY_DEAREST', 'shared', true);
 				frames = tex;
 				animation.addByPrefix('idle', 'Dad idle dance', 24, false);
 				animation.addByPrefix('singUP', 'Dad Sing Note UP', 24, false);

@@ -22,14 +22,14 @@
  */
 package funkin.ui.component.input;
 
-import flixel.FlxObject;
-import funkin.util.input.GestureUtil;
 import flixel.FlxG;
-import flixel.math.FlxPoint;
-import funkin.util.input.GestureUtil.SwipeDirection;
-import flixel.input.touch.FlxTouchManager;
+import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.input.touch.FlxTouchManager;
+import flixel.math.FlxPoint;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import funkin.util.input.GestureUtil;
+import funkin.util.input.GestureUtil.SwipeDirection;
 
 /**
  * This extension of FlxSprite calls corresponding events when clicked or tapped.

@@ -22,9 +22,9 @@
  */
 package funkin.ui.audio;
 
+import flixel.FlxG;
 import funkin.behavior.play.Conductor;
 import funkin.util.assets.Paths;
-import flixel.FlxG;
 
 class MainMenuMusic
 {

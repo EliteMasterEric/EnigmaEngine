@@ -26,8 +26,8 @@ package funkin.ui.component.play;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
-import funkin.util.assets.Paths;
 import funkin.util.assets.GraphicsAssets;
+import funkin.util.assets.Paths;
 
 class BackgroundDancer extends FlxSprite
 {

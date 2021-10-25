@@ -22,9 +22,9 @@
  */
 package funkin.behavior;
 
-import funkin.ui.state.play.PlayState;
-import funkin.behavior.play.Song.SongData;
 import funkin.behavior.play.Scoring;
+import funkin.behavior.play.Song.SongData;
+import funkin.ui.state.play.PlayState;
 
 class EtternaFunctions
 {

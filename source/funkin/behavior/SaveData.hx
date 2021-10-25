@@ -22,14 +22,14 @@
  */
 package funkin.behavior;
 
-import funkin.behavior.options.PlayerSettings;
-import funkin.behavior.options.CustomControls;
-import funkin.behavior.play.Conductor;
-import funkin.behavior.options.Options;
-import funkin.behavior.options.CustomControls;
-import funkin.behavior.options.Options;
 import flixel.FlxG;
 import flixel.input.gamepad.FlxGamepad;
+import funkin.behavior.options.CustomControls;
+import funkin.behavior.options.CustomControls;
+import funkin.behavior.options.Options;
+import funkin.behavior.options.Options;
+import funkin.behavior.options.PlayerSettings;
+import funkin.behavior.play.Conductor;
 import openfl.Lib;
 
 class SaveData

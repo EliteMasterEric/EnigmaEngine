@@ -23,8 +23,8 @@
  */
 package funkin.const;
 
-import funkin.util.macro.HaxeCommit;
 import funkin.ui.state.MusicBeatState;
+import funkin.util.macro.HaxeCommit;
 
 class Enigma extends MusicBeatState
 {

@@ -33,9 +33,9 @@ import flixel.math.FlxPoint;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
-import openfl.Lib;
-import funkin.util.assets.Paths;
 import funkin.util.assets.GraphicsAssets;
+import funkin.util.assets.Paths;
+import openfl.Lib;
 
 using StringTools;
 

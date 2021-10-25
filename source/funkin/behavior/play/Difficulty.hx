@@ -23,10 +23,10 @@
  */
 package funkin.behavior.play;
 
-import funkin.util.assets.Paths;
 import flixel.graphics.FlxGraphic;
 import funkin.util.assets.DataAssets;
 import funkin.util.assets.GraphicsAssets;
+import funkin.util.assets.Paths;
 
 typedef Difficulty =
 {

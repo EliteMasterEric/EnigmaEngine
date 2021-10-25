@@ -25,11 +25,11 @@
  */
 package funkin.ui.component.play;
 
-import funkin.behavior.Debug;
-import funkin.util.assets.LibraryAssets;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import funkin.behavior.Debug;
 import funkin.util.assets.GraphicsAssets;
+import funkin.util.assets.LibraryAssets;
 
 using StringTools;
 

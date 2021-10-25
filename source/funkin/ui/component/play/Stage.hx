@@ -23,11 +23,7 @@
  */
 package funkin.ui.component.play;
 
-import funkin.behavior.play.Conductor;
-import funkin.behavior.play.PlayStateChangeables;
 import flixel.addons.effects.chainable.FlxWaveEffect;
-import funkin.behavior.options.Options;
-import funkin.behavior.options.Options;
 import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -36,10 +32,14 @@ import flixel.system.FlxSound;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
-import funkin.ui.state.play.PlayState;
+import funkin.behavior.options.Options;
+import funkin.behavior.options.Options;
+import funkin.behavior.play.Conductor;
+import funkin.behavior.play.PlayStateChangeables;
 import funkin.ui.state.MusicBeatState;
-import funkin.util.assets.Paths;
+import funkin.ui.state.play.PlayState;
 import funkin.util.assets.GraphicsAssets;
+import funkin.util.assets.Paths;
 
 class Stage extends MusicBeatState
 {

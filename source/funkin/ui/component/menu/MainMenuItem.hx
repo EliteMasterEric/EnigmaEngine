@@ -22,17 +22,17 @@
  */
 package funkin.ui.component.menu;
 
+import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxPoint;
-import funkin.ui.component.input.InteractableSprite;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.FlxG;
+import funkin.ui.component.input.InteractableSprite;
 import funkin.ui.state.menu.MainMenuState;
-import flixel.FlxSprite;
-import funkin.util.assets.Paths;
 import funkin.util.assets.GraphicsAssets;
+import funkin.util.assets.Paths;
 
 class MainMenuItemBuilder
 {
