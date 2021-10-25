@@ -47,7 +47,7 @@ jobs:
           haxelib git hxvm-luajit https://github.com/nebulazorua/hxvm-luajit
 
           haxelib git polymod https://github.com/MasterEric/polymod
-          haxelib git https://github.com/MasterEric/TJSON
+          haxelib git tjson https://github.com/MasterEric/TJSON
           haxelib git linc_luajit https://github.com/EnigmaEngine/linc_luajit
           haxelib git mockatoo https://github.com/EnigmaEngine/mockatoo
 
