@@ -38,8 +38,6 @@ jobs:
 
           haxelib install haxe-strings
           haxelib install firetongue
-          haxelib install munit
-          haxelib install hamcrest
 
           haxelib git hscript https://github.com/HaxeFoundation/hscript
           haxelib git actuate https://github.com/jgranick/actuate
