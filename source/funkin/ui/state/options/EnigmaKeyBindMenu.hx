@@ -30,7 +30,7 @@ import funkin.behavior.options.CustomControls;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.util.FlxAxes;
 import flixel.FlxSubState;
-import funkin.behavior.options.Options.Option;
+import funkin.behavior.options.Options;
 import funkin.behavior.options.Controls;
 import funkin.behavior.options.CustomControls;
 import flixel.FlxG;
@@ -529,25 +529,3 @@ class EnigmaKeyBindMenu extends FlxSubState
 	}
 }
 
-class CustomKeybindsOption extends Option
-{
-	var controls:Controls;
-
-	public function new(controls:Controls)
-	{
-		super();
-		this.controls = controls;
-	}
-
-	public override function press():Bool
-	{
-		var test = FlxG.save.data;
-		OptionsMenu.instance.openSubState(new EnigmaKeyBindMenu());
-		return false;
-	}
-
-	private override function updateDisplay():String
-	{
-		return 'Custom Key Bindings';
-	}
-}

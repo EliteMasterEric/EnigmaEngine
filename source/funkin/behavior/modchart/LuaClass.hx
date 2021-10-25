@@ -439,7 +439,7 @@ class LuaNote extends LuaClass
 
 	private static function findNote(time:Float, data:Int)
 	{
-		for (i in PlayState.instance.notes)
+		for (i in PlayState.instance.songNotes)
 		{
 			if (i.strumTime == time && i.noteData == data)
 			{
@@ -543,7 +543,7 @@ class LuaNote extends LuaClass
 			LuaL.error(l, "invalid argument #3 (number expected, got " + Lua.typename(l, Lua.type(l, 3)) + ")");
 			return 0;
 		}
-		note.modifiedByLua = true;
+		note.luaModifiedPos = true;
 		Reflect.setProperty(note, Lua.tostring(l, 2), Lua.tonumber(l, 3));
 		return 0;
 	}
@@ -824,7 +824,7 @@ class LuaReceptor extends LuaClass
 			return 0;
 		}
 
-		sprite.modifiedByLua = true;
+		sprite.luaModifiedPos = true;
 
 		Reflect.setProperty(sprite, Lua.tostring(l, 2), Lua.tonumber(l, 3));
 		return 0;
@@ -1278,7 +1278,7 @@ class LuaCharacter extends LuaClass
 
 	private static function findNote(time:Float, data:Int)
 	{
-		for (i in PlayState.instance.notes)
+		for (i in PlayState.instance.songNotes)
 		{
 			if (i.strumTime == time && i.noteData == data)
 			{
@@ -1626,7 +1626,7 @@ class LuaSprite extends LuaClass
 
 	private static function findNote(time:Float, data:Int)
 	{
-		for (i in PlayState.instance.notes)
+		for (i in PlayState.instance.songNotes)
 		{
 			if (i.strumTime == time && i.noteData == data)
 			{

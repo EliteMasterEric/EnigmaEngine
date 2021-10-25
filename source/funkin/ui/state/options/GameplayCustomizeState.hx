@@ -15,6 +15,7 @@ import funkin.behavior.play.Conductor;
 import funkin.behavior.play.EnigmaNote;
 import funkin.behavior.play.Scoring;
 import funkin.const.Enigma;
+import funkin.behavior.options.Options;
 import funkin.ui.component.Cursor;
 import funkin.ui.component.play.Boyfriend;
 import funkin.ui.component.play.Character;
@@ -115,7 +116,7 @@ class GameplayCustomizeState extends MusicBeatState
 
 		add(strumLine);
 
-		if (FlxG.save.data.downscroll)
+		if (DownscrollOption.get())
 			strumLine.y = FlxG.height - 165;
 
 		strumLineNotes = new FlxTypedGroup<FlxSprite>();

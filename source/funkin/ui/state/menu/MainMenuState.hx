@@ -42,6 +42,7 @@ import flixel.util.FlxTimer;
 import funkin.util.assets.Paths;
 import funkin.const.Enigma;
 import funkin.ui.state.options.OptionsMenu;
+import funkin.behavior.options.Options;
 #if FEATURE_DISCORD
 import funkin.behavior.api.Discord.DiscordClient;
 #end
@@ -186,7 +187,7 @@ class MainMenuState extends MusicBeatState
 				selectedSomethin = true;
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 
-				if (FlxG.save.data.flashing)
+				if (FlashingLightsOption.get())
 					FlxFlicker.flicker(magenta, 1.1, 0.15, false);
 
 				menuItems.forEach(function(spr:FlxSprite)
@@ -203,7 +204,7 @@ class MainMenuState extends MusicBeatState
 					}
 					else
 					{
-						if (FlxG.save.data.flashing)
+						if (FlashingLightsOption.get())
 						{
 							FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
 							{

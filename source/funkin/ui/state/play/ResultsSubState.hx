@@ -46,7 +46,7 @@ import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
 import funkin.util.assets.Paths;
 import funkin.behavior.options.CustomControls;
-import funkin.behavior.options.Options.Option;
+import funkin.behavior.options.Options;
 import funkin.behavior.options.PlayerSettings;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.Highscore;
@@ -187,7 +187,7 @@ class ResultsSubState extends FlxSubState
 
 			var diff = obj[3];
 			var judge = obj2;
-			if (diff != (Scoring.TIMING_WINDOWS[0] * Math.floor((PlayState.currentReplay.replay.sf / 60) * 1000) / Scoring.TIMING_WINDOWS[0]))
+			if (diff != (Scoring.TIMING_WINDOWS[0] * Math.floor((PlayState.currentReplay.replay.safeFrames / 60) * 1000) / Scoring.TIMING_WINDOWS[0]))
 				mean += diff;
 			if (obj[1] != -1)
 				hitGraph.addToHistory(diff / PlayState.songMultiplier, judge, obj3 / PlayState.songMultiplier);
@@ -203,7 +203,7 @@ class ResultsSubState extends FlxSubState
 		mean = Util.truncateFloat(mean / PlayState.currentReplay.replay.songNotes.length, 2);
 
 		settingsText = new FlxText(20, FlxG.height + 50, 0,
-			'SF: ${PlayState.currentReplay.replay.sf} | Ratio (SA/GA): ${Math.round(sickRatio)}:1 ${Math.round(goodRatio)}:1 | Mean: ${mean}ms | Played on ${PlayState.SONG.songName} ${PlayState.songDifficulty.toUpperCamel()}');
+			'SF: ${PlayState.currentReplay.replay.safeFrames} | Ratio (SA/GA): ${Math.round(sickRatio)}:1 ${Math.round(goodRatio)}:1 | Mean: ${mean}ms | Played on ${PlayState.SONG.songName} ${PlayState.songDifficulty.toUpperCamel()}');
 		settingsText.size = 16;
 		settingsText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 2, 1);
 		settingsText.color = FlxColor.WHITE;

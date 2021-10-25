@@ -51,8 +51,8 @@ class HitGraph extends Sprite
 	public var maxLabel:TextField;
 	public var avgLabel:TextField;
 
-	public var minValue:Float = -(Math.floor((PlayState.currentReplay.replay.sf / 60) * 1000) + 95);
-	public var maxValue:Float = Math.floor((PlayState.currentReplay.replay.sf / 60) * 1000) + 95;
+	public var minValue:Float = -(Math.floor((PlayState.currentReplay.replay.safeFrames / 60) * 1000) + 95);
+	public var maxValue:Float = Math.floor((PlayState.currentReplay.replay.safeFrames / 60) * 1000) + 95;
 
 	public var showInput:Bool = FlxG.save.data.inputShow;
 
@@ -86,7 +86,7 @@ class HitGraph extends Sprite
 		_axis = new Shape();
 		_axis.x = _labelWidth + 10;
 
-		ts = Math.floor((PlayState.currentReplay.replay.sf / 60) * 1000) / Scoring.TIMING_WINDOWS[0];
+		ts = Math.floor((PlayState.currentReplay.replay.safeFrames / 60) * 1000) / Scoring.TIMING_WINDOWS[0];
 
 		var early = createTextField(10, 10, FlxColor.WHITE, 12);
 		var late = createTextField(10, _height - 20, FlxColor.WHITE, 12);
@@ -152,7 +152,7 @@ class HitGraph extends Sprite
 
 		gfx.lineStyle(1, graphColor, 0.3);
 
-		var ts = Math.floor((PlayState.currentReplay.replay.sf / 60) * 1000) / Scoring.TIMING_WINDOWS[0];
+		var ts = Math.floor((PlayState.currentReplay.replay.safeFrames / 60) * 1000) / Scoring.TIMING_WINDOWS[0];
 		var range:Float = Math.max(maxValue - minValue, maxValue * 0.1);
 
 		var value = ((ms * ts) - minValue) / range;
@@ -217,9 +217,9 @@ class HitGraph extends Sprite
 
 		if (showInput)
 		{
-			for (i in 0...PlayState.currentReplay.replay.ana.anaArray.length)
+			for (i in 0...PlayState.currentReplay.replay.replayInputs.length)
 			{
-				var ana = PlayState.currentReplay.replay.ana.anaArray[i];
+				var ana = PlayState.currentReplay.replay.replayInputs[i];
 
 				var value = (ana.key * 25 - minValue) / range;
 

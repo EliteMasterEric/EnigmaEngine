@@ -31,6 +31,7 @@ import flixel.math.FlxMath;
 import flixel.util.FlxColor;
 import funkin.behavior.play.Week;
 import funkin.util.assets.Paths;
+import funkin.behavior.options.Options;
 import funkin.util.assets.GraphicsAssets;
 
 class StoryWeekMenuItem extends FlxSpriteGroup
@@ -72,7 +73,7 @@ class StoryWeekMenuItem extends FlxSpriteGroup
 
 		if (flashingInt % fakeFramerate >= Math.floor(fakeFramerate / 2))
 			week.color = 0xFF33ffff;
-		else if (FlxG.save.data.flashing)
+		else if (FlashingLightsOption.get())
 			week.color = FlxColor.WHITE;
 	}
 }

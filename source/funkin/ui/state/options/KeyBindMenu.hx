@@ -43,7 +43,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
-import funkin.behavior.options.Options.Option;
+import funkin.behavior.options.Options;
 import lime.app.Application;
 
 using StringTools;

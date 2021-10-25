@@ -90,8 +90,8 @@ class LoadReplayState extends MusicBeatState
 		{
 			var string:String = controlsStrings[i];
 			actualNames[i] = string;
-			var rep:Replay = Replay.LoadReplay(string);
-			controlsStrings[i] = string.split("time")[0] + " " + rep.replay.songDiff.toUpperCase();
+			var rep:Replay = Replay.loadReplay(string);
+			controlsStrings[i] = string.split("time")[0] + " " + rep.replay.songDifficulty.toUpperCase();
 		}
 
 		if (controlsStrings.length == 0)
@@ -187,11 +187,11 @@ class LoadReplayState extends MusicBeatState
 		if (controls.ACCEPT && grpControls.members[curSelected].text != "No Replays...")
 		{
 			trace('loading ' + actualNames[curSelected]);
-			PlayState.currentReplay = Replay.LoadReplay(actualNames[curSelected]);
+			PlayState.currentReplay = Replay.loadReplay(actualNames[curSelected]);
 
 			PlayState.replayActive = true;
 
-			if (PlayState.currentReplay.replay.replayGameVer == Replay.version)
+			if (PlayState.currentReplay.replay.replayGameVer == Replay.VERSION)
 			{
 				// adjusting the song name to be compatible
 				var songFormat = StringTools.replace(PlayState.currentReplay.replay.songName, " ", "-");
@@ -218,7 +218,7 @@ class LoadReplayState extends MusicBeatState
 
 				try
 				{
-					var diffSuffix = DifficultyCache.getSuffix(PlayState.currentReplay.replay.songDiff);
+					var diffSuffix = DifficultyCache.getSuffix(PlayState.currentReplay.replay.songDifficulty);
 					PlayState.SONG = Song.loadFromJson(PlayState.currentReplay.replay.songName, diffSuffix);
 				}
 				catch (e:Exception)
@@ -227,7 +227,7 @@ class LoadReplayState extends MusicBeatState
 					return;
 				}
 				PlayState.storyWeek = null;
-				PlayState.songDifficulty = PlayState.currentReplay.replay.songDiff;
+				PlayState.songDifficulty = PlayState.currentReplay.replay.songDifficulty;
 				LoadingState.loadAndSwitchState(new PlayState());
 			}
 			else
@@ -251,7 +251,7 @@ class LoadReplayState extends MusicBeatState
 		if (curSelected >= grpControls.length)
 			curSelected = 0;
 
-		var rep:Replay = Replay.LoadReplay(actualNames[curSelected]);
+		var rep:Replay = Replay.loadReplay(actualNames[curSelected]);
 
 		poggerDetails.text = "Replay Details - \nDate Created: "
 			+ rep.replay.timestamp
@@ -260,7 +260,7 @@ class LoadReplayState extends MusicBeatState
 			+ "\nReplay Version: "
 			+ rep.replay.replayGameVer
 			+ ' ('
-			+ (rep.replay.replayGameVer != Replay.version ? "OUTDATED not useable!" : "Latest")
+			+ (rep.replay.replayGameVer != Replay.VERSION ? "OUTDATED not useable!" : "Latest")
 			+ ')\n';
 
 		var curControlsMember:Int = 0;

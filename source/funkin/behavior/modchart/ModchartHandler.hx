@@ -42,6 +42,7 @@ import funkin.behavior.modchart.LuaClass.LuaGame;
 import funkin.behavior.modchart.LuaClass.LuaReceptor;
 import funkin.behavior.modchart.LuaClass.LuaSprite;
 import funkin.behavior.modchart.LuaClass.LuaWindow;
+import funkin.behavior.options.Options;
 import funkin.ui.state.play.PlayState;
 import funkin.ui.state.menu.FreeplayState;
 import funkin.ui.effects.WiggleEffect;
@@ -457,12 +458,12 @@ class ModchartHandler
 
 		setVar("difficulty", PlayState.songDifficulty);
 		setVar("bpm", Conductor.bpm);
-		setVar("scrollspeed", FlxG.save.data.scrollSpeed != 1 ? FlxG.save.data.scrollSpeed : PlayState.SONG.speed);
-		setVar("fpsCap", FlxG.save.data.fpsCap);
-		setVar("downscroll", FlxG.save.data.downscroll);
-		setVar("flashing", FlxG.save.data.flashing);
-		setVar("distractions", FlxG.save.data.distractions);
-		setVar("colour", FlxG.save.data.colour);
+		setVar("scrollspeed", ScrollSpeedOption.get() != 1 ? ScrollSpeedOption.get() : PlayState.SONG.speed);
+		setVar("fpsCap", FramerateCapOption.get());
+		setVar("downscroll", DownscrollOption.get());
+		setVar("flashing", FlashingLightsOption.get());
+		setVar("distractions", DistractionsAndEffectsOption.get());
+		setVar("colour", HPBarColorOption.get());
 
 		setVar("curStep", 0);
 		setVar("curBeat", 0);
@@ -543,7 +544,7 @@ class ModchartHandler
 
 		Lua_helper.add_callback(lua, "getNumberOfNotes", function(y:Float)
 		{
-			return PlayState.instance.notes.members.length;
+			return PlayState.instance.songNotes.members.length;
 		});
 
 		for (i in 0...PlayState.strumLineNotes.length)

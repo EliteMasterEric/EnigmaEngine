@@ -30,6 +30,7 @@ import funkin.behavior.play.Highscore;
 import funkin.ui.component.Alphabet;
 import funkin.const.Enigma;
 import funkin.ui.state.menu.MainMenuState;
+import funkin.behavior.options.Options;
 import funkin.behavior.play.Conductor;
 import funkin.util.assets.Paths;
 import funkin.behavior.SaveData;
@@ -211,7 +212,7 @@ class TitleState extends MusicBeatState // implements IHook
 		// This line only runs if we didn't run the Caching state (i.e. on HTML5 platforms).
 		#if !FEATURE_FILESYSTEM
 		// Load the save file.
-		FlxG.save.bind('funkin', 'ninjamuffin99');
+		SaveData.bindSave();
 
 		// Initialize the player settings.
 		PlayerSettings.init();
@@ -463,7 +464,7 @@ class TitleState extends MusicBeatState // implements IHook
 			// Move to the main menu.
 
 			// Play the flashing animation on the title text.
-			if (FlxG.save.data.flashing)
+			if (FlashingLightsOption.get())
 			{
 				titleText.animation.play('press');
 			}

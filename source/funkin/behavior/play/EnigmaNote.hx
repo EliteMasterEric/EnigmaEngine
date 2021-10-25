@@ -35,6 +35,7 @@ import flixel.tweens.FlxTween;
 import funkin.ui.state.play.PlayState;
 import funkin.behavior.play.PlayStateChangeables;
 import funkin.behavior.options.CustomControls;
+import funkin.behavior.options.Options;
 import openfl.events.KeyboardEvent;
 import funkin.util.assets.GraphicsAssets;
 
@@ -74,7 +75,7 @@ class EnigmaNote
 
 	/**
 	 * Pixel notes are 6x bigger than their spritesheet.
-	 		* Divide by the base game's note scale. We remultiply later.
+	 * Divide by the base game's note scale. We remultiply later.
 	 */
 	private static final PIXEL_ZOOM = 6 / 0.7;
 
@@ -215,7 +216,7 @@ class EnigmaNote
 
 			// The Optimize setting hides everything but the player's notes.
 			// No bf or gf, no stage or enemy notes. Disabled if the song is using a modchart.
-			if (PlayStateChangeables.Optimize && !isPlayer)
+			if (MinimalModeOption.get() && !isPlayer)
 				continue;
 
 			// Load the spritesheet.
@@ -270,7 +271,7 @@ class EnigmaNote
 			// Move right based on the strumline position.
 			babyArrow.x += strumlineNoteWidth * i;
 
-			if (PlayStateChangeables.Optimize)
+			if (MinimalModeOption.get())
 			{
 				// Move the strumline to the CENTER of the screen.
 				// TODO: Calculate the proper offset based on screen width and strumsize.
@@ -312,17 +313,20 @@ class EnigmaNote
 	 * Used by both BF and Dad (and GF during the tutorial).
 	 * @param note The note being hit.
 	 * @param strumlineSize The length of this song's strumline.
-	 *   Not currently used for the logic.
-	 * @param allowAltNames Set this to true if the character has special animations for 9-key.
+	 *   Not currently used for the logic but may be soon.
 	 * @return Int
 	 */
-	public static function getSingAnim(note:Note, strumlineSize:Int = 4, allowAltNames = false):String
+	public static function getSingAnim(note:Note, strumlineSize:Int = 4, missed = false):String
 	{
-		// ERIC: Currently, singing alt left/down/up/right notes uses the same animations,
+		// ERIC: Currently, singing 9-key alt left/down/up/right notes uses the same animations,
 		// and the center note uses the up animation, on both players.
-		// Use this code to override that if needed.
+		// Use this code to add overrides for that.
 		var directionName = getDirectionName(note.rawNoteData, allowAltNames).toUpperCase();
-		return 'sing' + directionName;
+
+    var missedName = missed ? 'miss' : '';
+    var altName = note.isAlt ? '-alt' : '';
+
+		return 'sing$directionName$missedName$altName';
 	}
 
 	/**

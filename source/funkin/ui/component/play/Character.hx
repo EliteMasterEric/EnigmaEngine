@@ -597,7 +597,7 @@ class Character extends FlxSprite
 		if (AnimName.endsWith('alt') && animation.getByName(AnimName) == null)
 		{
 			#if debug
-			FlxG.log.warn(['Such alt animation doesnt exist: ' + AnimName]);
+			Debug.logWarn(['Such alt animation doesnt exist: ' + AnimName]);
 			#end
 			AnimName = AnimName.split('-')[0];
 		}

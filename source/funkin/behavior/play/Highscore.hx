@@ -143,20 +143,20 @@ class Highscore
 	}
 
   public static function clearScores() {
-    for (key in FlxG.save.data.songScores) {
+    for (key in songScores.keys()) {
       setSongScore(key, 0);
     }
 
-    for (key in FlxG.save.data.songCombos) {
+    for (key in songCombos.keys()) {
       setSongCombo(key, '');
     }
 
-    for (key in FlxG.save.data.weekScores) {
+    for (key in weekScores.keys()) {
       setWeekScore(key, 0);
     }
 
-    for (key in FlxG.save.data.weekCombos) {
-      setWeekCombo(key, '')
+    for (key in weekCombos.keys()) {
+      setWeekCombo(key, '');
     }
 
     FlxG.save.flush();

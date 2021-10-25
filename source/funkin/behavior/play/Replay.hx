@@ -30,6 +30,7 @@ import openfl.events.Event;
 import openfl.events.IOErrorEvent;
 import openfl.net.FileReference;
 import openfl.utils.Dictionary;
+import funkin.behavior.options.Options;
 #if FEATURE_FILESYSTEM
 import sys.io.File;
 #end
@@ -105,7 +106,7 @@ class Replay
 
   static function generateStubReplay() {
     return {
-			replayGameVer: version,
+			replayGameVer: VERSION,
 			timestamp: Date.now(),
 			songName: "No Song Found",
       songId: 'no-song',
@@ -120,18 +121,18 @@ class Replay
 		};
   }
 
-	public static function LoadReplay(path:String):Replay
+	public static function loadReplay(path:String):Replay
 	{
 		var rep:Replay = new Replay(path);
 
-		rep.LoadFromJSON();
+		rep.loadFromJSON();
 
-		trace('basic replay data:\nSong Name: ' + rep.replay.songName + '\nSong Diff: ' + rep.replay.songDiff);
+		trace('basic replay data:\nSong Name: ' + rep.replay.songName + '\nSong Diff: ' + rep.replay.songDifficulty);
 
 		return rep;
 	}
 
-	public function SaveReplay(songNotes:Array<Dynamic>, songJudgements:Array<String>, replayInputs:Array<ReplayInput>)
+	public function saveReplay(songNotes:Array<Dynamic>, songJudgements:Array<String>, replayInputs:Array<ReplayInput>)
 	{
     // Skip this function entirely if we can't write to the filesystem.
     #if !FEATURE_FILESYSTEM
@@ -140,9 +141,9 @@ class Replay
     // Write the chart as a file.
 
     // Encode as JSON.
-    var noteSpeed = (FlxG.save.data.scrollSpeed > 1 ? FlxG.save.data.scrollSpeed : PlayState.SONG.speed);
+    var noteSpeed = (ScrollSpeedOption.get() > 1 ? ScrollSpeedOption.get() : PlayState.SONG.speed);
 		var json:ReplayJSON = {
-			replayGameVer: version,
+			replayGameVer: VERSION,
 			timestamp: Date.now(),
 			songName: PlayState.SONG.songName,
 			songId: PlayState.SONG.songId,
@@ -151,7 +152,7 @@ class Replay
 			songJudgements: songJudgements,
 			noteSpeed: noteSpeed,
 			chartPath: '', // Don't write the chart path.
-			downscrollActive: FlxG.save.data.downscroll,
+			downscrollActive: DownscrollOption.get(),
 			safeFrames: Conductor.safeFrames,
 			replayInputs: replayInputs
 		};
@@ -162,13 +163,13 @@ class Replay
 		File.saveContent("replays/replay-" + PlayState.SONG.songId + "-time" + time + ".enigmaReplay", data);
 		path = "replay-" + PlayState.SONG.songId + "-time" + time + ".enigmaReplay";
 
-		LoadFromJSON();
+		loadFromJSON();
 
 		replay.replayInputs = replayInputs;
 		#end
 	}
 
-	public function LoadFromJSON()
+	public function loadFromJSON()
 	{
 		#if FEATURE_FILESYSTEM
 		trace('loading ' + Sys.getCwd() + 'replays/' + path + ' replay...');

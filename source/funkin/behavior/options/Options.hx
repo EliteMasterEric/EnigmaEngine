@@ -33,10 +33,10 @@ import funkin.behavior.play.Song;
 import funkin.ui.state.LoadingState;
 import funkin.ui.state.options.GameplayCustomizeState;
 import funkin.ui.state.options.KeyBindMenu;
+import funkin.ui.state.options.EnigmaKeyBindMenu;
 import funkin.ui.state.options.OptionsMenu;
 import funkin.ui.state.play.LoadReplayState;
 import funkin.ui.state.play.PlayState;
-import funkin.util.Util;
 import funkin.util.Util;
 import lime.app.Application;
 import openfl.Lib;
@@ -49,7 +49,7 @@ class OptionCategory
 	/**
 	 * The display name of this category.
 	 */
-	private var name(get, null):String = "BLANK Category";
+	public var name(default, null):String = "BLANK Category";
 
 	/**
 	 * The options in this category.
@@ -97,14 +97,13 @@ class OptionCategory
 
 /**
  * An option for the options menu.
- * The parameter type is the type of the value you're handling with this option.
- * For example, a toggle should extend `BoolOption`.
- * An option that opens a submenu should probably be `Option<Null>`.
+ * A toggle should use the utility class `BoolOption`.
  * 
  * You can use `TheOption.get()` to retrieve the value of the option from a static context,
  * and `TheOption.set()` to modify that value.
  */
-class Option<T>
+@:generic
+class Option
 {
 	/**
 	 * The name of this option in the options menu.
@@ -122,39 +121,125 @@ class Option<T>
     FlxG.save.data.preferences = getDefaultPreferences();
   }
 
+  public static function validatePreferences() {
+    if (AntiAliasingOption.get() == null)
+      AntiAliasingOption.set(AntiAliasingOption.DEFAULT);
+    
+    if (AntiMashOption.get() == null)
+      AntiMashOption.set(AntiMashOption.DEFAULT);
+    
+    if (BotPlayOption.get() == null)
+      BotPlayOption.set(BotPlayOption.DEFAULT);
+    
+    if (CameraZoomOption.get() == null)
+      CameraZoomOption.set(CameraZoomOption.DEFAULT);
+    
+    if (HPBarColorOption.get() == null)
+      HPBarColorOption.set(HPBarColorOption.DEFAULT);
+    
+    if (CPUStrumOption.get() == null)
+      CPUStrumOption.set(CPUStrumOption.DEFAULT);
+    
+    if (DistractionsAndEffectsOption.get() == null)
+      DistractionsAndEffectsOption.set(DistractionsAndEffectsOption.DEFAULT);
+    
+    if (DownscrollOption.get() == null)
+      DownscrollOption.set(DownscrollOption.DEFAULT);
+    
+    if (EditorGridOption.get() == null)
+      EditorGridOption.set(EditorGridOption.DEFAULT);
+    
+    if (ExtendedScoreInfoOption.get() == null)
+      ExtendedScoreInfoOption.set(ExtendedScoreInfoOption.DEFAULT);
+    
+    if (FlashingLightsOption.get() == null)
+      FlashingLightsOption.set(FlashingLightsOption.DEFAULT);
+    
+    if (FPSCounterOption.get() == null)
+      FPSCounterOption.set(FPSCounterOption.DEFAULT);
+    
+    if (FramerateCapOption.get() == null)
+      FramerateCapOption.set(FramerateCapOption.DEFAULT);
+    
+    if (InstantRespawnOption.get() == null)
+      InstantRespawnOption.set(InstantRespawnOption.DEFAULT);
+    
+    if (MinimalModeOption.get() == null)
+      MinimalModeOption.set(MinimalModeOption.DEFAULT);
+    
+    if (MissSoundsOption.get() == null)
+      MissSoundsOption.set(MissSoundsOption.DEFAULT);
+    
+    if (NoteQuantizationOption.get() == null)
+      NoteQuantizationOption.set(NoteQuantizationOption.DEFAULT);
+    
+    if (NPSDisplayOption.get() == null)
+      NPSDisplayOption.set(NPSDisplayOption.DEFAULT);
+    
+    if (CharacterPreloadOption.get() == null)
+      CharacterPreloadOption.set(CharacterPreloadOption.DEFAULT);
+    
+    if (RainbowFPSCounterOption.get() == null)
+      RainbowFPSCounterOption.set(RainbowFPSCounterOption.DEFAULT);
+    
+    if (ResetButtonOption.get() == null)
+      ResetButtonOption.set(ResetButtonOption.DEFAULT);
+    
+    if (SafeFramesOption.get() == null)
+      SafeFramesOption.set(SafeFramesOption.DEFAULT);
+    
+    if (ScoreScreenOption.get() == null)
+      ScoreScreenOption.set(ScoreScreenOption.DEFAULT);
+    
+    if (ScrollSpeedOption.get() == null)
+      ScrollSpeedOption.set(ScrollSpeedOption.DEFAULT);
+    
+    if (ShowAccuracyOption.get() == null)
+      ShowAccuracyOption.set(ShowAccuracyOption.DEFAULT);
+    
+    if (SongOffsetOption.get() == null)
+      SongOffsetOption.set(SongOffsetOption.DEFAULT);
+    
+    if (SongPositionOption.get() == null)
+      SongPositionOption.set(SongPositionOption.DEFAULT);
+    
+    if (WIFE3AccuracyOption.get() == null)
+      WIFE3AccuracyOption.set(WIFE3AccuracyOption.DEFAULT);
+  }
+
   /**
    * Get a list of the default values for all user preferences .
    */
-  public static inline function getDefaultPreferences():Dynamic {
+  public static inline function getDefaultPreferences():Map<String, Dynamic> {
     return [
-      antiAliasing => AntiAliasingOption.DEFAULT,
-      antiMash => AntiMashOption.DEFAULT,
-      botPlay => BotPlayOption.DEFAULT,
-      cameraZoom => CameraZoomOption.DEFAULT,
-      coloredHPBar => HPBarColorOption.DEFAULT,
-      cpuStrums => CPUStrumOption.DEFAULT,
-      distractions => DistractionsAndEffectsOption.DEFAULT,
-      downscroll => DownscrollOption.DEFAULT,
-      editorGrid => EditorGridOption.DEFAULT,
-      extendedScoreInfo => ExtendedScoreInfoOption.DEFAULT,
-      flashingLights => FlashingLightsOption.DEFAULT,
-      fpsCounter => FPSCounterOption.DEFAULT,
-      framerateCap => FramerateCapOption.DEFAULT,
-      instantRespawn => InstantRespawnOption.DEFAULT,
-      minimalMode => MinimalModeOption.DEFAULT,
-      missSounds => MissSoundsOption.DEFAULT,
-      noteQuantization => NoteQuantizationOption.DEFAULT,
-      npsDisplay => NPSDisplayOption.DEFAULT,
-      preloadCharacters => CharacterPreloadOption.DEFAULT,
-      rainbowFpsCounter => RainbowFPSCounterOption.DEFAULT,
-      resetButton => ResetButtonOption.DEFAULT,
-      safeFrames => SafeFramesOption.DEFAULT,
-      scoreScreenEnabled => ScoreScreenOption.DEFAULT,
-      scrollSpeed => ScrollSpeedOption.DEFAULT,
-      showAccuracy => ShowAccuracyOption.DEFAULT,
-      songOffset => SongOffsetOption.DEFAULT,
-      songPosition => SongPositionOption.DEFAULT,
-      wife3Accuracy => WIFE3AccuracyOption.DEFAULT,
+      'antiAliasing' => AntiAliasingOption.DEFAULT,
+      'antiMash' => AntiMashOption.DEFAULT,
+      'botPlay' => BotPlayOption.DEFAULT,
+      'cameraZoom' => CameraZoomOption.DEFAULT,
+      'coloredHPBar' => HPBarColorOption.DEFAULT,
+      'cpuStrums' => CPUStrumOption.DEFAULT,
+      'distractions' => DistractionsAndEffectsOption.DEFAULT,
+      'downscroll' => DownscrollOption.DEFAULT,
+      'editorGrid' => EditorGridOption.DEFAULT,
+      'extendedScoreInfo' => ExtendedScoreInfoOption.DEFAULT,
+      'flashingLights' => FlashingLightsOption.DEFAULT,
+      'fpsCounter' => FPSCounterOption.DEFAULT,
+      'framerateCap' => FramerateCapOption.DEFAULT,
+      'instantRespawn' => InstantRespawnOption.DEFAULT,
+      'minimalMode' => MinimalModeOption.DEFAULT,
+      'missSounds' => MissSoundsOption.DEFAULT,
+      'noteQuantization' => NoteQuantizationOption.DEFAULT,
+      'npsDisplay' => NPSDisplayOption.DEFAULT,
+      'preloadCharacters' => CharacterPreloadOption.DEFAULT,
+      'rainbowFpsCounter' => RainbowFPSCounterOption.DEFAULT,
+      'resetButton' => ResetButtonOption.DEFAULT,
+      'safeFrames' => SafeFramesOption.DEFAULT,
+      'scoreScreenEnabled' => ScoreScreenOption.DEFAULT,
+      'scrollSpeed' => ScrollSpeedOption.DEFAULT,
+      'showAccuracy' => ShowAccuracyOption.DEFAULT,
+      'songOffset' => SongOffsetOption.DEFAULT,
+      'songPosition' => SongPositionOption.DEFAULT,
+      'wife3Accuracy' => WIFE3AccuracyOption.DEFAULT,
     ];
   }
 
@@ -166,22 +251,6 @@ class Option<T>
     updateName();
 		updateDescription();
 	}
-
-  /**
-   * Get the current value of this option.
-   * @return A value matching this option's type.
-   */
-  public static inline function get():T {
-		throw "get() is not implemented";
-  }
-
-  /**
-   * Set the current value of this option.
-   * @return The value you passed in.
-   */
-  public static inline function set(value:T):T {
-		throw "set() is not implemented";
-  }
 
 	/**
 	 * Called when ACCEPT is pressed while highlighting the item.
@@ -244,20 +313,32 @@ class Option<T>
   /**
    * Recomputes the value of the name property and stores it.
    */
-  private function updateName() {
+  private function updateName():String {
     throw "updateName() is not implemented";
   }
 
   /**
    * Recomputes the value of the description property and stores it.
    */
-  private function updateDescription() {
+  private function updateDescription():String {
     throw "updateDescription() is not implemented";
   }
 }
 
-class BoolOption extends Option<Bool> {
-	public override function onPress():Bool
+class AntiAliasingOption extends Option
+{
+  public static final DEFAULT:Bool = true;
+
+  public static inline function get():Null<Bool> {
+    return FlxG.save.data.preferences.antiAliasing;
+  }
+
+  public static inline function set(value:Null<Bool>):Null<Bool> {
+    FlxG.save.data.preferences.antiAliasing = value;
+    return get();
+  }
+
+  	public override function onPress():Bool
 	{
     set(!get());
 	
@@ -265,67 +346,62 @@ class BoolOption extends Option<Bool> {
     description = updateDescription();
 		return true;
 	}
-}
 
-class AntiAliasingOption extends BoolOption
-{
-  public static final DEFAULT:Bool = true;
-
-  public static inline function get():Bool {
-    return FlxG.save.data.preferences.antiAliasing;
-  }
-
-  public static inline function set(value:Bool):Bool {
-    FlxG.save.data.preferences.antiAliasing = value;
-    return get();
-  }
-
-  public static inline function onReset():Bool {
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
 
-	private override function updateName()
+	private override function updateName():String
 	{
 		return get() ? "Anti-Aliasing On" : "Anti-Aliasing Off";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return get() ? "Turn off to make sprites less blurry." : "Turn on to make sprites less pixelly (except Week 6).";
 	}
 }
 
-class AntiMashOption extends BoolOption
+class AntiMashOption extends Option
 {
   public static final DEFAULT:Bool = false;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.antiMash;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.antiMash = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+  public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
 
-	private override function updateName()
+	private override function updateName():String
 	{
 		return get() ? "Anti-Mash On" : "Anti-Mash Off";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return "If turned on, pressing a key when no note is there counts as a miss.";
 	}
 }
 
-class BasicKeybindOption extends Option<Null>
+class BasicKeybindOption extends Option
 {
 	public override function onPress():Bool
 	{
@@ -335,29 +411,38 @@ class BasicKeybindOption extends Option<Null>
 
 	private inline override function updateName():String
 	{
-		name = "Basic Key Bindings";
+		return "Basic Key Bindings";
 	}
 
   private inline override function updateDescription():String
 	{
-		description = "Key bindings for basic gameplay.";
+		return "Key bindings for basic gameplay.";
 	}
 }
 
-class BotPlayOption extends BoolOption
+class BotPlayOption extends Option
 {
   public static final DEFAULT:Bool = false;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.botPlay;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.botPlay = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+	public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
@@ -373,20 +458,20 @@ class BotPlayOption extends BoolOption
 	}
 }
 
-class CamZoomOption extends Option
+class CameraZoomOption extends Option
 {
   public static final DEFAULT:Bool = false;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.cameraZoom;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.cameraZoom = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
@@ -402,20 +487,29 @@ class CamZoomOption extends Option
 	}
 }
 
-class CharacterPreloadOption extends BoolOption
+class CharacterPreloadOption extends Option
 {
   public static final DEFAULT:Bool = true;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.preloadCharacters;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.preloadCharacters = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+  	public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
@@ -431,20 +525,29 @@ class CharacterPreloadOption extends BoolOption
 	}
 }
 
-class CPUStrumOption extends BoolOption
+class CPUStrumOption extends Option
 {
   public static final DEFAULT:Bool = true;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.cpuStrums;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.cpuStrums = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+	public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
@@ -460,213 +563,286 @@ class CPUStrumOption extends BoolOption
 	}
 }
 
-class CustomizeGameplayMenu extends Option<Null>
+class CustomizeGameplayMenu extends Option
 {
-  public override function onPush():Bool {
+  public override function onPress():Bool {
     // Open the Gameplay Customize state.
 		FlxG.switchState(new GameplayCustomizeState());
     return false;
   }
 
-	private override function updateName()
+	private override function updateName():String
 	{
 		return "Customize Gameplay";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return "Drag and drop gameplay modules to your preferred positions!";
 	}
 }
 
-class DistractionsAndEffectsOption extends BoolOption
+class CustomKeybindsOption extends Option
+{
+	public override function onPress():Bool
+	{
+		OptionsMenu.instance.openSubState(new EnigmaKeyBindMenu());
+		return false;
+	}
+
+	private override function updateName():String
+	{
+		return 'Custom Key Bindings';
+	}
+
+  private override function updateDescription():String
+	{
+		return 'Keybinds for songs that use extended strumlines, with 5 or more keys.';
+	}
+}
+
+class DistractionsAndEffectsOption extends Option
 {
   public static final DEFAULT:Bool = true;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.distractions;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.distractions = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+	public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
 
-	private override function updateName()
+	private override function updateName():String
 	{
 		return get() ? "Distractions On" : "Distractions Off";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return "Turn this off to hide stuff like moving trains and lightning strikes.";
 	}
 }
 
-class DownscrollOption extends BoolOption
+class DownscrollOption extends Option
 {
   public static final DEFAULT:Bool = false;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.downscroll;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.downscroll = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+  public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
 
-	private override function updateName()
+	private override function updateName():String
 	{
 		return get() ? "Downscroll On" : "Downscroll Off";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return "Move the strumline to the bottom, and the notes move downward.";
 	}
 }
 
-class EditorGridOption extends BoolOption
+class EditorGridOption extends Option
 {
   public static final DEFAULT:Bool = false;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.editorGrid;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.editorGrid = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+  public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
 
-	private override function updateName()
+	private override function updateName():String
 	{
 		return get() ? "Editor Grid On" : "Editor Grid Off";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return "Display the grid in the chart editor. May cause lag?";
 	}
 }
 
-class ExtendedScoreInfoOption extends BoolOption
+class ExtendedScoreInfoOption extends Option
 {
   public static final DEFAULT:Bool = true;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.extendedScoreInfo;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.extendedScoreInfo = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+	public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
 
-	private override function updateName()
+	private override function updateName():String
 	{
 		return get() ? "Extended Score Info" : "Minimal Score Info";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return get() ? "Display additional useful info at the end of the song." : "Hide additional performance reporting..";
 	}
 }
 
-class FlashingLightsOption extends BoolOption
+class FlashingLightsOption extends Option
 {
   public static final DEFAULT:Bool = true;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.flashingLights;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.flashingLights = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+	public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
 
-	private override function updateName()
+	private override function updateName():String
 	{
 		return get() ? "Flashing Lights" : "No Flashing Lights";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
-		return get() "Some visual effects may cause flashing." : "Flashing visual effects are now disabled.";
+		return get() ? "Some visual effects may cause flashing." : "Flashing visual effects are now disabled.";
 	}
 }
 
-class FPSCounterOption extends BoolOption
+class FPSCounterOption extends Option
 {
   public static final DEFAULT:Bool = true;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.fpsCounter;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.fpsCounter = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+  public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
 
-	private override function updateName()
+	private override function updateName():String
 	{
 		return get() ? "FPS Counter On" : "FPS Counter Off";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return "Display your frames per second in the corner. Useful for performance checking.";
 	}
 }
 
-class FramerateCapOption extends Option<Int>
+class FramerateCapOption extends Option
 {
   public static final DEFAULT:Int = 120;
 
-  public static inline function get():Int {
+  public static inline function get():Null<Int> {
     return FlxG.save.data.preferences.framerateCap;
   }
 
-  public static inline function set(value:Int):Int {
+  public static inline function set(value:Null<Int>):Null<Int> {
     FlxG.save.data.preferences.framerateCap = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
@@ -705,12 +881,12 @@ class FramerateCapOption extends Option<Int>
     return true;
   }
 
-	private override function updateDisplay():String
+	private override function updateName():String
 	{
 		return "Framerate Cap";
 	}
 
-	override function getValue():String
+	private override function updateDescription():String
 	{
 		return "Current Framerate Cap: "
 			+ get()
@@ -718,259 +894,331 @@ class FramerateCapOption extends Option<Int>
 	}
 }
 
-class HPBarColorOption extends BoolOption
+class HPBarColorOption extends Option
 {
   public static final DEFAULT:Bool = true;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.coloredHPBar;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.coloredHPBar = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+	public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
 
-	private override function updateName()
+	private override function updateName():String
 	{
 		return get() ? "Character HP Bars" : "Green/Red HP Bars";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return "Enable this to recolor the HP bar based on who's singing.";
 	}
 }
 
-class InstantRespawnOption extends BoolOption
+class InstantRespawnOption extends Option
 {
   public static final DEFAULT:Bool = true;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.instantRespawn;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.instantRespawn = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+	public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
 
-	private override function updateName()
+	private override function updateName():String
 	{
 		return get() ? "Instant Respawn On" : "Instant Respawn Off";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return "When enabled, immediately start the song again after dying.";
 	}
 }
 
-class MinimalModeOption extends BoolOption
+class MinimalModeOption extends Option
 {
   public static final DEFAULT:Bool = false;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.minimalMode;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.minimalMode = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+  public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
 
-	private override function updateName()
+	private override function updateName():String
 	{
 		return get() ? "Minimal Mode On" : "Minimal Mode Off";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
     // This was named Optimize in Kade, IDK why that's very vague.
 		return "Turn on minimal mode to hide the stage and your opponent's notes. Just pure gaming.";
 	}
 }
 
-class MissSoundsOption extends BoolOption
+class MissSoundsOption extends Option
 {
   public static final DEFAULT:Bool = false;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.missSounds;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.missSounds = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+	public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
 
-	private override function updateName()
+	private override function updateName():String
 	{
 		return get() ? "Miss Sounds On" : "Miss Sounds Off";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return get() ? "Boyfriend makes a weird noise when missing notes." : "Vocals simply mute when missing notes.";
 	}
 }
 
-class NoteQuantizationOption extends BoolOption
+class NoteQuantizationOption extends Option
 {
   public static final DEFAULT:Bool = false;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.noteQuantization;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.noteQuantization = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+	public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
 
-	private override function updateName()
+	private override function updateName():String
 	{
 		return get() ? "Note Quantization On" : "Note Quantization Off";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return "When on, note color is based on beat rather than direction.";
 	}
 }
 
-class NPSDisplayOption extends BoolOption
+class NPSDisplayOption extends Option
 {
   public static final DEFAULT:Bool = false;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.npsDisplay;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.npsDisplay = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+	public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
 
-	private override function updateName()
+	private override function updateName():String
 	{
 		return get() ? "Notes Per Second Display On" : "Notes Per Second Display Off";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return "Show a counter of how many notes are pressed per second.";
 	}
 }
 
-class RainbowFPSCounterOption extends BoolOption
+class RainbowFPSCounterOption extends Option
 {
   public static final DEFAULT:Bool = true;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.rainbowFpsCounter;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.rainbowFpsCounter = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+	public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
 
-	private override function updateName()
+	private override function updateName():String
 	{
 		return get() ? "Rainbow FPS Counter" : "White FPS Counter";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return "Display your frames per second in the corner, in fancy colors.";
 	}
 }
 
-class ReplayMenu extends Option<Null>
+class ReplayMenu extends Option
 {
-  public override function onPush():Bool {
+  public override function onPress():Bool {
     // Open the Replay state.
 		FlxG.switchState(new LoadReplayState());
     return false;
   }
 
-	private override function updateName()
+	private override function updateName():String
 	{
 		return "Load a Replay";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return "Why this menu option is in the options menu is beyond me.";
 	}
 }
 
-class ResetButtonOption extends BoolOption
+class ResetButtonOption extends Option
 {
   public static final DEFAULT:Bool = true;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.resetButton;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.resetButton = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+	public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
 
-	private override function updateName()
+	private override function updateName():String
 	{
 		return get() ? "Song Reset Button On" : "Song Reset Button Off";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return get() ? "You can press the R key during a song to restart." : "You can't accidentally restart because the R key is ignored.";
 	}
 }
 
-class ResetPreferencesOption extends Option<Null> {
+class ResetPreferencesOption extends Option {
   var hasConfirmed:Bool = false;
 
   public override function onPress():Bool {
@@ -992,23 +1240,19 @@ class ResetPreferencesOption extends Option<Null> {
     return true;
   }
 
-  private override function updateName()
+  private override function updateName():String
 	{
 		return hasConfirmed ? "Are You Sure?" : "Reset Preferences";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return "Use this to set all the above options to default. IRREVERSIBLE.";
 	}
 }
 
-class ResetScoreOption extends Option<Null> {
+class ResetScoreOption extends Option {
   var hasConfirmed:Bool = false;
-
-  function resetWeekProgress() {
-    FlxG.save.data.weekProgress = DEFAULT;
-  }
 
   public override function onPress():Bool {
     if (!hasConfirmed) {
@@ -1029,18 +1273,18 @@ class ResetScoreOption extends Option<Null> {
     return true;
   }
 
-  private override function updateName()
+  private override function updateName():String
 	{
 		return hasConfirmed ? "Are You Sure?" : "Reset Highscores";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return "Use this to set all your high scores and max combos to 0. IRREVERSIBLE.";
 	}
 }
 
-class ResetWeekProgressOption extends Option<Null> {
+class ResetWeekProgressOption extends Option {
   var hasConfirmed:Bool = false;
 
   public static final DEFAULT:Map<String, Bool> = ['tutorial' => true];
@@ -1068,31 +1312,31 @@ class ResetWeekProgressOption extends Option<Null> {
     return true;
   }
 
-  	private override function updateName()
+  	private override function updateName():String
 	{
 		return hasConfirmed ? "Are You Sure?" : "Reset Story Progress";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return "Use this to lock all weeks but the Tutorial week and Week 1. IRREVERSIBLE.";
 	}
 }
 
-class SafeFramesOption extends Option<Int>
+class SafeFramesOption extends Option
 {
   public static final DEFAULT:Int = 10;
 
-  public static inline function get():Int {
+  public static inline function get():Null<Int> {
     return FlxG.save.data.preferences.safeFrames;
   }
 
-  public static inline function set(value:Int):Int {
+  public static inline function set(value:Null<Int>):Null<Int> {
     FlxG.save.data.preferences.safeFrames = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
@@ -1125,12 +1369,12 @@ class SafeFramesOption extends Option<Int>
     return true;
   }
 
-	public override function updateName():String
+	private override function updateName():String
 	{
 		return "Safe Frames";
 	}
 
-  public override function updateDescription():String
+  private override function updateDescription():String
 	{
 		return "Safe Frames: "
 			+ Conductor.safeFrames
@@ -1148,20 +1392,25 @@ class SafeFramesOption extends Option<Int>
 	}
 }
 
-class ScrollSpeedOption extends Option<Float>
+class ScrollSpeedOption extends Option
 {
   public static final DEFAULT:Float = 1.0;
 
-  public static inline function get():Float {
+  public static inline function get():Null<Float> {
     return FlxG.save.data.preferences.scrollSpeed;
   }
 
-  public static inline function set(value:Int):Int {
+  public static inline function set(value:Null<Float>):Null<Float> {
     FlxG.save.data.preferences.scrollSpeed = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+	public override function onPress():Bool
+	{
+    return false;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
@@ -1188,89 +1437,107 @@ class ScrollSpeedOption extends Option<Float>
     return true;
   }
 
-	public override function updateName():String
+	private override function updateName():String
 	{
 		return "Scroll Speed";
 	}
 
-  public override function updateDescription():String
+  private override function updateDescription():String
 	{
     return (get() == 1.0) ? "Default note speed." : 'Fixed note speed: ${Util.truncateFloat(get(), 1)}';
 	}
 }
 
-class ScoreScreenOption extends BoolOption
+class ScoreScreenOption extends Option
 {
   public static final DEFAULT:Bool = true;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.scoreScreenEnabled;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.scoreScreenEnabled = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+	public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
 
-	private override function updateName()
+	private override function updateName():String
 	{
 		return get() ? "Score Screen On" : "Score Screen Off";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return get() ? "Disable to hide the score screen at the end entirely." : "Enable to add a final score screen.";
 	}
 }
 
-class ShowAccuracyOption extends BoolOption
+class ShowAccuracyOption extends Option
 {
   public static final DEFAULT:Bool = true;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.showAccuracy;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.showAccuracy = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+  public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
 
-	private override function updateName()
+	private override function updateName():String
 	{
 		return get() ? "Show Accuracy" : "Hide Accuracy";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return "Enable to show your accuracy % in the score area.";
 	}
 }
 
-class SongOffsetOption extends Option<Float>
+class SongOffsetOption extends Option
 {
   public static final DEFAULT:Float = 0.0;
 
-  public static inline function get():Int {
+  public static inline function get():Null<Float> {
     return FlxG.save.data.preferences.songOffset;
   }
 
-  public static inline function set(value:Int):Int {
+  public static inline function set(value:Null<Float>):Null<Float> {
     FlxG.save.data.preferences.songOffset = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
@@ -1317,65 +1584,83 @@ class SongOffsetOption extends Option<Float>
 		return "Song Offset";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return 'Press ENTER to test. Current Offset: ${Util.truncateFloat(get(), 1)}';
 	}
 }
 
-class SongPositionOption extends BoolOption
+class SongPositionOption extends Option
 {
   public static final DEFAULT:Bool = true;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.songPosition;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.songPosition = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+	public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
 
-	private override function updateName()
+	private override function updateName():String
 	{
 		return get() ? "Song Position Shown" : "Song Position Hidden";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return "Toggles a progress bar and timer showing progress in the song.";
 	}
 }
 
-class WIFE3AccuracyOption extends BoolOption
+class WIFE3AccuracyOption extends Option
 {
   public static final DEFAULT:Bool = true;
 
-  public static inline function get():Bool {
+  public static inline function get():Null<Bool> {
     return FlxG.save.data.preferences.wife3Accuracy;
   }
 
-  public static inline function set(value:Bool):Bool {
+  public static inline function set(value:Null<Bool>):Null<Bool> {
     FlxG.save.data.preferences.wife3Accuracy = value;
     return get();
   }
 
-  public static inline function onReset():Bool {
+  public override inline function onReset():Bool {
     set(DEFAULT);
     return true;
   }
 
-	private override function updateName()
+  public override function onPress():Bool
+	{
+    set(!get());
+	
+		name = updateName();
+    description = updateDescription();
+		return true;
+	}
+
+	private override function updateName():String
 	{
 		return get() ? "WIFE3 Accuracy Mode" : "Judgement Accuracy Mode";
 	}
 
-  private override function updateDescription()
+  private override function updateDescription():String
 	{
 		return get() ? "Fancy accuracy algorithm for pro gamers." : "Simple accuracy algorithm; a sick is +1, a bad is +0.5, a miss is -1.";
 	}

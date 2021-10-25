@@ -49,6 +49,8 @@ class MusicBeatState extends FlxUIState // InteractableUIState
 	private var curDecimalBeat:Float = 0;
 	private var controls(get, never):CustomControls;
 
+  private var gameInput:GameInput;
+
 	inline function get_controls():CustomControls
 	{
 		return PlayerSettings.player1 == null ? null : PlayerSettings.player1.controls;
@@ -79,8 +81,35 @@ class MusicBeatState extends FlxUIState // InteractableUIState
 		TimingStruct.clearTimings();
 		(cast(Lib.current.getChildAt(0), Main)).setFPSCap(FlxG.save.data.fpsCap);
 
+    gameInput = new GameInput();
+
+    gameInput.addEventListener(GameInputDevice.DEVICE_ADDED, function(event:GameInputEvent) {
+      Debug.logTrace('New device connected: ${event.device.name} (${event.device.numControls} controls)');
+      onGamepadAdded(event);
+    });
+
+    gameInput.addEventListener(GameInputDevice.DEVICE_ADDED, function(event:GameInputEvent) {
+      Debug.logTrace('New device connected: ${event.device.name} (${event.device.numControls} controls)');
+      onGamepadRemoved(event);
+    });
+
 		super.create();
 	}
+
+  /**
+   * Override me!
+   */
+  function onGamepadAdded(event:GameInputEvent) {
+    return;
+  }
+
+  /**
+   * Override me!
+   * @param event 
+   */
+  function onGamepadRemoved(event:GameInputEvent) {
+    return;
+  }
 
 	var array:Array<FlxColor> = [
 		FlxColor.fromRGB(148, 0, 211),

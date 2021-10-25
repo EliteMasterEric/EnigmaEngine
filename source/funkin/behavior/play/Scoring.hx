@@ -122,11 +122,39 @@ class SongScore
 		return j;
 	}
 
-	/**
-	 * Call when you miss a note.
-	 */
-	public function onMiss()
+  /**
+   * Use this for Replays since you know the judgement already.
+   */
+  public function addReplayJudgement(js:String) {
+    switch (js) {
+      case 'miss':
+				miss++;
+				currentCombo = 0;
+      case 'shit':
+				shit++;
+				currentCombo = 0;
+      case 'bad':
+				bad++;
+				currentCombo++;
+      case 'good':
+				good++;
+				currentCombo++;
+      case 'sick':
+				sick++;
+				currentCombo++;
+    }
+
+    if (currentCombo > highestCombo)
+			highestCombo = currentCombo;
+  }
+
+  /**
+   * Use this for Anti-Mash since it isn't associated with a note.
+   */
+	public function judgeAntiMash()
 	{
+    miss++;
+		currentCombo = 0;
 	}
 
 	public function combineScore(that:SongScore)
@@ -158,7 +186,7 @@ class SongScore
 
 	function getBaseNotesHit():Float
 	{
-		return (MISS_ACCURACY * miss) + (SHIT_ACCURACY * shit) + (BAD_SACCURACY * bad) + (GOOD_ACCURACY * good) + (SICK_ACCURACY * sick);
+		return (MISS_ACCURACY * miss) + (SHIT_ACCURACY * shit) + (BAD_ACCURACY * bad) + (GOOD_ACCURACY * good) + (SICK_ACCURACY * sick);
 	}
 
 	public function getNotesHit():Float

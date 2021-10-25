@@ -25,50 +25,50 @@ package funkin.behavior;
 import funkin.behavior.options.PlayerSettings;
 import funkin.behavior.options.CustomControls;
 import funkin.behavior.play.Conductor;
+import funkin.behavior.options.Options;
 import funkin.behavior.options.CustomControls;
+import funkin.behavior.options.Options;
 import flixel.FlxG;
 import flixel.input.gamepad.FlxGamepad;
 import openfl.Lib;
 
 class SaveData
 {
+  // Notes on save data:
+  // Structure of FlxG.save.data:
+  // - debugLogLevel: Current log level of the debug logger. Defaults to TRACE.
+  // - preferences: A map of values stored by the options menu.
+  //   - Do NOT access preferences via FlxG directly.
+  //   - Instead, statically reference the Options menu option that controls it, like DownscrollOption.get().
+  // - binds: A map of values stored by the options menu, limited to keybinds.
+  // - songScores: A String->Int map of song IDs to highscores.
+  // - songCombos: A String->String map of song IDs to highest combos.
+  // - weekScores: A String->Int map of week IDs to highscores.
+  // - weekCombos: A String->String map of week IDs to highest combos.
+  // - weeksUnlocked: A String->Bool map of week IDs to whether they are unlocked.
+  // - modConfig: A delimited String representing the mod IDs currently loaded and their order.
+
+  /**
+   * Retrieve saved data.
+   */
+  public static function bindSave() {
+    // All saves are specific to the game.
+    // First argument is the save file ID, used for games that have multiple save slots.
+    // Second argument is a relative path, which we override. See https://github.com/HaxeFlixel/flixel/pull/2202
+    FlxG.save.bind('funkin', 'ninjamuffin99');
+  }
+
 	public static function initSave()
 	{
 		trace('Checking save data...');
 
-		// weeksUnlocked is a map of week IDs.
+    Option.validatePreferences();
+
 		if (FlxG.save.data.weeksUnlocked == null || FlxG.save.data.weeksUnlocked.get == null)
 		{
 			var properValue:Map<String, Bool> = ['tutorial' => true];
 			FlxG.save.data.weeksUnlocked = properValue;
 		}
-
-		if (FlxG.save.data.newInput == null)
-			FlxG.save.data.newInput = true;
-
-		if (FlxG.save.data.downscroll == null)
-			FlxG.save.data.downscroll = false;
-
-		if (FlxG.save.data.antialiasing == null)
-			FlxG.save.data.antialiasing = true;
-
-		if (FlxG.save.data.missSounds == null)
-			FlxG.save.data.missSounds = true;
-
-		if (FlxG.save.data.dfjk == null)
-			FlxG.save.data.dfjk = false;
-
-		if (FlxG.save.data.accuracyDisplay == null)
-			FlxG.save.data.accuracyDisplay = true;
-
-		if (FlxG.save.data.offset == null)
-			FlxG.save.data.offset = 0;
-
-		if (FlxG.save.data.songPosition == null)
-			FlxG.save.data.songPosition = false;
-
-		if (FlxG.save.data.fps == null)
-			FlxG.save.data.fps = false;
 
 		if (FlxG.save.data.changedHit == null)
 		{
@@ -76,89 +76,6 @@ class SaveData
 			FlxG.save.data.changedHitY = -1;
 			FlxG.save.data.changedHit = false;
 		}
-
-		if (FlxG.save.data.fpsRain == null)
-			FlxG.save.data.fpsRain = false;
-
-		if (FlxG.save.data.fpsCap == null)
-			FlxG.save.data.fpsCap = 120;
-
-		// baby proof so you can't hard lock ur copy of the game
-		if (FlxG.save.data.fpsCap > 340 || FlxG.save.data.fpsCap < 60)
-			FlxG.save.data.fpsCap = 120;
-
-		if (FlxG.save.data.scrollSpeed == null)
-			FlxG.save.data.scrollSpeed = 1;
-
-		if (FlxG.save.data.npsDisplay == null)
-			FlxG.save.data.npsDisplay = false;
-
-		if (FlxG.save.data.frames == null)
-			FlxG.save.data.frames = 10;
-
-		if (FlxG.save.data.accuracyMod == null)
-			FlxG.save.data.accuracyMod = 1;
-
-		if (FlxG.save.data.watermark == null)
-			FlxG.save.data.watermark = true;
-
-		if (FlxG.save.data.ghost == null)
-			FlxG.save.data.ghost = true;
-
-		if (FlxG.save.data.distractions == null)
-			FlxG.save.data.distractions = true;
-
-		if (FlxG.save.data.colour == null)
-			FlxG.save.data.colour = true;
-
-		if (FlxG.save.data.stepMania == null)
-			FlxG.save.data.stepMania = false;
-
-		if (FlxG.save.data.flashing == null)
-			FlxG.save.data.flashing = true;
-
-		if (FlxG.save.data.resetButton == null)
-			FlxG.save.data.resetButton = false;
-
-		if (FlxG.save.data.InstantRespawn == null)
-			FlxG.save.data.InstantRespawn = false;
-
-		var value = FlxG.save.data.botplay;
-		if (FlxG.save.data.botplay == null)
-		{
-			trace('BotPlay was null');
-			FlxG.save.data.botplay = false;
-		}
-
-		if (FlxG.save.data.cpuStrums == null)
-			FlxG.save.data.cpuStrums = false;
-
-		if (FlxG.save.data.strumline == null)
-			FlxG.save.data.strumline = false;
-
-		if (FlxG.save.data.customStrumLine == null)
-			FlxG.save.data.customStrumLine = 0;
-
-		if (FlxG.save.data.camzoom == null)
-			FlxG.save.data.camzoom = true;
-
-		if (FlxG.save.data.scoreScreen == null)
-			FlxG.save.data.scoreScreen = true;
-
-		if (FlxG.save.data.inputShow == null)
-			FlxG.save.data.inputShow = false;
-
-		if (FlxG.save.data.optimize == null)
-			FlxG.save.data.optimize = false;
-
-		if (FlxG.save.data.cacheImages == null)
-			FlxG.save.data.cacheImages = false;
-
-		if (FlxG.save.data.editorBG == null)
-			FlxG.save.data.editor = false;
-
-		if (FlxG.save.data.zoom == null)
-			FlxG.save.data.zoom = 1;
 
 		// Commit the default values.
 		trace('Done checking save data. Flushing...');
@@ -172,6 +89,6 @@ class SaveData
 		PlayerSettings.player1.controls.loadKeyBinds();
 		CustomControls.keyCheck();
 
-		(cast(Lib.current.getChildAt(0), Main)).setFPSCap(FlxG.save.data.fpsCap);
+		(cast(Lib.current.getChildAt(0), Main)).setFPSCap(FramerateCapOption.get());
 	}
 }

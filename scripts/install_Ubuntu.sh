@@ -23,7 +23,6 @@ haxelib install flixel-tools
 
 # Enigma-specific dependencies
 haxelib install haxe-strings
-haxelib install tjson
 haxelib install firetongue
 haxelib install munit
 haxelib install hamcrest
@@ -37,12 +36,19 @@ haxelib remove discord_rpc
 haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
 haxelib remove hxvm-luajit
 haxelib git hxvm-luajit https://github.com/nebulazorua/hxvm-luajit
+
+# Use my forks.
 haxelib remove polymod
-haxelib git polymod https://github.com/EnigmaEngine/polymod
+haxelib git polymod https://github.com/MasterEric/polymod
+# Wait until https://github.com/JWambaugh/TJSON/pull/34 is merged to revert back.
+haxelib remove tjson
+haxelib git https://github.com/MasterEric/TJSON
 haxelib remove linc_luajit
 haxelib git linc_luajit https://github.com/EnigmaEngine/linc_luajit
 haxelib remove mockatoo
 haxelib git mockatoo https://github.com/EnigmaEngine/mockatoo
+
+# Build the WebM extension.
 haxelib remove extension-webm
 haxelib git extension-webm https://github.com/EnigmaEngine/extension-webm
 haxelib run lime rebuild extension-webm linux

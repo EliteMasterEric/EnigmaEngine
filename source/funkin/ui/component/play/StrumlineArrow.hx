@@ -33,8 +33,17 @@ using StringTools;
 
 class StrumlineArrow extends FlxSprite
 {
-	public var modifiedByLua:Bool = false;
+	/**
+	 * Flag which is set to true if a Lua Modchart has modified this arrow's position.
+	 */
+	public var luaModifiedPos:Bool = false;
+	/**
+	 * The sprite angle as handled by a Lua Modchart.
+	 */
 	public var modAngle:Float = 0; // The angle set by modcharts
+	/**
+	 * The sprite angle as handled by this strumline arrow.
+	 */
 	public var localAngle:Float = 0; // The angle to be edited inside here
 
 	public function new(xx:Float, yy:Float)
@@ -47,12 +56,13 @@ class StrumlineArrow extends FlxSprite
 
 	override function update(elapsed:Float)
 	{
-		if (!modifiedByLua)
+		if (!luaModifiedPos)
 			angle = localAngle + modAngle;
 		else
 			angle = modAngle;
 		super.update(elapsed);
 
+    // TODO: What the HELL?
 		if (FlxG.keys.justPressed.THREE)
 		{
 			localAngle += 10;

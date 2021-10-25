@@ -55,22 +55,23 @@ class OptionsMenu extends MusicBeatState
 
 	var options:Array<OptionCategory> = [
 		new OptionCategory("Gameplay", [
-			new BasicKeybindOption(controls),
-			Enigma.USE_CUSTOM_KEYBINDS ? new CustomKeybindsOption(controls) : null,
+			new BasicKeybindOption(),
+			Enigma.USE_CUSTOM_KEYBINDS ? new CustomKeybindsOption() : null,
 			new DownscrollOption(),
 			new AntiMashOption(),
-			new SafeFrames(),
+			new SafeFramesOption(),
 			#if desktop new FramerateCapOption(),
 			#end
 			new ScrollSpeedOption(),
 			new WIFE3AccuracyOption(),
 			new ResetButtonOption(),
 			new InstantRespawnOption(),
-			new CustomizeGameplayOption()
+			new CustomizeGameplayMenu()
 		]),
 		new OptionCategory("Appearance", [
 			new EditorGridOption(),
 			new DistractionsAndEffectsOption(),
+      new FlashingLightsOption(),
 			new CameraZoomOption(),
 			new NoteQuantizationOption(),
 			new ShowAccuracyOption(),
@@ -82,8 +83,7 @@ class OptionsMenu extends MusicBeatState
 		]),
 		new OptionCategory("Misc", [
 			new FPSCounterOption(),
-			new FlashingLightsOption(),
-			new AntialiasingOption(),
+			new AntiAliasingOption(),
 			new MissSoundsOption(),
 			new ScoreScreenOption(),
 			new ExtendedScoreInfoOption(),
@@ -92,7 +92,7 @@ class OptionsMenu extends MusicBeatState
 			new BotPlayOption()
 		]),
 		new OptionCategory("Saves and Data", [
-			new ReplayOption(),
+			new ReplayMenu(),
 			new ResetScoreOption(),
 			new ResetWeekProgressOption(),
 			new ResetPreferencesOption()
@@ -101,7 +101,6 @@ class OptionsMenu extends MusicBeatState
 
 	public var acceptInput:Bool = true;
 
-	private var currentDescription:String = "";
 	private var grpControls:FlxTypedGroup<Alphabet>;
 
 	public static var versionText:FlxText;
@@ -127,21 +126,18 @@ class OptionsMenu extends MusicBeatState
 
 		for (i in 0...options.length)
 		{
-			var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, options[i].getName(), true, false);
+			var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, options[i].name, true, false);
 			controlLabel.isMenuItem = true;
 			controlLabel.targetY = i;
 			grpControls.add(controlLabel);
 			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
 		}
 
-		currentDescription = "none";
-
 		versionText = new FlxText(5, FlxG.height
 			+ 40, 0,
 			"Offset (Left, Right, Shift for slow): "
 			+ Util.truncateFloat(FlxG.save.data.offset, 2)
-			+ " - Description - "
-			+ currentDescription, 12);
+			+ " - Description - NONE", 12);
 		versionText.scrollFactor.set();
 		versionText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 
@@ -178,7 +174,7 @@ class OptionsMenu extends MusicBeatState
 				grpControls.clear();
 				for (i in 0...options.length)
 				{
-					var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, options[i].getName(), true, false);
+					var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, options[i].name, true, false);
 					controlLabel.isMenuItem = true;
 					controlLabel.targetY = i;
 					grpControls.add(controlLabel);
@@ -251,7 +247,7 @@ class OptionsMenu extends MusicBeatState
 					grpControls.clear();
 					for (i in 0...currentSelectedCat.getOptions().length)
 					{
-						var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, currentSelectedCat.getOptions()[i].getDisplay(), true, false);
+						var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, currentSelectedCat.getOptions()[i].name, true, false);
 						controlLabel.isMenuItem = true;
 						controlLabel.targetY = i;
 						grpControls.add(controlLabel);
@@ -284,21 +280,10 @@ class OptionsMenu extends MusicBeatState
 		if (curSelected >= grpControls.length)
 			curSelected = 0;
 
-		if (isCat)
-			currentDescription = currentSelectedCat.getOptions()[curSelected].getDescription();
+		if (isInCategory)
+      versionText.text = currentSelectedCat.getOptions()[curSelected].description;
 		else
-			currentDescription = "Please select a category";
-		if (isCat)
-		{
-			if (currentSelectedCat.getOptions()[curSelected].getAccept())
-				versionText.text = currentSelectedCat.getOptions()[curSelected].getValue() + " - Description - " + currentDescription;
-			else
-				versionText.text = "Offset (Left, Right, Shift for slow): " + Util.truncateFloat(FlxG.save.data.offset, 2) + " - Description - "
-					+ currentDescription;
-		}
-		else
-			versionText.text = "Offset (Left, Right, Shift for slow): " + Util.truncateFloat(FlxG.save.data.offset, 2) + " - Description - "
-				+ currentDescription;
+      versionText.text = "Please select a category";
 
 		var curControlsMember:Int = 0;
 

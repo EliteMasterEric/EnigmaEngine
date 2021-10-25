@@ -21,6 +21,11 @@
  * An FlxTypedGroup that contains notes in a song.
  * Provides additional useful utility functions.
  */
+package funkin.ui.component.play;
+
+import flixel.group.FlxGroup.FlxTypedGroup;
+import funkin.ui.component.play.Note;
+
 class NoteGroup extends FlxTypedGroup<Note> {
   /**
    * Returns just the Notes which could be hit.

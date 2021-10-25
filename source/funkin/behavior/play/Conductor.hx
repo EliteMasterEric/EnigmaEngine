@@ -38,12 +38,29 @@ class Conductor
 	/**
 	 * Current position in the current song, in milliseconds.
 	 */
-	public static var songPosition:Float = 0.0;
-	public static var bpm:Float = 100;
+  public static var songPosition:Float = 0.0;
+  /**
+   * The beats per minute of the current song at the current time.
+   * Needs to remain a Float.
+   */
+  public static var bpm:Float = 100;
+	/**
+   * Duration of one beat of the song.
+   * One beat in the song happens every `crochet` milliseconds.
+   * From Beats per Min to Millis per Beat.
+	 */
 	public static var crochet:Float = ((60 / bpm) * 1000); // beats in milliseconds
+  /**
+   * Duration of one step of the song (one fourth of a beat).
+   * One step in the song happens every `stepCrochet` milliseconds.
+	 */
 	public static var stepCrochet:Float = crochet / 4; // steps in milliseconds
+
+  
 	public static var lastSongPos:Float;
 	public static var offset:Float = 0;
+
+
 
 	public static var rawPosition:Float;
 

@@ -136,16 +136,9 @@ class NoteUtil
 		return NOTE_DATA_TO_STRUMLINE_MAP[strumlineSize][getStrumlineIndex(rawNoteData, strumlineSize, false)] != -1;
 	}
 
-	public static function fetchStrumlineSize()
+	public static inline function fetchStrumlineSize()
 	{
-		if (PlayState.SONG != null)
-		{
-			return PlayState.SONG.strumlineSize;
-		}
-		else
-		{
-			return null;
-		}
+    return PlayState.SONG != null ? PlayState.SONG.strumlineSize : null;
 	}
 
 	/**
@@ -201,5 +194,16 @@ class NoteUtil
 
 		// Position of the note should line up.
 		note.x = strumlineNote.x + EnigmaNote.NOTE_NUDGE;
+
+    // Readjust the horizontal position of sustain notes.
+    if (note.isSustainNote) {
+      note.x += daNote.width / 2;
+      switch (note.noteStyle) {
+        case 'pixel':
+          note.x += 9;
+        default:
+          note.x += 20;
+      }
+    }
 	}
 }

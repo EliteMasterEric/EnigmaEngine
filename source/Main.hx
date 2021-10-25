@@ -31,6 +31,7 @@ import funkin.behavior.Debug;
 import funkin.behavior.media.WebmHandler;
 import funkin.behavior.mods.ModCore;
 import funkin.ui.component.Cursor;
+import funkin.behavior.options.Options;
 import funkin.ui.state.modding.ModSplashState;
 import funkin.ui.state.title.CachingState;
 import funkin.ui.state.title.TitleState;
@@ -172,7 +173,7 @@ class Main extends Sprite
 
 		fpsCounter = new FPS(10, 3, 0xFFFFFF);
 		addChild(fpsCounter);
-		toggleFPS(FlxG.save.data.fps);
+		toggleFPS(FPSCounterOption.get());
 		#if !mobile
 		#end
 
