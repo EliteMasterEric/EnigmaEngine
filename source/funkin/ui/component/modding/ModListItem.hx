@@ -23,6 +23,8 @@
  */
 package funkin.ui.component.modding;
 
+import funkin.ui.component.base.RelativeSprite;
+import funkin.ui.component.base.RelativeText;
 import flixel.addons.ui.FlxUI9SliceSprite;
 import flixel.addons.ui.FlxUIAssets;
 import flixel.addons.ui.FlxUIButton;
@@ -69,13 +71,13 @@ class ModListItem extends InteractableUIGroup
 	static final DESC_SCALE:Int = 12;
 
 	static final BUTTON_X_RIGHT:Float = BG_W - 20;
-	static final BUTTON_X_LEFT:Float = 5;
+	static final BUTTON_X_LEFT:Float = 10;
 	static final BUTTON_Y:Float = BG_Y + 24;
 	static final BUTTON_OFFSET:Float = 20;
 
 	public var modId(default, null):String;
 
-	var modMetadata(default, null):ModMetadata;
+	public var modMetadata(default, null):ModMetadata;
 
 	var loaded(default, set):Bool;
 
@@ -88,9 +90,9 @@ class ModListItem extends InteractableUIGroup
 
 	// UI
 	var uiBackground:FlxUI9SliceSprite;
-	var uiTitle:FlxText;
-	var uiDescription:FlxText;
-	var uiIcon:FlxSprite;
+	var uiTitle:RelativeText;
+	var uiDescription:RelativeText;
+	var uiIcon:RelativeSprite;
 
 	// Button to activate mod.
 	var uiButtonRight:FlxUIButton;
@@ -102,12 +104,16 @@ class ModListItem extends InteractableUIGroup
 	var uiButtonUp:FlxUIButton;
 	var uiButtonDown:FlxUIButton;
 
-	public function new(modMetadata:ModMetadata, X:Float = 0, Y:Float = 0, loaded:Bool = false)
+	var modList:ModList;
+
+	public function new(modMetadata:ModMetadata, X:Float = 0, Y:Float = 0, modList:ModList, loaded:Bool = false)
 	{
 		super(X, Y);
 
+		this.parent = modList;
 		this.modId = modMetadata.id;
 		this.modMetadata = modMetadata;
+		this.modList = modList;
 
 		this.name = this.modId;
 
@@ -124,8 +130,8 @@ class ModListItem extends InteractableUIGroup
 	function buildLayout()
 	{
 		this.uiBackground = new FlxUI9SliceSprite(BG_X, BG_Y, FlxUIAssets.IMG_CHROME, new Rectangle(BG_X, BG_Y, BG_W, BG_H));
-		this.uiTitle = new FlxUIText(TITLE_X, TITLE_Y, TEXT_WIDTH, this.modMetadata.title, TITLE_SCALE);
-		this.uiDescription = new FlxUIText(DESC_X, DESC_Y, TEXT_WIDTH, this.modMetadata.description, DESC_SCALE);
+		this.uiTitle = new RelativeText(TITLE_X, TITLE_Y, this, TEXT_WIDTH, this.modMetadata.title, TITLE_SCALE);
+		this.uiDescription = new RelativeText(DESC_X, DESC_Y, this, TEXT_WIDTH, this.modMetadata.description, DESC_SCALE);
 		this.uiDescription.wordWrap = true;
 		add(this.uiBackground);
 		add(this.uiTitle);
@@ -138,10 +144,6 @@ class ModListItem extends InteractableUIGroup
 		this.scrollFactor.set(1, 1);
 	}
 
-	function buildButtonIcons()
-	{
-	}
-
 	function buildButtons()
 	{
 		this.uiButtonUp = new FlxUIButton(BUTTON_X_LEFT, BUTTON_Y, null, onUserReorderMod.bind(-1));
@@ -149,10 +151,10 @@ class ModListItem extends InteractableUIGroup
 
 		var BUTTON_MIDDLE_OFFSET = BUTTON_Y + BUTTON_OFFSET;
 
-		this.uiButtonLeft = new FlxUIButton(BUTTON_X_LEFT, BUTTON_MIDDLE_OFFSET, null, onUserLoadMod.bind());
+		this.uiButtonLeft = new FlxUIButton(BUTTON_X_LEFT, BUTTON_MIDDLE_OFFSET, null, onUserLoadUnloadMod.bind());
 		this.uiButtonLeft.loadGraphicsUpOverDown(FlxUIAssets.IMG_BUTTON_ARROW_LEFT);
 
-		this.uiButtonRight = new FlxUIButton(BUTTON_X_RIGHT, BUTTON_MIDDLE_OFFSET, null, onUserUnloadMod.bind());
+		this.uiButtonRight = new FlxUIButton(BUTTON_X_RIGHT, BUTTON_MIDDLE_OFFSET, null, onUserLoadUnloadMod.bind());
 		this.uiButtonRight.loadGraphicsUpOverDown(FlxUIAssets.IMG_BUTTON_ARROW_RIGHT);
 
 		var BUTTON_BOTTOM_OFFSET = BUTTON_MIDDLE_OFFSET + BUTTON_OFFSET;
@@ -181,23 +183,21 @@ class ModListItem extends InteractableUIGroup
 
 		// Nudge the content to the left to make space for the buttons.
 		var offset = this.loaded ? ICON_LOADED_OFFSET : 0;
-		this.uiIcon.x = ICON_X + offset;
-		this.uiTitle.x = TITLE_X + offset;
-		this.uiDescription.x = DESC_X + offset;
+		this.uiIcon.relativeX = ICON_X + offset;
+		this.uiTitle.relativeX = TITLE_X + offset;
+		this.uiDescription.relativeX = DESC_X + offset;
 	}
 
-	function onUserLoadMod()
+	function onUserLoadUnloadMod()
 	{
-		this.loaded = !this.loaded;
-	}
-
-	function onUserUnloadMod()
-	{
-		this.loaded = !this.loaded;
+		trace('ModListItem.onLoadUnload');
+		modList.onUserLoadUnloadMod(this.modMetadata);
 	}
 
 	function onUserReorderMod(offset:Int)
 	{
+		trace('ModListItem.onReorder: $offset');
+		modList.onUserReorderMod(this.modMetadata, offset);
 	}
 
 	function loadIcon(bytes:haxe.io.Bytes)
@@ -211,7 +211,7 @@ class ModListItem extends InteractableUIGroup
 			// Convert the bytes into bitmap data.
 			var bitmapData = openfl.display.BitmapData.fromBytes(openFlBytes);
 			// Tie the bitmap data to a sprite.
-			uiIcon = new FlxUISprite(ICON_X, ICON_Y).loadGraphic(bitmapData);
+			uiIcon = new RelativeSprite(ICON_X, ICON_Y, null, this).loadGraphic(bitmapData);
 			uiIcon.setGraphicSize(ICON_SCALE, ICON_SCALE);
 			uiIcon.scrollFactor.set();
 			uiIcon.antialiasing = true;

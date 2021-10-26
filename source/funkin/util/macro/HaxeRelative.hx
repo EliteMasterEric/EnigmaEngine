@@ -29,17 +29,11 @@ class HaxeRelative
 		var cls:haxe.macro.Type.ClassType = Context.getLocalClass().get();
 		var fields:Array<Field> = Context.getBuildFields();
 
-		if (cls.superClass.t.get() != null)
+		if (!checkSuperclass(cls))
 		{
-			for (field in cls.superClass.t.get().fields.get())
-			{
-				if (field.name == 'parent')
-				{
-					// Context.info('${cls.name}: IRelative already implemented...', cls.pos);
-					return fields;
-				}
-			}
+			return fields;
 		}
+
 		// Context.info('${cls.name}: Implementing IRelative...', cls.pos);
 
 		// Create properties which additionally run this code when the updatePosition function when set.
@@ -67,5 +61,27 @@ class HaxeRelative
 		fields.push(MacroUtil.buildFunction("updatePosition", [updatePosBody], false, false));
 
 		return fields;
+	}
+
+	static function checkSuperclass(cls:haxe.macro.Type.ClassType)
+	{
+		// Superclasses need to be checked recursively.
+		if (cls.superClass != null)
+		{
+			var superCls = cls.superClass.t.get();
+			for (field in superCls.fields.get())
+			{
+				// Parent already added, return false.
+				if (field.name == 'parent')
+					return false;
+			}
+			// Else, we need to check for the superclass's superclass.
+			return checkSuperclass(superCls);
+		}
+		else
+		{
+			// No superclass, parent needs to be added. Return true;
+			return true;
+		}
 	}
 }

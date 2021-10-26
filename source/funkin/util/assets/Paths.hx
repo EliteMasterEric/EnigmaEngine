@@ -110,6 +110,16 @@ class Paths
 		return getPath('data/$key.xml', TEXT, library);
 	}
 
+	public static inline function ui(key:String, ?library:String)
+	{
+		return getPath('ui/$key.xml', TEXT, library);
+	}
+
+	public static inline function rawTxt(key:String, ?library:String)
+	{
+		return getPath(key, TEXT, library);
+	}
+
 	/**
 	 * Retrieve the path of a JSON asset in a given `library` with a given `key`.
 	 * Assumes the path is a subpath of the `data/` folder.

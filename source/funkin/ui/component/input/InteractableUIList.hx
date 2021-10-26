@@ -22,6 +22,7 @@
  */
 package funkin.ui.component.input;
 
+import funkin.ui.component.base.IRelative;
 import flixel.addons.ui.FlxUIList;
 import flixel.math.FlxPoint;
 import funkin.util.input.GestureUtil.SwipeDirection;

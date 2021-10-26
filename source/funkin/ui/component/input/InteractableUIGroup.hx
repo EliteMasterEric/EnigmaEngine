@@ -22,10 +22,8 @@
  */
 package funkin.ui.component.input;
 
+import funkin.ui.component.base.IRelative;
 import flixel.addons.ui.FlxUIGroup;
-import flixel.addons.ui.FlxUIState;
-import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import funkin.util.input.GestureUtil;
 

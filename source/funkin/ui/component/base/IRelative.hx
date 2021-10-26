@@ -21,7 +21,7 @@
  * Adding this interface to an FlxObject (yes, merely adding the interface),
  * adds several methods which enable the object to be positioned relative to a parent object.
  */
-package funkin.ui.component.input;
+package funkin.ui.component.base;
 
 @:autoBuild(funkin.util.macro.HaxeRelative.build()) // This macro adds a working `parent` field to each FlxObject that implements it.
 interface IRelative

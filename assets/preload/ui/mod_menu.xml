@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+    <definition id="vcr32" font="VCR OSD Mono" size="32" style="bold" color="0xffffff" outline="0x000000" align="left"/>
+    <definition id="pixel32" font="pixel" size="32" style="bold" color="0xffffff" outline="0x000000" align="left"/>
+
+    <text text="Mod Configuration" use_def="vcr32" x="100" y="75" width="400" align="center"/>
+    <text text="Mod Configuration" use_def="pixel32" x="100" y="175" width="400" align="center"/>
+
+    <button name="basic" x="160" y="120" label="Basic">
+        <tooltip text="Basic tooltip"/>
+    </button>
+</data>

@@ -15,3 +15,7 @@ To run the unit tests for each platform (replace `windows` with whatever platfor
 haxelib run munit gen
 haxelib run lime test <platform>
 ```
+
+## Code Coverage
+
+I haven't gotten code coverage working yet. I think coverage reports are only generated when using `haxelib run munit test` but when I do that, the build process stalls midway through, so I've resorted to running `lime test` in the test directory, which doesn't produce coverage data but does return a test result report.
