@@ -72,6 +72,9 @@
   <!-- A library to record test results to a file for display in Haxe Test Explorer -->
   <haxelib name="test-adapter" />
 	
+  <haxelib name="mcover" />
+  <haxeflag name="--macro" value="mcover.MCover.coverage(['funkin'], ['src'], null)" />
+
 	<haxedef name="FLX_UNIT_TEST" />
 	<haxedef name="FLX_RECORD" />
 </project>

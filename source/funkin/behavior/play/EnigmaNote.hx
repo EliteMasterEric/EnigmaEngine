@@ -158,6 +158,7 @@ class EnigmaNote
 		instance.animation.addByPrefix(dirName + ' End', dirName + ' End'); // Tails
 
 		var noteScale = NoteUtil.NOTE_GEOMETRY_DATA[strumlineSize][1];
+
 		switch (noteStyle)
 		{
 			case 'pixel':
@@ -296,16 +297,16 @@ class EnigmaNote
 			}
 			PlayState.strumLineNotes.add(babyArrow);
 
-      // CPU arrows start out slightly off-center
+			// CPU arrows start out slightly off-center
 			PlayState.cpuStrumLineNotes.forEach(function(spr:FlxSprite)
 			{
 				spr.centerOffsets();
 			});
 			// ERIC: I think this happens to Player arrows too.
-			PlayState.playerStrumLineNotes.forEach(function(spr:FlxSprite)
-			{
-				spr.centerOffsets();
-			});
+			// PlayState.playerStrumLineNotes.forEach(function(spr:FlxSprite)
+			// {
+			// 	spr.centerOffsets();
+			// });
 		}
 	}
 
@@ -324,8 +325,8 @@ class EnigmaNote
 		// Use this code to add overrides for that.
 		var directionName = getDirectionName(note.rawNoteData, false).toUpperCase();
 
-    var missedName = missed ? 'miss' : '';
-    var altName = note.isAlt ? '-alt' : '';
+		var missedName = missed ? 'miss' : '';
+		var altName = note.isAlt ? '-alt' : '';
 
 		return 'sing$directionName$missedName$altName';
 	}
@@ -449,18 +450,18 @@ class EnigmaNote
 
 	private static function handleArrowKeys(keyCode:Int, strumlineSize:Int = 4):Int
 	{
-		switch (strumlineSize)
+		var result = (switch (strumlineSize)
 		{
 			// case 1: No arrow support.
 			case 2:
-				return switch (keyCode)
+				switch (keyCode)
 				{
 					case KEYCODE_DOWN: 0;
 					case KEYCODE_UP: 1;
 					default: -1;
 				};
 			case 3:
-				return switch (keyCode)
+				switch (keyCode)
 				{
 					case KEYCODE_LEFT: 0;
 					case KEYCODE_UP: 1;
@@ -468,7 +469,7 @@ class EnigmaNote
 					default: -1;
 				};
 			case 4:
-				return switch (keyCode)
+				switch (keyCode)
 				{
 					case KEYCODE_LEFT: 0;
 					case KEYCODE_DOWN: 1;
@@ -477,7 +478,7 @@ class EnigmaNote
 					default: -1;
 				};
 			case 5:
-				return switch (keyCode)
+				switch (keyCode)
 				{
 					case KEYCODE_LEFT: 0;
 					case KEYCODE_DOWN: 1;
@@ -487,14 +488,15 @@ class EnigmaNote
 					default: -1;
 				};
 			// Exclude 6,7,8,9 key.
-			default:
-				return -1;
-		}
+			default: -1;
+		});
+
+		return result;
 	}
 
 	/**
 	 * Given a KeyboardEvent and the strumline size for this song,
-   * return the strumline index of the note from that keyboard event.
+	 		* return the strumline index of the note from that keyboard event.
 	 * @param event Key that was just pressed or released.
 	 * @param strumlineSize Song's strumline size.
 	 * @return The strumline index of the note.

@@ -128,8 +128,8 @@ class GameplayCustomizeState extends MusicBeatState
 		strumLine.cameras = [camHUD];
 		playerStrums.cameras = [camHUD];
 
-		generateStrumlineArrows(false);
 		generateStrumlineArrows(true);
+		generateStrumlineArrows(false);
 
 		text = new FlxText(5, FlxG.height + 40, 0,
 			"Click and drag around gameplay elements to customize their positions. Press R to reset. Q/E to change zoom. Press Escape to go back.", 12);

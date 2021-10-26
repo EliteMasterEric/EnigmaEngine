@@ -1,0 +1,30 @@
+## CPP
+-main TestMain
+# Dependency libraries
+-lib flixel
+-lib flixel-addons
+-lib haxe-strings
+-lib firetongue
+-lib hscript
+-lib actuate
+-lib extension-webm
+-lib flixel-ui
+-lib tjson
+-lib polymod
+-lib discord_rpc
+# Fix for flixel
+--macro allowPackage("flash")
+# Testing libraries
+-lib munit
+-lib hamcrest
+# Coverage
+-lib mcover
+-D MCOVER
+# Soure classes
+-cp ../source
+# Test classes
+-cp src
+# Export destination
+-D HXCPP_M64
+--verbose
+-cpp ../export/test/cpp_test

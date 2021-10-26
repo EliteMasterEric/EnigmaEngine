@@ -24,8 +24,8 @@
  */
 package funkin.ui.component.play;
 
-import flixel.addons.effects.FlxSkewedSprite;
 import flixel.FlxG;
+import flixel.FlxStrip;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.math.FlxMath;
@@ -76,6 +76,7 @@ class Note extends FlxSprite
 
 	/**
 	 * The corrected note data value.
+	 		* Strumline size and mustHit are negated in the calculation.
 	 * strumline.members[index] will point to the parent strumline.
 	 */
 	public var noteData:Int = 0;
@@ -121,29 +122,29 @@ class Note extends FlxSprite
 	/**
 	 * Flag which is enabled if a Lua Modchart has manually modified the position of this note.
 	 */
-  public var luaModifiedPos:Bool = false;
+	public var luaModifiedPos:Bool = false;
 
 	/**
 	 * Flag which is enabled if this note is part of the tail of a strumline.
-   * Will render either as a ' Sustain'  or an ' End'.
+	 		* Will render either as a ' Sustain'  or an ' End'.
 	 */
 	public var isSustainNote:Bool = false;
 
-  /**
-   * Flag which is enabled if this note is the parent note of one or more sustain notes.
-   * Should not be enabled if `isSustainNote` is true.
-   */
-  public var isParent:Bool = false;
+	/**
+	 * Flag which is enabled if this note is the parent note of one or more sustain notes.
+	 * Should not be enabled if `isSustainNote` is true.
+	 */
+	public var isParent:Bool = false;
 
-  /**
+	/**
 	 * Reference to the parent note of this sustain note.
-   * Should be null unless `isSustainNote` is true.
+	 		* Should be null unless `isSustainNote` is true.
 	 */
 	public var parent:Note = null;
 
 	/**
 	 * If this note is a parent sustain note,
-   * this note will contain a reference to all its children.
+	 		* this note will contain a reference to all its children.
 	 */
 	public var children:Array<Note> = [];
 
@@ -152,16 +153,16 @@ class Note extends FlxSprite
 	 */
 	public var sustainActive:Bool = true;
 
-  /**
-   * The duration this note should be sustained for, in milliseconds.
-   * Should only be set on parent notes.
-   */
-  public var sustainLength:Float = 0;
+	/**
+	 * The duration this note should be sustained for, in milliseconds.
+	 * Should only be set on parent notes.
+	 */
+	public var sustainLength:Float = 0;
 
 	/**
 	 * Flag which is set to true if the note is specified as an alt note in the charter.
-   * If true, the character will render different when played.
-   * TODO: Make this able to be a string for more flexiblity.
+	 		* If true, the character will render different when played.
+	 		* TODO: Make this able to be a string for more flexiblity.
 	 */
 	public var isAlt:Bool = false;
 
@@ -172,7 +173,7 @@ class Note extends FlxSprite
 
 	/**
 	 * Flag set to true if this note is in the charter,
-   * and it has been selected by clicking or through the drag selection box.
+	 		* and it has been selected by clicking or through the drag selection box.
 	 */
 	public var charterSelected:Bool = false;
 
@@ -182,20 +183,25 @@ class Note extends FlxSprite
 	public var rating:String = "shit";
 
 	/**
-   * The angle set by modcharts.
-   */
-  public var modAngle:Float = 0; // The angle set by modcharts
+	 * The angle set by modcharts.
+	 */
+	public var modAngle:Float = 0; // The angle set by modcharts
 
 	/**
-   * The angle edited within Note.
-   */
-  public var localAngle:Float = 0; // The angle to be edited inside Note.hx
+	 * The angle edited within Note.
+	 */
+	public var localAngle:Float = 0; // The angle to be edited inside Note.hx
 
 	/**
-   * The original angle of the Note.
-   * Will be 0 in most circumstances but different if Note Quantization is on.
-   */
-  public var originAngle:Float = 0; // The angle the OG note of the sus note had (?)
+	 * The original angle of the Note.
+	 * Will be 0 in most circumstances but different if Note Quantization is on.
+	 */
+	public var originAngle:Float = 0; // The angle the OG note of the sus note had (?)
+
+	/**
+	 * The Y-offset of this note.
+	 */
+	public var noteYOffset:Int = 0;
 
 	public var baseStrum:Float = 0;
 	public var rStrumTime:Float = 0;
@@ -206,13 +212,8 @@ class Note extends FlxSprite
 
 	public var noteCharterObject:FlxSprite;
 	public var noteScore:Float = 1;
-	public var noteYOff:Int = 0;
 	public var beat:Float = 0;
 
-	/**
-	 * TODO: Move this one into EnigmaNote?
-	 */
-	public static var swagWidth:Float = 160 * 0.7;
 	public static var PURP_NOTE:Int = 0;
 	public static var GREEN_NOTE:Int = 2;
 	public static var BLUE_NOTE:Int = 1;
@@ -245,10 +246,16 @@ class Note extends FlxSprite
 
 		// The raw note data is the original value specified by the charter.
 		this.rawNoteData = rawNoteData;
+
 		// The note data is the position in the strumline.
 		// The utility function accounts for strumline size and what side the note is on.
 		this.noteData = NoteUtil.getStrumlineIndex(rawNoteData, NoteUtil.fetchStrumlineSize(), mustPress);
-		this.isCPUNote = NoteUtil.isCPUNote(rawNoteData, NoteUtil.fetchStrumlineSize(), mustPress);
+
+		// If the strumline is in the first half (the player notes), return false.
+		// If the strumline is in the second half (the CPU notes), return true.
+		// Use >= because note data is base-0.
+		this.isCPUNote = this.noteData >= NoteUtil.fetchStrumlineSize();
+
 		trace('Translated ${rawNoteData} to ${noteData} (${isCPUNote})'); // Previous note is part of the logic used by sustain notes.
 
 		// Set the note type.
@@ -352,25 +359,19 @@ class Note extends FlxSprite
 			originColor = col;
 		}
 
-		// we make sure its downscroll and its a SUSTAIN NOTE (aka a trail, not a note)
-		// and flip it so it doesn't look weird.
-		// THIS DOESN'T FUCKING FLIP THE NOTE, CONTRIBUTERS DON'T JUST COMMENT THIS OUT JESUS
-		// then what is this lol
-		// BRO IT LITERALLY SAYS IT FLIPS IF ITS A TRAIL AND ITS DOWNSCROLL
 		// ERIC: TODO Figure out what this fixes/breaks.
-		if (DownscrollOption.get() && this.isSustainNote)
-			flipY = true;
+		// if (DownscrollOption.get() && this.isSustainNote)
+		// 	flipY = true;
 
-		var stepHeight = (((0.45 * Conductor.stepCrochet) / PlayState.songMultiplier) * FlxMath.roundDecimal(PlayStateChangeables.scrollSpeed == 1 ? PlayState.SONG.speed : PlayStateChangeables.scrollSpeed,
-			2));
-
+		// If this is a sustain note...
 		if (isSustainNote && prevNote != null)
 		{
-			noteYOff = Math.round(-stepHeight + swagWidth * 0.5);
-
-			alpha = 0.6;
+			var stepHeight = -(PlayState.NOTE_TIME_TO_DISTANCE) * Conductor.stepCrochet / PlayState.songMultiplier * PlayState.instance.scrollSpeed;
+			noteYOffset = Math.round(stepHeight + NoteUtil.getNoteWidth() * 0.5);
 
 			x += width / 2;
+
+			alpha = 0.6;
 
 			originColor = prevNote.originColor;
 			originAngle = prevNote.originAngle;
@@ -389,11 +390,8 @@ class Note extends FlxSprite
 				prevNote.animation.play(EnigmaNote.getDirectionName(prevNote.originColor, true) + ' Sustain');
 				prevNote.updateHitbox();
 
-				prevNote.scale.y *= stepHeight / prevNote.height;
+				prevNote.scale.y *= (stepHeight) / prevNote.height;
 				prevNote.updateHitbox();
-
-				if (antialiasing)
-					prevNote.scale.y *= 1.0 + (1.0 / prevNote.frameHeight);
 			}
 		}
 	}
@@ -411,7 +409,7 @@ class Note extends FlxSprite
 
 		if (!luaModifiedPos && !sustainActive)
 		{
-			alpha = 0.3;
+			// alpha = 0.3;
 		}
 
 		// Do canBeHit calculation.
@@ -475,8 +473,10 @@ class Note extends FlxSprite
 		}
 	}
 
-  public override function toString() {
-    var sustain:String = isSustainNote ? '$sustainLength' : 'false';
-    return '(Note | noteData:$noteData | rawNoteData:$rawNoteData | strumTime:$strumTime | cpu:$isCPUNote | sustain:$sustain )';
-  }
+	public override function toString()
+	{
+		// If a number, it's the parent. If true, it's the child.
+		var sustain:String = isParent ? '$sustainLength' : isSustainNote ? 'true' : 'false';
+		return '(Note | noteData:$noteData | rawNoteData:$rawNoteData | strumTime:$strumTime | cpu:$isCPUNote | sustain:$sustain )';
+	}
 }

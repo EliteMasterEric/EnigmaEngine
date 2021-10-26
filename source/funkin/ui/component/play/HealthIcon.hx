@@ -132,9 +132,6 @@ class HealthIcon extends FlxSprite
 		if (input != 'bf-pixel' && input != 'bf-old')
 			input = input.split("-")[0];
 
-		// DEBUG
-		input = 'test';
-
 		if (GraphicsAssets.isAnimated('icons/icon-$input'))
 		{
 			// Animated icon.

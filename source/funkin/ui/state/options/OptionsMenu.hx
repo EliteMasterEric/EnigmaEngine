@@ -55,30 +55,12 @@ class OptionsMenu extends MusicBeatState
 
 	var options:Array<OptionCategory> = [
 		new OptionCategory("Gameplay", [
-			new BasicKeybindOption(),
-			Enigma.USE_CUSTOM_KEYBINDS ? new CustomKeybindsOption() : null,
-			new DownscrollOption(),
-			new AntiMashOption(),
-			new SafeFramesOption(),
-			#if desktop new FramerateCapOption(),
-			#end
-			new ScrollSpeedOption(),
-			new WIFE3AccuracyOption(),
-			new ResetButtonOption(),
-			new InstantRespawnOption(),
-			new CustomizeGameplayMenu()
-		]),
+			new BasicKeybindOption(), Enigma.USE_CUSTOM_KEYBINDS ? new CustomKeybindsOption() : null, new DownscrollOption(), new AntiMashOption(),
+			new SafeFramesOption(), #if desktop new FramerateCapOption(), #end new ScrollSpeedOption(), new WIFE3AccuracyOption(), new ResetButtonOption(),
+			new InstantRespawnOption(), new CustomizeGameplayMenu()]),
 		new OptionCategory("Appearance", [
-			new EditorGridOption(),
-			new DistractionsAndEffectsOption(),
-      new FlashingLightsOption(),
-			new CameraZoomOption(),
-			new NoteQuantizationOption(),
-			new ShowAccuracyOption(),
-			new SongPositionOption(),
-			new HPBarColorOption(),
-			new NPSDisplayOption(),
-			new RainbowFPSCounterOption(),
+			new EditorGridOption(), new DistractionsAndEffectsOption(), new FlashingLightsOption(), new CameraZoomOption(), new NoteQuantizationOption(),
+			new ShowAccuracyOption(), new SongPositionOption(), new HPBarColorOption(), new NPSDisplayOption(), new RainbowFPSCounterOption(),
 			new CPUStrumOption(),
 		]),
 		new OptionCategory("Misc", [
@@ -99,6 +81,10 @@ class OptionsMenu extends MusicBeatState
 		])
 	];
 
+	/**
+	 * Whether the Options menu is currently accepting input.
+	 		* Set to false if a substate opens.
+	 */
 	public var acceptInput:Bool = true;
 
 	private var grpControls:FlxTypedGroup<Alphabet>;
@@ -174,6 +160,7 @@ class OptionsMenu extends MusicBeatState
 				grpControls.clear();
 				for (i in 0...options.length)
 				{
+					trace('Rendering category ${options[i].name}');
 					var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, options[i].name, true, false);
 					controlLabel.isMenuItem = true;
 					controlLabel.targetY = i;
@@ -201,52 +188,54 @@ class OptionsMenu extends MusicBeatState
 				}
 			}
 
-      // Select a different option.
+			// Select a different option.
 			if (FlxG.keys.justPressed.UP)
 				changeSelection(-1);
 			if (FlxG.keys.justPressed.DOWN)
 				changeSelection(1);
 
-      // Increment or decrement a value.
-      if (FlxG.keys.justPressed.LEFT)
-        if (currentSelectedCat.getOptions()[curSelected].onLeft())
-          rerenderCurrentOption();
-      if (FlxG.keys.justPressed.RIGHT)
-        if (currentSelectedCat.getOptions()[curSelected].onRight())
-          rerenderCurrentOption();
-      if (FlxG.keys.pressed.SHIFT) {
-        if (FlxG.keys.pressed.LEFT)
-          if (currentSelectedCat.getOptions()[curSelected].onLeftHold())
-            rerenderCurrentOption();
-        if (FlxG.keys.pressed.RIGHT)
-          if (currentSelectedCat.getOptions()[curSelected].onRightHold())
-            rerenderCurrentOption();
-      }
+			// Increment or decrement a value.
+			if (FlxG.keys.justPressed.LEFT)
+				if (currentSelectedCat.getOptions()[curSelected].onLeft())
+					rerenderCurrentOption();
+			if (FlxG.keys.justPressed.RIGHT)
+				if (currentSelectedCat.getOptions()[curSelected].onRight())
+					rerenderCurrentOption();
+			if (FlxG.keys.pressed.SHIFT)
+			{
+				if (FlxG.keys.pressed.LEFT)
+					if (currentSelectedCat.getOptions()[curSelected].onLeftHold())
+						rerenderCurrentOption();
+				if (FlxG.keys.pressed.RIGHT)
+					if (currentSelectedCat.getOptions()[curSelected].onRightHold())
+						rerenderCurrentOption();
+			}
 
-      // Kade handled offsets in the controls globally.
-      // Whover made it that way was awful at UI design I was so confused for a while.
-      // Now they're in their own option.
+			// Kade handled offsets in the controls globally.
+			// Whover made it that way was awful at UI design I was so confused for a while.
+			// Now they're in their own option.
 
-			if (controls.RESET)				
-        if (currentSelectedCat.getOptions()[curSelected].onReset())
-          rerenderCurrentOption();
+			if (controls.RESET)
+				if (currentSelectedCat.getOptions()[curSelected].onReset())
+					rerenderCurrentOption();
 
 			if (controls.ACCEPT)
 			{
 				if (isInCategory)
 				{
-          // Press an option.
+					// Press an option.
 					if (currentSelectedCat.getOptions()[curSelected].onPress())
-					  rerenderCurrentOption();
+						rerenderCurrentOption();
 				}
 				else
 				{
-          // Enter a category.
+					// Enter a category.
 					currentSelectedCat = options[curSelected];
 					isInCategory = true;
 					grpControls.clear();
 					for (i in 0...currentSelectedCat.getOptions().length)
 					{
+						trace('Rendering option "${currentSelectedCat.getOptions()[i].name}"');
 						var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, currentSelectedCat.getOptions()[i].name, true, false);
 						controlLabel.isMenuItem = true;
 						controlLabel.targetY = i;
@@ -260,12 +249,13 @@ class OptionsMenu extends MusicBeatState
 		}
 	}
 
-  function rerenderCurrentOption() {
-    // Name.
-    grpControls.members[curSelected].reType(currentSelectedCat.getOptions()[curSelected].name);
-    // Description.
-    versionText.text = currentSelectedCat.getOptions()[curSelected].description;
-  }
+	function rerenderCurrentOption()
+	{
+		// Name.
+		grpControls.members[curSelected].reType(currentSelectedCat.getOptions()[curSelected].name);
+		// Description.
+		versionText.text = currentSelectedCat.getOptions()[curSelected].description;
+	}
 
 	var isSettingControl:Bool = false;
 
@@ -281,9 +271,9 @@ class OptionsMenu extends MusicBeatState
 			curSelected = 0;
 
 		if (isInCategory)
-      versionText.text = currentSelectedCat.getOptions()[curSelected].description;
+			versionText.text = currentSelectedCat.getOptions()[curSelected].description;
 		else
-      versionText.text = "Please select a category";
+			versionText.text = "Please select a category";
 
 		var curControlsMember:Int = 0;
 

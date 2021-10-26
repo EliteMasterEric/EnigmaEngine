@@ -34,23 +34,25 @@ using StringTools;
 
 class NoteUtil
 {
+	private static final BASE_NOTE_WIDTH = 160 * 0.7;
+
 	/**
 	 * Provides values based on the current strumlineSize:
-	 * [NOTE POSITION, NOTE GRAPHIC SCALE, BASE OFFSET, OPTIMIZE OFFSET]
-	 * - Distance between origin of each note
-	 * - Size of the note graphic (will have to shrink for larger strumlines)
-	 * - Move over this amount to give space to the edge of the screen.
+	 		* [NOTE POSITION, NOTE GRAPHIC SCALE, BASE OFFSET, OPTIMIZE OFFSET]
+	 		* - Distance between origin of each note
+	 		* - Size of the note graphic (will have to shrink for larger strumlines)
+	 		* - Move over this amount to give space to the edge of the screen.
 	 */
 	public static final NOTE_GEOMETRY_DATA:Map<Int, Array<Float>> = [
-		1 => [160 * 0.7, 0.70 * 2, 0], // lol what if it's twice as big
-		2 => [160 * 0.7, 0.70, 0],
-		3 => [160 * 0.7, 0.70, 0],
-		4 => [160 * 0.7, 0.70, -80], // Base game.
-		5 => [160 * 0.7, 0.70, -60], // The fifth note fits fine without scaling.
-		6 => [160 * 0.7, 0.60, 0], // Six you need to scale down a bit.
-		7 => [160 * 0.7, 0.70, 0],
-		8 => [160 * 0.7, 0.70, 0],
-		9 => [160 * 0.7, 0.70, 0],
+		1 => [BASE_NOTE_WIDTH, 0.70 * 2, 0], // lol what if it's twice as big
+		2 => [BASE_NOTE_WIDTH, 0.70, 0],
+		3 => [BASE_NOTE_WIDTH, 0.70, 0],
+		4 => [BASE_NOTE_WIDTH, 0.70, -80], // Base game.
+		5 => [BASE_NOTE_WIDTH, 0.70, -60], // The fifth note fits fine without scaling.
+		6 => [BASE_NOTE_WIDTH, 0.60, 0], // Six you need to scale down a bit.
+		7 => [BASE_NOTE_WIDTH, 0.70, 0],
+		8 => [BASE_NOTE_WIDTH, 0.70, 0],
+		9 => [BASE_NOTE_WIDTH, 0.70, 0],
 	];
 
 	static final Z = -1; // Invalid/Unused.
@@ -138,7 +140,7 @@ class NoteUtil
 
 	public static inline function fetchStrumlineSize()
 	{
-    return PlayState.SONG != null ? PlayState.SONG.strumlineSize : null;
+		return PlayState.SONG != null ? PlayState.SONG.strumlineSize : null;
 	}
 
 	/**
@@ -148,8 +150,10 @@ class NoteUtil
 	 */
 	public static function getStrumlineIndex(rawNoteData:Int, strumlineSize:Int = 4, mustHitNote:Bool = false):Int
 	{
-		// Swap notes around. Only applies to IDs 0-7, note IDs don't switch sides based on mustHitNote for 9K songs.
-		if (mustHitNote)
+		// If mustHitNote is false, ids 0-3 correspond to the CPU strumline, not ours.
+		// We have to swap those notes around.
+		// Only applies to IDs 0-7, note IDs don't switch sides based on mustHitNote for 9K songs.
+		if (!mustHitNote)
 		{
 			if (EnigmaNote.NOTE_BASE_LEFT_ENEMY <= rawNoteData && rawNoteData <= EnigmaNote.NOTE_BASE_RIGHT_ENEMY)
 			{
@@ -164,11 +168,13 @@ class NoteUtil
 		return result;
 	}
 
-	public static function isCPUNote(rawNoteData:Int, strumlineSize:Int = 4, mustHitNote:Bool = false):Bool
+	/**
+	 * Get the base width of a note, in pixels.
+	 * Based on the current strumline size.
+	 */
+	public static function getNoteWidth()
 	{
-		// If the strumline is in the first half (the player notes), return false.
-		// If the strumline is in the second half (the CPU notes), return true.
-		return getStrumlineIndex(rawNoteData, strumlineSize, mustHitNote) < strumlineSize;
+		return NoteUtil.NOTE_GEOMETRY_DATA[NoteUtil.fetchStrumlineSize()][0];
 	}
 
 	/**
@@ -195,15 +201,17 @@ class NoteUtil
 		// Position of the note should line up.
 		note.x = strumlineNote.x + EnigmaNote.NOTE_NUDGE;
 
-    // Readjust the horizontal position of sustain notes.
-    if (note.isSustainNote) {
-      note.x += note.width / 2;
-      switch (note.noteStyle) {
-        case 'pixel':
-          note.x += 9;
-        default:
-          note.x += 20;
-      }
-    }
+		// Readjust the horizontal position of sustain notes.
+		if (note.isSustainNote)
+		{
+			note.x += note.width / 2;
+			switch (note.noteStyle)
+			{
+				case 'pixel':
+					note.x += 9;
+				default:
+					note.x += 20;
+			}
+		}
 	}
 }

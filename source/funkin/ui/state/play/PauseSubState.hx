@@ -165,25 +165,19 @@ class PauseSubState extends MusicBeatSubstate
 					close();
 				case "Restart Song":
 					PlayState.startTime = 0;
-					if (PlayState.instance.backgroundVideoActive)
-					{
-						GlobalVideo.get().stop();
-						PlayState.instance.remove(PlayState.instance.videoSprite);
-						PlayState.instance.backgroundVideoRemoved = true;
-					}
+					PlayState.instance.removeBackgroundVideo();
+					// Try to fix the song ending while paused/restarting.
+					PlayState.instance.endingSong = true;
 					PlayState.instance.clean();
 					FlxG.resetState();
 					PlayState.stageTesting = false;
 				case "Exit to menu":
 					PlayState.startTime = 0;
-					if (PlayState.instance.backgroundVideoActive)
-					{
-						GlobalVideo.get().stop();
-						PlayState.instance.remove(PlayState.instance.videoSprite);
-						PlayState.instance.backgroundVideoRemoved = true;
-					}
+					PlayState.instance.removeBackgroundVideo();
 					PlayState.replayActive = false;
 					PlayState.stageTesting = false;
+					// Try to fix the song ending while paused/restarting.
+					PlayState.instance.endingSong = true;
 					#if FEATURE_LUAMODCHART
 					if (PlayState.luaModchart != null)
 					{

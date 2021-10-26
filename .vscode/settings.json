@@ -7,8 +7,17 @@
     "**/.unittest": true
   },
   "haxeTestExplorer.testCommand": [
-    // "test.sh"
-    "test.bat"
+    "haxelib",
+    "run",
+    "munit",
+    "config",
+    "-src", "test/src",
+    "-classPaths", "source",
+    "-bin", "export/test",
+    "-report", "report",
+    "-hxml", "test/project.hxml",
+    "-coveragePackages", "funkin"
+    // "test.bat"
   ],
   "lime.targetConfigurations": [
     {

@@ -1,7 +1,7 @@
 version=2.3.5
-src=src
-bin=export/test
-report=report
+src=./src
+classPaths=../source
+bin=../export/test
+report=../report
 hxml=test.hxml
-classPaths=src
-resources=assets
+coveragePackages=funkin
