@@ -1,93 +1,93 @@
 <?xml version='1.0' encoding='utf-8'?>
-<TextureAtlas imagePath="noteNormal.png">
-  <SubTexture name="Center Note" x="54" y="506" width="173" height="173" />
-  <SubTexture name="Center End" x="0" y="0" width="54" height="68" />
-  <SubTexture name="Center Hit 00" x="54" y="0" width="255" height="253" />
-  <SubTexture name="Center Hit 01" x="309" y="0" width="255" height="253" />
-  <SubTexture name="Center Hit 02" x="564" y="0" width="255" height="253" />
-  <SubTexture name="Center Hit 03" x="0" y="253" width="255" height="253" />
-  <SubTexture name="Center Press 00" x="255" y="253" width="165" height="164" />
-  <SubTexture name="Center Press 01" x="420" y="253" width="165" height="164" />
-  <SubTexture name="Center Strumline" x="585" y="253" width="173" height="173" />
-  <SubTexture name="Center Sustain" x="0" y="506" width="54" height="48" />
-  <SubTexture name="Down Alt Note" x="372" y="984" width="161" height="158" />
-  <SubTexture name="Down Alt End" x="227" y="506" width="54" height="68" />
-  <SubTexture name="Down Alt Hit 00" x="281" y="506" width="242" height="239" />
-  <SubTexture name="Down Alt Hit 01" x="0" y="745" width="242" height="239" />
-  <SubTexture name="Down Alt Hit 02" x="242" y="745" width="242" height="239" />
-  <SubTexture name="Down Alt Hit 03" x="484" y="745" width="242" height="239" />
-  <SubTexture name="Down Alt Press 00" x="726" y="745" width="157" height="154" />
-  <SubTexture name="Down Alt Press 01" x="0" y="984" width="157" height="154" />
-  <SubTexture name="Down Alt Strumline" x="157" y="984" width="161" height="157" />
-  <SubTexture name="Down Alt Sustain" x="318" y="984" width="54" height="48" />
-  <SubTexture name="Down Note" x="54" y="1620" width="161" height="158" />
-  <SubTexture name="Down End" x="0" y="1142" width="54" height="68" />
-  <SubTexture name="Down Hit 00" x="54" y="1142" width="242" height="239" />
-  <SubTexture name="Down Hit 01" x="296" y="1142" width="242" height="239" />
-  <SubTexture name="Down Hit 02" x="538" y="1142" width="242" height="239" />
-  <SubTexture name="Down Hit 03" x="0" y="1381" width="242" height="239" />
-  <SubTexture name="Down Press 00" x="242" y="1381" width="153" height="150" />
-  <SubTexture name="Down Press 01" x="395" y="1381" width="153" height="150" />
-  <SubTexture name="Down Strumline" x="548" y="1381" width="161" height="157" />
-  <SubTexture name="Down Sustain" x="0" y="1620" width="54" height="48" />
-  <SubTexture name="Left Alt Note" x="358" y="2021" width="158" height="161" />
-  <SubTexture name="Left Alt Strumline" x="215" y="1620" width="157" height="161" />
-  <SubTexture name="Left Alt End" x="372" y="1620" width="54" height="68" />
-  <SubTexture name="Left Alt Hit 00" x="0" y="1781" width="237" height="240" />
-  <SubTexture name="Left Alt Hit 01" x="237" y="1781" width="237" height="240" />
-  <SubTexture name="Left Alt Hit 02" x="474" y="1781" width="237" height="240" />
-  <SubTexture name="Left Alt Hit 03" x="711" y="1781" width="237" height="240" />
-  <SubTexture name="Left Alt Press 00" x="0" y="2021" width="152" height="155" />
-  <SubTexture name="Left Alt Press 01" x="152" y="2021" width="152" height="155" />
-  <SubTexture name="Left Alt Sustain" x="304" y="2021" width="54" height="48" />
-  <SubTexture name="Left Note" x="54" y="2630" width="158" height="161" />
-  <SubTexture name="Left End" x="0" y="2182" width="54" height="68" />
-  <SubTexture name="Left Hit 00" x="54" y="2182" width="221" height="224" />
-  <SubTexture name="Left Hit 01" x="275" y="2182" width="221" height="224" />
-  <SubTexture name="Left Hit 02" x="496" y="2182" width="221" height="224" />
-  <SubTexture name="Left Hit 03" x="0" y="2406" width="221" height="224" />
-  <SubTexture name="Left Press 00" x="221" y="2406" width="150" height="153" />
-  <SubTexture name="Left Press 01" x="371" y="2406" width="150" height="153" />
-  <SubTexture name="Left Strumline" x="521" y="2406" width="157" height="161" />
-  <SubTexture name="Left Sustain" x="0" y="2630" width="54" height="48" />
-  <SubTexture name="Right Alt Note" x="363" y="3110" width="158" height="161" />
-  <SubTexture name="Right Alt End" x="212" y="2630" width="54" height="68" />
-  <SubTexture name="Right Alt Hit 00" x="266" y="2630" width="237" height="240" />
-  <SubTexture name="Right Alt Hit 01" x="0" y="2870" width="237" height="240" />
-  <SubTexture name="Right Alt Hit 02" x="237" y="2870" width="237" height="240" />
-  <SubTexture name="Right Alt Hit 03" x="474" y="2870" width="237" height="240" />
-  <SubTexture name="Right Alt Press 00" x="711" y="2870" width="152" height="155" />
-  <SubTexture name="Right Alt Press 01" x="0" y="3110" width="152" height="155" />
-  <SubTexture name="Right Alt Strumline" x="152" y="3110" width="157" height="161" />
-  <SubTexture name="Right Alt Sustain" x="309" y="3110" width="54" height="48" />
-  <SubTexture name="Right Note" x="54" y="3739" width="158" height="161" />
-  <SubTexture name="Right End" x="0" y="3271" width="54" height="68" />
-  <SubTexture name="Right Hit 00" x="54" y="3271" width="230" height="234" />
-  <SubTexture name="Right Hit 01" x="284" y="3271" width="230" height="234" />
-  <SubTexture name="Right Hit 02" x="514" y="3271" width="230" height="234" />
-  <SubTexture name="Right Hit 03" x="0" y="3505" width="230" height="234" />
-  <SubTexture name="Right Press 00" x="230" y="3505" width="152" height="155" />
-  <SubTexture name="Right Press 01" x="382" y="3505" width="152" height="155" />
-  <SubTexture name="Right Strumline" x="534" y="3505" width="157" height="161" />
-  <SubTexture name="Right Sustain" x="0" y="3739" width="54" height="48" />
-  <SubTexture name="Up Alt Note" x="368" y="4211" width="161" height="158" />
-  <SubTexture name="Up Alt End" x="212" y="3739" width="54" height="68" />
-  <SubTexture name="Up Alt Hit 00" x="266" y="3739" width="240" height="236" />
-  <SubTexture name="Up Alt Hit 01" x="0" y="3975" width="240" height="236" />
-  <SubTexture name="Up Alt Hit 02" x="240" y="3975" width="240" height="236" />
-  <SubTexture name="Up Alt Hit 03" x="480" y="3975" width="240" height="236" />
-  <SubTexture name="Up Alt Press 00" x="720" y="3975" width="153" height="150" />
-  <SubTexture name="Up Alt Press 01" x="0" y="4211" width="153" height="150" />
-  <SubTexture name="Up Alt Strumline" x="153" y="4211" width="161" height="157" />
-  <SubTexture name="Up Alt Sustain" x="314" y="4211" width="54" height="48" />
-  <SubTexture name="Up Note" x="54" y="4841" width="161" height="158" />
-  <SubTexture name="Up End" x="0" y="4369" width="54" height="68" />
-  <SubTexture name="Up Hit 00" x="54" y="4369" width="240" height="236" />
-  <SubTexture name="Up Hit 01" x="294" y="4369" width="240" height="236" />
-  <SubTexture name="Up Hit 02" x="534" y="4369" width="240" height="236" />
-  <SubTexture name="Up Hit 03" x="0" y="4605" width="240" height="236" />
-  <SubTexture name="Up Press 00" x="240" y="4605" width="157" height="154" />
-  <SubTexture name="Up Press 01" x="397" y="4605" width="157" height="154" />
-  <SubTexture name="Up Strumline" x="554" y="4605" width="161" height="157" />
-  <SubTexture name="Up Sustain" x="0" y="4841" width="54" height="48" />
+<TextureAtlas imagePath="normalNote.png">
+  <SubTexture name="Center End" x="2" y="2" width="50" height="64" />
+  <SubTexture name="Center Hit 00" x="56" y="2" width="251" height="249" />
+  <SubTexture name="Center Hit 01" x="311" y="2" width="251" height="249" />
+  <SubTexture name="Center Hit 02" x="566" y="2" width="251" height="249" />
+  <SubTexture name="Center Hit 03" x="2" y="255" width="251" height="249" />
+  <SubTexture name="Center Note" x="56" y="508" width="169" height="169" />
+  <SubTexture name="Center Press 00" x="257" y="255" width="161" height="160" />
+  <SubTexture name="Center Press 01" x="422" y="255" width="161" height="160" />
+  <SubTexture name="Center Strumline" x="587" y="255" width="169" height="169" />
+  <SubTexture name="Center Sustain" x="4" y="508" width="45" height="44" />
+  <SubTexture name="Down Alt End" x="229" y="508" width="50" height="64" />
+  <SubTexture name="Down Alt Hit 00" x="283" y="508" width="238" height="235" />
+  <SubTexture name="Down Alt Hit 01" x="2" y="747" width="238" height="235" />
+  <SubTexture name="Down Alt Hit 02" x="244" y="747" width="238" height="235" />
+  <SubTexture name="Down Alt Hit 03" x="486" y="747" width="238" height="235" />
+  <SubTexture name="Down Alt Note" x="374" y="986" width="157" height="154" />
+  <SubTexture name="Down Alt Press 00" x="728" y="747" width="153" height="150" />
+  <SubTexture name="Down Alt Press 01" x="2" y="986" width="153" height="150" />
+  <SubTexture name="Down Alt Strumline" x="159" y="986" width="157" height="153" />
+  <SubTexture name="Down Alt Sustain" x="320" y="986" width="50" height="44" />
+  <SubTexture name="Down End" x="2" y="1144" width="50" height="64" />
+  <SubTexture name="Down Hit 00" x="56" y="1144" width="238" height="235" />
+  <SubTexture name="Down Hit 01" x="298" y="1144" width="238" height="235" />
+  <SubTexture name="Down Hit 02" x="540" y="1144" width="238" height="235" />
+  <SubTexture name="Down Hit 03" x="2" y="1383" width="238" height="235" />
+  <SubTexture name="Down Note" x="56" y="1622" width="157" height="154" />
+  <SubTexture name="Down Press 00" x="244" y="1383" width="149" height="146" />
+  <SubTexture name="Down Press 01" x="397" y="1383" width="149" height="146" />
+  <SubTexture name="Down Strumline" x="550" y="1383" width="157" height="153" />
+  <SubTexture name="Down Sustain" x="2" y="1622" width="50" height="43" />
+  <SubTexture name="Left Alt End" x="374" y="1622" width="50" height="64" />
+  <SubTexture name="Left Alt Hit 00" x="2" y="1783" width="233" height="236" />
+  <SubTexture name="Left Alt Hit 01" x="239" y="1783" width="233" height="236" />
+  <SubTexture name="Left Alt Hit 02" x="476" y="1783" width="233" height="236" />
+  <SubTexture name="Left Alt Hit 03" x="713" y="1783" width="233" height="236" />
+  <SubTexture name="Left Alt Note" x="360" y="2023" width="154" height="157" />
+  <SubTexture name="Left Alt Press 00" x="2" y="2023" width="148" height="151" />
+  <SubTexture name="Left Alt Press 01" x="154" y="2023" width="148" height="151" />
+  <SubTexture name="Left Alt Strumline" x="217" y="1622" width="153" height="157" />
+  <SubTexture name="Left Alt Sustain" x="306" y="2023" width="50" height="44" />
+  <SubTexture name="Left End" x="2" y="2184" width="50" height="64" />
+  <SubTexture name="Left Hit 00" x="56" y="2184" width="217" height="220" />
+  <SubTexture name="Left Hit 01" x="277" y="2184" width="217" height="220" />
+  <SubTexture name="Left Hit 02" x="498" y="2184" width="217" height="220" />
+  <SubTexture name="Left Hit 03" x="2" y="2408" width="217" height="220" />
+  <SubTexture name="Left Note" x="56" y="2632" width="154" height="157" />
+  <SubTexture name="Left Press 00" x="223" y="2408" width="146" height="149" />
+  <SubTexture name="Left Press 01" x="373" y="2408" width="146" height="149" />
+  <SubTexture name="Left Strumline" x="523" y="2408" width="153" height="157" />
+  <SubTexture name="Left Sustain" x="2" y="2632" width="50" height="44" />
+  <SubTexture name="Right Alt End" x="214" y="2632" width="50" height="64" />
+  <SubTexture name="Right Alt Hit 00" x="268" y="2632" width="233" height="236" />
+  <SubTexture name="Right Alt Hit 01" x="2" y="2872" width="233" height="236" />
+  <SubTexture name="Right Alt Hit 02" x="239" y="2872" width="233" height="236" />
+  <SubTexture name="Right Alt Hit 03" x="476" y="2872" width="233" height="236" />
+  <SubTexture name="Right Alt Note" x="365" y="3112" width="154" height="157" />
+  <SubTexture name="Right Alt Press 00" x="713" y="2872" width="148" height="151" />
+  <SubTexture name="Right Alt Press 01" x="2" y="3112" width="148" height="151" />
+  <SubTexture name="Right Alt Strumline" x="154" y="3112" width="153" height="157" />
+  <SubTexture name="Right Alt Sustain" x="311" y="3112" width="50" height="44" />
+  <SubTexture name="Right End" x="2" y="3273" width="50" height="64" />
+  <SubTexture name="Right Hit 00" x="56" y="3273" width="226" height="230" />
+  <SubTexture name="Right Hit 01" x="286" y="3273" width="226" height="230" />
+  <SubTexture name="Right Hit 02" x="516" y="3273" width="226" height="230" />
+  <SubTexture name="Right Hit 03" x="2" y="3507" width="226" height="230" />
+  <SubTexture name="Right Note" x="56" y="3741" width="154" height="157" />
+  <SubTexture name="Right Press 00" x="232" y="3507" width="148" height="151" />
+  <SubTexture name="Right Press 01" x="384" y="3507" width="148" height="151" />
+  <SubTexture name="Right Strumline" x="536" y="3507" width="153" height="157" />
+  <SubTexture name="Right Sustain" x="2" y="3741" width="50" height="44" />
+  <SubTexture name="Up Alt End" x="214" y="3741" width="50" height="64" />
+  <SubTexture name="Up Alt Hit 00" x="268" y="3741" width="236" height="232" />
+  <SubTexture name="Up Alt Hit 01" x="2" y="3977" width="236" height="232" />
+  <SubTexture name="Up Alt Hit 02" x="242" y="3977" width="236" height="232" />
+  <SubTexture name="Up Alt Hit 03" x="482" y="3977" width="236" height="232" />
+  <SubTexture name="Up Alt Note" x="370" y="4213" width="157" height="154" />
+  <SubTexture name="Up Alt Press 00" x="722" y="3977" width="149" height="146" />
+  <SubTexture name="Up Alt Press 01" x="2" y="4213" width="149" height="146" />
+  <SubTexture name="Up Alt Strumline" x="155" y="4213" width="157" height="153" />
+  <SubTexture name="Up Alt Sustain" x="316" y="4213" width="50" height="44" />
+  <SubTexture name="Up End" x="2" y="4371" width="50" height="64" />
+  <SubTexture name="Up Hit 00" x="56" y="4371" width="236" height="232" />
+  <SubTexture name="Up Hit 01" x="296" y="4371" width="236" height="232" />
+  <SubTexture name="Up Hit 02" x="536" y="4371" width="236" height="232" />
+  <SubTexture name="Up Hit 03" x="2" y="4607" width="236" height="232" />
+  <SubTexture name="Up Note" x="56" y="4843" width="157" height="154" />
+  <SubTexture name="Up Press 00" x="242" y="4607" width="153" height="150" />
+  <SubTexture name="Up Press 01" x="399" y="4607" width="153" height="150" />
+  <SubTexture name="Up Strumline" x="556" y="4607" width="157" height="153" />
+  <SubTexture name="Up Sustain" x="2" y="4843" width="50" height="44" />
 </TextureAtlas>
