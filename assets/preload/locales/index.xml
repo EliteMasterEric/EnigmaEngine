@@ -61,13 +61,13 @@
     </locale>
 
     <!---
-	Any text blurbs that the translation interface itself needs are stored here rather than
-	in text files, to avoid the boot-strapping problem of having to load a locale in order
-	to display locale interface text in that locale.
-	
-	A good practice is that this note should always display in the currently selected locale as
-	a tooltip over various translations.
-	-->
+	    Any text blurbs that the translation interface itself needs are stored here rather than
+	    in text files, to avoid the boot-strapping problem of having to load a locale in order
+	    to display locale interface text in that locale.
+
+	    A good practice is that this note should always display in the currently selected locale as
+	    a tooltip over various translations.
+	  -->
 
     <note id="beta">
         <!--This means that the translation has not been properly integrated yet-->

@@ -26,8 +26,6 @@ package funkin.ui.state.charting;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.ui.FlxInputText;
 import flixel.addons.ui.FlxUI;
-import flixel.addons.ui.FlxUI9SliceSprite;
-import flixel.addons.ui.FlxUIButton;
 import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUIDropDownMenu;
 import flixel.addons.ui.FlxUIInputText;
@@ -35,32 +33,23 @@ import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxUITabMenu;
 import flixel.addons.ui.FlxUIText;
 import funkin.behavior.play.Difficulty.DifficultyCache;
-import flixel.addons.ui.FlxUITooltip.FlxUITooltipStyle;
-import flixel.addons.ui.StrNameLabel;
-import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.group.FlxGroup;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import openfl.net.FileReference;
-import flixel.math.FlxPoint;
 import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
-import flixel.ui.FlxSpriteButton;
 import flixel.util.FlxColor;
 import funkin.util.assets.Paths;
 import funkin.util.assets.FileUtil;
-import openfl.events.Event;
-import openfl.events.IOErrorEvent;
 import funkin.behavior.play.Song;
 import funkin.behavior.play.Song.SongData;
 import funkin.behavior.play.Song.SongEvent;
 import funkin.behavior.play.Song.SongMeta;
 import funkin.behavior.play.Conductor;
-import funkin.behavior.play.Conductor.BPMChangeEvent;
 import funkin.behavior.play.EnigmaNote;
 import funkin.behavior.play.Section.SwagSection;
 import funkin.behavior.play.TimingStruct;
@@ -75,24 +64,18 @@ import funkin.ui.component.play.Note;
 import funkin.ui.component.Waveform;
 import funkin.ui.state.play.PlayState;
 import funkin.util.assets.DataAssets;
-import funkin.util.Util;
 import funkin.util.NoteUtil;
 import funkin.util.Util;
-import haxe.zip.Writer;
 import lime.app.Application;
-import openfl.media.Sound;
-import openfl.system.System;
-import openfl.utils.ByteArray;
 import tjson.TJSON;
 #if FEATURE_DISCORD
 import funkin.behavior.api.Discord.DiscordClient;
 #end
 #if FEATURE_FILESYSTEM
-import sys.io.File;
 import sys.FileSystem;
 #end
 
-using StringTools;
+using hx.strings.Strings;
 
 class ChartingState extends MusicBeatState
 {
@@ -124,7 +107,7 @@ class ChartingState extends MusicBeatState
 	 * We need to make room for all these extra arrows. 
 	 * Should be a multiple of GRID_SIZE to make sure the grid doesn't break. 
 	 */
-	public static final GRID_X_OFFSET = Enigma.USE_CUSTOM_KEYBINDS ? -120 : 0;
+	public static final GRID_X_OFFSET = Enigma.USE_CUSTOM_KEYBINDS ? 0 : 0;
 
 	/**
 	 * Array of notes showing when each section STARTS in STEPS
@@ -360,8 +343,6 @@ class ChartingState extends MusicBeatState
 			+ ' | SECTIONS: '
 			+ Math.floor(((lengthInSteps + 16)) / 16));
 
-		var sections = Math.floor(((lengthInSteps + 16)) / 16);
-
 		var targetY = getYfromStrum(FlxG.sound.music.length);
 
 		trace("TARGET " + targetY);
@@ -434,7 +415,7 @@ class ChartingState extends MusicBeatState
 		uiTabMenuPrimary.scrollFactor.set();
 		uiTabMenuPrimary.resize(300, 400);
 		// ERIC: Anchor to far right side.
-		uiTabMenuPrimary.x = FlxG.width - 300;
+		uiTabMenuPrimary.x = FlxG.width - 300 - 5;
 		uiTabMenuPrimary.y = 20;
 
 		var opt_tabs = [{name: "Options", label: 'Song Options'}, {name: "Events", label: 'Song Events'}];
@@ -1077,8 +1058,8 @@ class ChartingState extends MusicBeatState
 			shiftNotes(Std.int(stepperShiftNoteDial.value), Std.int(stepperShiftNoteDialstep.value), Std.int(stepperShiftNoteDialms.value));
 		});
 
-		var characters:Array<String> = DataAssets.loadLinesFromFile(Paths.txt('data/characterList'));
-		var gfVersions:Array<String> = DataAssets.loadLinesFromFile(Paths.txt('data/gfVersionList'));
+		var characters:Array<String> = Character.characterList;
+		var gfVersions:Array<String> = Character.girlfriendList;
 		var stages:Array<String> = DataAssets.loadLinesFromFile(Paths.txt('data/stageList'));
 		var noteStyles:Array<String> = DataAssets.loadLinesFromFile(Paths.txt('data/noteStyleList'));
 
@@ -1476,10 +1457,9 @@ class ChartingState extends MusicBeatState
 
 					var thing = ii.sectionNotes[ii.sectionNotes.length - 1];
 
-					var note:Note = new Note(strum, originalNote.noteData, originalNote.prevNote, originalNote.isSustainNote, true);
+					var note:Note = new Note(strum, originalNote.rawNoteData, originalNote.prevNote, originalNote.isSustainNote, true);
 					note.beat = (originalNote.beat == 0 ? TimingStruct.getBeatFromTime(strum) : originalNote.beat);
 					note.isAlt = originalNote.isAlt;
-					note.rawNoteData = originalNote.rawNoteData;
 					note.sustainLength = originalNote.sustainLength;
 					note.setGraphicSize(Math.floor(GRID_SIZE), Math.floor(GRID_SIZE));
 					note.updateHitbox();
@@ -2824,18 +2804,17 @@ class ChartingState extends MusicBeatState
 			for (i in section.sectionNotes)
 			{
 				var seg = TimingStruct.getTimingAtTimestamp(i[0]);
-				var daNoteInfo = i[1];
+				var currentNoteData = i[1];
 				var daStrumTime = i[0];
 				var daSus = i[2];
 
-				var note:Note = new Note(daStrumTime, daNoteInfo, null, false, true, i[3]);
+				var note:Note = new Note(daStrumTime, currentNoteData, null, false, true, i[3]);
 				note.isAlt = i[3];
 				note.beat = TimingStruct.getBeatFromTime(daStrumTime);
-				note.rawNoteData = daNoteInfo;
 				note.sustainLength = daSus;
 				note.setGraphicSize(Math.floor(GRID_SIZE), Math.floor(GRID_SIZE));
 				note.updateHitbox();
-				note.x = Math.floor(NoteUtil.getStrumlineIndex(daNoteInfo) * GRID_SIZE);
+				note.x = Math.floor(NoteUtil.getStrumlineIndex(note.noteData) * GRID_SIZE);
 
 				note.y = Math.floor(getYfromStrum(daStrumTime) * zoomFactor);
 
@@ -3151,18 +3130,18 @@ class ChartingState extends MusicBeatState
 
 		var noteStrum = strum;
 		// Offset by the current chart position. Make sure we use parenthesis, math is hard!
-		var noteData = Math.floor((FlxG.mouse.x - GRID_X_OFFSET) / GRID_SIZE);
+		var mouseNoteData = Math.floor((FlxG.mouse.x - GRID_X_OFFSET) / GRID_SIZE);
 		// Fix values for 9K.
 		if (Enigma.USE_CUSTOM_CHARTER)
 		{
-			noteData = EnigmaNote.getNoteDataFromCharterColumn(noteData);
+			mouseNoteData = EnigmaNote.getNoteDataFromCharterColumn(mouseNoteData);
 		}
 		var noteSus = 0;
 
 		if (n != null)
 			section.sectionNotes.push([n.strumTime, n.noteData, n.sustainLength, n.isAlt]);
 		else
-			section.sectionNotes.push([noteStrum, noteData, noteSus, false]);
+			section.sectionNotes.push([noteStrum, mouseNoteData, noteSus, false]);
 
 		var thingy = section.sectionNotes[section.sectionNotes.length - 1];
 
@@ -3172,12 +3151,12 @@ class ChartingState extends MusicBeatState
 
 		if (n == null)
 		{
-			var note:Note = new Note(noteStrum, noteData, null, false, true);
+			var note:Note = new Note(noteStrum, mouseNoteData, null, true, true);
 			note.beat = TimingStruct.getBeatFromTime(noteStrum);
 			note.sustainLength = noteSus;
 			note.setGraphicSize(Math.floor(GRID_SIZE), Math.floor(GRID_SIZE));
 			note.updateHitbox();
-			note.x = Math.floor(NoteUtil.getStrumlineIndex(noteData, Enigma.USE_CUSTOM_CHARTER ? 9 : 4) * GRID_SIZE);
+			note.x = Math.floor(NoteUtil.getStrumlineIndex(note.noteData, Enigma.USE_CUSTOM_CHARTER ? 9 : 4, true) * GRID_SIZE);
 			note.x += GRID_X_OFFSET;
 
 			if (curSelectedNoteObject != null)
@@ -3203,7 +3182,7 @@ class ChartingState extends MusicBeatState
 		}
 		else
 		{
-			var note:Note = new Note(n.strumTime, n.noteData, null, false, true);
+			var note:Note = new Note(n.strumTime, n.rawNoteData, null, false, true);
 			note.isAlt = n.isAlt;
 			note.beat = TimingStruct.getBeatFromTime(n.strumTime);
 			note.sustainLength = noteSus;

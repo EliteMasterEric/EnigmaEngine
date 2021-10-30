@@ -37,7 +37,7 @@ import funkin.util.assets.GraphicsAssets;
 import funkin.util.assets.Paths;
 import openfl.Lib;
 
-using StringTools;
+using hx.strings.Strings;
 
 class Alphabet extends FlxSpriteGroup
 {
@@ -197,7 +197,7 @@ class Alphabet extends FlxSpriteGroup
 
 		new FlxTimer().start(0.05, function(tmr:FlxTimer)
 		{
-			if (_finalText.fastCodeAt(loopNum) == "\n".code)
+			if (_finalText.charCodeAt(loopNum) == "\n".code)
 			{
 				yMulti += 1;
 				xPosResetted = true;

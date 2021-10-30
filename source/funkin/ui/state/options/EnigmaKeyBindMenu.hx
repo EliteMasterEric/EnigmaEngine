@@ -40,7 +40,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
 
-using StringTools;
+using hx.strings.Strings;
 
 class EnigmaKeyBindMenu extends FlxSubState
 {
@@ -528,4 +528,3 @@ class EnigmaKeyBindMenu extends FlxSubState
 		}
 	}
 }
-

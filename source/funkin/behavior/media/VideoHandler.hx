@@ -32,7 +32,7 @@ import openfl.media.Video;
 import openfl.net.NetConnection;
 import openfl.net.NetStream;
 
-using StringTools;
+using hx.strings.Strings;
 
 class VideoHandler
 {

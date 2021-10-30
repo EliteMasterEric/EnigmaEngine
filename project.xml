@@ -5,7 +5,7 @@
   xsi:schemaLocation="http://lime.software/project/1.0.2 http://lime.software/xsd/project-1.0.2.xsd">
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Enigma Engine" file="Enigma" packageName="com.mastereric.enigmaengine" package="com.mastereric.enigmaengine" main="Main" version="0.2.0" company="mastereric" />
+	<app title="Enigma Engine" file="Enigma" packageName="com.mastereric.enigmaengine" package="com.mastereric.enigmaengine" main="Main" version="0.3.0" company="mastereric" />
 
 	<!--
 		I wanted to print a cool ASCII logo at the start of each build,
@@ -136,21 +136,20 @@
     <!--
     <echo value="NOTICE: Build will embed assets to create a standalone executable!" />
     -->
-		<assets path="assets/preload" rename="assets" embed="true" exclude="*.ogg" if="web"/>
-		<assets path="assets/preload" rename="assets" embed="true" exclude="*.mp3" unless="web"/>
+		<assets path="assets/preload" rename="assets" embed="true" exclude="*.md,*.ogg" if="web"/>
+		<assets path="assets/preload" rename="assets" embed="true" exclude="*.md,*.mp3" unless="web"/>
 	</section>
 	<section unless="embedAssets">
-		<assets path="assets/preload" rename="assets" embed="false" exclude="*.ogg" if="web"/>
-		<assets path="assets/preload" rename="assets" embed="false" exclude="*.mp3" unless="web"/>
+		<assets path="assets/preload" rename="assets" embed="false" exclude="*.md,*.ogg" if="web"/>
+		<assets path="assets/preload" rename="assets" embed="false" exclude="*.md,*.mp3" unless="web"/>
 
     <!-- Default weeks are moved up here when not embedding, and down near the end if we are embedding. -->
     <section if="includeDefaultWeeks">
 			<assets path="assets/_includeDefaultWeeks" rename="assets" embed="false" exclude="*.md" />
   </section>
 	</section>
-
 	<section if="PRELOAD_ALL">
-		<library name="songs"    preload="true" />
+    <library name="songs"    preload="true" />
 		<library name="shared"   preload="true" />
 		<library name="sm"       preload="true" />
 	</section>
@@ -163,6 +162,7 @@
 
 	<!-- Always embed scripts. -->
 	<library name="scripts" preload="true" embed="true" />
+  <library name="core"    preload="true" embed="true" />
 	
 	<!--
 		Use -DembedAssets to put the base game's files INSIDE the exe.
@@ -170,17 +170,19 @@
 	-->
 	<section if="embedAssets">
 		<!-- Exclude .md files to add documentation to the codebase without including them in builds. -->
-		<assets path="assets/songs"    library="songs"    embed="true"  exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/songs"    library="songs"    embed="true"  exclude="*.md|*.mp3" unless="web"/>
+    <assets path="assets/core"     library="core"     embed="true" />
+    <assets path="assets/songs"    library="songs"    embed="true" exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/songs"    library="songs"    embed="true" exclude="*.md|*.mp3" unless="web"/>
 		<assets path="assets/shared"   library="shared"   embed="true" exclude="*.md|*.ogg" if="web"/>
 		<assets path="assets/shared"   library="shared"   embed="true" exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/scripts"  library="scripts"  embed="true"  exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/scripts"  library="scripts"  embed="true"  exclude="*.md|*.mp3" unless="web"/>
+		<assets path="assets/scripts"  library="scripts"  embed="true" exclude="*.md|*.ogg" if="web"/>
+		<assets path="assets/scripts"  library="scripts"  embed="true" exclude="*.md|*.mp3" unless="web"/>
 		<assets path="assets/sm"       library="sm"       embed="true" exclude="*.md|*.ogg" if="web"/>
 		<assets path="assets/sm"       library="sm"       embed="true" exclude="*.md|*.mp3" unless="web"/>
 	</section>
 	<section unless="embedAssets">
-		<assets path="assets/songs"    library="songs"    embed="false"  exclude="*.md|*.ogg" if="web"/>
+    <assets path="assets/core"     library="core"     embed="false" />
+    <assets path="assets/songs"    library="songs"    embed="false"  exclude="*.md|*.ogg" if="web"/>
 		<assets path="assets/songs"    library="songs"    embed="false"  exclude="*.md|*.mp3" unless="web"/>
 		<assets path="assets/shared"   library="shared"   embed="false" exclude="*.md|*.ogg" if="web"/>
 		<assets path="assets/shared"   library="shared"   embed="false" exclude="*.md|*.mp3" unless="web"/>
@@ -398,6 +400,6 @@
 	<haxedef name="POLYMOD_SCRIPT_EXT" value=".hscript" />
 	<haxedef name="POLYMOD_SCRIPT_LIBRARY" value="scripts" />
 	<haxedef name="POLYMOD_USE_NAMESPACE" value="false" />
-	<haxedef name="POLYMOD_ROOT_PATH" value="./" />
+	<haxedef name="POLYMOD_ROOT_PATH" value="assets/scripts/" />
 
 </project>

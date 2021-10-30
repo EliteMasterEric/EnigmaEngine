@@ -40,16 +40,14 @@ typedef ModListReorderCallback = (ModMetadata, Int) -> Void;
 
 class ModList extends InteractableUIList
 {
-	public static final MENU_WIDTH = 500;
-
 	// Whether this is the Loaded Mods list.
 	final loaded:Bool = false;
 
 	public var cbAddToOtherList:ModMetadata->Void = null;
 
-	public function new(X:Float = 0, Y:Float = 0, H:Float = 0, loaded:Bool = false)
+	public function new(X:Float = 0, Y:Float = 0, W:Float = 0, H:Float = 0, loaded:Bool = false)
 	{
-		super(X, Y, null, MENU_WIDTH, H, "<X> more...", FlxUIList.STACK_VERTICAL, 0, null, null, null, null);
+		super(X, Y, null, W, H, "<X> more...", FlxUIList.STACK_VERTICAL, 0, null, null, null, null);
 		this.loaded = loaded;
 	}
 

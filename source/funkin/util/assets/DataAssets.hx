@@ -71,9 +71,7 @@ class DataAssets
 
 		for (data in dataAssets)
 		{
-			// Parse end-to-beginning to support mods.
-			var path = data.split('/');
-			if (data.indexOf(queryPath) != -1)
+			if (data.indexOf(queryPath) != -1 && data.endsWith('.json'))
 			{
 				var suffixPos = data.indexOf(queryPath) + queryPath.length;
 				results.push(data.substr(suffixPos).replaceAll('.json', ''));

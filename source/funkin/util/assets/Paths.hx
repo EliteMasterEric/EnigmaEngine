@@ -30,7 +30,7 @@ import openfl.utils.Assets as OpenFlAssets;
 import openfl.utils.AssetType;
 import tjson.TJSON;
 
-using StringTools;
+using hx.strings.Strings;
 
 class Paths
 {

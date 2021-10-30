@@ -2,7 +2,7 @@ package funkin.behavior.play;
 
 import flixel.util.FlxStringUtil;
 
-using StringTools;
+using hx.strings.Strings;
 
 class ChartParser
 {

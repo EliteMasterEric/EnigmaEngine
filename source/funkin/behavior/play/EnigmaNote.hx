@@ -39,7 +39,7 @@ import funkin.util.assets.Paths;
 import funkin.util.NoteUtil;
 import openfl.events.KeyboardEvent;
 
-using StringTools;
+using hx.strings.Strings;
 
 class EnigmaNote
 {
@@ -113,7 +113,7 @@ class EnigmaNote
 				case NOTE_9K_CENTER | NOTE_9K_CENTER_ENEMY:
 					return "Up";
 				default:
-					trace("Couldn't determine what animation to use for this special note!");
+					Debug.logWarn('Unknown direction for special note (${rawNoteData})');
 					return 'UNKNOWN';
 			}
 		}
@@ -141,7 +141,7 @@ class EnigmaNote
 				case NOTE_9K_CENTER | NOTE_9K_CENTER_ENEMY:
 					return "Center";
 				default:
-					trace("Couldn't determine what animation to use for this basic note!");
+					Debug.logWarn('Unknown direction for basic note (${rawNoteData})');
 					return 'UNKNOWN';
 			}
 		}
@@ -149,7 +149,7 @@ class EnigmaNote
 
 	public static function loadNoteSprite(instance:FlxSprite, noteStyle:String, noteType:String, noteData:Int, isSustainNote:Bool, strumlineSize:Int):Void
 	{
-		instance.frames = GraphicsAssets.loadSparrowAtlas('notes/${noteStyle}/${noteType}Note', 'shared', false);
+		instance.frames = GraphicsAssets.loadSparrowAtlas('notes/${noteStyle}/${noteType}Note', 'shared', true);
 
 		// Only add the animation for the note we are using.
 		var dirName = getDirectionName(noteData, true);

@@ -1,3 +1,3 @@
-#introMod/
-trickyMod/
-yellowFire/
+# Ignore everything except a few files.
+/*
+!/introMod/

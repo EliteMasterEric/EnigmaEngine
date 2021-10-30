@@ -23,30 +23,13 @@
  */
 package funkin.ui.state.title;
 
-import funkin.behavior.play.Difficulty.DifficultyCache;
-import funkin.ui.component.Cursor;
-import polymod.hscript.HScriptable;
-import funkin.behavior.play.Highscore;
-import funkin.ui.component.Alphabet;
-import funkin.const.Enigma;
-import funkin.ui.state.menu.MainMenuState;
-import funkin.behavior.options.Options;
-import funkin.behavior.play.Conductor;
-import funkin.util.assets.Paths;
-import funkin.behavior.SaveData;
-import funkin.behavior.options.PlayerSettings;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
 import flixel.addons.transition.TransitionData;
 import flixel.FlxG;
-import funkin.util.assets.DataAssets;
-import funkin.util.assets.GraphicsAssets;
 import flixel.FlxSprite;
-import flixel.FlxState;
-import funkin.util.assets.GraphicsAssets;
 import flixel.graphics.FlxGraphic;
 import flixel.group.FlxGroup;
-import flixel.input.gamepad.FlxGamepad;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import flixel.text.FlxText;
@@ -54,18 +37,32 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import openfl.Assets as OpenFlAssets;
 import funkin.behavior.Debug;
+import funkin.behavior.mods.IHook;
+import funkin.behavior.options.Options;
+import funkin.behavior.options.PlayerSettings;
+import funkin.behavior.play.Conductor;
+import funkin.behavior.play.Difficulty.DifficultyCache;
+import funkin.behavior.play.Highscore;
+import funkin.behavior.SaveData;
+import funkin.const.Enigma;
+import funkin.ui.component.Alphabet;
+import funkin.ui.component.Cursor;
+import funkin.ui.component.play.Character;
+import funkin.ui.state.menu.MainMenuState;
+import funkin.util.assets.DataAssets;
+import funkin.util.assets.GraphicsAssets;
+import funkin.util.assets.Paths;
+import haxe.extern.EitherType;
+import openfl.Assets as OpenFlAssets;
+import openfl.Assets;
 #if FEATURE_DISCORD
 import funkin.behavior.api.Discord.DiscordClient;
 #end
-import funkin.behavior.mods.IHook;
-import haxe.extern.EitherType;
-import openfl.Assets;
 
-using StringTools;
+using hx.strings.Strings;
 
-class TitleState extends MusicBeatState // implements IHook
+class TitleState extends MusicBeatState implements IHook
 {
 	/**
 	 * Whether the state transition animation has been initialized.
@@ -163,27 +160,10 @@ class TitleState extends MusicBeatState // implements IHook
 
 	/**
 	 * Mod hook called before the title screen starts.
-	 * 
-	 * The script can return true or false.
 	 */
 	@:hscript
-	public function onStartCreateTitleScreen()
+	public function onCreateTitleState()
 	{
-		// return (script_result == 'true');
-	}
-
-	/**
-	 * Mod hook called after the title screen is built.
-	 */
-	@:hscript
-	public function onFinishCreateTitleScreen()
-	{
-	}
-
-	public function new()
-	{
-		super();
-		trace('TitleState.new');
 	}
 
 	public override function create():Void
@@ -217,6 +197,9 @@ class TitleState extends MusicBeatState // implements IHook
 		// Initialize the player settings.
 		PlayerSettings.init();
 
+		// Load the list of characters for the Charter.
+		Character.initCharacterList();
+
 		// Load the player's save data.
 		SaveData.initSave();
 		#end
@@ -244,7 +227,7 @@ class TitleState extends MusicBeatState // implements IHook
 
 		Debug.logTrace('Initialized TitleState...');
 
-		onFinishCreateTitleScreen();
+		onCreateTitleState();
 	}
 
 	/**

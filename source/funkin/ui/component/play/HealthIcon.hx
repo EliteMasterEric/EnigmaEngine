@@ -31,7 +31,7 @@ import funkin.behavior.Debug;
 import funkin.util.assets.GraphicsAssets;
 import funkin.util.assets.LibraryAssets;
 
-using StringTools;
+using hx.strings.Strings;
 
 /**
  * Internally, the health icon utilizes a state machine to manage animations.
@@ -161,7 +161,7 @@ class HealthIcon extends FlxSprite
 			loadIconLegacy('face');
 			return;
 		}
-		frames = GraphicsAssets.loadSparrowAtlas('icons/icon-${char}', null, false);
+		frames = GraphicsAssets.loadSparrowAtlas('icons/icon-${char}', null, true);
 
 		animation.addByPrefix("idle", "idle-base", 24, true, isPlayer);
 		animation.addByPrefix("winning", "winning-base", 24, true, isPlayer);

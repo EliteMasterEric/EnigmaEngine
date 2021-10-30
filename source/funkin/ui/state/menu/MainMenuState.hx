@@ -23,6 +23,10 @@
  */
 package funkin.ui.state.menu;
 
+import funkin.behavior.mods.IHook;
+import funkin.behavior.Debug;
+import flixel.FlxBasic;
+import openfl.Assets;
 import funkin.ui.component.menu.MainMenuItem;
 import funkin.ui.audio.MainMenuMusic;
 import funkin.ui.state.title.TitleState;
@@ -49,9 +53,9 @@ import funkin.behavior.api.Discord.DiscordClient;
 import funkin.behavior.options.Controls.KeyboardScheme;
 import lime.app.Application;
 
-using StringTools;
+using hx.strings.Strings;
 
-class MainMenuState extends MusicBeatState
+class MainMenuState extends MusicBeatState implements IHook
 {
 	var menuItems:FlxTypedGroup<FlxSprite>;
 
@@ -71,9 +75,23 @@ class MainMenuState extends MusicBeatState
 	// There's only ever one MainMenuState at a time, so we can make this static.
 	static var curSelected:Int = 0;
 
+	/**
+	 * Mod hook called after the main menu screen is built.
+	 */
+	@:hscript
+	public function onCreateMainMenuState()
+	{
+	}
+
+	function addToState(obj:FlxBasic)
+	{
+		this.add(obj);
+	}
+
 	override function create()
 	{
 		clean();
+
 		#if FEATURE_DISCORD
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);
@@ -130,6 +148,10 @@ class MainMenuState extends MusicBeatState
 		changeItem(0);
 
 		super.create();
+
+		Debug.logTrace('Finished building main menu state.');
+
+		onCreateMainMenuState();
 	}
 
 	public function finishFunnyMove(flxTween:FlxTween)

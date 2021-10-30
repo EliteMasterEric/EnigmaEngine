@@ -65,7 +65,7 @@ import sys.FileSystem;
 import sys.io.File;
 #end
 
-using StringTools;
+using hx.strings.Strings;
 using hx.strings.Strings;
 
 class ResultsSubState extends FlxSubState

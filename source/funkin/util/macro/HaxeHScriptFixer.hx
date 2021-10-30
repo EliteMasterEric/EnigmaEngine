@@ -58,7 +58,8 @@ class HaxeHScriptFixer
 						}
 
 						var pathName = field.name;
-						if (polymod.hscript.HScriptConfig.useNamespaceInPaths)
+						// We have to get this the hard way to avoid a macro-in-macro error.
+						if (polymod.hscript.HScriptConfig.getDefineBoolRaw('POLYMOD_USE_NAMESPACE'))
 						{
 							var module:String = Context.getLocalModule();
 							module = StringTools.replace(module, ".", "/");

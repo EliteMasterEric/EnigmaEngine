@@ -26,7 +26,7 @@ import Type;
 import openfl.utils.Assets as OpenFlAssets;
 import flixel.math.FlxMath;
 
-using StringTools;
+using hx.strings.Strings;
 
 class Util
 {

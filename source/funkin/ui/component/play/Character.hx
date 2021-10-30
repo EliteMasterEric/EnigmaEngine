@@ -23,21 +23,17 @@
  */
 package funkin.ui.component.play;
 
-import flixel.animation.FlxBaseAnimation;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.graphics.frames.FlxFramesCollection;
 import flixel.util.FlxColor;
 import funkin.behavior.Debug;
 import funkin.behavior.play.Conductor;
-import funkin.ui.state.play.PlayState;
 import funkin.util.assets.DataAssets;
 import funkin.util.assets.GraphicsAssets;
 import funkin.util.assets.Paths;
-import funkin.util.Util;
 
-using StringTools;
+using hx.strings.Strings;
 
 class Character extends FlxSprite
 {
@@ -49,6 +45,38 @@ class Character extends FlxSprite
 	public var barColor:FlxColor;
 
 	public var holdTimer:Float = 0;
+
+	/**
+	 * Contains a list of characters valid to use as a player or CPU.
+	 */
+	public static var characterList:Array<String> = [];
+
+	/**
+	 * Contains a list of background characters valid only to use as a GF.
+	 */
+	public static var girlfriendList:Array<String> = [];
+
+	public static function initCharacterList()
+	{
+		characterList = DataAssets.listJSONsInPath('characters/');
+
+		for (charId in characterList)
+		{
+			var charData:CharacterData = parseDataFile(charId);
+			if (charData == null)
+			{
+				// TODO: Fix Polymod so unloaded mods don't appear in .list().
+				Debug.logError('Character $charId failed to load.');
+				characterList.remove(charId);
+				continue;
+			}
+			if (charData.isGF)
+			{
+				characterList.remove(charId);
+				girlfriendList.push(charId);
+			}
+		}
+	}
 
 	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
 	{
@@ -82,33 +110,6 @@ class Character extends FlxSprite
 				loadOffsetFile(curCharacter);
 
 				playAnim('danceRight');
-
-			case 'gf-car':
-				tex = GraphicsAssets.loadSparrowAtlas('characters/gfCar', 'shared');
-				frames = tex;
-				animation.addByIndices('singUP', 'GF Dancing Beat Hair blowing CAR', [0], "", 24, false);
-				animation.addByIndices('danceLeft', 'GF Dancing Beat Hair blowing CAR', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-				animation.addByIndices('danceRight', 'GF Dancing Beat Hair blowing CAR', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24,
-					false);
-
-				loadOffsetFile(curCharacter);
-
-				playAnim('danceRight');
-
-			case 'gf-pixel':
-				tex = GraphicsAssets.loadSparrowAtlas('characters/gfPixel', 'shared');
-				frames = tex;
-				animation.addByIndices('singUP', 'GF IDLE', [2], "", 24, false);
-				animation.addByIndices('danceLeft', 'GF IDLE', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-				animation.addByIndices('danceRight', 'GF IDLE', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-
-				loadOffsetFile(curCharacter);
-
-				playAnim('danceRight');
-
-				setGraphicSize(Std.int(width * PlayState.PIXEL_ZOOM_FACTOR));
-				updateHitbox();
-				antialiasing = false;
 
 			case 'dad':
 				// DAD ANIMATION LOADING CODE
@@ -225,37 +226,6 @@ class Character extends FlxSprite
 				barColor = 0xFFb7d855;
 
 				playAnim('idle');
-
-				flipX = true;
-
-			case 'bf':
-				var tex = GraphicsAssets.loadSparrowAtlas('characters/BOYFRIEND', 'shared');
-				frames = tex;
-
-				trace(tex.frames.length);
-
-				animation.addByPrefix('idle', 'BF idle dance', 24, false);
-				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
-				animation.addByPrefix('singLEFT', 'BF NOTE LEFT0', 24, false);
-				animation.addByPrefix('singRIGHT', 'BF NOTE RIGHT0', 24, false);
-				animation.addByPrefix('singDOWN', 'BF NOTE DOWN0', 24, false);
-				animation.addByPrefix('singUPmiss', 'BF NOTE UP MISS', 24, false);
-				animation.addByPrefix('singLEFTmiss', 'BF NOTE LEFT MISS', 24, false);
-				animation.addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
-				animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
-				animation.addByPrefix('hey', 'BF HEY', 24, false);
-
-				animation.addByPrefix('firstDeath', "BF dies", 24, false);
-				animation.addByPrefix('deathLoop', "BF Dead Loop", 24, false);
-				animation.addByPrefix('deathConfirm', "BF Dead confirm", 24, false);
-
-				animation.addByPrefix('scared', 'BF idle shaking', 24);
-
-				loadOffsetFile(curCharacter);
-
-				playAnim('idle');
-
-				barColor = 0xFF31b0d1;
 
 				flipX = true;
 
@@ -414,7 +384,7 @@ class Character extends FlxSprite
 
 				playAnim('idle');
 			default:
-				parseDataFile();
+				loadAnimationsFromDataFile();
 		}
 
 		if (curCharacter.startsWith('bf'))
@@ -443,22 +413,38 @@ class Character extends FlxSprite
 		}
 	}
 
-	function parseDataFile()
+	private static function parseDataFile(charId:String):CharacterData
 	{
-		Debug.logInfo('Generating character (${curCharacter}) from JSON data...');
-
 		// Load the data from JSON and cast it to a struct we can easily read.
-		var jsonData = DataAssets.loadJSON('characters/${curCharacter}');
+		var jsonData = DataAssets.loadJSON('characters/${charId}');
 		if (jsonData == null)
 		{
-			Debug.logError('Failed to parse JSON data for character ${curCharacter}');
-			return;
+			Debug.logError('Failed to parse JSON data for character ${charId}');
+			return null;
 		}
 
 		var data:CharacterData = cast jsonData;
+		return data;
+	}
+
+	private function loadAnimationsFromDataFile()
+	{
+		Debug.logInfo('Generating character (${curCharacter}) from JSON data...');
+
+		var data:CharacterData = parseDataFile(curCharacter);
+		if (data == null)
+			return;
 
 		// Make sure to load characters from cache if applicable.
-		var tex:Null<FlxFramesCollection> = GraphicsAssets.loadSparrowAtlas(data.asset, 'shared', true);
+		var tex:Null<FlxFramesCollection> = null;
+		switch (data.atlasType)
+		{
+			case 'packer':
+				tex = GraphicsAssets.loadPackerAtlas(data.asset, 'shared');
+			// case 'sparrow':
+			default:
+				tex = GraphicsAssets.loadSparrowAtlas(data.asset, 'shared', true);
+		}
 		if (tex == null)
 		{
 			Debug.logError('Failed to parse animation data for character ${curCharacter}');
@@ -486,6 +472,18 @@ class Character extends FlxSprite
 			animOffsets[anim.name] = anim.offsets == null ? [0, 0] : anim.offsets;
 		}
 
+		if (data.scale != null)
+		{
+			setGraphicSize(Std.int(this.width * data.scale));
+			updateHitbox();
+		}
+
+		// Disable anti-aliasing on pixel art.
+		if (data.isPixel)
+		{
+			antialiasing = false;
+		}
+
 		barColor = FlxColor.fromString(data.barColor);
 
 		playAnim(data.startingAnim);
@@ -504,6 +502,11 @@ class Character extends FlxSprite
 
 	override function update(elapsed:Float)
 	{
+		if (animation.curAnim == null)
+		{
+			Debug.logWarn('Animation was null or missing! Is your character metadata complete?');
+			return;
+		}
 		if (!isPlayer)
 		{
 			if (animation.curAnim.name.startsWith('sing'))
@@ -638,22 +641,81 @@ class Character extends FlxSprite
 
 typedef CharacterData =
 {
+	/**
+	 * The readable name for this character.
+	 * Used for menus like the Chart Editor.
+	 */
 	var name:String;
+
+	/**
+	 * The location of this asset relative to `assets/images`.
+	 */
 	var asset:String;
+
+	/**
+	 * The animation used when the character is initialized.
+	 */
 	var startingAnim:String;
+
+	/**
+	 * Value is true if the character is a Girlfriend character.
+	 * Meant only to dance in the BG and play animations.
+	 * Will not have singing animations.
+	 * @default false
+	 */
+	var ?isGF:Bool;
+
+	/**
+	 * Value is true if the character graphic is pixel art.
+	 * Forcibly disables anti-aliasing.
+	 * @default false
+	 */
+	var ?isPixel:Bool;
+
+	/**
+	 * Multiplier to scale the sprite by.
+	 * Default is 1 for no scaling.
+	 * Set this to 6 for pixel characters from Week 6.
+	 * @default 1
+	 */
+	var ?scale:Float;
+
+	/**
+	 * Define what type of texture atlas is used for this sheet.
+	 * Set this to 'packer' for the Spirit and 'sparrow' for everyone else.
+	 * @default 'sparrow'
+	 */
+	var ?atlasType:String;
 
 	/**
 	 * The color of this character's health bar.
 	 */
 	var barColor:String;
 
+	/**
+	 * A list of animations to add to this character.
+	 * If you're creating a GF, you should make a danceLeft and a danceRight.
+	 * If you're creating a BF, you should add an idle, and singLEFT, singUP, etc.
+	 */
 	var animations:Array<AnimationData>;
 }
 
 typedef AnimationData =
 {
+	/**
+	 * The name of this animation as referenced by the game.
+	 */
 	var name:String;
+
+	/**
+	 * The prefix for this animation's frames within the XML file.
+	 */
 	var prefix:String;
+
+	/**
+	 * The X and Y offset of this animation relative to the others. Defaults to 0, 0.
+	 * @default [0, 0]
+	 */
 	var ?offsets:Array<Int>;
 
 	/**
@@ -662,14 +724,29 @@ typedef AnimationData =
 	 */
 	var ?looped:Bool;
 
+	/**
+	 * Set this to true to flip the sprites of this animation horizontally.
+	 * @default false
+	 */
 	var ?flipX:Bool;
+
+	/**
+	 * Set this to true to flip the sprites of this animation vertically.
+	 * @default false
+	 */
 	var ?flipY:Bool;
 
 	/**
 	 * The frame rate of this animation.
-	 		* @default 24
+	 * @default 24
 	 */
 	var ?frameRate:Int;
 
+	/**
+	 * If you want this animation to use only certain frames of an animation with a given prefix,
+	 * select them here.
+	 * @example [] (all frames)
+	 * @default [0, 1, 2, 3] (use only the first four frames)
+	 */
 	var ?frameIndices:Array<Int>;
 }

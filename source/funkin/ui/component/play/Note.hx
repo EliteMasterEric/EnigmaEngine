@@ -40,7 +40,7 @@ import funkin.ui.state.play.PlayState;
 import funkin.util.assets.Paths;
 import funkin.util.NoteUtil;
 
-using StringTools;
+using hx.strings.Strings;
 
 class Note extends FlxSprite
 {
@@ -249,7 +249,7 @@ class Note extends FlxSprite
 
 		// The note data is the position in the strumline.
 		// The utility function accounts for strumline size and what side the note is on.
-		this.noteData = NoteUtil.getStrumlineIndex(rawNoteData, NoteUtil.fetchStrumlineSize(), mustPress);
+		noteData = NoteUtil.getStrumlineIndex(rawNoteData, NoteUtil.fetchStrumlineSize(), mustPress);
 
 		// If the strumline is in the first half (the player notes), return false.
 		// If the strumline is in the second half (the CPU notes), return true.
@@ -366,7 +366,7 @@ class Note extends FlxSprite
 		// If this is a sustain note...
 		if (isSustainNote && prevNote != null)
 		{
-			var stepHeight = -(PlayState.NOTE_TIME_TO_DISTANCE) * Conductor.stepCrochet / PlayState.songMultiplier * PlayState.instance.scrollSpeed;
+			var stepHeight = -(PlayState.NOTE_TIME_TO_DISTANCE) * Conductor.stepCrochet / PlayState.songMultiplier * PlayState.getScrollSpeed();
 			noteYOffset = Math.round(stepHeight + NoteUtil.getNoteWidth() * 0.5);
 
 			x += width / 2;

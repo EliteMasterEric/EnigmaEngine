@@ -42,7 +42,7 @@ import sys.FileSystem;
 import sys.io.File;
 #end
 
-using StringTools;
+using hx.strings.Strings;
 
 class FreeplayState extends MusicBeatState
 {

@@ -38,7 +38,8 @@
   ],
   "files.associations": {
     "*.json": "jsonc",
-    "*.hxp": "haxe"
+    "*.hxp": "haxe",
+    "*.hscript": "haxe"
   },
   "codedox": {
     "autoInsert": true, // enables insertion of function comments trigged by keystrokes

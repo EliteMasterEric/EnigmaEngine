@@ -31,7 +31,7 @@ import funkin.util.assets.DataAssets;
 import funkin.util.assets.Paths;
 import tjson.TJSON;
 
-using StringTools;
+using hx.strings.Strings;
 
 class Week
 {

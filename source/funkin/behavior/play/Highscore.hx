@@ -25,7 +25,7 @@ package funkin.behavior.play;
 import flixel.FlxG;
 import funkin.behavior.play.Difficulty.DifficultyCache;
 
-using StringTools;
+using hx.strings.Strings;
 
 class Highscore
 {
@@ -62,7 +62,7 @@ class Highscore
 		if (!FlxG.save.data.botplay)
 		{
 			var daSong:String = formatSong(song, diffId);
-			var finalCombo:String = combo.split(')')[0].replace('(', '');
+			var finalCombo:String = combo.split(')')[0].replaceAll('(', '');
 			if (songCombos.exists(daSong))
 			{
 				if (getComboInt(songCombos.get(daSong)) < getComboInt(finalCombo))
@@ -100,7 +100,7 @@ class Highscore
 		if (!FlxG.save.data.botplay)
 		{
 			var daWeek:String = formatSong(week, diffId);
-			var finalCombo:String = combo.split(')')[0].replace('(', '');
+			var finalCombo:String = combo.split(')')[0].replaceAll('(', '');
 
 			if (weekCombos.exists(daWeek))
 			{
@@ -142,25 +142,30 @@ class Highscore
 		FlxG.save.flush();
 	}
 
-  public static function clearScores() {
-    for (key in songScores.keys()) {
-      setSongScore(key, 0);
-    }
+	public static function clearScores()
+	{
+		for (key in songScores.keys())
+		{
+			setSongScore(key, 0);
+		}
 
-    for (key in songCombos.keys()) {
-      setSongCombo(key, '');
-    }
+		for (key in songCombos.keys())
+		{
+			setSongCombo(key, '');
+		}
 
-    for (key in weekScores.keys()) {
-      setWeekScore(key, 0);
-    }
+		for (key in weekScores.keys())
+		{
+			setWeekScore(key, 0);
+		}
 
-    for (key in weekCombos.keys()) {
-      setWeekCombo(key, '');
-    }
+		for (key in weekCombos.keys())
+		{
+			setWeekCombo(key, '');
+		}
 
-    FlxG.save.flush();
-  }
+		FlxG.save.flush();
+	}
 
 	public static function formatSong(song:String, diffId:String):String
 	{

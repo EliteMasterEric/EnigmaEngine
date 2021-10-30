@@ -38,7 +38,7 @@ import funkin.ui.state.play.PlayState;
 import funkin.util.assets.GraphicsAssets;
 import funkin.util.assets.Paths;
 
-using StringTools;
+using hx.strings.Strings;
 
 class DialogueBox extends FlxSpriteGroup
 {

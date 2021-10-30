@@ -101,7 +101,7 @@ class Enigma extends MusicBeatState
 	 * If you don't want to have a double-wide charter for placing 9-key notes,
 	 * flip this lever.
 	 */
-	public static final USE_CUSTOM_CHARTER = true;
+	public static final USE_CUSTOM_CHARTER = false;
 
 	/**
 	 * If you want to bypass all "isWeekUnlocked" logic,

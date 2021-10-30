@@ -23,6 +23,7 @@
  */
 package funkin.ui.state.title;
 
+import funkin.ui.component.play.Character;
 import funkin.util.assets.LibraryAssets;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
@@ -61,7 +62,7 @@ import funkin.behavior.api.Discord.DiscordClient;
 import sys.FileSystem;
 import sys.io.File;
 
-using StringTools;
+using hx.strings.Strings;
 
 class CachingState extends MusicBeatState
 {
@@ -84,6 +85,9 @@ class CachingState extends MusicBeatState
 
 		// Initialize the player settings.
 		PlayerSettings.init();
+
+		// Load the list of characters for the Charter.
+		Character.initCharacterList();
 
 		// Load the player's save data.
 		SaveData.initSave();
@@ -165,7 +169,7 @@ class CachingState extends MusicBeatState
 
 		for (i in images)
 		{
-			var replaced = i.replace(".png", "");
+			var replaced = i.replaceAll(".png", "");
 
 			var imagePath = Paths.image(replaced, 'shared');
 			Debug.logTrace('Caching character graphic $i ($imagePath)...');

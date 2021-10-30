@@ -58,7 +58,7 @@ import funkin.util.assets.DataAssets;
 import funkin.behavior.api.Discord.DiscordClient;
 #end
 
-using StringTools;
+using hx.strings.Strings;
 
 class StoryMenuState extends MusicBeatState
 {
@@ -262,7 +262,7 @@ class StoryMenuState extends MusicBeatState
 		difficultySelectors = new FlxGroup();
 		add(difficultySelectors);
 
-		leftArrow = new FlxSprite(grpWeekText.members[0].x + grpWeekText.members[0].width + 10, grpWeekText.members[0].y + 20);
+		leftArrow = new FlxSprite(grpWeekText.members[0].x + grpWeekText.members[0].width, grpWeekText.members[0].y + 20);
 		leftArrow.frames = GraphicsAssets.loadSparrowAtlas('storymenu/arrowLeft');
 		leftArrow.animation.addByPrefix('idle', 'idle');
 		leftArrow.animation.addByPrefix('press', 'press');
@@ -275,7 +275,7 @@ class StoryMenuState extends MusicBeatState
 		difficultySelectors.add(difficultyItem);
 		changeDifficulty();
 
-		rightArrow = new FlxSprite(difficultyItem.x + difficultyItem.width + 10, leftArrow.y);
+		rightArrow = new FlxSprite(difficultyItem.x + difficultyItem.width, leftArrow.y);
 		rightArrow.frames = GraphicsAssets.loadSparrowAtlas('storymenu/arrowRight');
 		rightArrow.animation.addByPrefix('idle', 'idle');
 		rightArrow.animation.addByPrefix('press', 'press', 24, false);

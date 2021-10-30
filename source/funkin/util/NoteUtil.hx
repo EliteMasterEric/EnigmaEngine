@@ -30,7 +30,7 @@ import flixel.FlxG;
 import funkin.ui.state.play.PlayState;
 import funkin.behavior.play.EnigmaNote;
 
-using StringTools;
+using hx.strings.Strings;
 
 class NoteUtil
 {

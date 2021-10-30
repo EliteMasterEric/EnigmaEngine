@@ -294,7 +294,15 @@ class PlayState extends MusicBeatState
 	 */
 	private var generatedMusic:Bool = false;
 
+	/**
+	 * The scroll speed of the current song. How fast the notes move.
+	 */
 	public var scrollSpeed:Float = 1.0;
+
+	public static inline function getScrollSpeed()
+	{
+		return PlayState.instance != null ? PlayState.instance.scrollSpeed : ScrollSpeedOption.get();
+	}
 
 	/**
 	 * This flag is activated when the countdown (three two one GO!) starts.
@@ -1241,7 +1249,7 @@ class PlayState extends MusicBeatState
 		red.scrollFactor.set();
 
 		var senpaiEvil:FlxSprite = new FlxSprite();
-		senpaiEvil.frames = GraphicsAssets.loadSparrowAtlas('weeb/senpaiCrazy');
+		senpaiEvil.frames = GraphicsAssets.loadSparrowAtlas('weeb/senpaiCrazy', null, false);
 		senpaiEvil.animation.addByPrefix('idle', 'Senpai Pre Explosion', 24, false);
 		senpaiEvil.setGraphicSize(Std.int(senpaiEvil.width * 6));
 		senpaiEvil.scrollFactor.set();

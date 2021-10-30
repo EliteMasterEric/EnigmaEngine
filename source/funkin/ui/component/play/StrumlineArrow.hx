@@ -29,7 +29,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 
-using StringTools;
+using hx.strings.Strings;
 
 class StrumlineArrow extends FlxSprite
 {
@@ -37,10 +37,12 @@ class StrumlineArrow extends FlxSprite
 	 * Flag which is set to true if a Lua Modchart has modified this arrow's position.
 	 */
 	public var luaModifiedPos:Bool = false;
+
 	/**
 	 * The sprite angle as handled by a Lua Modchart.
 	 */
 	public var modAngle:Float = 0; // The angle set by modcharts
+
 	/**
 	 * The sprite angle as handled by this strumline arrow.
 	 */
@@ -62,7 +64,7 @@ class StrumlineArrow extends FlxSprite
 			angle = modAngle;
 		super.update(elapsed);
 
-    // TODO: What the HELL?
+		// TODO: What the HELL?
 		if (FlxG.keys.justPressed.THREE)
 		{
 			localAngle += 10;

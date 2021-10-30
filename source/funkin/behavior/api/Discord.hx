@@ -27,7 +27,7 @@ package funkin.behavior.api;
 import discord_rpc.DiscordRpc;
 import Sys.sleep;
 
-using StringTools;
+using hx.strings.Strings;
 
 class DiscordClient
 {

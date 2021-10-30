@@ -22,6 +22,7 @@
  */
 package funkin.ui.state.modding;
 
+import funkin.util.Util;
 import funkin.ui.component.base.XMLLayoutState;
 import flixel.addons.ui.FlxUIButton;
 import funkin.behavior.Debug;
@@ -49,8 +50,7 @@ class ModMenuState extends XMLLayoutState // extends MusicBeatState
 	var saveAndExitButton:FlxUIButton;
 	var exitWithoutSavingButton:FlxUIButton;
 
-	final UPPER_BUTTON_Y = 56 + 120;
-	final LOWER_BUTTON_Y = FlxG.height - 300;
+	static final MENU_WIDTH = 500;
 
 	var unloadedModsUI:ModList;
 	var loadedModsUI:ModList;
@@ -64,64 +64,47 @@ class ModMenuState extends XMLLayoutState // extends MusicBeatState
 	{
 		super.create();
 		trace('Initialized ModMenuState.');
+
+		this.addClickEventHandler('btn_loadall', onClickLoadAll.bind());
+		this.addClickEventHandler('btn_unloadall', onClickUnloadAll.bind());
+		this.addClickEventHandler('btn_revert', onClickRevert.bind());
+		this.addClickEventHandler('btn_saveandexit', onClickSaveAndExit.bind());
+		this.addClickEventHandler('btn_exitwithoutsaving', onClickExitWithoutSaving.bind());
+
+		initModLists();
 	}
 
-	/*
+	override function buildComponent(tag:String, target:Dynamic, data:Dynamic, ?params:Array<Dynamic>):Dynamic
+	{
+		var element:Xml = cast data;
+		switch (tag)
 		{
-			var txt:FlxText = new FlxText(0, 16, FlxG.width, "Mod Configuration", 32);
+			case 'modlist':
+				var x = Std.parseInt(element.get('x'));
+				var y = Std.parseInt(element.get('y'));
+				var w = Std.parseInt(element.get('w'));
+				var h = Std.parseInt(element.get('h'));
+				var loaded = element.get('loaded') == 'true';
 
-			txt.setFormat("VCR OSD Mono", 32, FlxColor.fromRGB(200, 200, 200), CENTER);
-			txt.borderColor = FlxColor.BLACK;
-			txt.borderSize = 3;
-			txt.borderStyle = FlxTextBorderStyle.OUTLINE;
-			txt.screenCenter(X);
-			add(txt);
+				var result = new ModList(x, y, w, h, loaded);
 
-			var MODLIST_HEIGHT = FlxG.height - 20 - 20;
-			// Measure from the right side.
-			var MODLIST_LOADED_XPOS = FlxG.width - 500 - 16;
-			unloadedModsUI = new ModList(16, 56, MODLIST_HEIGHT, false);
-			loadedModsUI = new ModList(MODLIST_LOADED_XPOS, 56, MODLIST_HEIGHT, true);
+				if (loaded)
+					loadedModsUI = result;
+				else
+					unloadedModsUI = result;
 
-			unloadedModsUI.cbAddToOtherList = loadedModsUI.addMod.bind();
-			loadedModsUI.cbAddToOtherList = unloadedModsUI.addMod.bind();
-
-			var buttonCenterX = FlxG.width / 2 - 64;
-
-			loadAllButton = new FlxUIButton(buttonCenterX, UPPER_BUTTON_Y, "Load All Mods", onClickLoadAll);
-			unloadAllButton = new FlxUIButton(buttonCenterX, loadAllButton.y + 32, "Unload All Mods", onClickUnloadAll);
-			revertButton = new FlxUIButton(buttonCenterX, unloadAllButton.y + 32, "Revert Mod Config", onClickRevert);
-			saveAndExitButton = new FlxUIButton(buttonCenterX, LOWER_BUTTON_Y, "Save Config and Exit", onClickSaveAndExit);
-			exitWithoutSavingButton = new FlxUIButton(buttonCenterX, saveAndExitButton.y + 32, "Exit without Saving", onClickExitWithoutSaving);
-
-			loadAllButton.setLabelFormat("VCR OSD Mono", 16, FlxColor.BLACK, CENTER);
-			unloadAllButton.setLabelFormat("VCR OSD Mono", 16, FlxColor.BLACK, CENTER);
-			revertButton.setLabelFormat("VCR OSD Mono", 16, FlxColor.BLACK, CENTER);
-			saveAndExitButton.setLabelFormat("VCR OSD Mono", 16, FlxColor.BLACK, CENTER);
-			exitWithoutSavingButton.setLabelFormat("VCR OSD Mono", 16, FlxColor.BLACK, CENTER);
-
-			loadAllButton.resize(160, 40);
-			unloadAllButton.resize(160, 40);
-			revertButton.resize(160, 40);
-			saveAndExitButton.resize(160, 40);
-			exitWithoutSavingButton.resize(160, 40);
-
-			add(unloadedModsUI);
-			add(loadedModsUI);
-
-			add(loadAllButton);
-			add(unloadAllButton);
-			add(revertButton);
-			add(saveAndExitButton);
-			add(exitWithoutSavingButton);
-
-			initModLists();
-
-			super.create();
+				return result;
+			default:
+				return super.buildComponent(tag, target, data, params);
 		}
-	 */
+	}
+
 	function initModLists()
 	{
+		// Unify mod lists.
+		unloadedModsUI.cbAddToOtherList = loadedModsUI.addMod.bind();
+		loadedModsUI.cbAddToOtherList = unloadedModsUI.addMod.bind();
+
 		var modDatas = ModCore.getAllMods().filter(function(m)
 		{
 			return m != null;
@@ -150,9 +133,6 @@ class ModMenuState extends XMLLayoutState // extends MusicBeatState
 			// We default to ALL mods loaded.
 			unloadedMods = [];
 			loadedMods = modDatas;
-			// TODO: DEBUG
-			var testMod = loadedMods.pop();
-			unloadedMods.push(testMod);
 		}
 
 		for (i in loadedMods)
@@ -186,6 +166,8 @@ class ModMenuState extends XMLLayoutState // extends MusicBeatState
 
 	function loadMainGame()
 	{
+		// Gotta load any configured mods.
+		ModCore.loadConfiguredMods();
 		#if FEATURE_FILESYSTEM
 		FlxG.switchState(new CachingState());
 		#else

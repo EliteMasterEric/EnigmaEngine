@@ -25,8 +25,6 @@ package funkin.behavior;
 import flixel.FlxG;
 import flixel.input.gamepad.FlxGamepad;
 import funkin.behavior.options.CustomControls;
-import funkin.behavior.options.CustomControls;
-import funkin.behavior.options.Options;
 import funkin.behavior.options.Options;
 import funkin.behavior.options.PlayerSettings;
 import funkin.behavior.play.Conductor;

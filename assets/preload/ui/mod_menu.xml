@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <data>
-    <definition id="vcr32" font="VCR OSD Mono" size="32" style="bold" color="0xffffff" outline="0x000000" align="left"/>
-    <definition id="pixel32" font="pixel" size="32" style="bold" color="0xffffff" outline="0x000000" align="left"/>
+  <!-- Font definitions -->
+  <!-- This broke earlier because in order to set style="bold" you need to have a separate font file called vcrb.ttf -->
+  <definition id="vcr32" font="vcr" size="32" color="0xffffff" outline="0x000000" align="center"/>
+  <definition id="vcr16" font="vcr" size="16" color="0xffffff" outline="0x000000" align="center"/>
+  
+  <!-- App background. -->
+  <background src="menubg" core="true" color="#333333" x="0" y="0" w="1280" h="720" />
 
-    <text text="Mod Configuration" use_def="vcr32" x="100" y="75" width="400" align="center"/>
-    <text text="Mod Configuration" use_def="pixel32" x="100" y="175" width="400" align="center"/>
+  <!-- App layout. Make sure to specify x/y/w/h. -->
+  <text text="Mod Configuration" use_def="vcr32" x="400" y="16" width="480"/>
 
-    <button name="basic" x="160" y="120" label="Basic">
-        <tooltip text="Basic tooltip"/>
-    </button>
+  <modlist name="modlist_unloaded" x="16"  y="56" w="500" h="680" loaded="false" />
+  <modlist name="modlist_loaded"   x="764" y="56" w="500" h="680" loaded="true"  />
+
+  <button name="btn_loadall"           use_def="vcr16" x="576" y="180" w="160" h="40" label="Load All Mods"            />
+  <button name="btn_unloadall"         use_def="vcr16" x="576" y="230" w="160" h="40" label="Unload All Mods"          />
+  <button name="btn_revert"            use_def="vcr16" x="576" y="280" w="160" h="40" label="Revert Mod Config"        />
+  <button name="btn_saveandexit"       use_def="vcr16" x="576" y="420" w="160" h="40" label="Save and Load Game"       />
+  <button name="btn_exitwithoutsaving" use_def="vcr16" x="576" y="450" w="160" h="40" label="Load Game without Saving" />
+
 </data>

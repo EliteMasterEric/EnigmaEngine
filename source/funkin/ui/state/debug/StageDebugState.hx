@@ -41,7 +41,7 @@ import openfl.events.Event;
 import openfl.events.IOErrorEvent;
 import openfl.net.FileReference;
 
-using StringTools;
+using hx.strings.Strings;
 
 class StageDebugState extends FlxState
 {

@@ -36,7 +36,7 @@ class BackgroundGirls extends FlxSprite
 		super(x, y);
 
 		// BG fangirls dissuaded
-		frames = GraphicsAssets.loadSparrowAtlas('weeb/bgFreaks', 'week6');
+		frames = GraphicsAssets.loadSparrowAtlas('weeb/bgFreaks', 'week6', true);
 
 		animation.addByIndices('danceLeft', 'BG girls group', Util.buildArrayFromRange(14), "", 24, false);
 		animation.addByIndices('danceRight', 'BG girls group', Util.buildArrayFromRange(30, 15), "", 24, false);

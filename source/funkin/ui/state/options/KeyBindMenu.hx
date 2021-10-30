@@ -46,7 +46,7 @@ import flixel.util.FlxColor;
 import funkin.behavior.options.Options;
 import lime.app.Application;
 
-using StringTools;
+using hx.strings.Strings;
 
 class KeyBindMenu extends FlxSubState
 {

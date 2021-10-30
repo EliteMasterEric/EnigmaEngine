@@ -22,13 +22,34 @@
  */
 package funkin.behavior.localization;
 
+import firetongue.FireTongue;
+
 class I18n
 {
+	static final DEFAULT_LOCALE = 'en-US';
 	static var tongue:FireTongue;
 
-	public static function initLocalization()
+	public static function initLocalization(locale:String = 'en-US')
 	{
-		// Do nothing.
-		// This is a stub for now. If you want this, nag Eric about it.
+		tongue = new FireTongue();
 	}
+
+	/**
+	 * Fetch a string by its translation key.
+	 * @param key 
+	 */
+	public static function t(key:String, ns:String = 'data')
+	{
+		var result = tongue.get(key, ns);
+		trace('Translate: $ns:$key -> "$result"');
+	}
+
+	/**
+	 * `<Q>`  = Standard single quotation mark ( " )
+	 * `<LQ>` = Fancy left quotation mark ( “ )
+	 * `<RQ>` = Fancy right quotation mark ( ” )
+	 * `<C>`  = Standard comma
+	 * `<N>`  = Line break
+	 * `<T>`  = Tab
+	 */
 }
