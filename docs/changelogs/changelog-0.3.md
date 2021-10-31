@@ -43,6 +43,7 @@ First public release. Now has support for data-driven custom weeks and a mod con
 ## To Implement
 Current Bug Checklist
 [] Polymod doesn't list files properly when mods are disabled.
+[] Script hooks broke when I recompiled, figure out why
 [] CPU strumline is oriented wrong top 
 [] Duets don't work properly (both players are on the same strumline)
 [] Are sustains broken again?
