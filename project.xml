@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project
-  xmlns="http://lime.software/project/1.0.2"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://lime.software/project/1.0.2 http://lime.software/xsd/project-1.0.2.xsd">
+<project xmlns="http://lime.software/project/1.0.2"
+				 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				 xsi:schemaLocation="http://lime.software/project/1.0.2 http://lime.software/xsd/project-1.0.2.xsd">
 	<!-- _________________________ Application Settings _________________________ -->
-
-	<app title="Enigma Engine" file="Enigma" packageName="com.mastereric.enigmaengine" package="com.mastereric.enigmaengine" main="Main" version="0.3.0" company="mastereric" />
-
-	<!--
-		I wanted to print a cool ASCII logo at the start of each build,
+	<app title="Enigma Engine"
+			 file="Enigma"
+			 packageName="com.mastereric.enigmaengine"
+			 package="com.mastereric.enigmaengine"
+			 main="Main"
+			 version="0.3.0"
+			 company="mastereric" />
+	<!-- I wanted to print a cool ASCII logo at the start of each build,
 		but apparently the "echo" command breaks the Lime VSCode integration on Windows.
-    See: https://github.com/haxelime/lime-vscode-extension/issues/88
-	-->
-  <!--
-	<echo value="_____________________________________________" />
+		See: https://github.com/haxelime/lime-vscode-extension/issues/88 -->
+	<!-- <echo value="_____________________________________________" />
 	<echo value="___________________6666666___________________" />
 	<echo value="____________66666__________66666_____________" />
 	<echo value="_________6666___________________666__________" />
@@ -51,31 +51,36 @@
 	<echo value="I  \____/\_| \_/\____/\___/\_| \_/\____/    I" />
 	<echo value="I                                           I" />
 	<echo value="II" />
-	<echo value="Initializing build..." />
-  -->
-	
+	<echo value="Initializing build..." /> -->
 	<!-- Make sure people don't try to build for a weird platform. -->
 	<!-- I can't support iOS right now, since I don't have the ability to build -->
-	<error value="Target platform iOS is not supported." if="ios" />
+	<error value="Target platform iOS is not supported."
+				 if="ios" />
 	<!-- Emscripten is a compiler for WebAssembly. This could result in high-performance browser builds. -->
-	<error value="Target platform Emscripten is not supported." if="emscripten" />
-	<!--
-		I don't know why you'd want to build the game for one of these other ones.
-		If you have a good reason, post an issue about it on the GitHub repo, I'll read it.
-	-->
-	<error value="Target platform HashLink is not supported." if="hl" />
-	<error value="Target platform Neko is not supported." if="neko" />
-	<error value="Target platform tvOS is not supported." if="tvos" />
-	<error value="Target platform Adobe AIR is not supported." if="air" />
-	<error value="Target platform Flash is not supported" if="flash" /> 
-	<error value="Target platform Java is not supported" if="java" /> 
-	<error value="Target platform FirefoxOS is not supported." if="firefox" />
-	<error value="Target platform NodeJS is not supported" if="nodejs" /> 
-	<error value="Target platform Electron is not supported" if="html5 electron" /> 
-
+	<error value="Target platform Emscripten is not supported."
+				 if="emscripten" />
+	<!-- I don't know why you'd want to build the game for one of these other ones.
+		If you have a good reason, post an issue about it on the GitHub repo, I'll read it. -->
+	<error value="Target platform HashLink is not supported."
+				 if="hl" />
+	<error value="Target platform Neko is not supported."
+				 if="neko" />
+	<error value="Target platform tvOS is not supported."
+				 if="tvos" />
+	<error value="Target platform Adobe AIR is not supported."
+				 if="air" />
+	<error value="Target platform Flash is not supported"
+				 if="flash" />
+	<error value="Target platform Java is not supported"
+				 if="java" />
+	<error value="Target platform FirefoxOS is not supported."
+				 if="firefox" />
+	<error value="Target platform NodeJS is not supported"
+				 if="nodejs" />
+	<error value="Target platform Electron is not supported"
+				 if="html5 electron" />
 	<!-- Print out the target platform. -->
-  <!--
-	<echo value="Target platform: Windows"   if="windows" />
+	<!-- <echo value="Target platform: Windows"   if="windows" />
 	<echo value="Target platform: MacOS"     if="mac" />
 	<echo value="Target platform: Linux"     if="linux" />
 	<echo value="Target platform: HTML5/Web" if="html5" unless="electron" />
@@ -86,320 +91,573 @@
 	<echo value="Platform host: Web"     if="web" />
 	
 	<echo value="Platform architecture: 32-bit" if="HXCPP_M32" />
-	<echo value="Platform architecture: 64-bit" if="HXCPP_M64" />
-  -->
-		
-	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
-		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
-	<!-- 
-    <app preloader="Preloader" resizable="true" />
-  -->
-  <app preloader="flixel.system.FlxPreloader" />
-
+	<echo value="Platform architecture: 64-bit" if="HXCPP_M64" /> -->
+	<!-- The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
+		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal" -->
+	<!-- <app preloader="Preloader" resizable="true" /> -->
+	<app preloader="flixel.system.FlxPreloader" />
 	<!-- ____________________________ Window Settings ___________________________ -->
-
-	<!--These window settings apply to all targets-->
-	<window width="1280" height="720" fps="0" background="#000000" hardware="true" vsync="false" />
-
-	<!--HTML5-specific-->
-	<window if="html5" resizable="true" />
-
-	<!--Desktop-specific-->
-	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true"  vsync="false"/>
-	<!--Mobile-specific-->
-	<window if="mobile"  orientation="landscape" fullscreen="true"  resizable="false" width="0" height="0" />
-	<!--Switch-specific-->
-	<window if="switch"  orientation="landscape" fullscreen="true"  resizable="true"  width="0" height="0" />
-
+	<!-- These window settings apply to all targets -->
+	<window width="1280"
+					height="720"
+					fps="0"
+					background="#000000"
+					hardware="true"
+					vsync="false" />
+	<!-- HTML5-specific -->
+	<window if="html5"
+					resizable="true" />
+	<!-- Desktop-specific -->
+	<window if="desktop"
+					orientation="landscape"
+					fullscreen="false"
+					resizable="true"
+					vsync="false" />
+	<!-- Mobile-specific -->
+	<window if="mobile"
+					orientation="landscape"
+					fullscreen="true"
+					resizable="false"
+					width="0"
+					height="0" />
+	<!-- Switch-specific -->
+	<window if="switch"
+					orientation="landscape"
+					fullscreen="true"
+					resizable="true"
+					width="0"
+					height="0" />
 	<!-- _____________________________ Path Settings ____________________________ -->
-
 	<!-- Builds go to the export/ folder, depending on build type and operating system. -->
-	<set name="BUILD_DIR" value="export/debug" if="debug" />
-	<set name="BUILD_DIR" value="export/release" unless="debug" />
-
-	<!--
-		Split the Windows and Linux build folder by platform.
+	<set name="BUILD_DIR"
+			 value="export/debug"
+			 if="debug" />
+	<set name="BUILD_DIR"
+			 value="export/release"
+			 unless="debug" />
+	<!-- Split the Windows and Linux build folder by platform.
 		The <config> option wasn't documented ANYWHERE, this was a massive pain.
-		TODO: ACTUALLY FIX THIS IT DOESN'T WORK
-	-->
+		TODO: ACTUALLY FIX THIS IT DOESN'T WORK -->
 	<!-- <config:windows output-directory="Windows32" if="HXCPP_M32" /> -->
 	<!-- <config:windows output-directory="Windows64" if="HXCPP_M64" /> -->
 	<!-- <config:linux output-directory="Linux32" if="HXCPP_M32" /> -->
 	<!-- <config:linux output-directory="Linux64" if="HXCPP_M64" /> -->
-
 	<!-- All the code files are in the `source` folder. -->
 	<classpath path="source" />
-
-	<define name="PRELOAD_ALL" unless="web" />
-
+	<define name="PRELOAD_ALL"
+					unless="web" />
 	<section if="embedAssets">
-    <!--
-    <echo value="NOTICE: Build will embed assets to create a standalone executable!" />
-    -->
-		<assets path="assets/preload" rename="assets" embed="true" exclude="*.md,*.ogg" if="web"/>
-		<assets path="assets/preload" rename="assets" embed="true" exclude="*.md,*.mp3" unless="web"/>
+		<!-- <echo value="NOTICE: Build will embed assets to create a standalone executable!" /> -->
+		<assets path="assets/preload"
+						rename="assets"
+						embed="true"
+						exclude="*.md,*.ogg"
+						if="web" />
+		<assets path="assets/preload"
+						rename="assets"
+						embed="true"
+						exclude="*.md,*.mp3"
+						unless="web" />
 	</section>
 	<section unless="embedAssets">
-		<assets path="assets/preload" rename="assets" embed="false" exclude="*.md,*.ogg" if="web"/>
-		<assets path="assets/preload" rename="assets" embed="false" exclude="*.md,*.mp3" unless="web"/>
-
-    <!-- Default weeks are moved up here when not embedding, and down near the end if we are embedding. -->
-    <section if="includeDefaultWeeks">
-			<assets path="assets/_includeDefaultWeeks" rename="assets" embed="false" exclude="*.md" />
-  </section>
+		<assets path="assets/preload"
+						rename="assets"
+						embed="false"
+						exclude="*.md,*.ogg"
+						if="web" />
+		<assets path="assets/preload"
+						rename="assets"
+						embed="false"
+						exclude="*.md,*.mp3"
+						unless="web" />
+		<!-- Default weeks are moved up here when not embedding, and down near the end if we are embedding. -->
+		<section if="includeDefaultWeeks">
+			<assets path="assets/_includeDefaultWeeks"
+							rename="assets"
+							embed="false"
+							exclude="*.md" />
+		</section>
 	</section>
 	<section if="PRELOAD_ALL">
-    <library name="songs"    preload="true" />
-		<library name="shared"   preload="true" />
-		<library name="sm"       preload="true" />
+		<library name="songs"
+						 preload="true" />
+		<library name="shared"
+						 preload="true" />
+		<library name="sm"
+						 preload="true" />
 	</section>
-	
 	<section unless="PRELOAD_ALL">
-		<library name="songs"    preload="false" />
-		<library name="shared"   preload="false" />
-		<library name="sm"       preload="false" />
+		<library name="songs"
+						 preload="false" />
+		<library name="shared"
+						 preload="false" />
+		<library name="sm"
+						 preload="false" />
 	</section>
-
 	<!-- Always embed scripts. -->
-	<library name="scripts" preload="true" embed="true" />
-  <library name="core"    preload="true" embed="true" />
-	
-	<!--
-		Use -DembedAssets to put the base game's files INSIDE the exe.
-		If users want to access them they can view the repo, and if they want to replace them they can use a mod.
-	-->
+	<library name="scripts" preload="true" />
+	<library name="core"
+					 preload="true"
+					 embed="true" />
+	<!-- Use -DembedAssets to put the base game's files INSIDE the exe.
+		If users want to access them they can view the repo, and if they want to replace them they can use a mod. -->
 	<section if="embedAssets">
 		<!-- Exclude .md files to add documentation to the codebase without including them in builds. -->
-    <assets path="assets/core"     library="core"     embed="true" />
-    <assets path="assets/songs"    library="songs"    embed="true" exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/songs"    library="songs"    embed="true" exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/shared"   library="shared"   embed="true" exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/shared"   library="shared"   embed="true" exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/scripts"  library="scripts"  embed="true" exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/scripts"  library="scripts"  embed="true" exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/sm"       library="sm"       embed="true" exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/sm"       library="sm"       embed="true" exclude="*.md|*.mp3" unless="web"/>
+		<assets path="assets/core"
+						library="core"
+						embed="true" />
+		<assets path="assets/songs"
+						library="songs"
+						embed="true"
+						exclude="*.md|*.ogg"
+						if="web" />
+		<assets path="assets/songs"
+						library="songs"
+						embed="true"
+						exclude="*.md|*.mp3"
+						unless="web" />
+		<assets path="assets/shared"
+						library="shared"
+						embed="true"
+						exclude="*.md|*.ogg"
+						if="web" />
+		<assets path="assets/shared"
+						library="shared"
+						embed="true"
+						exclude="*.md|*.mp3"
+						unless="web" />
+		<assets path="assets/scripts"
+						library="scripts"
+						embed="true"
+						exclude="*.md|*.ogg"
+						if="web" />
+		<assets path="assets/scripts"
+						library="scripts"
+						embed="true"
+						exclude="*.md|*.mp3"
+						unless="web" />
+		<assets path="assets/sm"
+						library="sm"
+						embed="true"
+						exclude="*.md|*.ogg"
+						if="web" />
+		<assets path="assets/sm"
+						library="sm"
+						embed="true"
+						exclude="*.md|*.mp3"
+						unless="web" />
 	</section>
 	<section unless="embedAssets">
-    <assets path="assets/core"     library="core"     embed="false" />
-    <assets path="assets/songs"    library="songs"    embed="false"  exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/songs"    library="songs"    embed="false"  exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/shared"   library="shared"   embed="false" exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/shared"   library="shared"   embed="false" exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/scripts"  library="scripts"  embed="false"  exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/scripts"  library="scripts"  embed="false"  exclude="*.md|*.mp3" unless="web"/>
-		<assets path="assets/sm"       library="sm"       embed="false" exclude="*.md|*.ogg" if="web"/>
-		<assets path="assets/sm"       library="sm"       embed="false" exclude="*.md|*.mp3" unless="web"/>
+		<assets path="assets/core"
+						library="core"
+						embed="false" />
+		<assets path="assets/songs"
+						library="songs"
+						embed="false"
+						exclude="*.md|*.ogg"
+						if="web" />
+		<assets path="assets/songs"
+						library="songs"
+						embed="false"
+						exclude="*.md|*.mp3"
+						unless="web" />
+		<assets path="assets/shared"
+						library="shared"
+						embed="false"
+						exclude="*.md|*.ogg"
+						if="web" />
+		<assets path="assets/shared"
+						library="shared"
+						embed="false"
+						exclude="*.md|*.mp3"
+						unless="web" />
+		<assets path="assets/scripts"
+						library="scripts"
+						embed="false"
+						exclude="*.md|*.ogg"
+						if="web" />
+		<assets path="assets/scripts"
+						library="scripts"
+						embed="false"
+						exclude="*.md|*.mp3"
+						unless="web" />
+		<assets path="assets/sm"
+						library="sm"
+						embed="false"
+						exclude="*.md|*.ogg"
+						if="web" />
+		<assets path="assets/sm"
+						library="sm"
+						embed="false"
+						exclude="*.md|*.mp3"
+						unless="web" />
 	</section>
-
 	<section if="includeDefaultWeeks">
 		<section if="embedAssets">
-			<assets path="assets/_includeDefaultWeeks/tutorial" rename="assets/tutorial" library="tutorial" embed="true" exclude="*.md|*.ogg" if="web"/>
-			<assets path="assets/_includeDefaultWeeks/tutorial" rename="assets/tutorial" library="tutorial" embed="true" exclude="*.md|*.mp3" unless="web"/>
-			<assets path="assets/_includeDefaultWeeks/week1"    rename="assets/week1"    library="week1"    embed="true" exclude="*.md|*.ogg" if="web"/>
-			<assets path="assets/_includeDefaultWeeks/week1"    rename="assets/week1"    library="week1"    embed="true" exclude="*.md|*.mp3" unless="web"/>
-			<assets path="assets/_includeDefaultWeeks/week2"    rename="assets/week2"    library="week2"    embed="true" exclude="*.md|*.ogg" if="web"/>
-			<assets path="assets/_includeDefaultWeeks/week2"    rename="assets/week2"    library="week2"    embed="true" exclude="*.md|*.mp3" unless="web"/>
-			<assets path="assets/_includeDefaultWeeks/week3"    rename="assets/week3"    library="week3"    embed="true" exclude="*.md|*.ogg" if="web"/>
-			<assets path="assets/_includeDefaultWeeks/week3"    rename="assets/week3"    library="week3"    embed="true" exclude="*.md|*.mp3" unless="web"/>
-			<assets path="assets/_includeDefaultWeeks/week4"    rename="assets/week4"    library="week4"    embed="true" exclude="*.md|*.ogg" if="web"/>
-			<assets path="assets/_includeDefaultWeeks/week4"    rename="assets/week4"    library="week4"    embed="true" exclude="*.md|*.mp3" unless="web"/>
-			<assets path="assets/_includeDefaultWeeks/week5"    rename="assets/week5"    library="week5"    embed="true" exclude="*.md|*.ogg" if="web"/>
-			<assets path="assets/_includeDefaultWeeks/week5"    rename="assets/week5"    library="week5"    embed="true" exclude="*.md|*.mp3" unless="web"/>
-			<assets path="assets/_includeDefaultWeeks/week6"    rename="assets/week6"    library="week6"    embed="true" exclude="*.md|*.ogg" if="web"/>
-			<assets path="assets/_includeDefaultWeeks/week6"    rename="assets/week6"    library="week6"    embed="true" exclude="*.md|*.mp3" unless="web"/>	
+			<assets path="assets/_includeDefaultWeeks/tutorial"
+							rename="assets/tutorial"
+							library="tutorial"
+							embed="true"
+							exclude="*.md|*.ogg"
+							if="web" />
+			<assets path="assets/_includeDefaultWeeks/tutorial"
+							rename="assets/tutorial"
+							library="tutorial"
+							embed="true"
+							exclude="*.md|*.mp3"
+							unless="web" />
+			<assets path="assets/_includeDefaultWeeks/week1"
+							rename="assets/week1"
+							library="week1"
+							embed="true"
+							exclude="*.md|*.ogg"
+							if="web" />
+			<assets path="assets/_includeDefaultWeeks/week1"
+							rename="assets/week1"
+							library="week1"
+							embed="true"
+							exclude="*.md|*.mp3"
+							unless="web" />
+			<assets path="assets/_includeDefaultWeeks/week2"
+							rename="assets/week2"
+							library="week2"
+							embed="true"
+							exclude="*.md|*.ogg"
+							if="web" />
+			<assets path="assets/_includeDefaultWeeks/week2"
+							rename="assets/week2"
+							library="week2"
+							embed="true"
+							exclude="*.md|*.mp3"
+							unless="web" />
+			<assets path="assets/_includeDefaultWeeks/week3"
+							rename="assets/week3"
+							library="week3"
+							embed="true"
+							exclude="*.md|*.ogg"
+							if="web" />
+			<assets path="assets/_includeDefaultWeeks/week3"
+							rename="assets/week3"
+							library="week3"
+							embed="true"
+							exclude="*.md|*.mp3"
+							unless="web" />
+			<assets path="assets/_includeDefaultWeeks/week4"
+							rename="assets/week4"
+							library="week4"
+							embed="true"
+							exclude="*.md|*.ogg"
+							if="web" />
+			<assets path="assets/_includeDefaultWeeks/week4"
+							rename="assets/week4"
+							library="week4"
+							embed="true"
+							exclude="*.md|*.mp3"
+							unless="web" />
+			<assets path="assets/_includeDefaultWeeks/week5"
+							rename="assets/week5"
+							library="week5"
+							embed="true"
+							exclude="*.md|*.ogg"
+							if="web" />
+			<assets path="assets/_includeDefaultWeeks/week5"
+							rename="assets/week5"
+							library="week5"
+							embed="true"
+							exclude="*.md|*.mp3"
+							unless="web" />
+			<assets path="assets/_includeDefaultWeeks/week6"
+							rename="assets/week6"
+							library="week6"
+							embed="true"
+							exclude="*.md|*.ogg"
+							if="web" />
+			<assets path="assets/_includeDefaultWeeks/week6"
+							rename="assets/week6"
+							library="week6"
+							embed="true"
+							exclude="*.md|*.mp3"
+							unless="web" />
 		</section>
 		<section unless="embedAssets">
-			<assets path="assets/_includeDefaultWeeks/tutorial" rename="assets/tutorial" library="tutorial" embed="false" exclude="*.md|*.ogg" if="web"/>
-			<assets path="assets/_includeDefaultWeeks/tutorial" rename="assets/tutorial" library="tutorial" embed="false" exclude="*.md|*.mp3" unless="web"/>
-			<assets path="assets/_includeDefaultWeeks/week1"    rename="assets/week1"    library="week1"    embed="false" exclude="*.md|*.ogg" if="web"/>
-			<assets path="assets/_includeDefaultWeeks/week1"    rename="assets/week1"    library="week1"    embed="false" exclude="*.md|*.mp3" unless="web"/>
-			<assets path="assets/_includeDefaultWeeks/week2"    rename="assets/week2"    library="week2"    embed="false" exclude="*.md|*.ogg" if="web"/>
-			<assets path="assets/_includeDefaultWeeks/week2"    rename="assets/week2"    library="week2"    embed="false" exclude="*.md|*.mp3" unless="web"/>
-			<assets path="assets/_includeDefaultWeeks/week3"    rename="assets/week3"    library="week3"    embed="false" exclude="*.md|*.ogg" if="web"/>
-			<assets path="assets/_includeDefaultWeeks/week3"    rename="assets/week3"    library="week3"    embed="false" exclude="*.md|*.mp3" unless="web"/>
-			<assets path="assets/_includeDefaultWeeks/week4"    rename="assets/week4"    library="week4"    embed="false" exclude="*.md|*.ogg" if="web"/>
-			<assets path="assets/_includeDefaultWeeks/week4"    rename="assets/week4"    library="week4"    embed="false" exclude="*.md|*.mp3" unless="web"/>
-			<assets path="assets/_includeDefaultWeeks/week5"    rename="assets/week5"    library="week5"    embed="false" exclude="*.md|*.ogg" if="web"/>
-			<assets path="assets/_includeDefaultWeeks/week5"    rename="assets/week5"    library="week5"    embed="false" exclude="*.md|*.mp3" unless="web"/>
-			<assets path="assets/_includeDefaultWeeks/week6"    rename="assets/week6"    library="week6"    embed="false" exclude="*.md|*.ogg" if="web"/>
-			<assets path="assets/_includeDefaultWeeks/week6"    rename="assets/week6"    library="week6"    embed="false" exclude="*.md|*.mp3" unless="web"/>	
-		</section>
-  </section>
-
-	<!--
-		Assets that provide weeks 1-6 are in a separate folder.
-		To include them in a game build, run with the `-DincludeDefaultWeeks` argument.
-		NOTE: When embedding, the default weeks need to be included after. If you set embed=false, you need to move them before the EXE.
-	-->
-	<section if="includeDefaultWeeks">
-    <!--
-		<echo value="NOTICE: Build will include default weeks!" />
-    -->
-		<section if="embedAssets">
-			<assets path="assets/_includeDefaultWeeks" rename="assets" embed="true" exclude="*.md" />
-		</section>
-
-		<section if="PRELOAD_ALL">
-			<library name="tutorial" preload="true" />
-			<library name="week1"    preload="true" />
-			<library name="week2"    preload="true" />
-			<library name="week3"    preload="true" />
-			<library name="week4"    preload="true" />
-			<library name="week5"    preload="true" />
-			<library name="week6"    preload="true" />
-		</section>
-		
-		<section unless="PRELOAD_ALL">
-			<library name="tutorial" preload="false" />
-			<library name="week1"    preload="false" />
-			<library name="week2"    preload="false" />
-			<library name="week3"    preload="false" />
-			<library name="week4"    preload="false" />
-			<library name="week5"    preload="false" />
-			<library name="week6"    preload="false" />
+			<assets path="assets/_includeDefaultWeeks/tutorial"
+							rename="assets/tutorial"
+							library="tutorial"
+							embed="false"
+							exclude="*.md|*.ogg"
+							if="web" />
+			<assets path="assets/_includeDefaultWeeks/tutorial"
+							rename="assets/tutorial"
+							library="tutorial"
+							embed="false"
+							exclude="*.md|*.mp3"
+							unless="web" />
+			<assets path="assets/_includeDefaultWeeks/week1"
+							rename="assets/week1"
+							library="week1"
+							embed="false"
+							exclude="*.md|*.ogg"
+							if="web" />
+			<assets path="assets/_includeDefaultWeeks/week1"
+							rename="assets/week1"
+							library="week1"
+							embed="false"
+							exclude="*.md|*.mp3"
+							unless="web" />
+			<assets path="assets/_includeDefaultWeeks/week2"
+							rename="assets/week2"
+							library="week2"
+							embed="false"
+							exclude="*.md|*.ogg"
+							if="web" />
+			<assets path="assets/_includeDefaultWeeks/week2"
+							rename="assets/week2"
+							library="week2"
+							embed="false"
+							exclude="*.md|*.mp3"
+							unless="web" />
+			<assets path="assets/_includeDefaultWeeks/week3"
+							rename="assets/week3"
+							library="week3"
+							embed="false"
+							exclude="*.md|*.ogg"
+							if="web" />
+			<assets path="assets/_includeDefaultWeeks/week3"
+							rename="assets/week3"
+							library="week3"
+							embed="false"
+							exclude="*.md|*.mp3"
+							unless="web" />
+			<assets path="assets/_includeDefaultWeeks/week4"
+							rename="assets/week4"
+							library="week4"
+							embed="false"
+							exclude="*.md|*.ogg"
+							if="web" />
+			<assets path="assets/_includeDefaultWeeks/week4"
+							rename="assets/week4"
+							library="week4"
+							embed="false"
+							exclude="*.md|*.mp3"
+							unless="web" />
+			<assets path="assets/_includeDefaultWeeks/week5"
+							rename="assets/week5"
+							library="week5"
+							embed="false"
+							exclude="*.md|*.ogg"
+							if="web" />
+			<assets path="assets/_includeDefaultWeeks/week5"
+							rename="assets/week5"
+							library="week5"
+							embed="false"
+							exclude="*.md|*.mp3"
+							unless="web" />
+			<assets path="assets/_includeDefaultWeeks/week6"
+							rename="assets/week6"
+							library="week6"
+							embed="false"
+							exclude="*.md|*.ogg"
+							if="web" />
+			<assets path="assets/_includeDefaultWeeks/week6"
+							rename="assets/week6"
+							library="week6"
+							embed="false"
+							exclude="*.md|*.mp3"
+							unless="web" />
 		</section>
 	</section>
-
+	<!-- Assets that provide weeks 1-6 are in a separate folder.
+		To include them in a game build, run with the `-DincludeDefaultWeeks` argument.
+		NOTE: When embedding, the default weeks need to be included after. If you set embed=false, you need to move them before the EXE. -->
+	<section if="includeDefaultWeeks">
+		<!-- <echo value="NOTICE: Build will include default weeks!" /> -->
+		<section if="embedAssets">
+			<assets path="assets/_includeDefaultWeeks"
+							rename="assets"
+							embed="true"
+							exclude="*.md" />
+		</section>
+		<section if="PRELOAD_ALL">
+			<library name="tutorial"
+							 preload="true" />
+			<library name="week1"
+							 preload="true" />
+			<library name="week2"
+							 preload="true" />
+			<library name="week3"
+							 preload="true" />
+			<library name="week4"
+							 preload="true" />
+			<library name="week5"
+							 preload="true" />
+			<library name="week6"
+							 preload="true" />
+		</section>
+		<section unless="PRELOAD_ALL">
+			<library name="tutorial"
+							 preload="false" />
+			<library name="week1"
+							 preload="false" />
+			<library name="week2"
+							 preload="false" />
+			<library name="week3"
+							 preload="false" />
+			<library name="week4"
+							 preload="false" />
+			<library name="week5"
+							 preload="false" />
+			<library name="week6"
+							 preload="false" />
+		</section>
+	</section>
 	<!-- Move the example mods to the `mods` folder of the build. -->
 	<section unless="excludeExampleMods">
-		<assets path='example_mods'   rename='mods' embed='false'/>
+		<assets path="example_mods"
+						rename="mods"
+						embed="false" />
 	</section>
-		
-	<assets path='art/readme.txt' rename='do NOT readme.txt' />
-	<assets path='LICENSE'        rename='LICENSE.txt' />
-
-	<!--
-		NOTE FOR FUTURE SELF SINCE FONTS ARE ALWAYS FUCKY 
+	<assets path="art/readme.txt"
+					rename="do NOT readme.txt" />
+	<assets path="LICENSE"
+					rename="LICENSE.txt" />
+	<!-- NOTE FOR FUTURE SELF SINCE FONTS ARE ALWAYS FUCKY 
 		TO FIX ONE OF THEM, I CONVERTED IT TO OTF. DUNNO IF YOU NEED TO
 		THEN UHHH I USED THE NAME OF THE FONT WITH SETFORMAT() ON THE TEXT!!!
-		NOT USING A DIRECT THING TO THE ASSET!!!
-	-->
-	<assets path="assets/fonts" embed='true'/>
-
+		NOT USING A DIRECT THING TO THE ASSET!!! -->
+	<assets path="assets/fonts"
+					embed="true" />
 	<!-- _______________________________ Libraries ______________________________ -->
-
 	<!-- HaxeFlixel is the game engine that the game runs on. It handles rendering, game loop, inputs, etc. -->
 	<haxelib name="flixel" />
-	<!--<haxedev set='webgl' /> -->
-
+	<!-- <haxedev set='webgl' /> -->
 	<!-- A set of powerful additional -->
 	<haxelib name="flixel-addons" />
-
 	<!-- A set of additional functions for working with strings. -->
-	<haxelib name="haxe-strings"/>
-
+	<haxelib name="haxe-strings" />
 	<!-- A localization library. We'll start using this eventually for multiple language support. -->
-	<haxelib name="firetongue"/>
-
+	<haxelib name="firetongue" />
 	<!-- Used for parsing and executing uncompiled Haxe code. This will be useful for future modding stuff. -->
 	<haxelib name="hscript" />
-
 	<!-- A motion library. Used by VideoHandler. -->
 	<haxelib name="actuate" />
-
 	<!-- A library which allows loading and parting of WEBM video files. Used for cutscenes. -->
-	<haxelib name="extension-webm"/>
-
+	<haxelib name="extension-webm" />
 	<!-- A library providing a consistent set of user interface widgets. -->
 	<haxelib name="flixel-ui" />
-
 	<!-- A library for tolerant JSON parsing. Fewer bugs caused by typos means fewer issues on GitHub. -->
 	<haxelib name="tjson" />
-
 	<!-- An FMOD wrapper for Haxe. Includes APIs for sound manipulation. -->
-	<!--<haxelib name="haxefmod" />-->
-
+	<!-- <haxelib name="haxefmod" /> -->
 	<!-- Allows for atomic mod loading and asset replacement. Powers the ModCore system. -->
-	<haxelib name="polymod"/>
-
+	<haxelib name="polymod" />
 	<!-- Discord API, powers presence integration. -->
-	<haxelib name="discord_rpc" if="desktop"/>
-
+	<haxelib name="discord_rpc"
+					 if="desktop" />
 	<!-- LuaJIT is used for parsing Lua files. Required for modcharts. -->
-	<haxelib name="linc_luajit" if="desktop"/>
-	<haxelib name="hxvm-luajit" if="desktop"/>
-	<haxedef name="LINC_LUA_RELATIVE_DYNAMIC_LIB"/>
-
+	<haxelib name="linc_luajit"
+					 if="desktop" />
+	<haxelib name="hxvm-luajit"
+					 if="desktop" />
+	<haxedef name="LINC_LUA_RELATIVE_DYNAMIC_LIB" />
 	<!-- ______________________________ Haxedefines _____________________________ -->
-
-	<!--Disable the Flixel core focus lost screen-->
+	<!-- Disable the Flixel core focus lost screen -->
 	<haxedef name="FLX_NO_FOCUS_LOST_SCREEN" />
+	<!-- Disable the Flixel core debugger. Automatically gets set whenever you compile in release mode! -->
+	<haxedef name="FLX_NO_DEBUG"
+					 unless="debug" />
+	<!-- Enable this for Nape release builds for a serious peformance improvement -->
+	<haxedef name="NAPE_RELEASE_BUILD"
+					 unless="debug" />
+	<haxeflag name="--no-traces"
+						unless="debug" />
+	<haxeflag name="--dce full"
+						if="release" />
+	<haxedef name="HXCPP_CHECK_POINTER" />
+	<haxedef name="HXCPP_STACK_LINE" />
+	<!-- On desktop debug builds, you can use '-Dtelemetry' to enable the hxtelemetry library. -->
+	<!-- Download the program hxScout to see memory usage and frame timings. -->
+	<!-- I can't for the life of me get this stuff to work. -->
+	<!-- <section if="telemetry">
+			<haxedef name="HXCPP_STACK_TRACE" />
 
-	<!--Disable the Flixel core debugger. Automatically gets set whenever you compile in release mode!-->
-	<haxedef name="FLX_NO_DEBUG" unless="debug" />
-
-	<!--Enable this for Nape release builds for a serious peformance improvement-->
-	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
-
-	<haxeflag name="--no-traces" unless="debug" />
-	<haxeflag name="--dce full" if="release" />
-
-  <haxedef name="HXCPP_CHECK_POINTER" />
-  <haxedef name="HXCPP_STACK_LINE" />
-
-  <!-- On desktop debug builds, you can use '-Dtelemetry' to enable the hxtelemetry library. -->
-  <!-- Download the program hxScout to see memory usage and frame timings.-->
-  <!-- I can't for the life of me get this stuff to work. -->
-  <!-- 
-    <section if="telemetry">
-      <haxedef name="HXCPP_STACK_TRACE" />
-
-      <haxelib name="hxtelemetry" />
-      <config:hxtelemetry app_name="Funkin" host="localhost" port="7934" profiler="true" allocations="true" /> 
-    </section>
-  -->
-
+			<haxelib name="hxtelemetry" />
+			<config:hxtelemetry app_name="Funkin" host="localhost" port="7934" profiler="true" allocations="true" /> 
+		</section> -->
 	<!-- _________________________________ Custom _______________________________ -->
-
-	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
-	<icon path="art/icon8.png" size='8'/>
-	<icon path="art/icon16.png" size='16'/>
-	<icon path="art/icon32.png" size='32'/>
-	<icon path="art/icon64.png" size='64'/>
-	<icon path="art/icon128.png" size='128'/>
-	<icon path="art/icon256.png" size='256'/>
-	<icon path="art/icon512.png" size='512'/>
+	<!-- Place custom nodes like icons here (higher priority to override the HaxeFlixel icon) -->
+	<icon path="art/icon8.png"
+				size="8" />
+	<icon path="art/icon16.png"
+				size="16" />
+	<icon path="art/icon32.png"
+				size="32" />
+	<icon path="art/icon64.png"
+				size="64" />
+	<icon path="art/icon128.png"
+				size="128" />
+	<icon path="art/icon256.png"
+				size="256" />
+	<icon path="art/icon512.png"
+				size="512" />
 	<icon path="art/iconOG.png" />
-
 	<!-- On mobile targets, optimize by disabling keyboard- and mouse-related logic. -->
-	<haxedef name="FLX_NO_KEYBOARD" if="mobile" />
-	<haxedef name="FLX_NO_MOUSE" if="mobile" />
+	<haxedef name="FLX_NO_KEYBOARD"
+					 if="mobile" />
+	<haxedef name="FLX_NO_MOUSE"
+					 if="mobile" />
 	<!-- We also disable touch on computers. Some computers have touch but who cares. -->
-	<haxedef name="FLX_NO_TOUCH" if="desktop" unless="html5"/>
-
+	<haxedef name="FLX_NO_TOUCH"
+					 if="desktop"
+					 unless="html5" />
 	<!-- Use defines to ensure compile-time definitions have readable context. -->
 	<!-- Allowed inputs are mobile,desktop,web,ios,android,windows,mac,linux,switch,html5,cpp,neko,flash,js -->
-
 	<!-- Defines whether the Discord presence client should be enabled. Only works on desktop. -->
-	<haxedef name="FEATURE_DISCORD" if="desktop" />
-	<echo value="Platform supports feature: Dscord" if="FEATURE_DISCORD" />
+	<haxedef name="FEATURE_DISCORD"
+					 if="desktop" />
+	<echo value="Platform supports feature: Dscord"
+				if="FEATURE_DISCORD" />
 	<!-- Defines whether the file system can be read/written directly. Does not work in browser. -->
-	<haxedef name="FEATURE_FILESYSTEM" if="desktop" />
-	<echo value="Platform supports feature: File System Access" if="FEATURE_FILESYSTEM" />
+	<haxedef name="FEATURE_FILESYSTEM"
+					 if="desktop" />
+	<echo value="Platform supports feature: File System Access"
+				if="FEATURE_FILESYSTEM" />
 	<!-- Defines whether Lua Modcharts should be enabled. Only works on Windows. -->
-	<haxedef name="FEATURE_LUAMODCHART" if="desktop" />
-	<echo value="Platform supports feature: LUA Modcharts" if="FEATURE_LUAMODCHART" />
+	<haxedef name="FEATURE_LUAMODCHART"
+					 if="desktop" />
+	<echo value="Platform supports feature: LUA Modcharts"
+				if="FEATURE_LUAMODCHART" />
 	<!-- Defines whether WebM videos should be enabled. Currently only enabled on Windows. -->
-	<haxedef name="FEATURE_WEBM" if="windows" />
-	<echo value="Platform supports feature: WebM" if="FEATURE_WEBM" />
+	<haxedef name="FEATURE_WEBM"
+					 if="windows" />
+	<echo value="Platform supports feature: WebM"
+				if="FEATURE_WEBM" />
 	<!-- Defines whether the Thread class can be used. -->
-	<haxedef name="FEATURE_MULTITHREADING" if="cpp" />
-	<echo value="Platform supports feature: Multithreading" if="FEATURE_MULTITHREADING" />
+	<haxedef name="FEATURE_MULTITHREADING"
+					 if="cpp" />
+	<echo value="Platform supports feature: Multithreading"
+				if="FEATURE_MULTITHREADING" />
 	<!-- Defines whether mods are supported on this platform. -->
-	<haxedef name="FEATURE_MODCORE" if="desktop" />
-	<echo value="Platform supports feature: ModCore" if="FEATURE_MODCORE" />
+	<haxedef name="FEATURE_MODCORE"
+					 if="desktop" />
+	<echo value="Platform supports feature: ModCore"
+				if="FEATURE_MODCORE" />
 	<!-- Defines whether GameJolt integration is supported on this platform. -->
-	<haxedef name="FEATURE_GAMEJOLT" if="html5" />
-	<echo value="Platform supports feature: GameJolt" if="FEATURE_GAMEJOLT" />
+	<haxedef name="FEATURE_GAMEJOLT"
+					 if="html5" />
+	<echo value="Platform supports feature: GameJolt"
+				if="FEATURE_GAMEJOLT" />
 	<!-- Defines whether Kongregate integration is supported on this platform. -->
-	<haxedef name="FEATURE_KONGREGATE" if="html5" />
-	<echo value="Platform supports feature: Kongregate" if="FEATURE_KONGREGATE" />
-
+	<haxedef name="FEATURE_KONGREGATE"
+					 if="html5" />
+	<echo value="Platform supports feature: Kongregate"
+				if="FEATURE_KONGREGATE" />
 	<!-- Use defines to configure the behavior of Polymod. -->
-	<haxedef name="POLYMOD_SCRIPT_EXT" value=".hscript" />
-	<haxedef name="POLYMOD_SCRIPT_LIBRARY" value="scripts" />
-	<haxedef name="POLYMOD_USE_NAMESPACE" value="false" />
-	<haxedef name="POLYMOD_ROOT_PATH" value="assets/scripts/" />
-
+	<haxedef name="POLYMOD_SCRIPT_EXT"
+					 value=".hscript" />
+	<haxedef name="POLYMOD_SCRIPT_LIBRARY"
+					 value="scripts" />
+	<haxedef name="POLYMOD_USE_NAMESPACE"
+					 value="false" />
+	<haxedef name="POLYMOD_ROOT_PATH"
+					 value="assets/scripts/" />
 </project>

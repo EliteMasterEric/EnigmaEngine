@@ -55,7 +55,7 @@ import lime.app.Application;
 
 using hx.strings.Strings;
 
-class MainMenuState extends MusicBeatState implements IHook
+class MainMenuState extends MusicBeatState // implements IHook
 {
 	var menuItems:FlxTypedGroup<FlxSprite>;
 
@@ -78,10 +78,10 @@ class MainMenuState extends MusicBeatState implements IHook
 	/**
 	 * Mod hook called after the main menu screen is built.
 	 */
-	@:hscript
-	public function onCreateMainMenuState()
-	{
-	}
+	// @:hscript
+	// public function onCreateMainMenuState()
+	// {
+	// }
 
 	function addToState(obj:FlxBasic)
 	{
@@ -151,7 +151,7 @@ class MainMenuState extends MusicBeatState implements IHook
 
 		Debug.logTrace('Finished building main menu state.');
 
-		onCreateMainMenuState();
+		// onCreateMainMenuState();
 	}
 
 	public function finishFunnyMove(flxTween:FlxTween)

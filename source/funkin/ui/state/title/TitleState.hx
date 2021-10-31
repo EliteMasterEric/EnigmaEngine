@@ -62,7 +62,7 @@ import funkin.behavior.api.Discord.DiscordClient;
 
 using hx.strings.Strings;
 
-class TitleState extends MusicBeatState implements IHook
+class TitleState extends MusicBeatState // implements IHook
 {
 	/**
 	 * Whether the state transition animation has been initialized.
@@ -161,10 +161,10 @@ class TitleState extends MusicBeatState implements IHook
 	/**
 	 * Mod hook called before the title screen starts.
 	 */
-	@:hscript
-	public function onCreateTitleState()
-	{
-	}
+	// @:hscript
+	// public function onCreateTitleState()
+	// {
+	// }
 
 	public override function create():Void
 	{
@@ -227,7 +227,7 @@ class TitleState extends MusicBeatState implements IHook
 
 		Debug.logTrace('Initialized TitleState...');
 
-		onCreateTitleState();
+		// onCreateTitleState();
 	}
 
 	/**
