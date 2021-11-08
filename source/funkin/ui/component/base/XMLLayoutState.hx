@@ -51,7 +51,6 @@ class XMLLayoutState extends FlxUIState
 	override function create()
 	{
 		trace('Initializing a layout with XML (${getXMLId()})');
-		this._liveFilePath = Paths.rawTxt('ui/');
 		// Make sure the XML gets loaded.
 		this._xml_id = getXMLId();
 

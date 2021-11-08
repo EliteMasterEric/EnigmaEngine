@@ -68,7 +68,7 @@ class ModSplashState extends MusicBeatState
 			"One or more mods have been detected.\n"
 			+ (configFound ? "You have configured a custom mod order." : "No mod configuration found.")
 			+ "\nPress a key to choose an option:\n\n"
-			+ (configFound ? "1 : Play with configured mods." : "1: Play with all mods enabled.")
+			+ (configFound ? "SPACE/ENTER: Play with configured mods." : "SPACE/ENTER: Play with all mods enabled.")
 			+ "\n2 : Play without mods."
 			+ "\n3 : Configure my mods.",
 			32);
@@ -101,7 +101,7 @@ class ModSplashState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if (FlxG.keys.justPressed.ONE)
+		if (FlxG.keys.justPressed.ONE || FlxG.keys.justPressed.SPACE || FlxG.keys.justPressed.ENTER)
 		{
 			if (configFound)
 			{

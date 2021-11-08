@@ -18,6 +18,6 @@
   <button name="btn_unloadall"         use_def="vcr16" x="576" y="230" w="160" h="40" label="Unload All Mods"          />
   <button name="btn_revert"            use_def="vcr16" x="576" y="280" w="160" h="40" label="Revert Mod Config"        />
   <button name="btn_saveandexit"       use_def="vcr16" x="576" y="420" w="160" h="40" label="Save and Load Game"       />
-  <button name="btn_exitwithoutsaving" use_def="vcr16" x="576" y="450" w="160" h="40" label="Load Game without Saving" />
+  <button name="btn_exitwithoutsaving" use_def="vcr16" x="576" y="450" w="160" h="40" label="Discard Changes and Load Game" />
 
 </data>

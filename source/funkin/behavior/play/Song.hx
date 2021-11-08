@@ -67,6 +67,12 @@ typedef SongData =
 	 */
 	var ?songId:String;
 
+	/**
+	 * The path of the song's instrumental and vocal files.
+	 * @default The song ID.
+	 */
+	var ?songFile:String;
+
 	var chartVersion:String;
 	var notes:Array<SwagSection>;
 	var eventObjects:Array<SongEvent>;
@@ -292,8 +298,6 @@ class Song
 			return null;
 		var songData:SongData = cast jsonData;
 
-		trace(songData);
-
 		songData.songId = songId;
 
 		var songMetaData:SongMeta = cast jsonMetaData;
@@ -303,6 +307,15 @@ class Song
 		 */
 		if (songData.noteStyle == null)
 			songData.noteStyle = "normal";
+
+		if (songData.songFile == null)
+		{
+			songData.songFile = songId;
+		}
+		else
+		{
+			trace('SONG DATA IS ${songData.songFile} BLABLABLA');
+		}
 
 		if (songData.strumlineSize == null)
 			songData.strumlineSize = 4;

@@ -60,9 +60,10 @@
 	<error value="Target platform Emscripten is not supported."
 				 if="emscripten" />
 	<!-- I don't know why you'd want to build the game for one of these other ones.
-		If you have a good reason, post an issue about it on the GitHub repo, I'll read it. -->
-	<error value="Target platform HashLink is not supported."
-				 if="hl" />
+		If you have a good reason, post an issue about it on the GitHub repo, I'll read it.
+  -->
+  <error value="Target platform HashLink is not supported."
+         if="hl" />
 	<error value="Target platform Neko is not supported."
 				 if="neko" />
 	<error value="Target platform tvOS is not supported."
@@ -660,4 +661,5 @@
 					 value="false" />
 	<haxedef name="POLYMOD_ROOT_PATH"
 					 value="assets/scripts/" />
+  <haxedef name="POLYMOD_DEBUG" if="debug" />
 </project>

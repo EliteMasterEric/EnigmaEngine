@@ -53,7 +53,7 @@ class MusicBeatState extends FlxUIState // InteractableUIState
 	private var curDecimalBeat:Float = 0;
 	private var controls(get, never):CustomControls;
 
-  private var gameInput:GameInput;
+	private var gameInput:GameInput;
 
 	inline function get_controls():CustomControls
 	{
@@ -85,35 +85,39 @@ class MusicBeatState extends FlxUIState // InteractableUIState
 		TimingStruct.clearTimings();
 		(cast(Lib.current.getChildAt(0), Main)).setFPSCap(FlxG.save.data.fpsCap);
 
-    gameInput = new GameInput();
+		gameInput = new GameInput();
 
-    gameInput.addEventListener(GameInputEvent.DEVICE_ADDED, function(event:GameInputEvent) {
-      Debug.logTrace('New device connected: ${event.device.name} (${event.device.numControls} controls)');
-      onGamepadAdded(event);
-    });
+		gameInput.addEventListener(GameInputEvent.DEVICE_ADDED, function(event:GameInputEvent)
+		{
+			Debug.logTrace('New device connected: ${event.device.name} (${event.device.numControls} controls)');
+			onGamepadAdded(event);
+		});
 
-    gameInput.addEventListener(GameInputEvent.DEVICE_ADDED, function(event:GameInputEvent) {
-      Debug.logTrace('New device connected: ${event.device.name} (${event.device.numControls} controls)');
-      onGamepadRemoved(event);
-    });
+		gameInput.addEventListener(GameInputEvent.DEVICE_ADDED, function(event:GameInputEvent)
+		{
+			Debug.logTrace('New device connected: ${event.device.name} (${event.device.numControls} controls)');
+			onGamepadRemoved(event);
+		});
 
 		super.create();
 	}
 
-  /**
-   * Override me!
-   */
-  function onGamepadAdded(event:GameInputEvent) {
-    return;
-  }
+	/**
+	 * Override me!
+	 */
+	function onGamepadAdded(event:GameInputEvent)
+	{
+		return;
+	}
 
-  /**
-   * Override me!
-   * @param event 
-   */
-  function onGamepadRemoved(event:GameInputEvent) {
-    return;
-  }
+	/**
+	 * Override me!
+	 * @param event 
+	 */
+	function onGamepadRemoved(event:GameInputEvent)
+	{
+		return;
+	}
 
 	var array:Array<FlxColor> = [
 		FlxColor.fromRGB(148, 0, 211),
@@ -145,7 +149,7 @@ class MusicBeatState extends FlxUIState // InteractableUIState
 			{
 				var data = TimingStruct.getTimingAtTimestamp(Conductor.songPosition);
 
-				FlxG.watch.addQuick("Current Conductor Timing Seg", data.bpm);
+				Debug.quickWatch(data.bpm, "Current Conductor Timing Seg");
 
 				Conductor.crochet = ((60 / data.bpm) * 1000);
 

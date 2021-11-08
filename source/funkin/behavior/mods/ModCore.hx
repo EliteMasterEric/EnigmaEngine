@@ -93,8 +93,15 @@ class ModCore
 
 	public static function saveModList(loadedMods:Array<String>)
 	{
+		Debug.logInfo('Saving mod configuration...');
 		var rawSaveData = loadedMods.join('~');
+		Debug.logTrace(rawSaveData);
 		FlxG.save.data.modConfig = rawSaveData;
+		var result = FlxG.save.flush();
+		if (result)
+			Debug.logInfo('Mod configuration saved successfully.');
+		else
+			Debug.logWarn('Failed to save mod configuration.');
 	}
 
 	public static function loadModsById(ids:Array<String>)
@@ -214,6 +221,8 @@ class ModCore
 		var output = polymod.format.ParseRules.getDefault();
 		// Ensure TXT files have merge support.
 		output.addType("txt", TextFileFormat.LINES);
+		// Ensure script files have merge support.
+		output.addType("hscript", TextFileFormat.PLAINTEXT);
 
 		// You can specify the format of a specific file, with file extension.
 		// output.addFile("data/introText.txt", TextFileFormat.LINES)

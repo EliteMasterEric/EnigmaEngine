@@ -290,22 +290,6 @@ class StoryMenuState extends MusicBeatState
 	}
 
 	/**
-	 * Edit the player's save data to indicate they have unlocked the given week.
-	 * @param weekId The week ID.
-	 */
-	public static function unlockWeek(weekId:String)
-	{
-		if (FlxG.save.data.weeksUnlocked == null)
-		{
-			FlxG.save.data.weeksUnlocked = [weekId => true];
-		}
-		else
-		{
-			FlxG.save.data.weeksUnlocked.set(weekId, true);
-		}
-	}
-
-	/**
 	 * We have selected a week to play! Load it, add the songs to the playlist,
 	 * and start the PlayState.
 	 * @param weekId The string identifier of the week to play.
@@ -328,7 +312,7 @@ class StoryMenuState extends MusicBeatState
 		{
 			// If any song doesn't exist, stop loading the week.
 			FlxG.sound.play(Paths.sound('cancelMenu'));
-			Debug.logError('CANCELLED loading week (${weekId}): one or more songs are missing on this difficulty!');
+			Debug.logError('CANCELLED loading week (${weekId}): one or more songs are missing on this difficulty ($difficultyId)!');
 			return false;
 		}
 
@@ -398,11 +382,6 @@ class StoryMenuState extends MusicBeatState
 					grpWeekCharacters.members[1].playConfirm();
 					grpWeekCharacters.members[2].playConfirm();
 					selectedWeek = true;
-				}
-				else
-				{
-					// Play a sound.
-					FlxG.sound.play(Paths.sound('cancelMenu'));
 				}
 			}
 
@@ -480,6 +459,12 @@ class StoryMenuState extends MusicBeatState
 	function changeDifficulty(change:Int = 0):Void
 	{
 		difficultyItem.changeDifficulty(change);
+
+		// This is not a valid week/difficulty combo, skip it.
+		if (!Song.validateSongs(getCurrentWeek().playlist, difficultyItem.curDifficultyId))
+		{
+			changeDifficulty(change);
+		}
 
 		difficultyItem.alpha = 0;
 

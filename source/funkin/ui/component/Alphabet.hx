@@ -335,7 +335,7 @@ class AlphaCharacter extends FlxSprite
 	public function new(x:Float, y:Float)
 	{
 		super(x, y);
-		var tex = GraphicsAssets.loadSparrowAtlas('alphabet');
+		var tex = GraphicsAssets.loadSparrowAtlas('alphabet', null, true);
 		frames = tex;
 		if (FlxG.save.data.antialiasing)
 		{

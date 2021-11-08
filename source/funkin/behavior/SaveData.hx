@@ -32,40 +32,41 @@ import openfl.Lib;
 
 class SaveData
 {
-  // Notes on save data:
-  // Structure of FlxG.save.data:
-  // - debugLogLevel: Current log level of the debug logger. Defaults to TRACE.
-  // - preferences: A map of values stored by the options menu.
-  //   - Do NOT access preferences via FlxG directly.
-  //   - Instead, statically reference the Options menu option that controls it, like DownscrollOption.get().
-  // - binds: A map of values stored by the options menu, limited to keybinds.
-  // - songScores: A String->Int map of song IDs to highscores.
-  // - songCombos: A String->String map of song IDs to highest combos.
-  // - weekScores: A String->Int map of week IDs to highscores.
-  // - weekCombos: A String->String map of week IDs to highest combos.
-  // - weeksUnlocked: A String->Bool map of week IDs to whether they are unlocked.
-  // - modConfig: A delimited String representing the mod IDs currently loaded and their order.
+	// Notes on save data:
+	// Structure of FlxG.save.data:
+	// - debugLogLevel: Current log level of the debug logger. Defaults to TRACE.
+	// - preferences: A map of values stored by the options menu.
+	//   - Do NOT access preferences via FlxG directly.
+	//   - Instead, statically reference the Options menu option that controls it, like DownscrollOption.get().
+	// - binds: A map of values stored by the options menu, limited to keybinds.
+	// - songScores: A String->Int map of song IDs to highscores.
+	// - songCombos: A String->String map of song IDs to highest combos.
+	// - weekScores: A String->Int map of week IDs to highscores.
+	// - weekCombos: A String->String map of week IDs to highest combos.
+	// - weeksUnlocked: A String->Bool map of week IDs to whether they are unlocked.
+	// - modConfig: A delimited String representing the mod IDs currently loaded and their order.
 
-  /**
-   * Retrieve saved data.
-   */
-  public static function bindSave() {
-    // All saves are specific to the game.
-    // First argument is the save file ID, used for games that have multiple save slots.
-    // Second argument is a relative path, which we override. See https://github.com/HaxeFlixel/flixel/pull/2202
-    FlxG.save.bind('funkin', 'ninjamuffin99');
-  }
+	/**
+	 * Retrieve saved data.
+	 */
+	public static function bindSave()
+	{
+		// All saves are specific to the game.
+		// First argument is the save file ID, used for games that have multiple save slots.
+		// Second argument is a relative path, which we override. See https://github.com/HaxeFlixel/flixel/pull/2202
+		FlxG.save.bind('funkin', 'ninjamuffin99');
+	}
 
 	public static function initSave()
 	{
 		trace('Checking save data...');
 
-    Option.validatePreferences();
+		Option.validatePreferences();
 
-		if (FlxG.save.data.weeksUnlocked == null || FlxG.save.data.weeksUnlocked.get == null)
+		if (FlxG.save.data.modData == null || FlxG.save.data.modData.get == null)
 		{
-			var properValue:Map<String, Bool> = ['tutorial' => true];
-			FlxG.save.data.weeksUnlocked = properValue;
+			var properValue:Map<String, Dynamic> = [];
+			FlxG.save.data.modData = properValue;
 		}
 
 		if (FlxG.save.data.changedHit == null)

@@ -256,7 +256,7 @@ class Note extends FlxSprite
 		// Use >= because note data is base-0.
 		this.isCPUNote = this.noteData >= NoteUtil.fetchStrumlineSize();
 
-		trace('Translated ${rawNoteData} to ${noteData} (${isCPUNote})'); // Previous note is part of the logic used by sustain notes.
+		trace('Translated $rawNoteData to $noteData ($strumTime/$mustPress)'); // Previous note is part of the logic used by sustain notes.
 
 		// Set the note type.
 		this.noteType = noteType;
@@ -378,7 +378,6 @@ class Note extends FlxSprite
 
 			// This works both for normal colors and quantization colors
 			animation.play(EnigmaNote.getDirectionName(originColor, true) + ' End');
-			updateHitbox();
 
 			x -= width / 2;
 
@@ -393,6 +392,12 @@ class Note extends FlxSprite
 				prevNote.scale.y *= (stepHeight) / prevNote.height;
 				prevNote.updateHitbox();
 			}
+		}
+		else
+		{
+			// Ensure the hitbox and offsets are correct. This is to ensure the note is positioned properly.
+			updateHitbox();
+			centerOffsets();
 		}
 	}
 

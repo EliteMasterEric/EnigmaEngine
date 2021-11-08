@@ -1,0 +1,94 @@
+{
+  "song": {
+    "song": "Test Easy",
+    "strumlineSize": 5,
+    "bpm": 100,
+    "sections": 0,
+    "needsVoices": false,
+    "player1": "bf",
+    "player2": "gf",
+    "songFile": "tutorial",
+    "sectionLengths": [],
+    "speed": 1,
+    "notes": [
+      {
+        "mustHitSection": true,
+        "typeOfSection": 0,
+        "lengthInSteps": 16,
+        "sectionNotes": []
+      },
+      {
+        "mustHitSection": true,
+        "typeOfSection": 0,
+        "lengthInSteps": 16,
+        "sectionNotes": []
+      },
+      {
+        "mustHitSection": true,
+        "typeOfSection": 0,
+        "lengthInSteps": 16,
+        "sectionNotes": []
+      },
+      {
+        "mustHitSection": true,
+        "typeOfSection": 0,
+        "lengthInSteps": 16,
+        "sectionNotes": []
+      },
+      {
+        "mustHitSection": false,
+        "typeOfSection": 0,
+        "lengthInSteps": 16,
+        "sectionNotes": [
+          [9600, 0, 0],
+          [10800, 3, 0]
+        ]
+      },
+      {
+        "mustHitSection": false,
+        "typeOfSection": 0,
+        "lengthInSteps": 16,
+        "sectionNotes": [
+          [12000, 0, 0],
+          [13200, 3, 0]
+        ]
+      },
+      {
+        "mustHitSection": true,
+        "typeOfSection": 0,
+        "lengthInSteps": 16,
+        "sectionNotes": [
+          [14400, 0, 0],
+          [15600, 3, 0]
+        ]
+      },
+      {
+        "mustHitSection": true,
+        "typeOfSection": 0,
+        "lengthInSteps": 16,
+        "sectionNotes": [
+          [16800, 0, 0],
+          [18000, 3, 0]
+        ]
+      },
+      {
+        "mustHitSection": true,
+        "typeOfSection": 0,
+        "lengthInSteps": 16,
+        "sectionNotes": [[19200, 1, 750]]
+      },
+      {
+        "mustHitSection": true,
+        "typeOfSection": 0,
+        "lengthInSteps": 16,
+        "sectionNotes": []
+      },
+      {
+        "mustHitSection": true,
+        "typeOfSection": 0,
+        "lengthInSteps": 16,
+        "sectionNotes": []
+      }
+    ]
+  }
+}

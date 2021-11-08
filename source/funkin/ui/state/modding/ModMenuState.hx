@@ -157,11 +157,12 @@ class ModMenuState extends XMLLayoutState // extends MusicBeatState
 
 	function writeModPreferences()
 	{
+		Debug.logInfo('Saving mod configuration and continuing to game...');
 		var loadedModIds:Array<String> = loadedModsUI.listCurrentMods().map(function(mod:ModMetadata) return mod.id);
-
 		var modConfigStr = loadedModIds.join('~');
-
+		Debug.logTrace(modConfigStr);
 		FlxG.save.data.modConfig = modConfigStr;
+		FlxG.save.flush();
 	}
 
 	function loadMainGame()

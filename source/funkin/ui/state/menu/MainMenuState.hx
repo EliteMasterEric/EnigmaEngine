@@ -23,14 +23,8 @@
  */
 package funkin.ui.state.menu;
 
-import funkin.behavior.mods.IHook;
-import funkin.behavior.Debug;
-import flixel.FlxBasic;
-import openfl.Assets;
-import funkin.ui.component.menu.MainMenuItem;
-import funkin.ui.audio.MainMenuMusic;
-import funkin.ui.state.title.TitleState;
 import flixel.effects.FlxFlicker;
+import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -40,23 +34,34 @@ import flixel.input.gamepad.FlxGamepad;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import funkin.util.assets.GraphicsAssets;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import funkin.util.assets.Paths;
-import funkin.const.Enigma;
-import funkin.ui.state.options.OptionsMenu;
+import funkin.behavior.Debug;
+import funkin.behavior.mods.IHook;
+import funkin.behavior.options.Controls.KeyboardScheme;
 import funkin.behavior.options.Options;
+import funkin.const.Enigma;
+import funkin.ui.audio.MainMenuMusic;
+import funkin.ui.component.menu.MainMenuItem;
+import funkin.ui.state.options.OptionsMenu;
+import funkin.ui.state.title.TitleState;
+import funkin.util.assets.GraphicsAssets;
+import funkin.util.assets.Paths;
+import lime.app.Application;
+import openfl.Assets;
 #if FEATURE_DISCORD
 import funkin.behavior.api.Discord.DiscordClient;
 #end
-import funkin.behavior.options.Controls.KeyboardScheme;
-import lime.app.Application;
 
 using hx.strings.Strings;
 
-class MainMenuState extends MusicBeatState // implements IHook
+class MainMenuState extends MusicBeatState
 {
+	function testValue():String
+	{
+		return 'coolerBeans';
+	}
+
 	var menuItems:FlxTypedGroup<FlxSprite>;
 
 	var mainMenuOptions:Array<String> = ['story mode', 'freeplay', 'options'];
@@ -74,14 +79,6 @@ class MainMenuState extends MusicBeatState // implements IHook
 
 	// There's only ever one MainMenuState at a time, so we can make this static.
 	static var curSelected:Int = 0;
-
-	/**
-	 * Mod hook called after the main menu screen is built.
-	 */
-	// @:hscript
-	// public function onCreateMainMenuState()
-	// {
-	// }
 
 	function addToState(obj:FlxBasic)
 	{
@@ -150,8 +147,6 @@ class MainMenuState extends MusicBeatState // implements IHook
 		super.create();
 
 		Debug.logTrace('Finished building main menu state.');
-
-		// onCreateMainMenuState();
 	}
 
 	public function finishFunnyMove(flxTween:FlxTween)

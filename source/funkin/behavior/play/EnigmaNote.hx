@@ -80,12 +80,6 @@ class EnigmaNote
 	private static final PIXEL_ZOOM = 6 / 0.7;
 
 	/**
-	 * I found that notes were rendering a bit to the left by default.
-	 * Not sure if this is the correct solution.
-	 */
-	public static final NOTE_NUDGE = 2;
-
-	/**
 	 * From the raw note data, 
 	 * @param rawNoteData 
 	 * @param allowAltNames Set this to true to allow 
@@ -297,16 +291,12 @@ class EnigmaNote
 			}
 			PlayState.strumLineNotes.add(babyArrow);
 
-			// CPU arrows start out slightly off-center
-			PlayState.cpuStrumLineNotes.forEach(function(spr:FlxSprite)
+			// Make sure all sprite hitboxes are correctly sized and centered.
+			PlayState.strumLineNotes.forEach(function(spr:FlxSprite)
 			{
+				spr.updateHitbox();
 				spr.centerOffsets();
 			});
-			// ERIC: I think this happens to Player arrows too.
-			// PlayState.playerStrumLineNotes.forEach(function(spr:FlxSprite)
-			// {
-			// 	spr.centerOffsets();
-			// });
 		}
 	}
 
@@ -338,15 +328,18 @@ class EnigmaNote
 	 */
 	public static function swapNote(rawNoteData:Int):Int
 	{
-		var noteOffset = Math.floor(rawNoteData);
-		var baseNoteData = rawNoteData % 100;
-		return noteOffset + switch (baseNoteData)
+		switch (rawNoteData)
 		{
-			case NOTE_BASE_LEFT | NOTE_BASE_DOWN | NOTE_BASE_UP | NOTE_BASE_RIGHT: (baseNoteData + 4);
-			case NOTE_BASE_LEFT_ENEMY | NOTE_BASE_DOWN_ENEMY | NOTE_BASE_UP_ENEMY | NOTE_BASE_RIGHT_ENEMY: (baseNoteData - 4);
-			case NOTE_9K_LEFT | NOTE_9K_DOWN | NOTE_9K_UP | NOTE_9K_RIGHT | NOTE_9K_CENTER: (baseNoteData + 5);
-			case NOTE_9K_LEFT_ENEMY | NOTE_9K_DOWN_ENEMY | NOTE_9K_UP_ENEMY | NOTE_9K_RIGHT_ENEMY | NOTE_9K_CENTER_ENEMY: (baseNoteData - 5);
-			default: baseNoteData;
+			case NOTE_BASE_LEFT | NOTE_BASE_DOWN | NOTE_BASE_UP | NOTE_BASE_RIGHT:
+				return (rawNoteData + 4);
+			case NOTE_BASE_LEFT_ENEMY | NOTE_BASE_DOWN_ENEMY | NOTE_BASE_UP_ENEMY | NOTE_BASE_RIGHT_ENEMY:
+				return (rawNoteData - 4);
+			case NOTE_9K_LEFT | NOTE_9K_DOWN | NOTE_9K_UP | NOTE_9K_RIGHT | NOTE_9K_CENTER:
+				return (rawNoteData + 5);
+			case NOTE_9K_LEFT_ENEMY | NOTE_9K_DOWN_ENEMY | NOTE_9K_UP_ENEMY | NOTE_9K_RIGHT_ENEMY | NOTE_9K_CENTER_ENEMY:
+				return (rawNoteData - 5);
+			default:
+				return rawNoteData;
 		}
 	}
 

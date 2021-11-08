@@ -62,8 +62,10 @@ import funkin.behavior.api.Discord.DiscordClient;
 
 using hx.strings.Strings;
 
-class TitleState extends MusicBeatState // implements IHook
+class TitleState extends MusicBeatState implements IHook
 {
+	var testValue:String = 'coolBeans';
+
 	/**
 	 * Whether the state transition animation has been initialized.
 	 * We only need to do this once for the life of the application.
@@ -158,13 +160,36 @@ class TitleState extends MusicBeatState // implements IHook
 
 	var creditsGraphicCache:Map<String, FlxSprite>;
 
+	// Callbacks provided by hscript.
+	var cbOnCreate:Void->Void = function() return;
+	var cbOnCreditsDone:Void->Void = function() return;
+	var cbOnExit:Void->Void = function() return;
+
+	/**
+	 * Mod hook called when the credits sequence starts.
+	 */
+	@:hscript({
+		pathName: "menu/TitleScreen",
+	})
+	public function buildTitleScreenHooks():Void
+	{
+		if (script_variables.get('onCreate') != null)
+			cbOnCreate = script_variables.get('onCreate');
+		if (script_variables.get('onCreditsDone') != null)
+			cbOnCreditsDone = script_variables.get('onCreditsDone');
+		if (script_variables.get('onExit') != null)
+			cbOnExit = script_variables.get('onExit');
+		Debug.logTrace('Title screen hooks retrieved.');
+	}
+
 	/**
 	 * Mod hook called before the title screen starts.
+	 * @returns Whether the outdated screen should be shown.
 	 */
-	// @:hscript
-	// public function onCreateTitleState()
-	// {
-	// }
+	@:hscript
+	public function shouldShowOutdatedScreen():Bool
+	{
+	}
 
 	public override function create():Void
 	{
@@ -177,9 +202,6 @@ class TitleState extends MusicBeatState // implements IHook
 			sys.FileSystem.createDirectory('${Sys.getCwd()}/replays');
 		}
 		#end
-
-		Debug.logTrace('Listing all text assets:');
-		Debug.logTrace(OpenFlAssets.list(TEXT));
 
 		// No reason not to do this step as early as possible.
 		DifficultyCache.initDifficulties();
@@ -227,7 +249,7 @@ class TitleState extends MusicBeatState // implements IHook
 
 		Debug.logTrace('Initialized TitleState...');
 
-		// onCreateTitleState();
+		cbOnCreate();
 	}
 
 	/**
@@ -425,6 +447,7 @@ class TitleState extends MusicBeatState // implements IHook
 		if (FlxG.sound.music != null)
 		{
 			Conductor.songPosition = FlxG.sound.music.time;
+			Debug.quickWatch(Conductor.songPosition, 'songPos');
 		}
 
 		// Called when pressing ENTER, to either skip the intro or enter the main menu.
@@ -476,11 +499,13 @@ class TitleState extends MusicBeatState // implements IHook
 					{
 						returnedData[0] = data.substring(0, data.indexOf(';'));
 						returnedData[1] = data.substring(data.indexOf('-'), data.length);
-						if (!Enigma.ENGINE_VERSION.contains(returnedData[0].trim()) && !OutdatedSubState.leftState)
+						var shouldShow = shouldShowOutdatedScreen();
+						if (!Enigma.ENGINE_VERSION.contains(returnedData[0].trim()) && !OutdatedSubState.leftState && shouldShow)
 						{
 							Debug.logTrace('Your game version is outdated! ${returnedData[0]} != ${Enigma.ENGINE_VERSION}');
 							OutdatedSubState.needVer = returnedData[0];
 							OutdatedSubState.currChanges = returnedData[1];
+							cbOnExit();
 							FlxG.switchState(new OutdatedSubState());
 							clean();
 						}
@@ -488,6 +513,7 @@ class TitleState extends MusicBeatState // implements IHook
 						{
 							Debug.logTrace('Your game version is up to date! Have a nice day ;)');
 							FlxG.switchState(new MainMenuState());
+							cbOnExit();
 							clean();
 						}
 					}
@@ -829,6 +855,8 @@ class TitleState extends MusicBeatState // implements IHook
 			{
 				FlxG.sound.music.time = titleScreenData.beatDropMs;
 			}
+
+			cbOnCreditsDone();
 
 			skippedIntro = true;
 		}

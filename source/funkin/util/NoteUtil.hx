@@ -34,25 +34,23 @@ using hx.strings.Strings;
 
 class NoteUtil
 {
-	private static final BASE_NOTE_WIDTH = 160 * 0.7;
-
 	/**
 	 * Provides values based on the current strumlineSize:
 	 		* [NOTE POSITION, NOTE GRAPHIC SCALE, BASE OFFSET, OPTIMIZE OFFSET]
-	 		* - Distance between origin of each note
+	 		* - Distance between origin of each note (112 = 160 * 0.7)
 	 		* - Size of the note graphic (will have to shrink for larger strumlines)
 	 		* - Move over this amount to give space to the edge of the screen.
 	 */
 	public static final NOTE_GEOMETRY_DATA:Map<Int, Array<Float>> = [
-		1 => [BASE_NOTE_WIDTH, 0.70 * 2, 0], // lol what if it's twice as big
-		2 => [BASE_NOTE_WIDTH, 0.70, 0],
-		3 => [BASE_NOTE_WIDTH, 0.70, 0],
-		4 => [BASE_NOTE_WIDTH, 0.70, -80], // Base game.
-		5 => [BASE_NOTE_WIDTH, 0.70, -60], // The fifth note fits fine without scaling.
-		6 => [BASE_NOTE_WIDTH, 0.60, 0], // Six you need to scale down a bit.
-		7 => [BASE_NOTE_WIDTH, 0.70, 0],
-		8 => [BASE_NOTE_WIDTH, 0.70, 0],
-		9 => [BASE_NOTE_WIDTH, 0.70, 0],
+		1 => [160, 1.00, 0],
+		2 => [112, 0.70, 0],
+		3 => [112, 0.70, 0],
+		4 => [112, 0.70, -80], // Base game.
+		5 => [112, 0.70, -60], // The fifth note fits fine without scaling.
+		6 => [112, 0.60, 0], // Six you need to scale down a bit.
+		7 => [88, 0.55, 0],
+		8 => [88, 0.55, 0],
+		9 => [64, 0.45, 0], // Nine is very cramped.
 	];
 
 	static final Z = -1; // Invalid/Unused.
@@ -103,12 +101,11 @@ class NoteUtil
 	/**
 	 * Determine this note is on the player's side of the field.
 	 * 
-	 * Slightly misleading name; hazard notes that appear on the player's side will return true.
 	 * @param rawNoteData The raw note data value (no modulus performed).
 	 * @param mustHitSection The mustHitSection value from this note's section from the JSON file.
 	 * @return Whether the note needs to be hit by the player.
 	 */
-	public static function mustHitNote(rawNoteData:Int, mustHitSection:Bool):Bool
+	public static function isPlayerNote(rawNoteData:Int, mustHitSection:Bool):Bool
 	{
 		return switch (rawNoteData)
 		{
@@ -148,23 +145,14 @@ class NoteUtil
 	 * For example, in 5-note, left returns 0, center returns 2, and right returns 4 (rather than 3).
 	 * @return Int
 	 */
-	public static function getStrumlineIndex(rawNoteData:Int, strumlineSize:Int = 4, mustHitNote:Bool = false):Int
+	public static function getStrumlineIndex(noteData:Int, strumlineSize:Int = 4, mustHitNote:Bool = false):Int
 	{
 		// If mustHitNote is false, ids 0-3 correspond to the CPU strumline, not ours.
 		// We have to swap those notes around.
 		// Only applies to IDs 0-7, note IDs don't switch sides based on mustHitNote for 9K songs.
 		if (!mustHitNote)
-		{
-			if (EnigmaNote.NOTE_BASE_LEFT_ENEMY <= rawNoteData && rawNoteData <= EnigmaNote.NOTE_BASE_RIGHT_ENEMY)
-			{
-				rawNoteData -= EnigmaNote.NOTE_BASE_LEFT_ENEMY;
-			}
-			else if (EnigmaNote.NOTE_BASE_LEFT <= rawNoteData && rawNoteData <= EnigmaNote.NOTE_BASE_RIGHT)
-			{
-				rawNoteData += EnigmaNote.NOTE_BASE_LEFT_ENEMY;
-			}
-		}
-		var result = NOTE_DATA_TO_STRUMLINE_MAP[strumlineSize][rawNoteData];
+			noteData = EnigmaNote.swapNote(noteData);
+		var result = NOTE_DATA_TO_STRUMLINE_MAP[strumlineSize][noteData];
 		return result;
 	}
 
@@ -199,7 +187,7 @@ class NoteUtil
 		note.modAngle = strumlineNote.modAngle;
 
 		// Position of the note should line up.
-		note.x = strumlineNote.x + EnigmaNote.NOTE_NUDGE;
+		note.x = strumlineNote.x;
 
 		// Readjust the horizontal position of sustain notes.
 		if (note.isSustainNote)

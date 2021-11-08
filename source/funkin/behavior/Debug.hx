@@ -107,14 +107,18 @@ class Debug
 	 * NOTE: We redirect all Haxe `trace()` calls to this function.
 	 * @param input The message to display.
 	 * @param pos This magic type is auto-populated, and includes the line number and class it was called from.
+	 * @see Does NOTHING in release builds. https://twitter.com/KadeDeveloper/status/1454900040212770824
 	 */
 	public static function logTrace(input:Dynamic, ?pos:haxe.PosInfos):Void
 	{
+		#if debug
 		if (input == null)
 			return;
 		var output = formatOutput(input, pos);
+		// Don't display trace()
 		// writeToFlxGLog(output, LOG_STYLE_TRACE);
 		writeToLogFile(output, 'TRACE');
+		#end
 	}
 
 	/**

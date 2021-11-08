@@ -37,7 +37,6 @@ class HaxeSingleton
 		var fields:Array<Field> = Context.getBuildFields();
 
 		// We first make sure the class has a constructor.
-
 		if (cls.constructor == null)
 		{
 			// Context.info('Adding constructor to class ${cls.name}...', cls.pos);
@@ -73,6 +72,7 @@ class HaxeSingleton
 
 		// Context.info('Adding instance to class ${cls.name}...', cls.pos);
 		// Create a public static variable called 'instance'.
+		// WARNING: There is a bug where this initializes the instance too early for Lime assets to be loaded in.
 		fields.push(MacroUtil.buildVariable("instance", TPath(MacroUtil.buildTypePath(cls)), MacroUtil.createInstance(cls), true, true));
 
 		return fields;

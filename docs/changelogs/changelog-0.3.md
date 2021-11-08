@@ -11,7 +11,7 @@ First public release. Now has support for data-driven custom weeks and a mod con
   - Added a LOT of documentation.
 - ⛧Basic script hook implementation.
   - Script hooks basically let you make plugins for your mods, imagine modcharts but not just for songs.
-  - The only available hooks right now are `onStartCreateTitleScreen` and `onFinishCreateTitleScreen`, but a LOT MORE will be available.
+  - The only available scripts right now are `shouldShowOutdatedScreen.hscript` (which should output whether to show the screen that states the engine version is outdated) and `menu/TitleScreen.hscript` (which contains three functions, called onCreate, onCreditsDone, and onExit), but a LOT MORE will be available in the future (such as scripts for custom modchart).
 - ⛧Made weeks data driven and added support for custom weeks.
   - You can use custom backgrounds for the story menu (either a color or a 1280x400 image).
   - By default, weeks will use the colors from Week 7.
@@ -27,9 +27,11 @@ First public release. Now has support for data-driven custom weeks and a mod con
   - Bundle assets into the executable file.
   - Vanilla builds include Weeks 1-6 and the corresponding enemy characters and are good if you want to play the base game with the improved engine.
   - Base builds only include the Tutorial and are good if you want a baseline to install mods with.
+- You can now press SPACE to skip the starting splash screen and load all mods.
 - Project XML reworked with additional improvements.
   - Added new defines: `-DincludeDefaultWeeks`, `-DembedAssets`.
 - Added a unit test suite to help prevent regressions. See `test/README.md` for more info.
+- Song data JSON can now specify the song asset used. This is useful if two charts use the same song file or if different difficulties of a chart use modified audio.
 - Various bug fixes.
   - Fixed a bug where the game would crash if the `_meta.json` file for a song was missing.
   - Cut out informational logging calls for macros (people thought they were errors).
@@ -37,22 +39,30 @@ First public release. Now has support for data-driven custom weeks and a mod con
   - Fixed a bug where player inputs would hit notes on the CPU's side of the field.
     - Yeah I made a LOT of changes and I'm still working out the kinks.
   - Fixed a bug where strumlines would render with a gap between (I spent HOURS diagnosing the code but the problem was with the spritesheet).
+  - Boyfriend is no longer facing the wrong way.
+  - Notes no longer spawn on the left edge of the screen.
+  - Notes are no longer a TEENY bit offset horizontally.
+  - The CPU strumline is no longer offset a bit.
+  - Sustains should now render properly.
+  - Longer strumlines should be scaled properly.
+  - Strumlines should not move once hitting a note, even on longer strumlines.
+  - Fixed a bug where mod configuration would not persist between sessions.
+  - Fixed a bug where songs would end early.
+  - Fixed a bug where the game would try to end the song every frame, causing the game to basically crash at the results screen.
+  - Fixed a bug where, during 'duets', the other character's notes would be swapped twice, putting all notes on one strumline.
   - Removed Herobrine.
 
 
 ## To Implement
 Current Bug Checklist
+[] Pausing will occasionally not stop the song properly. Haven't been able to reliably reproduce this.
 [] Polymod doesn't list files properly when mods are disabled.
-[] Script hooks broke when I recompiled, figure out why
-[] CPU strumline is oriented wrong top 
-[] Duets don't work properly (both players are on the same strumline)
-[] Are sustains broken again?
-[] Boyfriend facing the wrong way.
 [] Author icon not displaying in default opening credits.
+[] Custom difficulties should not display in Story Weeks that don't have them.
+[] Story weeks with no valid difficulties should be completely hidden.
+[] Camera zoom is weird on the Tutorial song.
 
 - Finish moving all default characters to data files.
-- Test out custom characters.
-- Test out custom songs.
 - Test out custom weeks.
 - Test out custom difficulties.
 - Formatting changes.

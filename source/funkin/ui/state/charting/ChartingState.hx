@@ -23,6 +23,7 @@
  */
 package funkin.ui.state.charting;
 
+import funkin.behavior.Debug;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.ui.FlxInputText;
 import flixel.addons.ui.FlxUI;
@@ -1791,11 +1792,9 @@ class ChartingState extends MusicBeatState
 		if (FlxG.sound.music.time > FlxG.sound.music.length)
 			FlxG.sound.music.time = FlxG.sound.music.length;
 
-		#if debug
-		FlxG.watch.addQuick("Renderers", sectionRenderes.length);
-		FlxG.watch.addQuick("Notes", curRenderedNotes.length);
-		FlxG.watch.addQuick("Rendered Notes ", shownNotes.length);
-		#end
+		Debug.quickWatch(sectionRenderes.length, "Renderers");
+		Debug.quickWatch(curRenderedNotes.length, "Notes");
+		Debug.quickWatch(shownNotes.length, "Rendered Notes ");
 
 		for (i in sectionRenderes)
 		{
@@ -2271,7 +2270,7 @@ class ChartingState extends MusicBeatState
 
 			if (currentBPM != Conductor.bpm)
 			{
-				trace("BPM CHANGE to " + currentBPM);
+				trace('BPM CHANGE to $currentBPM');
 				Conductor.changeBPM(currentBPM, false);
 			}
 
@@ -2282,7 +2281,7 @@ class ChartingState extends MusicBeatState
 
 		var weird = getSectionByTime(start, true);
 
-		FlxG.watch.addQuick("Section", weird);
+		Debug.quickWatch(weird, "Section");
 
 		if (weird != null)
 		{
@@ -2365,7 +2364,7 @@ class ChartingState extends MusicBeatState
 			}
 		}
 
-		FlxG.watch.addQuick('daBeat', curDecimalBeat);
+		Debug.quickWatch(curDecimalBeat, 'daBeat');
 
 		if (FlxG.mouse.justPressed && !waitingForRelease)
 		{

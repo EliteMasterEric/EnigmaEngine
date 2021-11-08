@@ -22,8 +22,38 @@
  */
 package funkin.util.assets;
 
+import funkin.behavior.Debug;
 import openfl.Assets as OpenFlAssets;
 
 class AudioAssets
 {
+	public static function cacheSound(soundPath:String)
+	{
+		FlxG.sound.cache(soundPath);
+	}
+
+	/**
+	 * Plays the provided audio track.
+	 */
+	public static function playSound()
+	{
+	}
+
+	/**
+	 * Plays the provided audio track. Special in that it replaces the music.
+	 * Only one music track can be loaded at a time.
+	 */
+	public static function playMusic(songPath:String, shouldCache:Bool = true, volume:Float = 1, looped:Bool = false)
+	{
+		if (shouldCache)
+			cacheSound(songPath);
+		if (LibraryAssets.soundExists(songPath))
+		{
+			FlxG.sound.playMusic(songPath, volume, looped);
+		}
+		else
+		{
+			Debug.logError('Could not play music ($songPath) because the file does not exist.');
+		}
+	}
 }

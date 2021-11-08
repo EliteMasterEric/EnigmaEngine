@@ -437,7 +437,7 @@ class FreeplayState extends MusicBeatState
 		PlayState.SONG = Song.conversionChecks(currentSongData);
 		PlayState.storyWeek = null;
 		PlayState.songDifficulty = difficultyId;
-		Debug.logInfo('Loading song ${PlayState.SONG.songId} from week ${PlayState.storyWeek} into Free Play...');
+		Debug.logInfo('Loading song ${PlayState.SONG.songId} with difficulty ${PlayState.songDifficulty} into Free Play...');
 
 		PlayState.songMultiplier = rate;
 

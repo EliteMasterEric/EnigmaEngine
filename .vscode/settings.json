@@ -19,6 +19,8 @@
     "-coveragePackages", "funkin"
     // "test.bat"
   ],
+  "haxe.displayPort": "auto",
+  "haxe.enableCompilationServer": true,
   "lime.targetConfigurations": [
     {
       "label": "Windows (Default Weeks)",

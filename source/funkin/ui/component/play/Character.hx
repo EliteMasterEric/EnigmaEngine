@@ -390,27 +390,29 @@ class Character extends FlxSprite
 		if (curCharacter.startsWith('bf'))
 			dance();
 
-		if (isPlayer && frames != null)
-		{
-			flipX = !flipX;
-
-			// Doesn't flip for BF, since his are already in the right place???
-			if (!curCharacter.startsWith('bf'))
+		/*
+			if (isPlayer && frames != null)
 			{
-				// var animArray
-				var oldRight = animation.getByName('singRIGHT').frames;
-				animation.getByName('singRIGHT').frames = animation.getByName('singLEFT').frames;
-				animation.getByName('singLEFT').frames = oldRight;
+				flipX = !flipX;
 
-				// IF THEY HAVE MISS ANIMATIONS??
-				if (animation.getByName('singRIGHTmiss') != null)
+				// Doesn't flip for BF, since his are already in the right place???
+				if (!curCharacter.startsWith('bf'))
 				{
-					var oldMiss = animation.getByName('singRIGHTmiss').frames;
-					animation.getByName('singRIGHTmiss').frames = animation.getByName('singLEFTmiss').frames;
-					animation.getByName('singLEFTmiss').frames = oldMiss;
+					// var animArray
+					var oldRight = animation.getByName('singRIGHT').frames;
+					animation.getByName('singRIGHT').frames = animation.getByName('singLEFT').frames;
+					animation.getByName('singLEFT').frames = oldRight;
+
+					// IF THEY HAVE MISS ANIMATIONS??
+					if (animation.getByName('singRIGHTmiss') != null)
+					{
+						var oldMiss = animation.getByName('singRIGHTmiss').frames;
+						animation.getByName('singRIGHTmiss').frames = animation.getByName('singLEFTmiss').frames;
+						animation.getByName('singLEFTmiss').frames = oldMiss;
+					}
 				}
 			}
-		}
+		 */
 	}
 
 	private static function parseDataFile(charId:String):CharacterData

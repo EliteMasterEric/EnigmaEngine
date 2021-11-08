@@ -23,6 +23,7 @@
  */
 package funkin.ui.state.debug;
 
+import funkin.behavior.Debug;
 import funkin.ui.component.Cursor;
 import funkin.ui.component.play.Stage;
 import funkin.ui.state.play.PlayState;
@@ -165,7 +166,7 @@ class StageDebugState extends FlxState
 			if (camGame.zoom > 0.11) // me when floating point error
 				camGame.zoom -= 0.1;
 		}
-		FlxG.watch.addQuick('Camera Zoom', camGame.zoom);
+		Debug.quickWatch(camGame.zoom, 'Camera Zoom');
 
 		if (FlxG.keys.justPressed.SHIFT)
 		{

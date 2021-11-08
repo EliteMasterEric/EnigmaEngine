@@ -1,12 +1,13 @@
 {
   "song": {
-    "song": "Tutorial",
-    "strumlineSize": 4,
+    "song": "Test Hard",
+    "strumlineSize": 9,
     "bpm": 100,
     "sections": 0,
     "needsVoices": false,
     "player1": "bf",
     "player2": "gf",
+    "songFile": "tutorial",
     "sectionLengths": [],
     "speed": 1,
     "notes": [

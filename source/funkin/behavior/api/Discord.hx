@@ -69,7 +69,7 @@ class DiscordClient
 
 	static function onError(_code:Int, _message:String)
 	{
-		trace('Error! $_code : $_message');
+		Debug.logError('Discord ERROR! $_code : $_message');
 	}
 
 	static function onDisconnected(_code:Int, _message:String)
@@ -94,6 +94,8 @@ class DiscordClient
 		{
 			endTimestamp = startTimestamp + endTimestamp;
 		}
+
+		Debug.logTrace('Changing Discord presence to "$details" [$startTimestamp:$endTimestamp]');
 
 		DiscordRpc.presence({
 			details: details,

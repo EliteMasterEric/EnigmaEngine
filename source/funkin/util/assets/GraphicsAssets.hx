@@ -151,7 +151,7 @@ class GraphicsAssets
 		{
 			if (flxImageCache.exists(key))
 			{
-				Debug.logTrace('Loading image from image cache: $key');
+				// Debug.logTrace('Loading image from image cache: $key');
 				// Get data from cache.
 				return flxImageCache.get(key);
 			}
@@ -159,6 +159,8 @@ class GraphicsAssets
 
 		if (LibraryAssets.imageExists(key, library))
 		{
+			// If you get annoyed by how much this print call is triggering,
+			// try CACHING YOUR DAMN IMAGES.
 			Debug.logTrace('Loading image ${library == null ? '' : '${library}:'}${key}');
 			var bitmap = OpenFlAssets.getBitmapData(Paths.image(key, library));
 			var graphic = FlxGraphic.fromBitmapData(bitmap);
@@ -198,7 +200,7 @@ class GraphicsAssets
 		{
 			if (flxAnimationCache.exists(key))
 			{
-				Debug.logTrace('Loading animation from animation cache: $key');
+				// Debug.logTrace('Loading animation from animation cache: $key');
 				// Get data from cache.
 				return flxAnimationCache.get(key);
 			}
@@ -217,6 +219,7 @@ class GraphicsAssets
 			cacheImage(key, image);
 		}
 
+		Debug.logTrace('Loading animation from Sparrow atlas: $key');
 		var frames:FlxFramesCollection = FlxAtlasFrames.fromSparrow(image, Paths.file('images/$key.xml', library));
 		if (shouldCache)
 		{

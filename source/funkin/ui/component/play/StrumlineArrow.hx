@@ -24,6 +24,8 @@
  */
 package funkin.ui.component.play;
 
+import funkin.ui.state.play.PlayState;
+import funkin.util.NoteUtil;
 import flixel.animation.FlxBaseAnimation;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -48,12 +50,18 @@ class StrumlineArrow extends FlxSprite
 	 */
 	public var localAngle:Float = 0; // The angle to be edited inside here
 
+	var baseOffset:Float = 0;
+
 	public function new(xx:Float, yy:Float)
 	{
-		x = xx;
-		y = yy;
+		this.x = xx;
+		this.y = yy;
 		super(x, y);
-		updateHitbox();
+		// Get the note width and use it to calculate the offset.
+		var noteWidth = NoteUtil.NOTE_GEOMETRY_DATA[NoteUtil.fetchStrumlineSize()][0];
+		baseOffset = noteWidth / 2;
+
+		playAnim('static');
 	}
 
 	override function update(elapsed:Float)
@@ -82,8 +90,9 @@ class StrumlineArrow extends FlxSprite
 		updateHitbox();
 		offset.set(frameWidth / 2, frameHeight / 2);
 
-		offset.x -= 54;
-		offset.y -= 56;
+		// Dehardcoded.
+		offset.x -= baseOffset;
+		offset.y -= baseOffset;
 
 		angle = localAngle + modAngle;
 	}

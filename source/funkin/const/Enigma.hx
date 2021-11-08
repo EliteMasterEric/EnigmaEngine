@@ -43,13 +43,13 @@ class Enigma extends MusicBeatState
 	 * The suffix applied to the engine version. Make sure to change this with each respective release.
 	 */
 	// public static final ENGINE_SUFFIX:String = ''; // For RELEASES
-	// public static final ENGINE_SUFFIX:String = '-beta'; // For BETA/PRERELEASE
-	public static final ENGINE_SUFFIX:String = '-beta1'; // For DEVELOP
+	// public static final ENGINE_SUFFIX:String = '-beta1'; // For BETA/PRERELEASE
+	public static final ENGINE_SUFFIX:String = '-$COMMIT_HASH'; // For DEVELOP
 
 	/**
 	 * The full engine version with -prerelease suffix if applicable.
 	 */
-	public static final ENGINE_VERSION:String = '0.2.0' + ENGINE_SUFFIX;
+	public static final ENGINE_VERSION:String = '0.3.0' + ENGINE_SUFFIX;
 
 	/**
 	 * This is the version of Friday Night Funkin' the engine is based on.
@@ -87,12 +87,12 @@ class Enigma extends MusicBeatState
 	 */
 	public static final SHOW_CUSTOM_KEYBINDS:Map<Int, Bool> = [
 		0 => true, // Left 9K
-		1 => false, // Down 9K
+		1 => true, // Down 9K
 		2 => true, // Up 9K
 		3 => true, // Right 9K
-		4 => false, // Center
+		4 => true, // Center
 		5 => true, // Alt Left 9K
-		6 => false, // Alt Down 9K
+		6 => true, // Alt Down 9K
 		7 => true, // Alt Up 9K
 		8 => true, // Alt Right 9K
 	];

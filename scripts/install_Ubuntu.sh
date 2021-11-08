@@ -24,6 +24,7 @@ haxelib install flixel-tools
 # Enigma-specific dependencies
 haxelib install haxe-strings
 haxelib install firetongue
+haxelib install hxcpp-debug-server
 haxelib install munit
 haxelib install hamcrest
 
