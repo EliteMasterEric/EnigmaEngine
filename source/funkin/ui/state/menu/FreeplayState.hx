@@ -1,5 +1,6 @@
 package funkin.ui.state.menu;
 
+import funkin.behavior.options.Options.AntiAliasingOption;
 import flash.text.TextField;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.FlxCamera;
@@ -113,7 +114,7 @@ class FreeplayState extends MusicBeatState
 		// LOAD CHARACTERS
 
 		bg = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('menuBackground'));
-		bg.antialiasing = FlxG.save.data.antialiasing;
+		bg.antialiasing = AntiAliasingOption.get();
 		add(bg);
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
@@ -256,6 +257,7 @@ class FreeplayState extends MusicBeatState
 		var charting = FlxG.keys.justPressed.SEVEN;
 		var bfDebug = FlxG.keys.justPressed.ZERO;
 
+		#if !FLX_NO_GAMEPAD
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
 		if (gamepad != null)
@@ -277,6 +279,7 @@ class FreeplayState extends MusicBeatState
 				changeDiff(1);
 			}
 		}
+		#end
 
 		if (upP)
 		{

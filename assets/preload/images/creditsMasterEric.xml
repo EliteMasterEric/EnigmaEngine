@@ -1,6 +1,30 @@
 <?xml version='1.0' encoding='utf-8'?>
 <TextureAtlas imagePath="creditsMasterEric.png">
 	<!-- Keep in mind the animation needs to have the EXACT prefix 'Animation'. -->
-	<SubTexture name="Animation0000" x="0" y="0" width="404" height="404" frameX="437" frameY="313" frameWidth="404" frameHeight="404" />
-	<SubTexture name="Animation0001" x="404" y="0" width="404" height="404" frameX="437" frameY="313" frameWidth="404" frameHeight="404" />
+	<SubTexture name="Animation0000" x="0" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0001" x="0" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0002" x="0" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0003" x="0" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0004" x="0" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0005" x="0" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0006" x="0" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0007" x="0" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0008" x="0" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0009" x="0" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0010" x="0" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0011" x="0" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <!-- frameX="437" frameY="313" frameWidth="404" frameHeight="404" -->
+	<SubTexture name="Animation0012" x="404" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0013" x="404" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0014" x="404" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0015" x="404" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0016" x="404" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0017" x="404" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0018" x="404" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0019" x="404" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0020" x="404" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0021" x="404" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0022" x="404" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <SubTexture name="Animation0023" x="404" y="0" width="404" height="404" frameWidth="1280" frameHeight="720" frameX="-450" frameY="-350" />
+  <!-- frameX="437" frameY="313" frameWidth="404" frameHeight="404" -->
 </TextureAtlas>

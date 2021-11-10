@@ -23,6 +23,7 @@
  */
 package funkin.ui.state.debug;
 
+import funkin.util.assets.AudioAssets;
 import funkin.behavior.Debug;
 import funkin.ui.component.Cursor;
 import funkin.ui.component.play.Stage;
@@ -47,22 +48,22 @@ using hx.strings.Strings;
 class StageDebugState extends FlxState
 {
 	public var daStage:String;
-	public var daBf:String;
-	public var daGf:String;
-	public var opponent:String;
+	public var playerCharId:String;
+	public var gfCharId:String;
+	public var cpuCharId:String;
 
 	var _file:FileReference;
 
-	var gf:Character;
-	var boyfriend:Boyfriend;
-	var dad:Character;
+	var gfChar:Character;
+	var playerChar:Boyfriend;
+	var cpuChar:Character;
 	var STAGE:Stage;
 	var camFollow:FlxObject;
 	var posText:FlxText;
-	var curChar:FlxSprite;
-	var curCharIndex:Int = 0;
-	var curCharString:String;
-	var curChars:Array<FlxSprite>;
+	var currentChar:FlxSprite;
+	var currentCharIndex:Int = 0;
+	var currentCharId:String;
+	var currentChars:Array<FlxSprite>;
 	var dragging:Bool = false;
 	var oldMousePosX:Int;
 	var oldMousePosY:Int;
@@ -71,30 +72,30 @@ class StageDebugState extends FlxState
 	var charMode:Bool = true;
 	var usedObjects:Array<FlxSprite> = [];
 
-	public function new(daStage:String = 'stage', daGf:String = 'gf', daBf:String = 'bf', opponent:String = 'dad')
+	public function new(daStage:String = 'stage', gfCharId:String = 'gf', playerCharId:String = 'bf', cpuCharId:String = 'dad')
 	{
 		super();
 		this.daStage = daStage;
-		this.daGf = daGf;
-		this.daBf = daBf;
-		this.opponent = opponent;
-		curCharString = daGf;
+		this.gfCharId = gfCharId;
+		this.playerCharId = playerCharId;
+		this.cpuCharId = cpuCharId;
+		this.currentCharId = gfCharId;
 	}
 
 	override function create()
 	{
-		FlxG.sound.music.stop();
+		AudioAssets.stopMusic();
 		Cursor.showCursor();
 
 		STAGE = PlayState.STAGE;
 
-		gf = PlayState.gfChar;
-		boyfriend = PlayState.playerChar;
-		dad = PlayState.cpuChar;
-		curChars = [dad, boyfriend, gf];
-		if (!gf.visible) // for when gf is an opponent
-			curChars.pop();
-		curChar = curChars[curCharIndex];
+		gfChar = PlayState.gfChar;
+		playerChar = PlayState.playerChar;
+		cpuChar = PlayState.cpuChar;
+		currentChars = [cpuChar, playerChar, gfChar];
+		if (!gfChar.visible) // for when gf is an opponent
+			currentChars.pop();
+		currentChar = currentChars[currentCharIndex];
 
 		for (i in STAGE.toAdd)
 		{
@@ -106,15 +107,15 @@ class StageDebugState extends FlxState
 			switch (index)
 			{
 				case 0:
-					add(gf);
+					add(gfChar);
 					for (bg in array)
 						add(bg);
 				case 1:
-					add(dad);
+					add(cpuChar);
 					for (bg in array)
 						add(bg);
 				case 2:
-					add(boyfriend);
+					add(playerChar);
 					for (bg in array)
 						add(bg);
 			}
@@ -212,7 +213,7 @@ class StageDebugState extends FlxState
 		}
 
 		if (FlxG.mouse.pressed
-			&& FlxCollision.pixelPerfectPointCheck(Math.floor(FlxG.mouse.x), Math.floor(FlxG.mouse.y), curChar)
+			&& FlxCollision.pixelPerfectPointCheck(Math.floor(FlxG.mouse.x), Math.floor(FlxG.mouse.y), currentChar)
 			&& !dragging)
 		{
 			dragging = true;
@@ -221,7 +222,7 @@ class StageDebugState extends FlxState
 
 		if (dragging && FlxG.mouse.justMoved)
 		{
-			curChar.setPosition(-(oldMousePosX - FlxG.mouse.x) + curChar.x, -(oldMousePosY - FlxG.mouse.y) + curChar.y);
+			currentChar.setPosition(-(oldMousePosX - FlxG.mouse.x) + currentChar.x, -(oldMousePosY - FlxG.mouse.y) + currentChar.y);
 			updateMousePos();
 		}
 
@@ -229,13 +230,13 @@ class StageDebugState extends FlxState
 			dragging = false;
 
 		if (FlxG.keys.pressed.Z)
-			curChar.angle -= 1 * Math.ceil(elapsed);
+			currentChar.angle -= 1 * Math.ceil(elapsed);
 		else if (FlxG.keys.pressed.X)
-			curChar.angle += 1 * Math.ceil(elapsed);
+			currentChar.angle += 1 * Math.ceil(elapsed);
 		else if (FlxG.keys.pressed.R)
-			curChar.angle = 0;
+			currentChar.angle = 0;
 
-		posText.text = (curCharString + " X: " + curChar.x + " Y: " + curChar.y + " Rotation: " + curChar.angle);
+		posText.text = (currentCharId + " X: " + currentChar.x + " Y: " + currentChar.y + " Rotation: " + currentChar.angle);
 
 		if (FlxG.keys.justPressed.ESCAPE)
 		{
@@ -256,15 +257,15 @@ class StageDebugState extends FlxState
 				switch (index)
 				{
 					case 0:
-						remove(gf);
+						remove(gfChar);
 						for (bg in array)
 							remove(bg);
 					case 1:
-						remove(dad);
+						remove(cpuChar);
 						for (bg in array)
 							remove(bg);
 					case 2:
-						remove(boyfriend);
+						remove(playerChar);
 						for (bg in array)
 							remove(bg);
 				}
@@ -295,8 +296,8 @@ class StageDebugState extends FlxState
 			if (!usedObjects.contains(value))
 			{
 				usedObjects.push(value);
-				curCharString = key;
-				curChar = value;
+				currentCharId = key;
+				currentChar = value;
 				return;
 			}
 		}
@@ -306,22 +307,22 @@ class StageDebugState extends FlxState
 
 	function getNextChar()
 	{
-		++curCharIndex;
-		if (curCharIndex >= curChars.length)
+		++currentCharIndex;
+		if (currentCharIndex >= currentChars.length)
 		{
-			curChar = curChars[0];
-			curCharIndex = 0;
+			currentChar = currentChars[0];
+			currentCharIndex = 0;
 		}
 		else
-			curChar = curChars[curCharIndex];
-		switch (curCharIndex)
+			currentChar = currentChars[currentCharIndex];
+		switch (currentCharIndex)
 		{
 			case 0:
-				curCharString = opponent;
+				currentCharId = cpuCharId;
 			case 1:
-				curCharString = daBf;
+				currentCharId = playerCharId;
 			case 2:
-				curCharString = daGf;
+				currentCharId = gfCharId;
 		}
 	}
 
@@ -336,18 +337,20 @@ class StageDebugState extends FlxState
 		}
 		var curCharIndex:Int = 0;
 		var char:String = '';
-		for (sprite in curChars)
+		for (sprite in currentChars)
 		{
 			switch (curCharIndex)
 			{
 				case 0:
-					char = daGf;
+					char = gfCharId;
 				case 1:
-					char = daBf;
+					char = playerCharId;
 				case 2:
-					char = opponent;
+					char = cpuCharId;
 			}
-			result += char + ' X: ' + curChars[curCharIndex].x + " Y: " + curChars[curCharIndex].y + " Rotation: " + curChars[curCharIndex].angle + "\n";
+			result += char
+				+ ' X: '
+				+ currentChars[curCharIndex].x + " Y: " + currentChars[curCharIndex].y + " Rotation: " + currentChars[curCharIndex].angle + "\n";
 			++curCharIndex;
 		}
 

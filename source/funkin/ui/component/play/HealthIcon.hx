@@ -25,6 +25,7 @@
  */
 package funkin.ui.component.play;
 
+import funkin.behavior.options.Options.AntiAliasingOption;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import funkin.behavior.Debug;
@@ -147,7 +148,7 @@ class HealthIcon extends FlxSprite
 		if (input.endsWith('-pixel') || input.startsWith('senpai') || input.startsWith('spirit'))
 			antialiasing = false
 		else
-			antialiasing = FlxG.save.data.antialiasing;
+			antialiasing = AntiAliasingOption.get();
 	}
 
 	/**

@@ -23,6 +23,7 @@
  */
 package funkin.ui.state.debug;
 
+import funkin.util.assets.AudioAssets;
 import funkin.ui.state.play.PlayState;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.FlxG;
@@ -43,9 +44,11 @@ using hx.strings.Strings;
 class AnimationDebug extends FlxState
 {
 	var _file:FileReference;
-	var bf:Boyfriend;
-	var dad:Character;
-	var char:Character;
+
+	var playerChar:Boyfriend;
+	var cpuChar:Character;
+	var currentChar:Character;
+
 	var textAnim:FlxText;
 	var dumbTexts:FlxTypedGroup<FlxText>;
 	var animList:Array<String> = [];
@@ -62,7 +65,7 @@ class AnimationDebug extends FlxState
 
 	override function create()
 	{
-		FlxG.sound.music.stop();
+		AudioAssets.stopMusic();
 
 		var gridBG:FlxSprite = FlxGridOverlay.create(10, 10);
 		gridBG.scrollFactor.set(0.5, 0.5);
@@ -73,23 +76,23 @@ class AnimationDebug extends FlxState
 
 		if (isDad)
 		{
-			dad = new Character(0, 0, daAnim);
-			dad.screenCenter();
-			dad.debugMode = true;
-			add(dad);
+			cpuChar = new Character(0, 0, daAnim);
+			cpuChar.screenCenter();
+			cpuChar.debugMode = true;
+			add(cpuChar);
 
-			char = dad;
-			dad.flipX = false;
+			currentChar = cpuChar;
+			cpuChar.flipX = false;
 		}
 		else
 		{
-			bf = new Boyfriend(0, 0);
-			bf.screenCenter();
-			bf.debugMode = true;
-			add(bf);
+			playerChar = new Boyfriend(0, 0);
+			playerChar.screenCenter();
+			playerChar.debugMode = true;
+			add(playerChar);
 
-			char = bf;
-			bf.flipX = false;
+			currentChar = playerChar;
+			playerChar.flipX = false;
 		}
 
 		dumbTexts = new FlxTypedGroup<FlxText>();
@@ -101,7 +104,7 @@ class AnimationDebug extends FlxState
 		textAnim.scrollFactor.set();
 		add(textAnim);
 
-		genBoyOffsets();
+		displayCharOffsets();
 
 		addHelpText();
 
@@ -114,11 +117,11 @@ class AnimationDebug extends FlxState
 		super.create();
 	}
 
-	function genBoyOffsets(pushList:Bool = true):Void
+	function displayCharOffsets(pushList:Bool = true):Void
 	{
 		var daLoop:Int = 0;
 
-		for (anim => offsets in char.animOffsets)
+		for (anim => offsets in currentChar.animOffsets)
 		{
 			var text:FlxText = new FlxText(10, 20 + (18 * daLoop), 0, anim + ": " + offsets, 15);
 			text.scrollFactor.set();
@@ -132,11 +135,11 @@ class AnimationDebug extends FlxState
 		}
 	}
 
-	function saveBoyOffsets():Void
+	function saveCharOffsets():Void
 	{
 		var result = "";
 
-		for (anim => offsets in char.animOffsets)
+		for (anim => offsets in currentChar.animOffsets)
 		{
 			var text = anim + " " + offsets.join(" ");
 			result += text + "\n";
@@ -210,7 +213,7 @@ class AnimationDebug extends FlxState
 
 	override function update(elapsed:Float)
 	{
-		textAnim.text = char.animation.curAnim.name;
+		textAnim.text = currentChar.getCurAnimation();
 
 		if (FlxG.keys.justPressed.ENTER || FlxG.keys.justPressed.ESCAPE)
 			FlxG.switchState(new PlayState());
@@ -221,7 +224,7 @@ class AnimationDebug extends FlxState
 			FlxG.camera.zoom -= 0.25;
 
 		if (FlxG.keys.justPressed.F)
-			char.flipX = !char.flipX;
+			currentChar.flipX = !currentChar.flipX;
 
 		if (FlxG.keys.pressed.I || FlxG.keys.pressed.J || FlxG.keys.pressed.K || FlxG.keys.pressed.L)
 		{
@@ -262,10 +265,10 @@ class AnimationDebug extends FlxState
 
 		if (FlxG.keys.justPressed.S || FlxG.keys.justPressed.W || FlxG.keys.justPressed.SPACE)
 		{
-			char.playAnim(animList[curAnim]);
+			currentChar.playAnim(animList[curAnim]);
 
 			updateTexts();
-			genBoyOffsets(false);
+			displayCharOffsets(false);
 		}
 
 		var upP = FlxG.keys.anyJustPressed([UP]);
@@ -282,21 +285,21 @@ class AnimationDebug extends FlxState
 		{
 			updateTexts();
 			if (upP)
-				char.animOffsets.get(animList[curAnim])[1] += 1 * multiplier;
+				currentChar.animOffsets.get(animList[curAnim])[1] += 1 * multiplier;
 			if (downP)
-				char.animOffsets.get(animList[curAnim])[1] -= 1 * multiplier;
+				currentChar.animOffsets.get(animList[curAnim])[1] -= 1 * multiplier;
 			if (leftP)
-				char.animOffsets.get(animList[curAnim])[0] += 1 * multiplier;
+				currentChar.animOffsets.get(animList[curAnim])[0] += 1 * multiplier;
 			if (rightP)
-				char.animOffsets.get(animList[curAnim])[0] -= 1 * multiplier;
+				currentChar.animOffsets.get(animList[curAnim])[0] -= 1 * multiplier;
 
 			updateTexts();
-			genBoyOffsets(false);
-			char.playAnim(animList[curAnim]);
+			displayCharOffsets(false);
+			currentChar.playAnim(animList[curAnim]);
 		}
 
 		if (FlxG.keys.pressed.CONTROL && FlxG.keys.justPressed.S)
-			saveBoyOffsets();
+			saveCharOffsets();
 
 		if (FlxG.keys.justPressed.F1)
 			FlxG.save.data.showHelp = !FlxG.save.data.showHelp;

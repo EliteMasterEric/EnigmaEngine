@@ -23,6 +23,7 @@
  */
 package funkin.ui.state.title;
 
+import funkin.behavior.options.Options.AntiAliasingOption;
 import funkin.ui.component.play.Character;
 import funkin.util.assets.LibraryAssets;
 import flixel.addons.transition.FlxTransitionableState;
@@ -107,8 +108,8 @@ class CachingState extends MusicBeatState
 		text.y -= gameLogo.height / 2 - 125;
 		text.x -= 170;
 		gameLogo.setGraphicSize(Std.int(gameLogo.width * 0.6));
-		if (FlxG.save.data.antialiasing != null)
-			gameLogo.antialiasing = FlxG.save.data.antialiasing;
+		if (AntiAliasingOption.get() != null)
+			gameLogo.antialiasing = AntiAliasingOption.get();
 		else
 			gameLogo.antialiasing = true;
 

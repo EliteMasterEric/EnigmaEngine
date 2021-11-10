@@ -23,6 +23,7 @@
  */
 package funkin.ui.state.menu;
 
+import funkin.behavior.options.Options.AntiAliasingOption;
 import funkin.behavior.play.Scoring;
 import funkin.behavior.play.Scoring.SongScore;
 import funkin.util.assets.GraphicsAssets;
@@ -216,7 +217,7 @@ class StoryMenuState extends MusicBeatState
 			grpWeekText.add(weekMenuItem);
 
 			weekMenuItem.screenCenter(X);
-			weekMenuItem.antialiasing = FlxG.save.data.antialiasing;
+			weekMenuItem.antialiasing = AntiAliasingOption.get();
 
 			// Needs an offset thingie
 			if (!weekDataEntry.isWeekUnlocked())
@@ -225,7 +226,7 @@ class StoryMenuState extends MusicBeatState
 				var lock:FlxSprite = new FlxSprite(weekMenuItem.width + 10 + weekMenuItem.x);
 				lock.loadGraphic(Paths.image('storymenu/lock'));
 				lock.ID = i;
-				lock.antialiasing = FlxG.save.data.antialiasing;
+				lock.antialiasing = AntiAliasingOption.get();
 				grpLocks.add(lock);
 			}
 		}
@@ -267,11 +268,11 @@ class StoryMenuState extends MusicBeatState
 		leftArrow.animation.addByPrefix('idle', 'idle');
 		leftArrow.animation.addByPrefix('press', 'press');
 		leftArrow.animation.play('idle');
-		leftArrow.antialiasing = FlxG.save.data.antialiasing;
+		leftArrow.antialiasing = AntiAliasingOption.get();
 		difficultySelectors.add(leftArrow);
 
 		difficultyItem = new StoryWeekDifficultyItem(0, 0);
-		difficultyItem.antialiasing = FlxG.save.data.antialiasing;
+		difficultyItem.antialiasing = AntiAliasingOption.get();
 		difficultySelectors.add(difficultyItem);
 		changeDifficulty();
 
@@ -280,7 +281,7 @@ class StoryMenuState extends MusicBeatState
 		rightArrow.animation.addByPrefix('idle', 'idle');
 		rightArrow.animation.addByPrefix('press', 'press', 24, false);
 		rightArrow.animation.play('idle');
-		rightArrow.antialiasing = FlxG.save.data.antialiasing;
+		rightArrow.antialiasing = AntiAliasingOption.get();
 		difficultySelectors.add(rightArrow);
 
 		// Trigger an update to stuff that wasn't initialized above.

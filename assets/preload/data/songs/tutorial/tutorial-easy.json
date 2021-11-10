@@ -2,11 +2,8 @@
   "song": {
     "song": "Tutorial",
     "bpm": 100,
-    "sections": 0,
-    "needsVoices": false,
     "player1": "bf",
     "player2": "gf",
-    "sectionLengths": [],
     "speed": 1,
     "notes": [
       {

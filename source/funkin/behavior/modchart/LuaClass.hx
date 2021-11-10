@@ -362,7 +362,7 @@ class LuaNote extends LuaClass
 				defaultValue: 1,
 				getter: function(l:State, data:Any):Int
 				{
-					Lua.pushnumber(l, connectedNote.spotInLine);
+					Lua.pushnumber(l, connectedNote.childIndex);
 					return 1;
 				},
 				setter: function(l:State)

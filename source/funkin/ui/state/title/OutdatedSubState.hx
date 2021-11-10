@@ -23,6 +23,7 @@
  */
 package funkin.ui.state.title;
 
+import funkin.behavior.options.Options.AntiAliasingOption;
 import funkin.ui.state.menu.MainMenuState;
 import funkin.util.WindowUtil;
 import funkin.const.Enigma;
@@ -55,7 +56,7 @@ class OutdatedSubState extends MusicBeatState
 		bg.scale.x *= 1.55;
 		bg.scale.y *= 1.55;
 		bg.screenCenter();
-		bg.antialiasing = FlxG.save.data.antialiasing;
+		bg.antialiasing = AntiAliasingOption.get();
 		add(bg);
 
 		var gameLogo:FlxSprite = new FlxSprite(FlxG.width, 0).loadGraphic(GraphicsAssets.loadImage('logo'));
@@ -64,7 +65,7 @@ class OutdatedSubState extends MusicBeatState
 		gameLogo.x -= gameLogo.frameHeight;
 		gameLogo.y -= 180;
 		gameLogo.alpha = 0.8;
-		gameLogo.antialiasing = FlxG.save.data.antialiasing;
+		gameLogo.antialiasing = AntiAliasingOption.get();
 		add(gameLogo);
 
 		var txt:FlxText = new FlxText(0, 0, FlxG.width,

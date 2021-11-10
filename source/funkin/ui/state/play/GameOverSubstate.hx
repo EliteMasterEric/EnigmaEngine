@@ -23,6 +23,8 @@
  */
 package funkin.ui.state.play;
 
+import funkin.behavior.options.Options.InstantRespawnOption;
+import funkin.util.assets.AudioAssets;
 import funkin.util.assets.Paths;
 import funkin.ui.state.menu.FreeplayState;
 import funkin.ui.state.menu.StoryMenuState;
@@ -35,7 +37,7 @@ import flixel.util.FlxTimer;
 
 class GameOverSubstate extends MusicBeatSubstate
 {
-	var bf:Boyfriend;
+	var playerChar:Boyfriend;
 	var camFollow:FlxObject;
 
 	var stageSuffix:String = "";
@@ -57,10 +59,10 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		Conductor.songPosition = 0;
 
-		bf = new Boyfriend(x, y, daBf);
-		add(bf);
+		playerChar = new Boyfriend(x, y, daBf);
+		add(playerChar);
 
-		camFollow = new FlxObject(bf.getGraphicMidpoint().x, bf.getGraphicMidpoint().y, 1, 1);
+		camFollow = new FlxObject(playerChar.getGraphicMidpoint().x, playerChar.getGraphicMidpoint().y, 1, 1);
 		add(camFollow);
 
 		FlxG.sound.play(Paths.sound('fnf_loss_sfx' + stageSuffix));
@@ -69,7 +71,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		FlxG.camera.scroll.set();
 		FlxG.camera.target = null;
 
-		bf.playAnim('firstDeath');
+		playerChar.playAnim('firstDeath');
 	}
 
 	var startVibin:Bool = false;
@@ -83,14 +85,15 @@ class GameOverSubstate extends MusicBeatSubstate
 			acceptAndContinue();
 		}
 
-		if (FlxG.save.data.InstantRespawn)
+		if (InstantRespawnOption.get())
 		{
+			// Create a new PlayState while preserving the values of static variables.
 			LoadingState.loadAndSwitchState(new PlayState());
 		}
 
 		if (controls.BACK)
 		{
-			FlxG.sound.music.stop();
+			AudioAssets.stopMusic();
 
 			if (PlayState.isStoryMode())
 				FlxG.switchState(new StoryMenuState());
@@ -100,12 +103,12 @@ class GameOverSubstate extends MusicBeatSubstate
 			PlayState.stageTesting = false;
 		}
 
-		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.curFrame == 12)
+		if (playerChar.getCurAnimation() == 'firstDeath' && playerChar.getCurAnimFrame() == 12)
 		{
 			FlxG.camera.follow(camFollow, LOCKON, 0.01);
 		}
 
-		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.finished)
+		if (playerChar.getCurAnimation() == 'firstDeath' && playerChar.isCurAnimationFinished())
 		{
 			FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix));
 			startVibin = true;
@@ -123,7 +126,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		if (startVibin && !isEnding)
 		{
-			bf.playAnim('deathLoop', true);
+			playerChar.playAnim('deathLoop', true);
 		}
 		FlxG.log.add('beat');
 	}
@@ -139,15 +142,15 @@ class GameOverSubstate extends MusicBeatSubstate
 		{
 			PlayState.startTime = 0;
 			isEnding = true;
-			bf.playAnim('deathConfirm', true);
-			FlxG.sound.music.stop();
+			playerChar.playAnim('deathConfirm', true);
+			AudioAssets.stopMusic();
 			FlxG.sound.play(Paths.music('gameOverEnd' + stageSuffix));
 			new FlxTimer().start(0.7, function(tmr:FlxTimer)
 			{
 				FlxG.camera.fade(FlxColor.BLACK, 2, false, function()
 				{
 					// Recreate the PlayState from scratch. As long as you don't change the static vars
-					// in PlayState, you'll go to the same song.
+					// in PlayState, you'll return to the same song.
 					LoadingState.loadAndSwitchState(new PlayState());
 					PlayState.stageTesting = false;
 				});

@@ -58,14 +58,14 @@ class GameplayCustomizeState extends MusicBeatState
 		#end
 
 		sick = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('sick', 'shared'));
-		sick.antialiasing = FlxG.save.data.antialiasing;
+		sick.antialiasing = AntiAliasingOption.get();
 		sick.scrollFactor.set();
 		background = new FlxSprite(-1000, -200).loadGraphic(GraphicsAssets.loadImage('stageback', 'shared'));
 		curt = new FlxSprite(-500, -300).loadGraphic(GraphicsAssets.loadImage('stagecurtains', 'shared'));
 		front = new FlxSprite(-650, 600).loadGraphic(GraphicsAssets.loadImage('stagefront', 'shared'));
-		background.antialiasing = FlxG.save.data.antialiasing;
-		curt.antialiasing = FlxG.save.data.antialiasing;
-		front.antialiasing = FlxG.save.data.antialiasing;
+		background.antialiasing = AntiAliasingOption.get();
+		curt.antialiasing = AntiAliasingOption.get();
+		front.antialiasing = AntiAliasingOption.get();
 
 		persistentUpdate = true;
 
@@ -252,6 +252,6 @@ class GameplayCustomizeState extends MusicBeatState
 
 	private function generateStrumlineArrows(isPlayer):Void
 	{
-		EnigmaNote.buildStrumlines(isPlayer, strumLine.y, Enigma.USE_CUSTOM_KEYBINDS ? 9 : 4);
+		EnigmaNote.buildStrumlines(isPlayer, strumLine.y, Enigma.USE_CUSTOM_KEYBINDS ? 9 : 4, "normal");
 	}
 }

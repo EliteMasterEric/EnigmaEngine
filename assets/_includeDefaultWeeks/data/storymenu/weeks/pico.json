@@ -2,7 +2,7 @@
     "name": "PICO",
     "assets": {
         "characters": ["pico", "bf", "gf"],
-        "title": "storymenu/weeks/week2",
+        "title": "storymenu/weeks/week3",
         "background": "#223344"
     },
     "startSound": "confirmMenu",

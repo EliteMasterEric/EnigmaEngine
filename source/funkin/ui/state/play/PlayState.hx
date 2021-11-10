@@ -578,8 +578,6 @@ class PlayState extends MusicBeatState implements IHook
 
 	var songName:FlxText;
 
-	var altSuffix:String = "";
-
 	public var currentSection:SwagSection;
 
 	var wiggleEffect:WiggleEffect = new WiggleEffect();
@@ -688,7 +686,7 @@ class PlayState extends MusicBeatState implements IHook
 
 		// Stop existing (i.e. menu) music.
 		if (FlxG.sound.music != null)
-			FlxG.sound.music.stop();
+			AudioAssets.stopMusic();
 
 		// Start recording a replay.
 		if (!PlayState.replayActive)
@@ -835,13 +833,13 @@ class PlayState extends MusicBeatState implements IHook
 		if (!stageTesting)
 		{
 			gfChar = new Character(400, 130, gfCheck);
-			if (gfChar.frames == null)
+			if (!gfChar.isValid())
 			{
 				Debug.logWarn(["Couldn't load gf: " + gfCheck + ". Loading default gf"]);
 				gfChar = new Character(400, 130, 'gf');
 			}
 			playerChar = new Boyfriend(770, 450, PlayState.SONG.player1);
-			if (playerChar.frames == null)
+			if (!playerChar.isValid())
 			{
 				#if debug
 				Debug.logWarn([
@@ -851,7 +849,7 @@ class PlayState extends MusicBeatState implements IHook
 				playerChar = new Boyfriend(770, 450, 'bf');
 			}
 			cpuChar = new Character(100, 100, PlayState.SONG.player2);
-			if (cpuChar.frames == null)
+			if (!cpuChar.isValid())
 			{
 				#if debug
 				Debug.logWarn([
@@ -882,7 +880,7 @@ class PlayState extends MusicBeatState implements IHook
 				{
 					case 0:
 						add(gfChar);
-						gfChar.scrollFactor.set(0.95, 0.95);
+						gfChar.setScrollFactor(0.95, 0.95);
 						for (bg in array)
 							add(bg);
 					case 1:
@@ -900,8 +898,8 @@ class PlayState extends MusicBeatState implements IHook
 		{
 			case 'gf':
 				if (!stageTesting)
-					cpuChar.setPosition(gfChar.x, gfChar.y);
-				gfChar.visible = false;
+					cpuChar.setPosition(gfChar.getPosition().x, gfChar.getPosition().y);
+				gfChar.setVisible(false);
 				if (isStoryMode())
 				{
 					camPos.x += 600;
@@ -920,9 +918,7 @@ class PlayState extends MusicBeatState implements IHook
 				{
 					if (!MinimalModeOption.get())
 					{
-						var evilTrail = new FlxTrail(cpuChar, null, 4, 24, 0.3, 0.069);
-
-						add(evilTrail);
+						cpuChar.trailEnabled = true;
 					}
 				}
 				camPos.set(cpuChar.getGraphicMidpoint().x + 300, cpuChar.getGraphicMidpoint().y);
@@ -1350,7 +1346,7 @@ class PlayState extends MusicBeatState implements IHook
 		Conductor.songPosition -= Conductor.crochet * 5;
 
 		if (FlxG.sound.music.playing)
-			FlxG.sound.music.stop();
+			AudioAssets.stopMusic();
 		if (vocals != null)
 			vocals.stop();
 
@@ -1363,27 +1359,18 @@ class PlayState extends MusicBeatState implements IHook
 				gfChar.dance();
 			if (swagCounter % idleBeat == 0)
 			{
-				if (idleToBeat && !playerChar.animation.curAnim.name.startsWith("sing"))
+				if (idleToBeat && !playerChar.getCurAnimation().startsWith("sing"))
 					playerChar.dance(forcedToIdle);
-				if (idleToBeat && !cpuChar.animation.curAnim.name.startsWith("sing"))
+				if (idleToBeat && !cpuChar.getCurAnimation().startsWith("sing"))
 					cpuChar.dance(forcedToIdle);
 			}
-			else if ((cpuChar.curCharacter == 'spooky' || cpuChar.curCharacter == 'gf')
-				&& !cpuChar.animation.curAnim.name.startsWith("sing"))
+			else if ((cpuChar.curCharacter == 'spooky' || cpuChar.curCharacter == 'gf') && !cpuChar.getCurAnimation().startsWith("sing"))
 				cpuChar.dance();
 
-			var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
-			introAssets.set('default', ['ready', "set", "go"]);
-			introAssets.set('pixel', ['weeb/pixelUI/ready-pixel', 'weeb/pixelUI/set-pixel', 'weeb/pixelUI/date-pixel']);
-
-			var introAlts:Array<String> = introAssets.get('default');
-			var countdownLibrary:String = null;
-
-			if (SONG.noteStyle == 'pixel')
+			var altSuffix = "";
+			if (SONG.noteStyle.endsWith('pixel'))
 			{
-				introAlts = introAssets.get('pixel');
 				altSuffix = '-pixel';
-				countdownLibrary = 'week6';
 			}
 
 			switch (swagCounter)
@@ -1392,7 +1379,7 @@ class PlayState extends MusicBeatState implements IHook
 				case 0:
 					FlxG.sound.play(Paths.sound('intro3' + altSuffix), 0.6);
 				case 1:
-					var ready:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('notes/${SONG.noteStyle}/ready', countdownLibrary));
+					var ready:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('notes/${SONG.noteStyle}/ready'));
 					ready.scrollFactor.set();
 					ready.updateHitbox();
 
@@ -1410,7 +1397,7 @@ class PlayState extends MusicBeatState implements IHook
 					});
 					FlxG.sound.play(Paths.sound('intro2' + altSuffix), 0.6);
 				case 2:
-					var set:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('notes/${SONG.noteStyle}/set', countdownLibrary));
+					var set:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('notes/${SONG.noteStyle}/set'));
 					set.scrollFactor.set();
 
 					if (SONG.noteStyle == 'pixel')
@@ -1427,7 +1414,7 @@ class PlayState extends MusicBeatState implements IHook
 					});
 					FlxG.sound.play(Paths.sound('intro1' + altSuffix), 0.6);
 				case 3:
-					var go:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('notes/${SONG.noteStyle}/go', countdownLibrary));
+					var go:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('notes/${SONG.noteStyle}/go'));
 					go.scrollFactor.set();
 
 					if (SONG.noteStyle == 'pixel')
@@ -1481,11 +1468,13 @@ class PlayState extends MusicBeatState implements IHook
 
 		currentKeysPressed[keyStrumlineIndex] = false;
 
+		#if FEATURE_LUAMODCHART
 		// Tell the Lua Modchart the key was released.
 		luaModchart.executeState('keyReleased', [
 			// Based on the strumline size, get the key name.
 			NoteUtil.STRUMLINE_DIR_NAMES[NoteUtil.fetchStrumlineSize()][keyStrumlineIndex].toLowerCase()
 		]);
+		#end
 	}
 
 	/**
@@ -1522,11 +1511,13 @@ class PlayState extends MusicBeatState implements IHook
 		// We have pressed the key.
 		currentKeysPressed[keyStrumlineIndex] = true;
 
+		#if FEATURE_LUAMODCHART
 		// Tell the Lua Modchart the key was pressed.
 		luaModchart.executeState('keyPressed', [
 			// Based on the strumline size, get the key name.
 			NoteUtil.STRUMLINE_DIR_NAMES[NoteUtil.fetchStrumlineSize()][keyStrumlineIndex].toLowerCase()
 		]);
+		#end
 
 		// Get all the notes which are close enough to hit.
 		var closestNotes = songNotes.filterCanBeHit();
@@ -1615,7 +1606,7 @@ class PlayState extends MusicBeatState implements IHook
 
 		// GF gets sad if you drop a long combo.
 		// This has to come before judgement logic resets the combo.
-		if (Scoring.currentScore.currentCombo > 5 && gfChar.animOffsets.exists('sad'))
+		if (Scoring.currentScore.currentCombo > 5 && gfChar.hasAnimation('sad'))
 		{
 			gfChar.playAnim('sad');
 		}
@@ -1694,13 +1685,11 @@ class PlayState extends MusicBeatState implements IHook
 		// If this is a sustain note...
 		if (currentNote.isSustainNote)
 		{
-			if (currentNote.spotInLine != currentNote.parent.children.length - 1)
+			// Lose 2.5% health for missing.
+			health -= 0.025 * 2;
+			if (!currentNote.isEndNote())
 			{
 				// Fail at the middle.
-
-				// Lose 2.5% health when missing.
-				health -= 0.025 * 2;
-
 				for (i in currentNote.children)
 				{
 					i.alpha = 0.3;
@@ -1710,9 +1699,6 @@ class PlayState extends MusicBeatState implements IHook
 			else
 			{
 				// Fail at the end.
-
-				// Lose 2.5% health for missing.
-				health -= 0.025 * 2;
 			}
 		}
 		else
@@ -1730,7 +1716,7 @@ class PlayState extends MusicBeatState implements IHook
 
 		// Record scratch.
 		if (MissSoundsOption.get())
-			FlxG.sound.play(Paths.soundRandom('missnote' + altSuffix, 1, 3), FlxG.random.float(0.1, 0.2));
+			FlxG.sound.play(Paths.soundRandom(PlayState.SONG.noteStyle.endsWith('pixel') ? 'missnote-pixel' : 'missNote', 1, 3), FlxG.random.float(0.1, 0.2));
 
 		// Play the proper note animation.
 		playerChar.playAnim(EnigmaNote.getSingAnim(currentNote, PlayState.SONG.strumlineSize, true), true);
@@ -1884,22 +1870,9 @@ class PlayState extends MusicBeatState implements IHook
 		// Enable zooming on note beats.
 		cameraBeatZooming = true;
 
-		var isSustainChild = !currentNote.isParent && currentNote.parent != null;
-		if (isSustainChild)
+		if (!currentNote.isSustainNote || (currentNote.isSustainNote && !currentNote.isEndNote()))
 		{
-			// Is one of the child notes of a sustain note.
-
-			// If isLastChild, this is the end cap note.
-			var isLastChild = currentNote.spotInLine == currentNote.parent.children.length - 1;
-
-			if (!isLastChild)
-			{
-				cpuChar.playAnim(EnigmaNote.getSingAnim(currentNote, PlayState.SONG.strumlineSize), true);
-			}
-		}
-		else
-		{
-			// Is either a single note or the beginning of a sustain.
+			// Is either a single note, the beginning of a sustain, or the middle of a sustain.
 			cpuChar.playAnim(EnigmaNote.getSingAnim(currentNote, PlayState.SONG.strumlineSize), true);
 		}
 
@@ -1921,8 +1894,7 @@ class PlayState extends MusicBeatState implements IHook
 
 		cpuChar.holdTimer = 0;
 
-		if (SONG.needsVoices)
-			vocals.volume = 1;
+		vocals.volume = 1;
 
 		// Inform the Lua modchart that a note has been hit.
 		#if FEATURE_LUAMODCHART
@@ -1944,9 +1916,9 @@ class PlayState extends MusicBeatState implements IHook
 		// have them all dance when the song starts
 		if (allowedToHeadbang)
 			gfChar.dance();
-		if (idleToBeat && !playerChar.animation.curAnim.name.startsWith("sing"))
+		if (idleToBeat && !playerChar.getCurAnimation().startsWith("sing"))
 			playerChar.dance(forcedToIdle);
-		if (idleToBeat && !cpuChar.animation.curAnim.name.startsWith("sing"))
+		if (idleToBeat && !cpuChar.getCurAnimation().startsWith("sing"))
 			cpuChar.dance(forcedToIdle);
 
 		// Song check real quick
@@ -2020,45 +1992,54 @@ class PlayState extends MusicBeatState implements IHook
 
 	var debugNum:Int = 0;
 
-	public function generateSong(dataPath:String):Void
+	public function generateSong(songId:String):Void
 	{
-		var songData = PlayState.SONG;
-
-		if (songData.strumlineSize != 4)
+		if (PlayState.SONG.strumlineSize != 4)
 		{
-			Debug.logInfo('You absolute maniac! This song has a strumline size of ${songData.strumlineSize}.');
+			Debug.logInfo('You absolute maniac! This song has a strumline size of ${PlayState.SONG.strumlineSize}.');
 		}
 		else
 		{
 			Debug.logInfo('Song has the default strumline size.');
 		}
 
-		Conductor.changeBPM(songData.bpm);
+		Conductor.changeBPM(PlayState.SONG.bpm);
 
-		curSong = songData.songId;
+		curSong = PlayState.SONG.songId;
 
-		if (SONG.needsVoices)
+		if (PlayState.SONG.songFile == null)
 		{
-			Debug.logTrace('Caching sound vocals (${Paths.voices(PlayState.SONG.songFile)})');
-			AudioAssets.cacheSound(Paths.voices(PlayState.SONG.songFile));
-			vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.songFile));
+			Debug.logError('Could not get reference to songFile successfully, is your JSON corrupt?');
+			return;
+		}
+
+		Debug.logTrace('Caching sound vocals (${Paths.voices(PlayState.SONG.songFile)})');
+		var voicesPath = Paths.voices(PlayState.SONG.songFile);
+		if (voicesPath != null)
+		{
+			AudioAssets.cacheSound(voicesPath);
+			vocals = new FlxSound().loadEmbedded(voicesPath);
+			FlxG.sound.list.add(vocals);
+			Debug.logTrace('Vocals loaded successfully.');
 		}
 		else
 		{
-			vocals = new FlxSound();
+			Debug.logWarn('Could find vocals for song ${PlayState.SONG.songFile}!');
 		}
 
-		trace('loaded vocals');
-
-		FlxG.sound.list.add(vocals);
-
-		if (!this.isPaused)
+		var instPath = Paths.inst(PlayState.SONG.songFile);
+		if (instPath != null)
 		{
-			AudioAssets.playMusic(Paths.inst(PlayState.SONG.songFile), true, 1, false);
+			AudioAssets.cacheSound(instPath);
+			AudioAssets.playMusic(instPath, true, 1, false);
+			AudioAssets.pauseMusic();
+		}
+		else
+		{
+			Debug.logError('Could not find instrumentals for song ${PlayState.SONG.songFile}!');
 		}
 
 		FlxG.sound.music.onComplete = endSong;
-		FlxG.sound.music.pause();
 
 		// Song duration in a float, useful for the time left feature
 		songLength = FlxG.sound.music.length / 1000;
@@ -2104,7 +2085,7 @@ class PlayState extends MusicBeatState implements IHook
 		var noteData:Array<SwagSection>;
 
 		// NEW SHIT
-		noteData = songData.notes;
+		noteData = PlayState.SONG.notes;
 
 		var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
 
@@ -2122,14 +2103,14 @@ class PlayState extends MusicBeatState implements IHook
 				if (isEnemyNote && MinimalModeOption.get())
 					continue;
 
-				var oldNote:Note;
+				var prevNote:Note;
 				if (unspawnNotes.length > 0)
-					oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
+					prevNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 				else
-					oldNote = null;
+					prevNote = null;
 
 				// Create a note.
-				var newNote:Note = new Note(newNoteStrumtime, newNoteRawData, oldNote, section.mustHitSection, false, false);
+				var newNote:Note = new Note(newNoteStrumtime, newNoteRawData, prevNote, section.mustHitSection, false, false);
 				newNote.isAlt = false;
 				newNote.beat = (songNotes[4] == null ? TimingStruct.getBeatFromTime(newNoteStrumtime) : songNotes[4]);
 				newNote.sustainLength = songNotes[2];
@@ -2137,6 +2118,7 @@ class PlayState extends MusicBeatState implements IHook
 				newNote.isAlt = songNotes[3]
 					|| ((section.altAnim || section.CPUAltAnim) && isEnemyNote)
 					|| (section.playerAltAnim && !isEnemyNote);
+				Debug.logTrace('Built new note (time ${newNote.strumTime}) (sus ${newNote.sustainLength})');
 
 				unspawnNotes.push(newNote);
 
@@ -2152,11 +2134,11 @@ class PlayState extends MusicBeatState implements IHook
 				// For every second in the sustain note...
 				for (susNote in 0...Math.floor(noteSustainLength))
 				{
-					// Use the previous note as the parent.
-					oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
+					// Use the last existing strumline note as the previous note.
+					prevNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 
 					// Create a sustain note.
-					var sustainNote:Note = new Note(newNoteStrumtime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, newNoteRawData, oldNote,
+					var sustainNote:Note = new Note(newNoteStrumtime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, newNoteRawData, prevNote,
 						!isEnemyNote, true);
 					sustainNote.scrollFactor.set();
 					sustainNote.isAlt = songNotes[3]
@@ -2165,8 +2147,9 @@ class PlayState extends MusicBeatState implements IHook
 
 					sustainNote.parent = newNote;
 					newNote.children.push(sustainNote);
-					sustainNote.spotInLine = type;
+					sustainNote.childIndex = type;
 					type++;
+					Debug.logTrace('Built new SUSTAIN note (time ${sustainNote.strumTime}) (${Conductor.stepCrochet})');
 
 					// Spawn the note.
 					unspawnNotes.push(sustainNote);
@@ -2189,7 +2172,7 @@ class PlayState extends MusicBeatState implements IHook
 
 	private function generateStrumlineArrows(isPlayer:Bool):Void
 	{
-		EnigmaNote.buildStrumlines(isPlayer, strumLine.y, PlayState.SONG.strumlineSize);
+		EnigmaNote.buildStrumlines(isPlayer, strumLine.y, PlayState.SONG.strumlineSize, PlayState.SONG.noteStyle);
 	}
 
 	private function appearStrumlineArrows():Void
@@ -2292,7 +2275,8 @@ class PlayState extends MusicBeatState implements IHook
 	{
 		vocals.pause();
 
-		FlxG.sound.music.play();
+		AudioAssets.resumeMusic();
+
 		Conductor.songPosition = FlxG.sound.music.time;
 		vocals.time = FlxG.sound.music.time;
 		vocals.play();
@@ -2555,7 +2539,7 @@ class PlayState extends MusicBeatState implements IHook
 
 				// Stop the music.
 				vocals.stop();
-				FlxG.sound.music.stop();
+				AudioAssets.stopMusic();
 
 				if (InstantRespawnOption.get())
 				{
@@ -2647,12 +2631,6 @@ class PlayState extends MusicBeatState implements IHook
 					// Conver the time to hit to a distance in pixels. This uses a magic number constant value so don't touch it.
 					var noteDistance = (DownscrollOption.get() ? 1 : -1) * NOTE_TIME_TO_DISTANCE * noteTime;
 
-					// Position the note vertically relative to the strumline.
-					// Look at what this line used to look like, and cry: https://github.com/KadeDev/Kade-Engine/blob/23e0ac7606cae3ee1dcac68e1d0b97991dd4dadb/source/PlayState.hx#L2893
-					currentNote.y = strumlineYPos + noteDistance;
-					// Correct for the note sprite's height.
-					currentNote.y -= currentNote.noteYOffset;
-
 					// Position the note horizontally relative to the strumline.
 					NoteUtil.positionNote(currentNote, strumLineNotes.members);
 
@@ -2662,31 +2640,76 @@ class PlayState extends MusicBeatState implements IHook
 						// Sustain notes are represented by placing one note every second, reskinned to look like a vertical bar
 						// and with logic to allow hitting them as long as the parent note was hit and the key is held.
 
-						// Nudge the strumline notes as needed to position them properly.
-						if (currentNote.animation.curAnim.name.endsWith("End") && currentNote.prevNote != null)
+						if (!currentNote.parent.alive)
 						{
-							currentNote.y += (DownscrollOption.get() ? 1 : -1) * currentNote.prevNote.height;
-						}
-						else
-						{
-							currentNote.y += (DownscrollOption.get() ? 1 : -1) * currentNote.height / 2;
+							// Our parent is dead! We'll have to position ourselves, and guide the other children.
+							// Like the eldest of three orphan children who must protect their inheritance from a greedy uncle.
+							// How unfortunate...
+
+							// Position self based on note time.
+							// Accounts for downscroll.
+							currentNote.y = strumlineYPos + noteDistance;
+							// Correct for the note sprite's height.
+							currentNote.y -= currentNote.noteYOffset;
+
+							// Position subsequent notes vertically relative to the parent note.
+							// Note that if the prevNote is active, the previous note will be doing this job.
+							// TODO: Fix for Downscroll.
+							var position = currentNote.y;
+							for (i in currentNote.childIndex...currentNote.parent.children.length)
+							{
+								var curSibling = currentNote.parent.children[i];
+								curSibling.y = position;
+								position += (PlayState.downscrollActive ? -1 : 1) * curSibling.height;
+								// Is there a better way to prevent mini gaps?
+								position -= 1;
+							}
 						}
 
 						var isPlayerHolding = currentKeysPressed[currentNote.noteData];
-						var isNoteVisiblyClose = currentNote.y
-							- currentNote.offset.y * currentNote.scale.y
-							+ currentNote.height >= (strumlineYPos + NoteUtil.getNoteWidth() / 2);
+						var strumlineCenter = strumlineYPos + NoteUtil.getNoteWidth() / 2;
+						var isNoteOverStrumline = currentNote.y <= strumlineCenter;
 						// Whether we hit the note, or the note is being played by the computer.
-						var shouldClip = BotPlayOption.get() || currentNote.isCPUNote || currentNote.wasGoodHit || currentNote.prevNote.wasGoodHit
-							|| isPlayerHolding || isNoteVisiblyClose;
+						var shouldClip = (BotPlayOption.get() || currentNote.isCPUNote || currentNote.wasGoodHit || isPlayerHolding)
+							&& isNoteOverStrumline;
 
 						// Perform clipping on sustain notes that we hit. Otherwise the sustain note would get cleared in chunks, which looks odd.
-						if (shouldClip)
+						if (true)
 						{
-							// var clipRectangle = new FlxRect(0, 0, currentNote.frameWidth * 2, currentNote.frameHeight * 2);
-							// clipRectangle.height = (strumlineYPos + Note.swagWidth / 2 - currentNote.y) / currentNote.scale.y;
-							// clipRectangle.y = currentNote.frameHeight - clipRectangle.height;
+							// TODO: Fix for Downscroll.
+							// Holy shit I hate this code so much.
+							// var clipRectangle = new FlxRect(0, 0, currentNote.width / currentNote.scale.x, currentNote.height / currentNote.scale.y);
+							// clipRectangle.y = (strumlineCenter - currentNote.y) / currentNote.scale.y;
+							// clipRectangle.height -= clipRectangle.y;
+							// var clipRectangle = new FlxRect(0, 0, currentNote.width, currentNote.height);
+							// clipRectangle.y = strumlineCenter - currentNote.y;
+							// // clipRectangle.y = (strumlineCenter - currentNote.y) / currentNote.scale.y;
+							// clipRectangle.height = 200;
+							//
 							// currentNote.clipRect = clipRectangle;
+						}
+					}
+					else
+					{
+						// Position the note vertically relative to the strumline.
+						// Accounts for downscroll.
+						// Look at what this line used to look like, and cry:
+						// https://github.com/KadeDev/Kade-Engine/blob/23e0ac7606cae3ee1dcac68e1d0b97991dd4dadb/source/PlayState.hx#L2893
+
+						currentNote.y = strumlineYPos + noteDistance;
+						// Correct for the note sprite's height.
+						currentNote.y -= currentNote.noteYOffset;
+
+						// Position the child notes relative to the parent.
+						// TODO: Account for downscroll.
+						if (currentNote.isParent)
+						{
+							var position = currentNote.y + (currentNote.height / 2);
+							for (i in 0...currentNote.children.length)
+							{
+								currentNote.children[i].y = position;
+								position += (PlayState.downscrollActive ? -1 : 1) * currentNote.children[i].height;
+							}
 						}
 					}
 				}
@@ -2752,9 +2775,9 @@ class PlayState extends MusicBeatState implements IHook
 		// pressing a key, go back to idle.
 		if (playerChar.holdTimer > Conductor.stepCrochet * 4 * 0.001 && (BotPlayOption.get() || !currentKeysPressed.contains(true)))
 		{
-			if (playerChar.animation.curAnim.name.startsWith('sing')
-				&& !playerChar.animation.curAnim.name.endsWith('miss')
-				&& (playerChar.animation.curAnim.curFrame >= 10 || playerChar.animation.curAnim.finished))
+			if (playerChar.getCurAnimation().startsWith('sing')
+				&& !playerChar.getCurAnimation().endsWith('miss')
+				&& (playerChar.getCurAnimFrame() >= 10 || playerChar.isCurAnimationFinished()))
 				playerChar.dance();
 		}
 
@@ -3052,9 +3075,9 @@ class PlayState extends MusicBeatState implements IHook
 			if (allowedToCheer)
 			{
 				// Don't animate GF if something else is already animating her (eg. train passing)
-				if (gfChar.animation.curAnim.name == 'danceLeft'
-					|| gfChar.animation.curAnim.name == 'danceRight'
-					|| gfChar.animation.curAnim.name == 'idle')
+				if (gfChar.getCurAnimation() == 'danceLeft'
+					|| gfChar.getCurAnimation() == 'danceRight'
+					|| gfChar.getCurAnimation() == 'idle')
 				{
 					// Per song treatment since some songs will only have the 'Hey' at certain times
 					switch (curSong)
@@ -3370,7 +3393,7 @@ class PlayState extends MusicBeatState implements IHook
 		canPause = false;
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
-		FlxG.sound.music.stop();
+		AudioAssets.stopMusic();
 		vocals.stop();
 		if (SONG.validScore)
 		{
@@ -3432,7 +3455,7 @@ class PlayState extends MusicBeatState implements IHook
 
 					this.isPaused = true;
 
-					FlxG.sound.music.stop();
+					AudioAssets.stopMusic();
 					vocals.stop();
 					if (FlxG.save.data.scoreScreen)
 					{
@@ -3481,7 +3504,7 @@ class PlayState extends MusicBeatState implements IHook
 					prevCamFollow = camFollow;
 
 					PlayState.SONG = Song.loadFromJson(PlayState.storyWeek.playlist[storyPlaylistPos], diffSuffix);
-					FlxG.sound.music.stop();
+					AudioAssets.stopMusic();
 
 					// We create a completely new PlayState.
 					LoadingState.loadAndSwitchState(new PlayState());
@@ -3494,7 +3517,7 @@ class PlayState extends MusicBeatState implements IHook
 
 				this.isPaused = true;
 
-				FlxG.sound.music.stop();
+				AudioAssets.stopMusic();
 				vocals.stop();
 
 				if (FlxG.save.data.scoreScreen)
@@ -3656,9 +3679,9 @@ class PlayState extends MusicBeatState implements IHook
 			if (SONG.noteStyle != 'pixel')
 			{
 				judgementSprite.setGraphicSize(Std.int(judgementSprite.width * 0.7));
-				judgementSprite.antialiasing = FlxG.save.data.antialiasing;
+				judgementSprite.antialiasing = AntiAliasingOption.get();
 				comboSpr.setGraphicSize(Std.int(comboSpr.width * 0.7));
-				comboSpr.antialiasing = FlxG.save.data.antialiasing;
+				comboSpr.antialiasing = AntiAliasingOption.get();
 			}
 			else
 			{
@@ -3705,7 +3728,7 @@ class PlayState extends MusicBeatState implements IHook
 
 				if (SONG.noteStyle != 'pixel')
 				{
-					numScore.antialiasing = FlxG.save.data.antialiasing;
+					numScore.antialiasing = AntiAliasingOption.get();
 					numScore.setGraphicSize(Std.int(numScore.width * 0.5));
 				}
 				else
@@ -3906,7 +3929,7 @@ class PlayState extends MusicBeatState implements IHook
 
 				if (playerChar.holdTimer > Conductor.stepCrochet * 4 * 0.001 && (!holdArray.contains(true) || BotPlayOption.get()))
 				{
-					if (playerChar.animation.curAnim.name.startsWith('sing') && !playerChar.animation.curAnim.name.endsWith('miss'))
+					if (playerChar.getCurAnimation().startsWith('sing') && !playerChar.getCurAnimation().endsWith('miss'))
 						playerChar.dance();
 				}
 				else if (!FlxG.save.data.ghost)
@@ -4055,9 +4078,9 @@ class PlayState extends MusicBeatState implements IHook
 		{
 			if (curBeat % idleBeat == 0)
 			{
-				if (idleToBeat && !cpuChar.animation.curAnim.name.startsWith('sing'))
+				if (idleToBeat && !cpuChar.getCurAnimation().startsWith('sing'))
 					cpuChar.dance(forcedToIdle, currentSection.CPUAltAnim);
-				if (idleToBeat && !playerChar.animation.curAnim.name.startsWith('sing'))
+				if (idleToBeat && !playerChar.getCurAnimation().startsWith('sing'))
 					playerChar.dance(forcedToIdle, currentSection.playerAltAnim);
 			}
 			else if (cpuChar.curCharacter == 'spooky' || cpuChar.curCharacter == 'gf')

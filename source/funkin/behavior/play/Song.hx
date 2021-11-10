@@ -77,7 +77,6 @@ typedef SongData =
 	var notes:Array<SwagSection>;
 	var eventObjects:Array<SongEvent>;
 	var bpm:Float;
-	var needsVoices:Bool;
 	var speed:Float;
 	var player1:String;
 	var player2:String;

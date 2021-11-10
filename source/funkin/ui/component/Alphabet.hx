@@ -24,6 +24,7 @@
  */
 package funkin.ui.component;
 
+import funkin.behavior.options.Options.AntiAliasingOption;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -337,10 +338,7 @@ class AlphaCharacter extends FlxSprite
 		super(x, y);
 		var tex = GraphicsAssets.loadSparrowAtlas('alphabet', null, true);
 		frames = tex;
-		if (FlxG.save.data.antialiasing)
-		{
-			antialiasing = true;
-		}
+		antialiasing = AntiAliasingOption.get();
 	}
 
 	public function createBold(letter:String)

@@ -113,7 +113,7 @@ class EnigmaNote
 		}
 		else
 		{
-			// This is a base note type. The result might be 'Alt Down' for example.
+			// This is a base note type. The result might be 'Down Alt' for example.
 			switch (rawNoteData)
 			{
 				case NOTE_BASE_LEFT | NOTE_BASE_LEFT_ENEMY:
@@ -151,25 +151,23 @@ class EnigmaNote
 		instance.animation.addByPrefix(dirName + ' Sustain', dirName + ' Sustain'); // Hold
 		instance.animation.addByPrefix(dirName + ' End', dirName + ' End'); // Tails
 
-		var noteScale = NoteUtil.NOTE_GEOMETRY_DATA[strumlineSize][1];
+		var noteGraphicScale = NoteUtil.NOTE_GEOMETRY_DATA[strumlineSize][1];
 
-		switch (noteStyle)
+		if (noteStyle.endsWith('pixel'))
 		{
-			case 'pixel':
-				var widthSize = Std.int(PlayState.STAGE.curStage.startsWith('school') ? (instance.width * PlayState.PIXEL_ZOOM_FACTOR) : (isSustainNote ? (instance.width * (PlayState.PIXEL_ZOOM_FACTOR
-					- 1.5)) : (instance.width * PlayState.PIXEL_ZOOM_FACTOR)) * noteScale);
-
-				instance.setGraphicSize(widthSize);
-				instance.updateHitbox();
-			// No anti-aliasing.
-			default: // STYLE_NORMAL
-				instance.setGraphicSize(Std.int(instance.width * noteScale));
-				instance.updateHitbox();
-				instance.antialiasing = FlxG.save.data.antialiasing;
+			instance.setGraphicSize(Std.int(instance.width * PIXEL_ZOOM * noteGraphicScale));
+			instance.updateHitbox();
+			instance.antialiasing = false;
+		}
+		else
+		{
+			instance.setGraphicSize(Std.int(instance.width * noteGraphicScale));
+			instance.updateHitbox();
+			instance.antialiasing = AntiAliasingOption.get();
 		}
 	}
 
-	public static function buildStrumlines(isPlayer:Bool, yPos:Float, strumlineSize:Int = 4, noteStyle:String = 'normal', optimize:Bool = false):Void
+	public static function buildStrumlines(isPlayer:Bool, yPos:Float, strumlineSize:Int = 4, noteStyle:String = 'normal'):Void
 	{
 		if (!NoteUtil.STRUMLINE_DIR_NAMES.exists(strumlineSize))
 		{
@@ -223,16 +221,17 @@ class EnigmaNote
 			babyArrow.animation.addByPrefix('pressed', arrowDir + ' Press', 24, false);
 			babyArrow.animation.addByPrefix('confirm', arrowDir + ' Hit', 24, false);
 
-			// Cleanup the graphic.
-			switch (noteStyle)
+			// Scale and cleanup the graphic.
+			if (noteStyle.endsWith('pixel'))
 			{
-				case STYLE_PIXEL:
-					babyArrow.setGraphicSize(Std.int(babyArrow.width * PIXEL_ZOOM * noteGraphicScale));
-					babyArrow.updateHitbox();
-					babyArrow.antialiasing = false;
-				default: // STYLE_NORMAL
-					babyArrow.antialiasing = FlxG.save.data.antialiasing;
-					babyArrow.setGraphicSize(Std.int(babyArrow.width * noteGraphicScale));
+				babyArrow.setGraphicSize(Std.int(babyArrow.width * PIXEL_ZOOM * noteGraphicScale));
+				babyArrow.updateHitbox();
+				babyArrow.antialiasing = false;
+			}
+			else
+			{
+				babyArrow.antialiasing = AntiAliasingOption.get();
+				babyArrow.setGraphicSize(Std.int(babyArrow.width * noteGraphicScale));
 			}
 
 			// Further setup.
@@ -310,7 +309,7 @@ class EnigmaNote
 	 */
 	public static function getSingAnim(note:Note, strumlineSize:Int = 4, missed = false):String
 	{
-		// ERIC: Currently, singing 9-key alt left/down/up/right notes uses the same animations,
+		// ERIC: Currently, singing 9-key left alt/down/up/right notes uses the same animations,
 		// and the center note uses the up animation, on both players.
 		// Use this code to add overrides for that.
 		var directionName = getDirectionName(note.rawNoteData, false).toUpperCase();
@@ -382,7 +381,7 @@ class EnigmaNote
 			case 6:
 				// Super Saiyan Shaggy
 				// On 6-keys and higher, use Custom keybinds rather than Basic
-				// 6-key: Left/Down/Right/Alt Left/Up/Alt Right
+				// 6-key: Left/Down/Right/Left Alt/Up/Right Alt
 				[
 					FlxG.save.data.left9KBind,
 					FlxG.save.data.down9KBind,
@@ -393,7 +392,7 @@ class EnigmaNote
 				];
 			case 7:
 				// Super Saiyan Shaggy Plus Space
-				// 7-key: Left/Down/Right/Center/Alt Left/Up/Alt Right
+				// 7-key: Left/Down/Right/Center/Left Alt/Up/Right Alt
 				[
 					FlxG.save.data.left9KBind,
 					FlxG.save.data.down9KBind,
@@ -405,7 +404,7 @@ class EnigmaNote
 				];
 			case 8:
 				// God Eater Shaggy Minus Space
-				// 8-key: Left/Down/Up/Right/Alt Left/Alt Down/Alt Up/Alt Right
+				// 8-key: Left/Down/Up/Right/Left Alt/Down Alt/Up Alt/Right Alt
 				[
 					FlxG.save.data.left9KBind,
 					FlxG.save.data.down9KBind,
@@ -418,7 +417,7 @@ class EnigmaNote
 				];
 			case 9:
 				// God Eater Shaggy
-				// 9-key: Left/Down/Right/Center/Alt Left/Up/Alt Right
+				// 9-key: Left/Down/Right/Center/Left Alt/Up/Right Alt
 				[
 					FlxG.save.data.left9KBind,
 					FlxG.save.data.down9KBind,
@@ -492,14 +491,15 @@ class EnigmaNote
 	 		* return the strumline index of the note from that keyboard event.
 	 * @param event Key that was just pressed or released.
 	 * @param strumlineSize Song's strumline size.
+	 		* @param invert Whether the strumline has been flipped around, where left is right and up is down.
 	 * @return The strumline index of the note.
 	 */
-	public static function getKeyNoteData(event:KeyboardEvent, strumlineSize:Int = 4):Int
+	public static function getKeyNoteData(event:KeyboardEvent, strumlineSize:Int = 4, invert:Bool = false):Int
 	{
 		var arrowResult = handleArrowKeys(event.keyCode, strumlineSize);
 		if (arrowResult != -1)
 		{
-			return arrowResult;
+			return (invert ? strumlineSize - arrowResult : arrowResult);
 		}
 
 		var key = FlxKey.toStringMap.get(event.keyCode);
@@ -515,7 +515,7 @@ class EnigmaNote
 			if (binds[i].toLowerCase() == key.toLowerCase())
 			{
 				// This was the key pressed!
-				return i;
+				return (invert ? strumlineSize - i : i);
 			}
 		}
 		// No result found.

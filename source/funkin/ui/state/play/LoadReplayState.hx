@@ -23,6 +23,7 @@
  */
 package funkin.ui.state.play;
 
+import funkin.behavior.options.Options.AntiAliasingOption;
 import funkin.behavior.play.Song;
 import funkin.ui.state.options.OptionsMenu;
 import funkin.behavior.play.Replay;
@@ -101,7 +102,7 @@ class LoadReplayState extends MusicBeatState
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
 		menuBG.updateHitbox();
 		menuBG.screenCenter();
-		menuBG.antialiasing = FlxG.save.data.antialiasing;
+		menuBG.antialiasing = AntiAliasingOption.get();
 		add(menuBG);
 
 		grpControls = new FlxTypedGroup<Alphabet>();

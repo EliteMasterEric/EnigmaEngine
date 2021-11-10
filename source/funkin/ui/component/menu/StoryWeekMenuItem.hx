@@ -46,7 +46,7 @@ class StoryWeekMenuItem extends FlxSpriteGroup
 		super(x, y);
 		this.weekData = weekData;
 		this.week = new FlxSprite().loadGraphic(GraphicsAssets.loadImage(weekData.titleGraphic));
-		this.week.antialiasing = FlxG.save.data.antialiasing;
+		this.week.antialiasing = AntiAliasingOption.get();
 		add(this.week);
 	}
 

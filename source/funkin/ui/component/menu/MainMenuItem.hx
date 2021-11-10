@@ -22,6 +22,7 @@
  */
 package funkin.ui.component.menu;
 
+import funkin.behavior.options.Options.AntiAliasingOption;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -93,7 +94,7 @@ class MainMenuItem extends InteractableSprite
 		this.ID = id;
 		this.screenCenter(X);
 		this.scrollFactor.set();
-		this.antialiasing = FlxG.save.data.antialiasing;
+		this.antialiasing = AntiAliasingOption.get();
 
 		// Ease the menu option in from the top on first start.
 		if (MainMenuState.firstStart)

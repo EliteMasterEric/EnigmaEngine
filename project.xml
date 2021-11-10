@@ -136,13 +136,33 @@
 	<set name="BUILD_DIR"
 			 value="export/release"
 			 unless="debug" />
-	<!-- Split the Windows and Linux build folder by platform.
-		The <config> option wasn't documented ANYWHERE, this was a massive pain.
-		TODO: ACTUALLY FIX THIS IT DOESN'T WORK -->
-	<!-- <config:windows output-directory="Windows32" if="HXCPP_M32" /> -->
-	<!-- <config:windows output-directory="Windows64" if="HXCPP_M64" /> -->
-	<!-- <config:linux output-directory="Linux32" if="HXCPP_M32" /> -->
-	<!-- <config:linux output-directory="Linux64" if="HXCPP_M64" /> -->
+
+  <define name="excludeDefaultWeeks" unless="includeDefaultWeeks" />
+
+  <section if="includeDefaultWeeks">
+    <section unless="embedAssets">
+      <assets path="assets/_includeDefaultWeeks"
+        rename="assets"
+        embed="false"
+        exclude="*.md" />
+    </section>
+  </section>
+
+  <section if="excludeDefaultWeeks">
+  	<section if="embedAssets">
+			<assets path="assets/_excludeDefaultWeeks"
+							rename="assets"
+							embed="true"
+							exclude="*.md" />
+		</section>
+    <section unless="embedAssets">
+      <assets path="assets/_excludeDefaultWeeks"
+        rename="assets"
+        embed="false"
+        exclude="*.md" />
+    </section>
+  </section>
+
 	<!-- All the code files are in the `source` folder. -->
 	<classpath path="source" />
 	<define name="PRELOAD_ALL"
@@ -171,13 +191,6 @@
 						embed="false"
 						exclude="*.md,*.mp3"
 						unless="web" />
-		<!-- Default weeks are moved up here when not embedding, and down near the end if we are embedding. -->
-		<section if="includeDefaultWeeks">
-			<assets path="assets/_includeDefaultWeeks"
-							rename="assets"
-							embed="false"
-							exclude="*.md" />
-		</section>
 	</section>
 	<section if="PRELOAD_ALL">
 		<library name="songs"
@@ -472,7 +485,7 @@
 		NOTE: When embedding, the default weeks need to be included after. If you set embed=false, you need to move them before the EXE. -->
 	<section if="includeDefaultWeeks">
 		<!-- <echo value="NOTICE: Build will include default weeks!" /> -->
-		<section if="embedAssets">
+  	<section if="embedAssets">
 			<assets path="assets/_includeDefaultWeeks"
 							rename="assets"
 							embed="true"
@@ -511,6 +524,7 @@
 							 preload="false" />
 		</section>
 	</section>
+
 	<!-- Move the example mods to the `mods` folder of the build. -->
 	<section unless="excludeExampleMods">
 		<assets path="example_mods"

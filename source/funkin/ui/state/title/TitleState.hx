@@ -194,6 +194,7 @@ class TitleState extends MusicBeatState implements IHook
 	public override function create():Void
 	{
 		trace('Started initializing TitleState...');
+		buildTitleScreenHooks();
 
 		#if FEATURE_FILESYSTEM
 		// If the replay folder does not exist, create it.
@@ -295,7 +296,7 @@ class TitleState extends MusicBeatState implements IHook
 			gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 			gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		}
-		gfDance.antialiasing = FlxG.save.data.antialiasing;
+		gfDance.antialiasing = AntiAliasingOption.get();
 
 		add(gfDance);
 
@@ -303,7 +304,7 @@ class TitleState extends MusicBeatState implements IHook
 		{
 			logoBumpin = new FlxSprite(titleScreenData.logo.x, titleScreenData.logo.y);
 			logoBumpin.frames = GraphicsAssets.loadSparrowAtlas('logoBumpin');
-			logoBumpin.antialiasing = FlxG.save.data.antialiasing;
+			logoBumpin.antialiasing = AntiAliasingOption.get();
 			logoBumpin.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 			logoBumpin.setGraphicSize(Std.int(logoBumpin.width * titleScreenData.logo.scale));
 			logoBumpin.updateHitbox();
@@ -313,7 +314,7 @@ class TitleState extends MusicBeatState implements IHook
 			Debug.logWarn('Could not load title screen data for logo sprite...');
 			logoBumpin = new FlxSprite(-150, -100);
 			logoBumpin.frames = GraphicsAssets.loadSparrowAtlas('logoBumpin');
-			logoBumpin.antialiasing = FlxG.save.data.antialiasing;
+			logoBumpin.antialiasing = AntiAliasingOption.get();
 			logoBumpin.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 			logoBumpin.updateHitbox();
 		}
@@ -325,7 +326,7 @@ class TitleState extends MusicBeatState implements IHook
 		titleText.frames = GraphicsAssets.loadSparrowAtlas('titleEnter');
 		titleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
 		titleText.animation.addByPrefix('press', "ENTER PRESSED", 24);
-		titleText.antialiasing = FlxG.save.data.antialiasing;
+		titleText.antialiasing = AntiAliasingOption.get();
 		titleText.animation.play('idle');
 		titleText.updateHitbox();
 		add(titleText);
@@ -579,6 +580,7 @@ class TitleState extends MusicBeatState implements IHook
 		creditsGraphic = creditsGraphicCache.get(assetName);
 		if (creditsGraphic != null)
 		{
+			Debug.logTrace('Rendering cached credits graphic "${assetName}"');
 			creditsGroup.add(creditsGraphic);
 
 			// This value will be null if the animation can't be initialized.
@@ -724,31 +726,31 @@ class TitleState extends MusicBeatState implements IHook
 				}
 				else
 				{
-					Debug.logWarn('Wacky text: Could not get index argument, skipping...');
+					Debug.logWarn('No values found for addWackyText, skipping...');
 				}
 			case 'setTextOffset':
-				Debug.logTrace('Setting text offset...');
 				if (creditsEntry.value != null)
 				{
+					Debug.logTrace('Setting text offset (${creditsEntry.value})...');
 					creditsTextOffset = creditsEntry.value;
 				}
 				else
 				{
-					Debug.logWarn('NO VALUE FOUND, skipping...');
+					Debug.logWarn('No value found for setTextOffset, skipping...');
 				}
 			case 'reloadWackyText':
 				// You still have to call clearText and addText yourself.
 				Debug.logTrace('Reloading wacky text...');
 				reloadWackyText();
 			case 'setGraphic':
-				Debug.logTrace('Setting credits graphic...');
 				if (creditsEntry.value != null)
 				{
+					Debug.logTrace('Setting credits graphic ${creditsEntry.value}...');
 					showCreditsGraphic(creditsEntry.value);
 				}
 				else
 				{
-					Debug.logWarn("Couldn't find a 'value' attribute for addGraphic.");
+					Debug.logWarn("No value found for setGraphic.");
 				}
 			case 'clearGraphic':
 				Debug.logTrace('Clearing credits graphic...');

@@ -22,6 +22,7 @@
  */
 package funkin.behavior.options;
 
+import cpp.abi.Abi;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.util.FlxSignal;
@@ -61,6 +62,7 @@ class PlayerSettings
 			++numPlayers;
 		}
 
+		#if !FLX_NO_GAMEPAD
 		var numGamepads = FlxG.gamepads.numActiveGamepads;
 		if (numGamepads > 0)
 		{
@@ -85,6 +87,7 @@ class PlayerSettings
 
 			player2.controls.addDefaultGamepad(1);
 		}
+		#end
 	}
 
 	public static function reset()

@@ -40,13 +40,14 @@ class AudioAssets
 	}
 
 	/**
-	 * Plays the provided audio track. Special in that it replaces the music.
+	 * Attempts to load and play the provided audio track. Overrides the current background music track.
 	 * Only one music track can be loaded at a time.
 	 */
 	public static function playMusic(songPath:String, shouldCache:Bool = true, volume:Float = 1, looped:Bool = false)
 	{
 		if (shouldCache)
 			cacheSound(songPath);
+
 		if (LibraryAssets.soundExists(songPath))
 		{
 			FlxG.sound.playMusic(songPath, volume, looped);
@@ -55,5 +56,40 @@ class AudioAssets
 		{
 			Debug.logError('Could not play music ($songPath) because the file does not exist.');
 		}
+	}
+
+	/**
+	 * Returns whether music has played with `AudioAssets.playMusic()`
+	 * @return Bool
+	 */
+	public static function isMusicLoaded():Bool
+	{
+		return FlxG.sound.music != null;
+	}
+
+	/**
+	 * Pause the currently playing background music if it has started playing.
+	 * Starting it again can be done by simply calling `AudioAssets.resumeMusic()`.
+	 */
+	public static function pauseMusic()
+	{
+		FlxG.sound.music.pause();
+	}
+
+	/**
+	 * Resume the currently playing background music if it has been paused.
+	 */
+	public static function resumeMusic()
+	{
+		FlxG.sound.music.play();
+	}
+
+	/**
+	 * Stop the currently playing background music if it has started playing.
+	 * Starting it again requires calling `AudioAssets.playMusic()` again.
+	 */
+	public static function stopMusic()
+	{
+		FlxG.sound.music.stop();
 	}
 }

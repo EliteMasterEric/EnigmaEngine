@@ -23,6 +23,7 @@
  */
 package funkin.ui.state.modding;
 
+import funkin.behavior.options.Options.AntiAliasingOption;
 import funkin.util.assets.Paths;
 import funkin.ui.state.title.CachingState;
 import funkin.ui.state.title.TitleState;
@@ -61,7 +62,7 @@ class ModSplashState extends MusicBeatState
 		gameLogo.x -= gameLogo.frameHeight;
 		gameLogo.y -= 180;
 		gameLogo.alpha = 0.8;
-		gameLogo.antialiasing = FlxG.save.data.antialiasing;
+		gameLogo.antialiasing = AntiAliasingOption.get();
 		add(gameLogo);
 
 		var txt:FlxText = new FlxText(0, 0, FlxG.width,

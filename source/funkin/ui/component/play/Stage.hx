@@ -82,9 +82,9 @@ class Stage extends MusicBeatState
 		super();
 		this.curStage = daStage;
 		camZoom = 1.05; // Don't change zoom here, unless you want to change zoom of every stage that doesn't have custom one
-		
-    // In minimal mode, we don't build the stage at all. Just a black void.
-    if (MinimalModeOption.get())
+
+		// In minimal mode, we don't build the stage at all. Just a black void.
+		if (MinimalModeOption.get())
 			return;
 
 		switch (daStage)
@@ -98,7 +98,7 @@ class Stage extends MusicBeatState
 					halloweenBG.animation.addByPrefix('idle', 'halloweem bg0');
 					halloweenBG.animation.addByPrefix('lightning', 'halloweem bg lightning strike', 24, false);
 					halloweenBG.animation.play('idle');
-					halloweenBG.antialiasing = FlxG.save.data.antialiasing;
+					halloweenBG.antialiasing = AntiAliasingOption.get();
 					swagBacks['halloweenBG'] = halloweenBG;
 					toAdd.push(halloweenBG);
 				}
@@ -130,7 +130,7 @@ class Stage extends MusicBeatState
 						light.visible = false;
 						light.setGraphicSize(Std.int(light.width * 0.85));
 						light.updateHitbox();
-						light.antialiasing = FlxG.save.data.antialiasing;
+						light.antialiasing = AntiAliasingOption.get();
 						phillyCityLights.add(light);
 					}
 
@@ -158,7 +158,7 @@ class Stage extends MusicBeatState
 
 					var skyBG:FlxSprite = new FlxSprite(-120, -50).loadGraphic(GraphicsAssets.loadImage('limo/limoSunset', 'week4'));
 					skyBG.scrollFactor.set(0.1, 0.1);
-					skyBG.antialiasing = FlxG.save.data.antialiasing;
+					skyBG.antialiasing = AntiAliasingOption.get();
 					swagBacks['skyBG'] = skyBG;
 					toAdd.push(skyBG);
 
@@ -167,13 +167,13 @@ class Stage extends MusicBeatState
 					bgLimo.animation.addByPrefix('drive', "background limo pink", 24);
 					bgLimo.animation.play('drive');
 					bgLimo.scrollFactor.set(0.4, 0.4);
-					bgLimo.antialiasing = FlxG.save.data.antialiasing;
+					bgLimo.antialiasing = AntiAliasingOption.get();
 					swagBacks['bgLimo'] = bgLimo;
 					toAdd.push(bgLimo);
 
 					var fastCar:FlxSprite;
 					fastCar = new FlxSprite(-300, 160).loadGraphic(GraphicsAssets.loadImage('limo/fastCarLol', 'week4'));
-					fastCar.antialiasing = FlxG.save.data.antialiasing;
+					fastCar.antialiasing = AntiAliasingOption.get();
 
 					if (DistractionsAndEffectsOption.get())
 					{
@@ -203,7 +203,7 @@ class Stage extends MusicBeatState
 					limo.frames = limoTex;
 					limo.animation.addByPrefix('drive', "Limo stage", 24);
 					limo.animation.play('drive');
-					limo.antialiasing = FlxG.save.data.antialiasing;
+					limo.antialiasing = AntiAliasingOption.get();
 					layInFront[0].push(limo);
 					swagBacks['limo'] = limo;
 				}
@@ -212,7 +212,7 @@ class Stage extends MusicBeatState
 					camZoom = 0.80;
 
 					var bg:FlxSprite = new FlxSprite(-1000, -500).loadGraphic(GraphicsAssets.loadImage('christmas/bgWalls', 'week5'));
-					bg.antialiasing = FlxG.save.data.antialiasing;
+					bg.antialiasing = AntiAliasingOption.get();
 					bg.scrollFactor.set(0.2, 0.2);
 					bg.active = false;
 					bg.setGraphicSize(Std.int(bg.width * 0.8));
@@ -223,7 +223,7 @@ class Stage extends MusicBeatState
 					var upperBoppers = new FlxSprite(-240, -90);
 					upperBoppers.frames = GraphicsAssets.loadSparrowAtlas('christmas/upperBop', 'week5');
 					upperBoppers.animation.addByPrefix('idle', "Upper Crowd Bob", 24, false);
-					upperBoppers.antialiasing = FlxG.save.data.antialiasing;
+					upperBoppers.antialiasing = AntiAliasingOption.get();
 					upperBoppers.scrollFactor.set(0.33, 0.33);
 					upperBoppers.setGraphicSize(Std.int(upperBoppers.width * 0.85));
 					upperBoppers.updateHitbox();
@@ -235,7 +235,7 @@ class Stage extends MusicBeatState
 					}
 
 					var bgEscalator:FlxSprite = new FlxSprite(-1100, -600).loadGraphic(GraphicsAssets.loadImage('christmas/bgEscalator', 'week5'));
-					bgEscalator.antialiasing = FlxG.save.data.antialiasing;
+					bgEscalator.antialiasing = AntiAliasingOption.get();
 					bgEscalator.scrollFactor.set(0.3, 0.3);
 					bgEscalator.active = false;
 					bgEscalator.setGraphicSize(Std.int(bgEscalator.width * 0.9));
@@ -244,7 +244,7 @@ class Stage extends MusicBeatState
 					toAdd.push(bgEscalator);
 
 					var tree:FlxSprite = new FlxSprite(370, -250).loadGraphic(GraphicsAssets.loadImage('christmas/christmasTree', 'week5'));
-					tree.antialiasing = FlxG.save.data.antialiasing;
+					tree.antialiasing = AntiAliasingOption.get();
 					tree.scrollFactor.set(0.40, 0.40);
 					swagBacks['tree'] = tree;
 					toAdd.push(tree);
@@ -252,7 +252,7 @@ class Stage extends MusicBeatState
 					var bottomBoppers = new FlxSprite(-300, 140);
 					bottomBoppers.frames = GraphicsAssets.loadSparrowAtlas('christmas/bottomBop', 'week5');
 					bottomBoppers.animation.addByPrefix('idle', 'Bottom Level Boppers', 24, false);
-					bottomBoppers.antialiasing = FlxG.save.data.antialiasing;
+					bottomBoppers.antialiasing = AntiAliasingOption.get();
 					bottomBoppers.scrollFactor.set(0.9, 0.9);
 					bottomBoppers.setGraphicSize(Std.int(bottomBoppers.width * 1));
 					bottomBoppers.updateHitbox();
@@ -265,14 +265,14 @@ class Stage extends MusicBeatState
 
 					var fgSnow:FlxSprite = new FlxSprite(-600, 700).loadGraphic(GraphicsAssets.loadImage('christmas/fgSnow', 'week5'));
 					fgSnow.active = false;
-					fgSnow.antialiasing = FlxG.save.data.antialiasing;
+					fgSnow.antialiasing = AntiAliasingOption.get();
 					swagBacks['fgSnow'] = fgSnow;
 					toAdd.push(fgSnow);
 
 					var santa = new FlxSprite(-840, 150);
 					santa.frames = GraphicsAssets.loadSparrowAtlas('christmas/santa', 'week5');
 					santa.animation.addByPrefix('idle', 'santa idle in fear', 24, false);
-					santa.antialiasing = FlxG.save.data.antialiasing;
+					santa.antialiasing = AntiAliasingOption.get();
 					if (DistractionsAndEffectsOption.get())
 					{
 						swagBacks['santa'] = santa;
@@ -283,7 +283,7 @@ class Stage extends MusicBeatState
 			case 'mallEvil':
 				{
 					var bg:FlxSprite = new FlxSprite(-400, -500).loadGraphic(GraphicsAssets.loadImage('christmas/evilBG', 'week5'));
-					bg.antialiasing = FlxG.save.data.antialiasing;
+					bg.antialiasing = AntiAliasingOption.get();
 					bg.scrollFactor.set(0.2, 0.2);
 					bg.active = false;
 					bg.setGraphicSize(Std.int(bg.width * 0.8));
@@ -292,13 +292,13 @@ class Stage extends MusicBeatState
 					toAdd.push(bg);
 
 					var evilTree:FlxSprite = new FlxSprite(300, -300).loadGraphic(GraphicsAssets.loadImage('christmas/evilTree', 'week5'));
-					evilTree.antialiasing = FlxG.save.data.antialiasing;
+					evilTree.antialiasing = AntiAliasingOption.get();
 					evilTree.scrollFactor.set(0.2, 0.2);
 					swagBacks['evilTree'] = evilTree;
 					toAdd.push(evilTree);
 
 					var evilSnow:FlxSprite = new FlxSprite(-200, 700).loadGraphic(GraphicsAssets.loadImage("christmas/evilSnow", 'week5'));
-					evilSnow.antialiasing = FlxG.save.data.antialiasing;
+					evilSnow.antialiasing = AntiAliasingOption.get();
 					swagBacks['evilSnow'] = evilSnow;
 					toAdd.push(evilSnow);
 				}
@@ -398,7 +398,7 @@ class Stage extends MusicBeatState
 					camZoom = 0.9;
 					curStage = 'stage';
 					var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(GraphicsAssets.loadImage('stageback'));
-					bg.antialiasing = FlxG.save.data.antialiasing;
+					bg.antialiasing = AntiAliasingOption.get();
 					bg.scrollFactor.set(0.9, 0.9);
 					bg.active = false;
 					swagBacks['bg'] = bg;
@@ -407,7 +407,7 @@ class Stage extends MusicBeatState
 					var stageFront:FlxSprite = new FlxSprite(-650, 600).loadGraphic(GraphicsAssets.loadImage('stagefront'));
 					stageFront.setGraphicSize(Std.int(stageFront.width * 1.1));
 					stageFront.updateHitbox();
-					stageFront.antialiasing = FlxG.save.data.antialiasing;
+					stageFront.antialiasing = AntiAliasingOption.get();
 					stageFront.scrollFactor.set(0.9, 0.9);
 					stageFront.active = false;
 					swagBacks['stageFront'] = stageFront;
@@ -416,7 +416,7 @@ class Stage extends MusicBeatState
 					var stageCurtains:FlxSprite = new FlxSprite(-500, -300).loadGraphic(GraphicsAssets.loadImage('stagecurtains'));
 					stageCurtains.setGraphicSize(Std.int(stageCurtains.width * 0.9));
 					stageCurtains.updateHitbox();
-					stageCurtains.antialiasing = FlxG.save.data.antialiasing;
+					stageCurtains.antialiasing = AntiAliasingOption.get();
 					stageCurtains.scrollFactor.set(1.3, 1.3);
 					stageCurtains.active = false;
 

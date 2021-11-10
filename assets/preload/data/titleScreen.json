@@ -58,7 +58,6 @@
       }
     ],
     {
-      // Using 'wait' actions rather than beat indexes makes rearranging lines far easier.
       "action": "wait"
     },
     {

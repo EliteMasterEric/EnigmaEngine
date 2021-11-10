@@ -105,7 +105,7 @@ class MainMenuState extends MusicBeatState
 		yellow.updateHitbox();
 		yellow.screenCenter();
 		yellow.visible = true;
-		yellow.antialiasing = FlxG.save.data.antialiasing;
+		yellow.antialiasing = AntiAliasingOption.get();
 		yellow.color = 0xFFfde871;
 		add(yellow);
 
@@ -119,7 +119,7 @@ class MainMenuState extends MusicBeatState
 		magenta.updateHitbox();
 		magenta.screenCenter();
 		magenta.visible = false;
-		magenta.antialiasing = FlxG.save.data.antialiasing;
+		magenta.antialiasing = AntiAliasingOption.get();
 		magenta.color = 0xFFfd719b;
 		add(magenta);
 

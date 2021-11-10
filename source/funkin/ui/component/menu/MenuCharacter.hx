@@ -23,6 +23,7 @@
  */
 package funkin.ui.component.menu;
 
+import funkin.behavior.options.Options.AntiAliasingOption;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -121,7 +122,7 @@ class MenuCharacter extends FlxSprite
 		animation.addByPrefix("idle", "idle", this.frameRate, true, false, false);
 		// This will silently fail if the animation is missing.
 		animation.addByPrefix("confirm", "confirm", this.frameRate, false, false, false);
-		antialiasing = FlxG.save.data.antialiasing;
+		antialiasing = AntiAliasingOption.get();
 
 		setGraphicSize(Std.int(width * this.charScale), Std.int(height * this.charScale));
 		updateHitbox();

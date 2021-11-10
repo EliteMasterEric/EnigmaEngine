@@ -18,11 +18,14 @@
 
 /*
  * Character.hx
- * A sprite which represents either BF, GF, or an opponent during the Play state.
+ * A sprite which represents either Boyfriend, Girlfriend, or an opponent during the Play state.
  * Handles loading of animations and offsets, and of character dancing animation status.
  */
 package funkin.ui.component.play;
 
+import flixel.math.FlxPoint;
+import flixel.group.FlxSpriteGroup;
+import flixel.addons.effects.FlxTrail;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxFramesCollection;
@@ -32,19 +35,53 @@ import funkin.behavior.play.Conductor;
 import funkin.util.assets.DataAssets;
 import funkin.util.assets.GraphicsAssets;
 import funkin.util.assets.Paths;
+import funkin.behavior.options.Options.AntiAliasingOption;
 
 using hx.strings.Strings;
 
-class Character extends FlxSprite
+// Character is an FlxSpriteGroup that can contain multiple individual Character sprites.
+class Character extends FlxSpriteGroup
 {
 	public var animOffsets:Map<String, Array<Dynamic>>;
 	public var debugMode:Bool = false;
 
+	/**
+	 * Whether the current character is a player character.
+	 */
 	public var isPlayer:Bool = false;
+
+	/**
+	 * The ID of the current character.
+	 */
 	public var curCharacter:String = 'bf';
+
 	public var barColor:FlxColor;
 
 	public var holdTimer:Float = 0;
+
+	var internalSprite:FlxSprite;
+
+	/**
+	 * When set to true, enables an after-image or trail to the current sprite.
+	 * This is used by Spirit in Thorns.
+	 */
+	public var trailEnabled(default, set):Bool = false;
+
+	var trail:FlxTrail;
+
+	function set_trailEnabled(newValue:Bool):Bool
+	{
+		this.trailEnabled = newValue;
+		if (newValue)
+		{
+			add(trail);
+		}
+		else
+		{
+			remove(trail);
+		}
+		return this.trailEnabled;
+	}
 
 	/**
 	 * Contains a list of characters valid to use as a player or CPU.
@@ -80,46 +117,49 @@ class Character extends FlxSprite
 
 	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
 	{
-		super(x, y);
+		super(0, 0);
 
-		barColor = isPlayer ? 0xFF66FF33 : 0xFFFF0000;
-		animOffsets = new Map<String, Array<Dynamic>>();
-		curCharacter = character;
+		this.internalSprite = new FlxSprite(x, y);
+		add(this.internalSprite);
+		this.internalSprite.antialiasing = AntiAliasingOption.get();
+
+		this.barColor = isPlayer ? 0xFF66FF33 : 0xFFFF0000;
+		this.animOffsets = new Map<String, Array<Dynamic>>();
+		this.curCharacter = character;
 		this.isPlayer = isPlayer;
 
 		var tex:Null<FlxFramesCollection>;
-		antialiasing = FlxG.save.data.antialiasing;
-
 		switch (curCharacter)
 		{
 			case 'gf-christmas':
 				tex = GraphicsAssets.loadSparrowAtlas('characters/gfChristmas', 'shared');
-				frames = tex;
-				animation.addByPrefix('cheer', 'GF Cheer', 24, false);
-				animation.addByPrefix('singLEFT', 'GF left note', 24, false);
-				animation.addByPrefix('singRIGHT', 'GF Right Note', 24, false);
-				animation.addByPrefix('singUP', 'GF Up Note', 24, false);
-				animation.addByPrefix('singDOWN', 'GF Down Note', 24, false);
-				animation.addByIndices('sad', 'gf sad', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "", 24, false);
-				animation.addByIndices('danceLeft', 'GF Dancing Beat', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-				animation.addByIndices('danceRight', 'GF Dancing Beat', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-				animation.addByIndices('hairBlow', "GF Dancing Beat Hair blowing", [0, 1, 2, 3], "", 24);
-				animation.addByIndices('hairFall', "GF Dancing Beat Hair Landing", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], "", 24, false);
-				animation.addByPrefix('scared', 'GF FEAR', 24);
+				this.internalSprite.frames = tex;
+				this.internalSprite.animation.addByPrefix('cheer', 'GF Cheer', 24, false);
+				this.internalSprite.animation.addByPrefix('singLEFT', 'GF left note', 24, false);
+				this.internalSprite.animation.addByPrefix('singRIGHT', 'GF Right Note', 24, false);
+				this.internalSprite.animation.addByPrefix('singUP', 'GF Up Note', 24, false);
+				this.internalSprite.animation.addByPrefix('singDOWN', 'GF Down Note', 24, false);
+				this.internalSprite.animation.addByIndices('sad', 'gf sad', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "", 24, false);
+				this.internalSprite.animation.addByIndices('danceLeft', 'GF Dancing Beat', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24,
+					false);
+				this.internalSprite.animation.addByIndices('danceRight', 'GF Dancing Beat', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "",
+					24, false);
+				this.internalSprite.animation.addByIndices('hairBlow', "GF Dancing Beat Hair blowing", [0, 1, 2, 3], "", 24);
+				this.internalSprite.animation.addByIndices('hairFall', "GF Dancing Beat Hair Landing", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], "", 24, false);
+				this.internalSprite.animation.addByPrefix('scared', 'GF FEAR', 24);
 
 				loadOffsetFile(curCharacter);
 
 				playAnim('danceRight');
-
 			case 'dad':
 				// DAD ANIMATION LOADING CODE
 				tex = GraphicsAssets.loadSparrowAtlas('characters/DADDY_DEAREST', 'shared', true);
-				frames = tex;
-				animation.addByPrefix('idle', 'Dad idle dance', 24, false);
-				animation.addByPrefix('singUP', 'Dad Sing Note UP', 24, false);
-				animation.addByPrefix('singRIGHT', 'Dad Sing Note RIGHT', 24, false);
-				animation.addByPrefix('singDOWN', 'Dad Sing Note DOWN', 24, false);
-				animation.addByPrefix('singLEFT', 'Dad Sing Note LEFT', 24, false);
+				this.internalSprite.frames = tex;
+				this.internalSprite.animation.addByPrefix('idle', 'Dad idle dance', 24, false);
+				this.internalSprite.animation.addByPrefix('singUP', 'Dad Sing Note UP', 24, false);
+				this.internalSprite.animation.addByPrefix('singRIGHT', 'Dad Sing Note RIGHT', 24, false);
+				this.internalSprite.animation.addByPrefix('singDOWN', 'Dad Sing Note DOWN', 24, false);
+				this.internalSprite.animation.addByPrefix('singLEFT', 'Dad Sing Note LEFT', 24, false);
 
 				loadOffsetFile(curCharacter);
 				barColor = 0xFFaf66ce;
@@ -127,13 +167,13 @@ class Character extends FlxSprite
 				playAnim('idle');
 			case 'spooky':
 				tex = GraphicsAssets.loadSparrowAtlas('characters/spooky_kids_assets', 'shared');
-				frames = tex;
-				animation.addByPrefix('singUP', 'spooky UP NOTE', 24, false);
-				animation.addByPrefix('singDOWN', 'spooky DOWN note', 24, false);
-				animation.addByPrefix('singLEFT', 'note sing left', 24, false);
-				animation.addByPrefix('singRIGHT', 'spooky sing right', 24, false);
-				animation.addByIndices('danceLeft', 'spooky dance idle', [0, 2, 6], "", 12, false);
-				animation.addByIndices('danceRight', 'spooky dance idle', [8, 10, 12, 14], "", 12, false);
+				this.internalSprite.frames = tex;
+				this.internalSprite.animation.addByPrefix('singUP', 'spooky UP NOTE', 24, false);
+				this.internalSprite.animation.addByPrefix('singDOWN', 'spooky DOWN note', 24, false);
+				this.internalSprite.animation.addByPrefix('singLEFT', 'note sing left', 24, false);
+				this.internalSprite.animation.addByPrefix('singRIGHT', 'spooky sing right', 24, false);
+				this.internalSprite.animation.addByIndices('danceLeft', 'spooky dance idle', [0, 2, 6], "", 12, false);
+				this.internalSprite.animation.addByIndices('danceRight', 'spooky dance idle', [8, 10, 12, 14], "", 12, false);
 
 				loadOffsetFile(curCharacter);
 				barColor = 0xFFd57e00;
@@ -141,33 +181,31 @@ class Character extends FlxSprite
 				playAnim('danceRight');
 			case 'mom':
 				tex = GraphicsAssets.loadSparrowAtlas('characters/Mom_Assets', 'shared');
-				frames = tex;
-
-				animation.addByPrefix('idle', "Mom Idle", 24, false);
-				animation.addByPrefix('singUP', "Mom Up Pose", 24, false);
-				animation.addByPrefix('singDOWN', "MOM DOWN POSE", 24, false);
-				animation.addByPrefix('singLEFT', 'Mom Left Pose', 24, false);
+				this.internalSprite.frames = tex;
+				this.internalSprite.animation.addByPrefix('idle', "Mom Idle", 24, false);
+				this.internalSprite.animation.addByPrefix('singUP', "Mom Up Pose", 24, false);
+				this.internalSprite.animation.addByPrefix('singDOWN', "MOM DOWN POSE", 24, false);
+				this.internalSprite.animation.addByPrefix('singLEFT', 'Mom Left Pose', 24, false);
 				// ANIMATION IS CALLED MOM LEFT POSE BUT ITS FOR THE RIGHT
 				// CUZ DAVE IS DUMB!
-				animation.addByPrefix('singRIGHT', 'Mom Pose Left', 24, false);
+				this.internalSprite.animation.addByPrefix('singRIGHT', 'Mom Pose Left', 24, false);
 
 				loadOffsetFile(curCharacter);
 				barColor = 0xFFd8558e;
 
 				playAnim('idle');
-
 			case 'mom-car':
 				tex = GraphicsAssets.loadSparrowAtlas('characters/momCar', 'shared');
-				frames = tex;
+				this.internalSprite.frames = tex;
 
-				animation.addByPrefix('idle', "Mom Idle", 24, false);
-				animation.addByPrefix('singUP', "Mom Up Pose", 24, false);
-				animation.addByPrefix('singDOWN', "MOM DOWN POSE", 24, false);
-				animation.addByPrefix('singLEFT', 'Mom Left Pose', 24, false);
+				this.internalSprite.animation.addByPrefix('idle', "Mom Idle", 24, false);
+				this.internalSprite.animation.addByPrefix('singUP', "Mom Up Pose", 24, false);
+				this.internalSprite.animation.addByPrefix('singDOWN', "MOM DOWN POSE", 24, false);
+				this.internalSprite.animation.addByPrefix('singLEFT', 'Mom Left Pose', 24, false);
 				// ANIMATION IS CALLED MOM LEFT POSE BUT ITS FOR THE RIGHT
 				// CUZ DAVE IS DUMB!
-				animation.addByPrefix('singRIGHT', 'Mom Pose Left', 24, false);
-				animation.addByIndices('idleHair', 'Mom Idle', [10, 11, 12, 13], "", 24, true);
+				this.internalSprite.animation.addByPrefix('singRIGHT', 'Mom Pose Left', 24, false);
+				this.internalSprite.animation.addByIndices('idleHair', 'Mom Idle', [10, 11, 12, 13], "", 24, true);
 
 				loadOffsetFile(curCharacter);
 				barColor = 0xFFd8558e;
@@ -175,52 +213,52 @@ class Character extends FlxSprite
 				playAnim('idle');
 			case 'monster':
 				tex = GraphicsAssets.loadSparrowAtlas('characters/Monster_Assets', 'shared');
-				frames = tex;
-				animation.addByPrefix('idle', 'monster idle', 24, false);
-				animation.addByPrefix('singUP', 'monster up note', 24, false);
-				animation.addByPrefix('singDOWN', 'monster down', 24, false);
-				animation.addByPrefix('singLEFT', 'Monster left note', 24, false);
-				animation.addByPrefix('singRIGHT', 'Monster Right note', 24, false);
+				this.internalSprite.frames = tex;
+				this.internalSprite.animation.addByPrefix('idle', 'monster idle', 24, false);
+				this.internalSprite.animation.addByPrefix('singUP', 'monster up note', 24, false);
+				this.internalSprite.animation.addByPrefix('singDOWN', 'monster down', 24, false);
+				this.internalSprite.animation.addByPrefix('singLEFT', 'Monster left note', 24, false);
+				this.internalSprite.animation.addByPrefix('singRIGHT', 'Monster Right note', 24, false);
 
 				loadOffsetFile(curCharacter);
 				barColor = 0xFFf3ff6e;
 				playAnim('idle');
 			case 'monster-christmas':
 				tex = GraphicsAssets.loadSparrowAtlas('characters/monsterChristmas', 'shared');
-				frames = tex;
-				animation.addByPrefix('idle', 'monster idle', 24, false);
-				animation.addByPrefix('singUP', 'monster up note', 24, false);
-				animation.addByPrefix('singDOWN', 'monster down', 24, false);
-				animation.addByPrefix('singLEFT', 'Monster left note', 24, false);
-				animation.addByPrefix('singRIGHT', 'Monster Right note', 24, false);
+				this.internalSprite.frames = tex;
+				this.internalSprite.animation.addByPrefix('idle', 'monster idle', 24, false);
+				this.internalSprite.animation.addByPrefix('singUP', 'monster up note', 24, false);
+				this.internalSprite.animation.addByPrefix('singDOWN', 'monster down', 24, false);
+				this.internalSprite.animation.addByPrefix('singLEFT', 'Monster left note', 24, false);
+				this.internalSprite.animation.addByPrefix('singRIGHT', 'Monster Right note', 24, false);
 
 				loadOffsetFile(curCharacter);
 				barColor = 0xFFf3ff6e;
 				playAnim('idle');
 			case 'pico':
 				tex = GraphicsAssets.loadSparrowAtlas('characters/Pico_FNF_assetss', 'shared');
-				frames = tex;
-				animation.addByPrefix('idle', "Pico Idle Dance", 24, false);
-				animation.addByPrefix('singUP', 'pico Up note0', 24, false);
-				animation.addByPrefix('singDOWN', 'Pico Down Note0', 24, false);
+				this.internalSprite.frames = tex;
+				this.internalSprite.animation.addByPrefix('idle', "Pico Idle Dance", 24, false);
+				this.internalSprite.animation.addByPrefix('singUP', 'pico Up note0', 24, false);
+				this.internalSprite.animation.addByPrefix('singDOWN', 'Pico Down Note0', 24, false);
 				if (isPlayer)
 				{
-					animation.addByPrefix('singLEFT', 'Pico NOTE LEFT0', 24, false);
-					animation.addByPrefix('singRIGHT', 'Pico Note Right0', 24, false);
-					animation.addByPrefix('singRIGHTmiss', 'Pico Note Right Miss', 24, false);
-					animation.addByPrefix('singLEFTmiss', 'Pico NOTE LEFT miss', 24, false);
+					this.internalSprite.animation.addByPrefix('singLEFT', 'Pico NOTE LEFT0', 24, false);
+					this.internalSprite.animation.addByPrefix('singRIGHT', 'Pico Note Right0', 24, false);
+					this.internalSprite.animation.addByPrefix('singRIGHTmiss', 'Pico Note Right Miss', 24, false);
+					this.internalSprite.animation.addByPrefix('singLEFTmiss', 'Pico NOTE LEFT miss', 24, false);
 				}
 				else
 				{
 					// Need to be flipped! REDO THIS LATER!
-					animation.addByPrefix('singLEFT', 'Pico Note Right0', 24, false);
-					animation.addByPrefix('singRIGHT', 'Pico NOTE LEFT0', 24, false);
-					animation.addByPrefix('singRIGHTmiss', 'Pico NOTE LEFT miss', 24, false);
-					animation.addByPrefix('singLEFTmiss', 'Pico Note Right Miss', 24, false);
+					this.internalSprite.animation.addByPrefix('singLEFT', 'Pico Note Right0', 24, false);
+					this.internalSprite.animation.addByPrefix('singRIGHT', 'Pico NOTE LEFT0', 24, false);
+					this.internalSprite.animation.addByPrefix('singRIGHTmiss', 'Pico NOTE LEFT miss', 24, false);
+					this.internalSprite.animation.addByPrefix('singLEFTmiss', 'Pico Note Right Miss', 24, false);
 				}
 
-				animation.addByPrefix('singUPmiss', 'pico Up note miss', 24);
-				animation.addByPrefix('singDOWNmiss', 'Pico Down Note MISS', 24);
+				this.internalSprite.animation.addByPrefix('singUPmiss', 'pico Up note miss', 24);
+				this.internalSprite.animation.addByPrefix('singDOWNmiss', 'Pico Down Note MISS', 24);
 
 				loadOffsetFile(curCharacter);
 				barColor = 0xFFb7d855;
@@ -228,20 +266,19 @@ class Character extends FlxSprite
 				playAnim('idle');
 
 				flipX = true;
-
 			case 'bf-christmas':
-				var tex = GraphicsAssets.loadSparrowAtlas('characters/bfChristmas', 'shared');
-				frames = tex;
-				animation.addByPrefix('idle', 'BF idle dance', 24, false);
-				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
-				animation.addByPrefix('singLEFT', 'BF NOTE LEFT0', 24, false);
-				animation.addByPrefix('singRIGHT', 'BF NOTE RIGHT0', 24, false);
-				animation.addByPrefix('singDOWN', 'BF NOTE DOWN0', 24, false);
-				animation.addByPrefix('singUPmiss', 'BF NOTE UP MISS', 24, false);
-				animation.addByPrefix('singLEFTmiss', 'BF NOTE LEFT MISS', 24, false);
-				animation.addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
-				animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
-				animation.addByPrefix('hey', 'BF HEY', 24, false);
+				tex = GraphicsAssets.loadSparrowAtlas('characters/bfChristmas', 'shared');
+				this.internalSprite.frames = tex;
+				this.internalSprite.animation.addByPrefix('idle', 'BF idle dance', 24, false);
+				this.internalSprite.animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
+				this.internalSprite.animation.addByPrefix('singLEFT', 'BF NOTE LEFT0', 24, false);
+				this.internalSprite.animation.addByPrefix('singRIGHT', 'BF NOTE RIGHT0', 24, false);
+				this.internalSprite.animation.addByPrefix('singDOWN', 'BF NOTE DOWN0', 24, false);
+				this.internalSprite.animation.addByPrefix('singUPmiss', 'BF NOTE UP MISS', 24, false);
+				this.internalSprite.animation.addByPrefix('singLEFTmiss', 'BF NOTE LEFT MISS', 24, false);
+				this.internalSprite.animation.addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
+				this.internalSprite.animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
+				this.internalSprite.animation.addByPrefix('hey', 'BF HEY', 24, false);
 
 				loadOffsetFile(curCharacter);
 
@@ -249,7 +286,7 @@ class Character extends FlxSprite
 
 				flipX = true;
 			case 'bf-car':
-				var tex = GraphicsAssets.loadSparrowAtlas('characters/bfCar', 'shared');
+				tex = GraphicsAssets.loadSparrowAtlas('characters/bfCar', 'shared');
 				frames = tex;
 				animation.addByPrefix('idle', 'BF idle dance', 24, false);
 				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
@@ -269,16 +306,16 @@ class Character extends FlxSprite
 
 				flipX = true;
 			case 'bf-pixel':
-				frames = GraphicsAssets.loadSparrowAtlas('characters/bfPixel', 'shared');
-				animation.addByPrefix('idle', 'BF IDLE', 24, false);
-				animation.addByPrefix('singUP', 'BF UP NOTE', 24, false);
-				animation.addByPrefix('singLEFT', 'BF LEFT NOTE', 24, false);
-				animation.addByPrefix('singRIGHT', 'BF RIGHT NOTE', 24, false);
-				animation.addByPrefix('singDOWN', 'BF DOWN NOTE', 24, false);
-				animation.addByPrefix('singUPmiss', 'BF UP MISS', 24, false);
-				animation.addByPrefix('singLEFTmiss', 'BF LEFT MISS', 24, false);
-				animation.addByPrefix('singRIGHTmiss', 'BF RIGHT MISS', 24, false);
-				animation.addByPrefix('singDOWNmiss', 'BF DOWN MISS', 24, false);
+				this.internalSprite.frames = GraphicsAssets.loadSparrowAtlas('characters/bfPixel', 'shared');
+				this.internalSprite.animation.addByPrefix('idle', 'BF IDLE', 24, false);
+				this.internalSprite.animation.addByPrefix('singUP', 'BF UP NOTE', 24, false);
+				this.internalSprite.animation.addByPrefix('singLEFT', 'BF LEFT NOTE', 24, false);
+				this.internalSprite.animation.addByPrefix('singRIGHT', 'BF RIGHT NOTE', 24, false);
+				this.internalSprite.animation.addByPrefix('singDOWN', 'BF DOWN NOTE', 24, false);
+				this.internalSprite.animation.addByPrefix('singUPmiss', 'BF UP MISS', 24, false);
+				this.internalSprite.animation.addByPrefix('singLEFTmiss', 'BF LEFT MISS', 24, false);
+				this.internalSprite.animation.addByPrefix('singRIGHTmiss', 'BF RIGHT MISS', 24, false);
+				this.internalSprite.animation.addByPrefix('singDOWNmiss', 'BF DOWN MISS', 24, false);
 
 				loadOffsetFile(curCharacter);
 
@@ -296,12 +333,12 @@ class Character extends FlxSprite
 
 				flipX = true;
 			case 'bf-pixel-dead':
-				frames = GraphicsAssets.loadSparrowAtlas('characters/bfPixelsDEAD', 'shared');
-				animation.addByPrefix('singUP', "BF Dies pixel", 24, false);
-				animation.addByPrefix('firstDeath', "BF Dies pixel", 24, false);
-				animation.addByPrefix('deathLoop', "Retry Loop", 24, false);
-				animation.addByPrefix('deathConfirm', "RETRY CONFIRM", 24, false);
-				animation.play('firstDeath');
+				this.internalSprite.frames = GraphicsAssets.loadSparrowAtlas('characters/bfPixelsDEAD', 'shared');
+				this.internalSprite.animation.addByPrefix('singUP', "BF Dies pixel", 24, false);
+				this.internalSprite.animation.addByPrefix('firstDeath', "BF Dies pixel", 24, false);
+				this.internalSprite.animation.addByPrefix('deathLoop', "Retry Loop", 24, false);
+				this.internalSprite.animation.addByPrefix('deathConfirm', "RETRY CONFIRM", 24, false);
+				this.internalSprite.animation.play('firstDeath');
 
 				loadOffsetFile(curCharacter);
 				playAnim('firstDeath');
@@ -312,14 +349,13 @@ class Character extends FlxSprite
 				flipX = true;
 
 				barColor = 0xFF31b0d1;
-
 			case 'senpai':
-				frames = GraphicsAssets.loadSparrowAtlas('characters/senpai', 'shared');
-				animation.addByPrefix('idle', 'Senpai Idle', 24, false);
-				animation.addByPrefix('singUP', 'SENPAI UP NOTE', 24, false);
-				animation.addByPrefix('singLEFT', 'SENPAI LEFT NOTE', 24, false);
-				animation.addByPrefix('singRIGHT', 'SENPAI RIGHT NOTE', 24, false);
-				animation.addByPrefix('singDOWN', 'SENPAI DOWN NOTE', 24, false);
+				this.internalSprite.frames = GraphicsAssets.loadSparrowAtlas('characters/senpai', 'shared');
+				this.internalSprite.animation.addByPrefix('idle', 'Senpai Idle', 24, false);
+				this.internalSprite.animation.addByPrefix('singUP', 'SENPAI UP NOTE', 24, false);
+				this.internalSprite.animation.addByPrefix('singLEFT', 'SENPAI LEFT NOTE', 24, false);
+				this.internalSprite.animation.addByPrefix('singRIGHT', 'SENPAI RIGHT NOTE', 24, false);
+				this.internalSprite.animation.addByPrefix('singDOWN', 'SENPAI DOWN NOTE', 24, false);
 
 				loadOffsetFile(curCharacter);
 				barColor = 0xFFffaa6f;
@@ -331,12 +367,12 @@ class Character extends FlxSprite
 
 				antialiasing = false;
 			case 'senpai-angry':
-				frames = GraphicsAssets.loadSparrowAtlas('characters/senpai', 'shared');
-				animation.addByPrefix('idle', 'Angry Senpai Idle', 24, false);
-				animation.addByPrefix('singUP', 'Angry Senpai UP NOTE', 24, false);
-				animation.addByPrefix('singLEFT', 'Angry Senpai LEFT NOTE', 24, false);
-				animation.addByPrefix('singRIGHT', 'Angry Senpai RIGHT NOTE', 24, false);
-				animation.addByPrefix('singDOWN', 'Angry Senpai DOWN NOTE', 24, false);
+				this.internalSprite.frames = GraphicsAssets.loadSparrowAtlas('characters/senpai', 'shared');
+				this.internalSprite.animation.addByPrefix('idle', 'Angry Senpai Idle', 24, false);
+				this.internalSprite.animation.addByPrefix('singUP', 'Angry Senpai UP NOTE', 24, false);
+				this.internalSprite.animation.addByPrefix('singLEFT', 'Angry Senpai LEFT NOTE', 24, false);
+				this.internalSprite.animation.addByPrefix('singRIGHT', 'Angry Senpai RIGHT NOTE', 24, false);
+				this.internalSprite.animation.addByPrefix('singDOWN', 'Angry Senpai DOWN NOTE', 24, false);
 
 				loadOffsetFile(curCharacter);
 				barColor = 0xFFffaa6f;
@@ -345,15 +381,14 @@ class Character extends FlxSprite
 				setGraphicSize(Std.int(width * 6));
 				updateHitbox();
 
-				antialiasing = false;
-
+				this.internalSprite.antialiasing = false;
 			case 'spirit':
-				frames = GraphicsAssets.loadPackerAtlas('characters/spirit', 'shared');
-				animation.addByPrefix('idle', "idle spirit_", 24, false);
-				animation.addByPrefix('singUP', "up_", 24, false);
-				animation.addByPrefix('singRIGHT', "right_", 24, false);
-				animation.addByPrefix('singLEFT', "left_", 24, false);
-				animation.addByPrefix('singDOWN', "spirit down_", 24, false);
+				this.internalSprite.frames = GraphicsAssets.loadPackerAtlas('characters/spirit', 'shared');
+				this.internalSprite.animation.addByPrefix('idle', "idle spirit_", 24, false);
+				this.internalSprite.animation.addByPrefix('singUP', "up_", 24, false);
+				this.internalSprite.animation.addByPrefix('singRIGHT', "right_", 24, false);
+				this.internalSprite.animation.addByPrefix('singLEFT', "left_", 24, false);
+				this.internalSprite.animation.addByPrefix('singDOWN', "spirit down_", 24, false);
 
 				loadOffsetFile(curCharacter);
 				barColor = 0xFFff3c6e;
@@ -363,21 +398,20 @@ class Character extends FlxSprite
 
 				playAnim('idle');
 
-				antialiasing = false;
-
+				this.internalSprite.antialiasing = false;
 			case 'parents-christmas':
-				frames = GraphicsAssets.loadSparrowAtlas('characters/mom_dad_christmas_assets', 'shared');
-				animation.addByPrefix('idle', 'Parent Christmas Idle', 24, false);
-				animation.addByPrefix('singUP', 'Parent Up Note Dad', 24, false);
-				animation.addByPrefix('singDOWN', 'Parent Down Note Dad', 24, false);
-				animation.addByPrefix('singLEFT', 'Parent Left Note Dad', 24, false);
-				animation.addByPrefix('singRIGHT', 'Parent Right Note Dad', 24, false);
+				this.internalSprite.frames = GraphicsAssets.loadSparrowAtlas('characters/mom_dad_christmas_assets', 'shared');
+				this.internalSprite.animation.addByPrefix('idle', 'Parent Christmas Idle', 24, false);
+				this.internalSprite.animation.addByPrefix('singUP', 'Parent Up Note Dad', 24, false);
+				this.internalSprite.animation.addByPrefix('singDOWN', 'Parent Down Note Dad', 24, false);
+				this.internalSprite.animation.addByPrefix('singLEFT', 'Parent Left Note Dad', 24, false);
+				this.internalSprite.animation.addByPrefix('singRIGHT', 'Parent Right Note Dad', 24, false);
 
-				animation.addByPrefix('singUP-alt', 'Parent Up Note Mom', 24, false);
+				this.internalSprite.animation.addByPrefix('singUP-alt', 'Parent Up Note Mom', 24, false);
 
-				animation.addByPrefix('singDOWN-alt', 'Parent Down Note Mom', 24, false);
-				animation.addByPrefix('singLEFT-alt', 'Parent Left Note Mom', 24, false);
-				animation.addByPrefix('singRIGHT-alt', 'Parent Right Note Mom', 24, false);
+				this.internalSprite.animation.addByPrefix('singDOWN-alt', 'Parent Down Note Mom', 24, false);
+				this.internalSprite.animation.addByPrefix('singLEFT-alt', 'Parent Left Note Mom', 24, false);
+				this.internalSprite.animation.addByPrefix('singRIGHT-alt', 'Parent Right Note Mom', 24, false);
 
 				loadOffsetFile(curCharacter);
 				barColor = 0xFF9a00f8;
@@ -387,32 +421,13 @@ class Character extends FlxSprite
 				loadAnimationsFromDataFile();
 		}
 
+		this.trail = new FlxTrail(this.internalSprite, null, 4, 24, 0.3, 0.069);
+		this.trail.changeValuesEnabled(true, true, true, true);
+		// Set this.trailEnabled = true to add the trail.
+		// add(this.trail);
+
 		if (curCharacter.startsWith('bf'))
 			dance();
-
-		/*
-			if (isPlayer && frames != null)
-			{
-				flipX = !flipX;
-
-				// Doesn't flip for BF, since his are already in the right place???
-				if (!curCharacter.startsWith('bf'))
-				{
-					// var animArray
-					var oldRight = animation.getByName('singRIGHT').frames;
-					animation.getByName('singRIGHT').frames = animation.getByName('singLEFT').frames;
-					animation.getByName('singLEFT').frames = oldRight;
-
-					// IF THEY HAVE MISS ANIMATIONS??
-					if (animation.getByName('singRIGHTmiss') != null)
-					{
-						var oldMiss = animation.getByName('singRIGHTmiss').frames;
-						animation.getByName('singRIGHTmiss').frames = animation.getByName('singLEFTmiss').frames;
-						animation.getByName('singLEFTmiss').frames = oldMiss;
-					}
-				}
-			}
-		 */
 	}
 
 	private static function parseDataFile(charId:String):CharacterData
@@ -429,7 +444,7 @@ class Character extends FlxSprite
 		return data;
 	}
 
-	private function loadAnimationsFromDataFile()
+	function loadAnimationsFromDataFile()
 	{
 		Debug.logInfo('Generating character (${curCharacter}) from JSON data...');
 
@@ -453,7 +468,7 @@ class Character extends FlxSprite
 			return;
 		}
 
-		frames = tex;
+		this.internalSprite.frames = tex;
 
 		for (anim in data.animations)
 		{
@@ -464,11 +479,11 @@ class Character extends FlxSprite
 
 			if (anim.frameIndices != null)
 			{
-				animation.addByIndices(anim.name, anim.prefix, anim.frameIndices, "", frameRate, looped, flipX, flipY);
+				this.internalSprite.animation.addByIndices(anim.name, anim.prefix, anim.frameIndices, "", frameRate, looped, flipX, flipY);
 			}
 			else
 			{
-				animation.addByPrefix(anim.name, anim.prefix, frameRate, looped, flipX, flipY);
+				this.internalSprite.animation.addByPrefix(anim.name, anim.prefix, frameRate, looped, flipX, flipY);
 			}
 
 			animOffsets[anim.name] = anim.offsets == null ? [0, 0] : anim.offsets;
@@ -486,12 +501,12 @@ class Character extends FlxSprite
 			antialiasing = false;
 		}
 
-		barColor = FlxColor.fromString(data.barColor);
+		this.barColor = FlxColor.fromString(data.barColor);
 
 		playAnim(data.startingAnim);
 	}
 
-	public function loadOffsetFile(character:String, library:String = 'shared')
+	function loadOffsetFile(character:String, library:String = 'shared')
 	{
 		var offset:Array<String> = DataAssets.loadLinesFromFile(Paths.txt('images/characters/' + character + "Offsets", library));
 
@@ -504,21 +519,21 @@ class Character extends FlxSprite
 
 	override function update(elapsed:Float)
 	{
-		if (animation.curAnim == null)
+		if (getCurAnimation() == null)
 		{
 			Debug.logWarn('Animation was null or missing! Is your character metadata complete?');
 			return;
 		}
 		if (!isPlayer)
 		{
-			if (animation.curAnim.name.startsWith('sing'))
+			if (getCurAnimation().startsWith('sing'))
 			{
 				holdTimer += elapsed;
 			}
 
 			if (curCharacter.endsWith('-car')
-				&& !animation.curAnim.name.startsWith('sing')
-				&& animation.curAnim.finished
+				&& !getCurAnimation().startsWith('sing')
+				&& isCurAnimationFinished()
 				&& animation.getByName('idleHair') != null)
 				playAnim('idleHair');
 
@@ -540,7 +555,7 @@ class Character extends FlxSprite
 		switch (curCharacter)
 		{
 			case 'gf':
-				if (animation.curAnim.name == 'hairFall' && animation.curAnim.finished)
+				if (getCurAnimation() == 'hairFall' && isCurAnimationFinished())
 				{
 					danced = true;
 					playAnim('danceRight');
@@ -562,7 +577,7 @@ class Character extends FlxSprite
 			switch (curCharacter)
 			{
 				case 'gf' | 'gf-christmas' | 'gf-car' | 'gf-pixel':
-					if (!animation.curAnim.name.startsWith('hair') && !animation.curAnim.name.startsWith('sing'))
+					if (!getCurAnimation().startsWith('hair') && !getCurAnimation().startsWith('sing'))
 					{
 						danced = !danced;
 
@@ -572,7 +587,7 @@ class Character extends FlxSprite
 							playAnim('danceLeft');
 					}
 				case 'spooky':
-					if (!animation.curAnim.name.startsWith('sing'))
+					if (!getCurAnimation().startsWith('sing'))
 					{
 						danced = !danced;
 
@@ -585,7 +600,7 @@ class Character extends FlxSprite
 					// new dance code is gonna end up cutting off animation with the idle
 					// so here's example code that'll fix it. just adjust it to ya character 'n shit
 					case 'custom character':
-						if (!animation.curAnim.name.endsWith('custom animation'))
+						if (!getCurAnimation().endsWith('custom animation'))
 							playAnim('idle', forced);
 				 */
 				default:
@@ -607,15 +622,15 @@ class Character extends FlxSprite
 			AnimName = AnimName.split('-')[0];
 		}
 
-		animation.play(AnimName, Force, Reversed, Frame);
+		this.internalSprite.animation.play(AnimName, Force, Reversed, Frame);
 
 		var daOffset = animOffsets.get(AnimName);
 		if (animOffsets.exists(AnimName))
 		{
-			offset.set(daOffset[0], daOffset[1]);
+			setOffset(daOffset[0], daOffset[1]);
 		}
 		else
-			offset.set(0, 0);
+			setOffset(0, 0);
 
 		if (curCharacter == 'gf')
 		{
@@ -638,6 +653,78 @@ class Character extends FlxSprite
 	public function addOffset(name:String, x:Float = 0, y:Float = 0)
 	{
 		animOffsets[name] = [x, y];
+	}
+
+	public override function setGraphicSize(width:Int = 0, height:Int = 0)
+	{
+		this.internalSprite.setGraphicSize(width, height);
+	}
+
+	public override function updateHitbox()
+	{
+		this.internalSprite.updateHitbox();
+	}
+
+	public override function getPosition(?point:FlxPoint = null):flixel.math.FlxPoint
+	{
+		return this.internalSprite.getPosition();
+	}
+
+	public override function setPosition(x:Float = 0, y:Float = 0)
+	{
+		this.internalSprite.setPosition(x, y);
+	}
+
+	public function setScrollFactor(x:Float = 1, y:Float = 1)
+	{
+		this.internalSprite.scrollFactor.set(x, y);
+	}
+
+	public override function getMidpoint(?point:FlxPoint = null):flixel.math.FlxPoint
+	{
+		return this.internalSprite.getMidpoint(point);
+	}
+
+	public override function getGraphicMidpoint(?point:FlxPoint = null):flixel.math.FlxPoint
+	{
+		return this.internalSprite.getGraphicMidpoint(point);
+	}
+
+	public function hasAnimation(name:String)
+	{
+		return this.internalSprite.animation.getByName(name) != null;
+	}
+
+	public function isValid()
+	{
+		return this.internalSprite.frames != null;
+	}
+
+	public function getCurAnimation():String
+	{
+		return this.internalSprite.animation.curAnim == null ? null : this.internalSprite.animation.curAnim.name;
+	}
+
+	public function isCurAnimationFinished()
+	{
+		if (this.internalSprite.animation.curAnim == null)
+			return true;
+		return this.internalSprite.animation.curAnim.finished;
+	}
+
+	public function getCurAnimFrame():Int
+	{
+		return this.internalSprite.animation.curAnim == null ? 0 : this.internalSprite.animation.curAnim.curFrame;
+	}
+
+	public function setOffset(x:Int, y:Int)
+	{
+		this.internalSprite.offset.set(x, y);
+	}
+
+	public function setVisible(visible:Bool = true)
+	{
+		this.internalSprite.visible = visible;
 	}
 }
 

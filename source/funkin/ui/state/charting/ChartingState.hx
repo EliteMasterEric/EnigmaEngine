@@ -23,6 +23,7 @@
  */
 package funkin.ui.state.charting;
 
+import funkin.util.assets.AudioAssets;
 import funkin.behavior.Debug;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.ui.FlxInputText;
@@ -228,7 +229,6 @@ class ChartingState extends MusicBeatState
 				notes: [],
 				eventObjects: [],
 				bpm: 150,
-				needsVoices: true,
 				player1: 'bf',
 				player2: 'dad',
 				gfVersion: 'gf',
@@ -984,14 +984,6 @@ class ChartingState extends MusicBeatState
 		var UI_songTitle = new FlxUIInputText(10, 10, 70, _song.songId, 8);
 		textInputSongName = UI_songTitle;
 
-		var check_voices = new FlxUICheckBox(10, 25, null, null, "Has voice track", 100);
-		check_voices.checked = _song.needsVoices;
-		check_voices.callback = function()
-		{
-			_song.needsVoices = check_voices.checked;
-			trace('CHECKED!');
-		};
-
 		var saveButton:FlxButton = new FlxButton(110, 8, "Save", function()
 		{
 			saveLevel();
@@ -1108,7 +1100,6 @@ class ChartingState extends MusicBeatState
 		tab_group_song.name = "Song";
 		tab_group_song.add(UI_songTitle);
 		tab_group_song.add(restart);
-		tab_group_song.add(check_voices);
 		tab_group_song.add(saveButton);
 		tab_group_song.add(reloadSong);
 		tab_group_song.add(reloadSongJson);
@@ -1264,7 +1255,7 @@ class ChartingState extends MusicBeatState
 		var startSection:FlxButton = new FlxButton(10, 85, "Play Here", function()
 		{
 			PlayState.SONG = _song;
-			FlxG.sound.music.stop();
+			AudioAssets.resumeMusic();
 			vocals.stop();
 			PlayState.startTime = _song.notes[curSection].startTime;
 			while (curRenderedNotes.members.length > 0)
@@ -1505,18 +1496,17 @@ class ChartingState extends MusicBeatState
 
 	function loadSong(daSong:String, reloadFromFile:Bool = true):Void
 	{
-		if (FlxG.sound.music != null)
+		if (AudioAssets.isMusicLoaded())
 		{
-			FlxG.sound.music.stop();
+			AudioAssets.resumeMusic();
 		}
 		if (reloadFromFile)
 		{
-			FlxG.sound.playMusic(Paths.inst(daSong), 0.6);
+			AudioAssets.playMusic(Paths.inst(daSong), false, 0.6, false);
 
 			var diffSuffix = DifficultyCache.getSuffix(PlayState.songDifficulty);
 			_song = Song.conversionChecks(Song.loadFromJson(PlayState.SONG.songId, diffSuffix));
 		}
-		// WONT WORK FOR TUTORIAL OR TEST SONG!!! REDO LATER
 		vocals = new FlxSound().loadEmbedded(Paths.voices(daSong));
 		FlxG.sound.list.add(vocals);
 
@@ -2427,7 +2417,7 @@ class ChartingState extends MusicBeatState
 				lastSection = curSection;
 
 				PlayState.SONG = _song;
-				FlxG.sound.music.stop();
+				AudioAssets.resumeMusic();
 				vocals.stop();
 
 				while (curRenderedNotes.members.length > 0)
@@ -2561,7 +2551,7 @@ class ChartingState extends MusicBeatState
 					else
 					{
 						vocals.play();
-						FlxG.sound.music.play();
+						AudioAssets.resumeMusic();
 					}
 				}
 

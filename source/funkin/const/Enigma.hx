@@ -91,10 +91,10 @@ class Enigma extends MusicBeatState
 		2 => true, // Up 9K
 		3 => true, // Right 9K
 		4 => true, // Center
-		5 => true, // Alt Left 9K
-		6 => true, // Alt Down 9K
-		7 => true, // Alt Up 9K
-		8 => true, // Alt Right 9K
+		5 => true, // Left Alt 9K
+		6 => true, // Down Alt 9K
+		7 => true, // Up Alt 9K
+		8 => true, // Right Alt 9K
 	];
 
 	/**

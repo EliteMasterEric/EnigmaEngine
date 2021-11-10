@@ -157,7 +157,7 @@ class NoteUtil
 	}
 
 	/**
-	 * Get the base width of a note, in pixels.
+	 * Get the base width of a full-size note, in pixels.
 	 * Based on the current strumline size.
 	 */
 	public static function getNoteWidth()
@@ -189,17 +189,18 @@ class NoteUtil
 		// Position of the note should line up.
 		note.x = strumlineNote.x;
 
-		// Readjust the horizontal position of sustain notes.
+		// Recenter sustain notes relative to their parent.
 		if (note.isSustainNote)
 		{
-			note.x += note.width / 2;
-			switch (note.noteStyle)
-			{
-				case 'pixel':
-					note.x += 9;
-				default:
-					note.x += 20;
-			}
+			note.x += note.parent.width / 2;
+			note.x -= note.width / 2;
+			//			switch (note.noteStyle)
+			//			{
+			//				case 'pixel':
+			//					note.x += 9;
+			//				default:
+			//					note.x += 20;
+			//			}
 		}
 	}
 }

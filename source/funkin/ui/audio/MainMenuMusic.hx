@@ -22,6 +22,7 @@
  */
 package funkin.ui.audio;
 
+import funkin.util.assets.AudioAssets;
 import flixel.FlxG;
 import funkin.behavior.play.Conductor;
 import funkin.util.assets.Paths;
@@ -41,7 +42,7 @@ class MainMenuMusic
 		}
 		else
 		{
-			FlxG.sound.music.play();
+			AudioAssets.resumeMusic();
 		}
 	}
 
@@ -65,7 +66,7 @@ class MainMenuMusic
 	{
 		if (FlxG.sound.music != null && FlxG.sound.music.playing)
 		{
-			FlxG.sound.music.stop();
+			AudioAssets.stopMusic();
 		}
 	}
 }

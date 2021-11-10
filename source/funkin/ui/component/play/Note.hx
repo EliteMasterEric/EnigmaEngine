@@ -125,28 +125,37 @@ class Note extends FlxSprite
 	public var luaModifiedPos:Bool = false;
 
 	/**
-	 * Flag which is enabled if this note is part of the tail of a strumline.
-	 		* Will render either as a ' Sustain'  or an ' End'.
+	 * Held notes, known in code as "sustain notes", are made by placing several notes,
+	 * one for the head and one for each segment of the tail.
+	 * One note is placed every step after the sustain starts,
+	 * and reskinned to look like a bar rather than an arrow.
+	 * 
+	 * If this flag is true, this note is one of the bar/tail segments.
 	 */
 	public var isSustainNote:Bool = false;
 
 	/**
 	 * Flag which is enabled if this note is the parent note of one or more sustain notes.
+	 * If this flag is true, the note is a held note that is tied to several child "segment" notes,
+	 * and has a non-zero `sustainLength` value.
 	 * Should not be enabled if `isSustainNote` is true.
 	 */
 	public var isParent:Bool = false;
 
 	/**
-	 * Reference to the parent note of this sustain note.
-	 		* Should be null unless `isSustainNote` is true.
+	 * If this note is a sustain note, this is a reference to the note's parent.
 	 */
 	public var parent:Note = null;
 
 	/**
-	 * If this note is a parent sustain note,
-	 		* this note will contain a reference to all its children.
+	 * If this note is a parent to several sustain notes, this will contain a reference to all its children.
 	 */
 	public var children:Array<Note> = [];
+
+	/**
+	 * If this note is a sustain note, this is the index of the note in the parent's children[] array.
+	 */
+	public var childIndex:Int = 0;
 
 	/**
 	 * Flag which is disabled if any of the previous notes in this sustain are missed.
@@ -223,8 +232,6 @@ class Note extends FlxSprite
 	public var quantityColor:Array<Int> = [RED_NOTE, 2, BLUE_NOTE, 2, PURP_NOTE, 2, GREEN_NOTE, 2];
 	public var arrowAngles:Array<Int> = [180, 90, 270, 0];
 
-	public var spotInLine:Int = 0;
-
 	/**
 	 * Instantiate a Note sprite. Also includes logic to determine if it is in range of the strumline.
 	 * 
@@ -234,6 +241,7 @@ class Note extends FlxSprite
 	 * @param mustPress Whether the current section is on the player's side. (Not related to whether the note is a hazard).
 	 * @param sustainNote Whether this note is a held note.
 	 * @param inCharter Whether this note is being created for use in `ChartingState`.
+	 * @param noteType The type of note this is, such as normal or hazard.
 	 */
 	public function new(strumTime:Float, rawNoteData:Int, ?prevNote:Note, ?mustPress:Bool = false, ?sustainNote:Bool = false, ?inCharter:Bool = false,
 			?noteType:String = "normal")
@@ -367,9 +375,9 @@ class Note extends FlxSprite
 		if (isSustainNote && prevNote != null)
 		{
 			var stepHeight = -(PlayState.NOTE_TIME_TO_DISTANCE) * Conductor.stepCrochet / PlayState.songMultiplier * PlayState.getScrollSpeed();
-			noteYOffset = Math.round(stepHeight + NoteUtil.getNoteWidth() * 0.5);
 
-			x += width / 2;
+			noteYOffset = Math.round(stepHeight);
+			noteYOffset += Math.round(NoteUtil.getNoteWidth() * 0.5);
 
 			alpha = 0.6;
 
@@ -378,8 +386,6 @@ class Note extends FlxSprite
 
 			// This works both for normal colors and quantization colors
 			animation.play(EnigmaNote.getDirectionName(originColor, true) + ' End');
-
-			x -= width / 2;
 
 			if (this.inCharter)
 				x += 30;
@@ -392,6 +398,7 @@ class Note extends FlxSprite
 				prevNote.scale.y *= (stepHeight) / prevNote.height;
 				prevNote.updateHitbox();
 			}
+			updateHitbox();
 		}
 		else
 		{
@@ -399,6 +406,16 @@ class Note extends FlxSprite
 			updateHitbox();
 			centerOffsets();
 		}
+	}
+
+	/**
+	 * Test1
+	 * @test Test2
+	 * @return Test3
+	 */
+	public function isEndNote()
+	{
+		return childIndex == parent.children.length - 1;
 	}
 
 	/**
@@ -414,7 +431,7 @@ class Note extends FlxSprite
 
 		if (!luaModifiedPos && !sustainActive)
 		{
-			// alpha = 0.3;
+			alpha = 0.3;
 		}
 
 		// Do canBeHit calculation.
