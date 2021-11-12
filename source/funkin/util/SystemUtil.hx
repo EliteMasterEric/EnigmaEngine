@@ -15,22 +15,15 @@
  */
 
 /*
- * RelativeText.hx
- * A FlxUIText element with an additional handler for relative positioning.
+ * SystemUtil.hx
+ * Utilities to retrieve system information
  */
-package funkin.ui.component.base;
+import openfl.system.Capabilities;
 
-import flixel.FlxObject;
-import flixel.addons.ui.FlxUIText;
-
-class RelativeText extends FlxUIText implements IRelative
+class SystemUtil
 {
-	public function new(X:Float = 0, Y:Float = 0, Parent:FlxObject = null, FieldWidth:Float = 0, ?Text:String, Size:Int = 8, EmbeddedFont:Bool = true)
+	public static function getOS():String
 	{
-		super(0, 0, FieldWidth, Text, Size, EmbeddedFont);
-
-		this.parent = Parent;
-		this.relativeX = X;
-		this.relativeY = Y;
+		return Capabilities.os;
 	}
 }

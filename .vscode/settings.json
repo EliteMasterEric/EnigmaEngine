@@ -67,7 +67,7 @@
       },
       "templates": {
         "*": [
-          "${license_gpl_3_0}",
+          "${license_apache_2_0}",
           "",
           "${headerbegin}",
           "${headerprefix} ${fname}",

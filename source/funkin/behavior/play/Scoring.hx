@@ -1,19 +1,17 @@
 /*
- * GNU General Public License, Version 3.0
+ * Apache License, Version 2.0
  *
  * Copyright (c) 2021 MasterEric
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at:
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 /*
@@ -122,38 +120,40 @@ class SongScore
 		return j;
 	}
 
-  /**
-   * Use this for Replays since you know the judgement already.
-   */
-  public function addReplayJudgement(js:String) {
-    switch (js) {
-      case 'miss':
+	/**
+	 * Use this for Replays since you know the judgement already.
+	 */
+	public function addReplayJudgement(js:String)
+	{
+		switch (js)
+		{
+			case 'miss':
 				miss++;
 				currentCombo = 0;
-      case 'shit':
+			case 'shit':
 				shit++;
 				currentCombo = 0;
-      case 'bad':
+			case 'bad':
 				bad++;
 				currentCombo++;
-      case 'good':
+			case 'good':
 				good++;
 				currentCombo++;
-      case 'sick':
+			case 'sick':
 				sick++;
 				currentCombo++;
-    }
+		}
 
-    if (currentCombo > highestCombo)
+		if (currentCombo > highestCombo)
 			highestCombo = currentCombo;
-  }
+	}
 
-  /**
-   * Use this for Anti-Mash since it isn't associated with a note.
-   */
+	/**
+	 * Use this for Anti-Mash since it isn't associated with a note.
+	 */
 	public function judgeAntiMash()
 	{
-    miss++;
+		miss++;
 		currentCombo = 0;
 	}
 
