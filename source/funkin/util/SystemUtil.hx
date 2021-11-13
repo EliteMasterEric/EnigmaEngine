@@ -18,6 +18,8 @@
  * SystemUtil.hx
  * Utilities to retrieve system information
  */
+package funkin.util;
+
 import openfl.system.Capabilities;
 
 class SystemUtil

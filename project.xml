@@ -62,10 +62,6 @@
 	<!-- I don't know why you'd want to build the game for one of these other ones.
 		If you have a good reason, post an issue about it on the GitHub repo, I'll read it.
   -->
-  <error value="Target platform HashLink is not supported."
-         if="hl" />
-	<error value="Target platform Neko is not supported."
-				 if="neko" />
 	<error value="Target platform tvOS is not supported."
 				 if="tvos" />
 	<error value="Target platform Adobe AIR is not supported."
@@ -628,7 +624,7 @@
 	<!-- Allowed inputs are mobile,desktop,web,ios,android,windows,mac,linux,switch,html5,cpp,neko,flash,js -->
 	<!-- Defines whether the Discord presence client should be enabled. Only works on desktop. -->
 	<haxedef name="FEATURE_DISCORD"
-					 if="desktop" />
+					 if="desktop" unless="neko" />
 	<echo value="Platform supports feature: Discord"
 				if="FEATURE_DISCORD" />
   <haxedef name="FEATURE_GAMEPAD"
@@ -642,12 +638,12 @@
 				if="FEATURE_FILESYSTEM" />
 	<!-- Defines whether Lua Modcharts should be enabled. Only works on Windows. -->
 	<haxedef name="FEATURE_LUAMODCHART"
-					 if="desktop" />
+					 if="desktop" unless="neko" />
 	<echo value="Platform supports feature: LUA Modcharts"
 				if="FEATURE_LUAMODCHART" />
 	<!-- Defines whether WebM videos should be enabled. Currently only enabled on Windows. -->
 	<haxedef name="FEATURE_WEBM"
-					 if="windows" />
+					 if="windows" unless="neko" />
 	<echo value="Platform supports feature: WebM"
 				if="FEATURE_WEBM" />
 	<!-- Defines whether the Thread class can be used. -->

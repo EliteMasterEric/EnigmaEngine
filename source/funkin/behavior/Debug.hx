@@ -24,6 +24,7 @@
  */
 package funkin.behavior;
 
+import funkin.util.SystemUtil;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.system.debug.log.LogStyle;

@@ -20,11 +20,8 @@
  */
 package funkin.behavior.options;
 
-import cpp.abi.Abi;
-import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.util.FlxSignal;
-import funkin.behavior.options.Controls;
 import funkin.behavior.options.CustomControls;
 
 class PlayerSettings

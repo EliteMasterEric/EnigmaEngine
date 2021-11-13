@@ -1,44 +1,43 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<TextureAtlas imagePath="bf.png" width="822" height="1634">
-    <SubTexture name="confirm0000" x="415" y="1217" width="396" height="417" frameX="0" frameY="0" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0001" x="415" y="1217" width="396" height="417" frameX="0" frameY="0" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0002" x="407" y="394" width="415" height="411" frameX="-1" frameY="-8" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0003" x="407" y="394" width="415" height="411" frameX="-1" frameY="-8" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0004" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0005" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0006" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0007" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0008" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0009" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0010" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0011" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0012" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0013" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0014" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0015" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0016" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0017" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0018" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0019" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0020" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0021" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0022" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0023" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0024" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-    <SubTexture name="confirm0025" x="0" y="1217" width="415" height="413" frameX="-1" frameY="-6" frameWidth="415" frameHeight="418"/>
-
-    <SubTexture name="idle0000" x="0" y="0" width="408" height="393" frameX="-1" frameY="-20" frameWidth="411" frameHeight="412" />
-    <SubTexture name="idle0001" x="0" y="0" width="408" height="393" frameX="-1" frameY="-20" frameWidth="411" frameHeight="412" />
-    <SubTexture name="idle0002" x="408" y="0" width="409" height="394" frameX="0" frameY="-19" frameWidth="411" frameHeight="412" />
-    <SubTexture name="idle0003" x="408" y="0" width="409" height="394" frameX="0" frameY="-19" frameWidth="411" frameHeight="412" />
-    <SubTexture name="idle0004" x="0" y="394" width="407" height="399" frameX="-3" frameY="-14" frameWidth="411" frameHeight="412" />
-    <SubTexture name="idle0005" x="0" y="394" width="407" height="399" frameX="-3" frameY="-14" frameWidth="411" frameHeight="412" />
-    <SubTexture name="idle0006" x="0" y="805" width="411" height="412" frameX="-1" frameY="-1" frameWidth="411" frameHeight="412" />
-    <SubTexture name="idle0007" x="0" y="805" width="411" height="412" frameX="-1" frameY="-1" frameWidth="411" frameHeight="412" />
-    <SubTexture name="idle0008" x="411" y="805" width="410" height="412" frameX="-2" frameY="0" frameWidth="411" frameHeight="412" />
-    <SubTexture name="idle0009" x="411" y="805" width="410" height="412" frameX="-2" frameY="0" frameWidth="411" frameHeight="412" />
-    <SubTexture name="idle0010" x="411" y="805" width="410" height="412" frameX="-2" frameY="0" frameWidth="411" frameHeight="412" />
-    <SubTexture name="idle0011" x="411" y="805" width="410" height="412" frameX="-2" frameY="0" frameWidth="411" frameHeight="412" />
-    <SubTexture name="idle0012" x="411" y="805" width="410" height="412" frameX="-2" frameY="0" frameWidth="411" frameHeight="412" />
-    <SubTexture name="idle0013" x="411" y="805" width="410" height="412" frameX="-2" frameY="0" frameWidth="411" frameHeight="412" />
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="bf.png">
+	<SubTexture name="confirm0000" x="399" y="0" width="399" height="420" frameX="0" frameY="0" frameWidth="399" frameHeight="420" />
+	<SubTexture name="confirm0001" x="399" y="0" width="399" height="420" frameX="0" frameY="0" frameWidth="399" frameHeight="420" />
+	<SubTexture name="confirm0002" x="417" y="420" width="417" height="414" frameX="0" frameY="0" frameWidth="417" frameHeight="414" />
+	<SubTexture name="confirm0003" x="417" y="420" width="417" height="414" frameX="0" frameY="0" frameWidth="417" frameHeight="414" />
+	<SubTexture name="confirm0004" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="confirm0005" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="confirm0006" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="confirm0007" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="confirm0008" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="confirm0009" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="confirm0010" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="confirm0011" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="confirm0012" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="confirm0013" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="confirm0014" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="confirm0015" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="confirm0016" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="confirm0017" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="confirm0018" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="confirm0019" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="confirm0020" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="confirm0021" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="confirm0022" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="confirm0023" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="confirm0024" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="confirm0025" x="835" y="420" width="418" height="416" frameX="0" frameY="0" frameWidth="418" frameHeight="416" />
+	<SubTexture name="idle0000" x="410" y="836" width="410" height="396" frameX="0" frameY="0" frameWidth="410" frameHeight="396" />
+	<SubTexture name="idle0001" x="410" y="836" width="410" height="396" frameX="0" frameY="0" frameWidth="410" frameHeight="396" />
+	<SubTexture name="idle0002" x="822" y="836" width="412" height="397" frameX="0" frameY="0" frameWidth="412" frameHeight="397" />
+	<SubTexture name="idle0003" x="822" y="836" width="412" height="397" frameX="0" frameY="0" frameWidth="412" frameHeight="397" />
+	<SubTexture name="idle0004" x="409" y="1238" width="409" height="402" frameX="0" frameY="0" frameWidth="409" frameHeight="402" />
+	<SubTexture name="idle0005" x="409" y="1238" width="409" height="402" frameX="0" frameY="0" frameWidth="409" frameHeight="402" />
+	<SubTexture name="idle0006" x="823" y="1238" width="414" height="415" frameX="0" frameY="0" frameWidth="414" frameHeight="415" />
+	<SubTexture name="idle0007" x="823" y="1238" width="414" height="415" frameX="0" frameY="0" frameWidth="414" frameHeight="415" />
+	<SubTexture name="idle0008" x="412" y="1654" width="412" height="416" frameX="0" frameY="0" frameWidth="412" frameHeight="416" />
+	<SubTexture name="idle0009" x="412" y="1654" width="412" height="416" frameX="0" frameY="0" frameWidth="412" frameHeight="416" />
+	<SubTexture name="idle0010" x="412" y="1654" width="412" height="416" frameX="0" frameY="0" frameWidth="412" frameHeight="416" />
+	<SubTexture name="idle0011" x="412" y="1654" width="412" height="416" frameX="0" frameY="0" frameWidth="412" frameHeight="416" />
+	<SubTexture name="idle0012" x="412" y="1654" width="412" height="416" frameX="0" frameY="0" frameWidth="412" frameHeight="416" />
+	<SubTexture name="idle0013" x="412" y="1654" width="412" height="416" frameX="0" frameY="0" frameWidth="412" frameHeight="416" />
 </TextureAtlas>
