@@ -78,9 +78,13 @@ class SaveData
 		trace('Done checking save data. Flushing...');
 		FlxG.save.flush();
 
+		#if FEATURE_GAMEPAD
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
 		CustomControls.gamepad = gamepad != null;
+		#else
+		CustomControls.gamepad = false;
+		#end
 
 		Conductor.recalculateTimings();
 		PlayerSettings.player1.controls.loadKeyBinds();

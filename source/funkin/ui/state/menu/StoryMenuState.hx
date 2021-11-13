@@ -386,6 +386,7 @@ class StoryMenuState extends MusicBeatState
 
 			if (!selectedWeek)
 			{
+				#if FEATURE_GAMEPAD
 				var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
 				if (gamepad != null)
@@ -417,6 +418,7 @@ class StoryMenuState extends MusicBeatState
 						changeDifficulty(-1);
 					}
 				}
+				#end
 
 				if (FlxG.keys.justPressed.UP)
 				{

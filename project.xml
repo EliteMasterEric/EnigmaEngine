@@ -629,8 +629,12 @@
 	<!-- Defines whether the Discord presence client should be enabled. Only works on desktop. -->
 	<haxedef name="FEATURE_DISCORD"
 					 if="desktop" />
-	<echo value="Platform supports feature: Dscord"
+	<echo value="Platform supports feature: Discord"
 				if="FEATURE_DISCORD" />
+  <haxedef name="FEATURE_GAMEPAD"
+            unless="FLX_NO_GAMEPAD" />
+  <echo value="Platform supports feature: Gamepad"
+        if="FEATURE_GAMEPAD" />
 	<!-- Defines whether the file system can be read/written directly. Does not work in browser. -->
 	<haxedef name="FEATURE_FILESYSTEM"
 					 if="desktop" />

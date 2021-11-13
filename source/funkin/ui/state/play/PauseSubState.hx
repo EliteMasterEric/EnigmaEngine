@@ -126,14 +126,14 @@ class PauseSubState extends MusicBeatSubstate
 		if (PlayState.instance.backgroundVideoActive)
 			menuItems.remove('Resume');
 
-		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
-
 		var upPcontroller:Bool = false;
 		var downPcontroller:Bool = false;
 		var leftPcontroller:Bool = false;
 		var rightPcontroller:Bool = false;
 		var oldOffset:Float = 0;
 
+		#if FEATURE_GAMEPAD
+		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 		if (gamepad != null && CustomControls.gamepad)
 		{
 			upPcontroller = gamepad.justPressed.DPAD_UP;
@@ -141,6 +141,7 @@ class PauseSubState extends MusicBeatSubstate
 			leftPcontroller = gamepad.justPressed.DPAD_LEFT;
 			rightPcontroller = gamepad.justPressed.DPAD_RIGHT;
 		}
+		#end
 
 		var songPath = 'assets/data/songs/${PlayState.SONG.songId}/';
 

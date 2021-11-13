@@ -170,6 +170,7 @@ class OptionsMenu extends MusicBeatState
 				changeSelection(curSelected);
 			}
 
+			#if FEATURE_GAMEPAD
 			var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
 			if (gamepad != null)
@@ -185,6 +186,7 @@ class OptionsMenu extends MusicBeatState
 					changeSelection(1);
 				}
 			}
+			#end
 
 			// Select a different option.
 			if (FlxG.keys.justPressed.UP)

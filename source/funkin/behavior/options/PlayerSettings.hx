@@ -60,7 +60,7 @@ class PlayerSettings
 			++numPlayers;
 		}
 
-		#if !FLX_NO_GAMEPAD
+		#if FEATURE_GAMEPAD
 		var numGamepads = FlxG.gamepads.numActiveGamepads;
 		if (numGamepads > 0)
 		{

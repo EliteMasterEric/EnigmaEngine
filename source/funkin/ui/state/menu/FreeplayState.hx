@@ -257,7 +257,7 @@ class FreeplayState extends MusicBeatState
 		var charting = FlxG.keys.justPressed.SEVEN;
 		var bfDebug = FlxG.keys.justPressed.ZERO;
 
-		#if !FLX_NO_GAMEPAD
+		#if FEATURE_GAMEPAD
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
 		if (gamepad != null)

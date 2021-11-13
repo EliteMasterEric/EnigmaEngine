@@ -161,7 +161,9 @@ class EnigmaKeyBindMenu extends FlxSubState
 
 	override function update(elapsed:Float)
 	{
+		#if FEATURE_GAMEPAD
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
+		#end
 
 		if (frames <= 10)
 			frames++;
@@ -202,6 +204,7 @@ class EnigmaKeyBindMenu extends FlxSubState
 				{
 					reset();
 				}
+				#if FEATURE_GAMEPAD
 				if (gamepad != null) // GP Logic
 				{
 					if (gamepad.justPressed.DPAD_UP)
@@ -231,6 +234,7 @@ class EnigmaKeyBindMenu extends FlxSubState
 						reset();
 					}
 				}
+				#end
 
 			case 'input':
 				if (CustomControls.gamepad)
@@ -247,6 +251,7 @@ class EnigmaKeyBindMenu extends FlxSubState
 				state = 'waiting';
 
 			case 'waiting':
+				#if FEATURE_GAMEPAD
 				if (gamepad != null && CustomControls.gamepad) // GP Logic
 				{
 					if (FlxG.keys.justPressed.ESCAPE)
@@ -274,6 +279,7 @@ class EnigmaKeyBindMenu extends FlxSubState
 				}
 				else
 				{
+				#end
 					if (FlxG.keys.justPressed.ESCAPE)
 					{
 						keys[curSelected] = tempKey;
@@ -292,7 +298,9 @@ class EnigmaKeyBindMenu extends FlxSubState
 						save();
 						state = 'select';
 					}
+				#if FEATURE_GAMEPAD
 				}
+				#end
 
 			case 'exiting':
 

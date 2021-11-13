@@ -133,7 +133,9 @@ class KeyBindMenu extends FlxSubState
 
 	override function update(elapsed:Float)
 	{
+		#if FEATURE_GAMEPAD
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
+		#end
 
 		if (frames <= 10)
 			frames++;
@@ -174,6 +176,7 @@ class KeyBindMenu extends FlxSubState
 				{
 					reset();
 				}
+				#if FEATURE_GAMEPAD
 				if (gamepad != null) // GP Logic
 				{
 					if (gamepad.justPressed.DPAD_UP)
@@ -203,6 +206,7 @@ class KeyBindMenu extends FlxSubState
 						reset();
 					}
 				}
+				#end
 
 			case "input":
 				if (CustomControls.gamepad)
@@ -219,6 +223,7 @@ class KeyBindMenu extends FlxSubState
 				state = "waiting";
 
 			case "waiting":
+				#if FEATURE_GAMEPAD
 				if (gamepad != null && CustomControls.gamepad) // GP Logic
 				{
 					if (FlxG.keys.justPressed.ESCAPE)
@@ -246,6 +251,7 @@ class KeyBindMenu extends FlxSubState
 				}
 				else
 				{
+				#end
 					if (FlxG.keys.justPressed.ESCAPE)
 					{
 						keys[curSelected] = tempKey;
@@ -264,7 +270,9 @@ class KeyBindMenu extends FlxSubState
 						save();
 						state = "select";
 					}
+				#if FEATURE_GAMEPAD
 				}
+				#end
 
 			case "exiting":
 
