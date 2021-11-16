@@ -44,11 +44,6 @@ class PlayerSettings
 		this.controls = new CustomControls('player$id', scheme);
 	}
 
-	public function setKeyboardScheme(scheme)
-	{
-		controls.setKeyboardScheme(scheme);
-	}
-
 	public static function init():Void
 	{
 		if (player1 == null)

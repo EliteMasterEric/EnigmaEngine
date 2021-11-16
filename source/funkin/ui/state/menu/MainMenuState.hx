@@ -94,6 +94,9 @@ class MainMenuState extends MusicBeatState
 
 		MainMenuMusic.playMenuMusic();
 
+		// Load the player's keybinds.
+		controls.loadKeyBinds();
+
 		persistentUpdate = persistentDraw = true;
 
 		yellow = new FlxSprite(-100).loadGraphic(GraphicsAssets.loadImage('menuBackground'));
@@ -128,17 +131,12 @@ class MainMenuState extends MusicBeatState
 
 		firstStart = false;
 
-		FlxG.camera.follow(camFollow, null, 0.60 * (60 / FlxG.save.data.fpsCap));
+		FlxG.camera.follow(camFollow, null, 0.60 * (60 / FramerateCapOption.get()));
 
 		var versionText:FlxText = new FlxText(5, FlxG.height - 18, 0, 'FNF - ${Enigma.ENGINE_NAME} ${Enigma.ENGINE_VERSION}', 12);
 		versionText.scrollFactor.set();
 		versionText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionText);
-
-		if (FlxG.save.data.dfjk)
-			controls.setKeyboardScheme(KeyboardScheme.Solo, true);
-		else
-			controls.setKeyboardScheme(KeyboardScheme.Duo(true), true);
 
 		changeItem(0);
 
@@ -288,7 +286,7 @@ class MainMenuState extends MusicBeatState
 				camFollow.setPosition(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y);
 			}
 
-			spr.animation.curAnim.frameRate = 24 * (60 / FlxG.save.data.fpsCap);
+			spr.animation.curAnim.frameRate = 24 * (60 / FramerateCapOption.get());
 
 			spr.updateHitbox();
 		});

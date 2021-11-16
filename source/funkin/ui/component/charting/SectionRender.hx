@@ -20,6 +20,7 @@
  */
 package funkin.ui.component.charting;
 
+import funkin.behavior.options.Options.EditorGridOption;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -44,7 +45,7 @@ class SectionRender extends FlxSprite
 		if (Math.floor(h) != h)
 			h = GRID_SIZE;
 
-		if (FlxG.save.data.editorBG)
+		if (EditorGridOption.get())
 		{
 			FlxGridOverlay.overlay(this, GRID_SIZE, Std.int(h), GRID_SIZE * ChartingState.GRID_WIDTH_IN_CELLS, GRID_SIZE * Height);
 		}

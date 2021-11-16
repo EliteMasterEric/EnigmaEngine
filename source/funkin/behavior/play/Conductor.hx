@@ -21,6 +21,7 @@
  */
 package funkin.behavior.play;
 
+import funkin.behavior.options.Options.SafeFramesOption;
 import flixel.FlxG;
 import funkin.behavior.play.Song.SongData;
 
@@ -37,6 +38,12 @@ class Conductor
 	 * Current position in the current song, in milliseconds.
 	 */
 	public static var songPosition:Float = 0.0;
+
+	/**
+	 * Length of the current song, in milliseconds.
+	 * Based not on the length of the audio track, but on the time of the last note.
+	 */
+	public static var songLength:Float = 0.0;
 
 	/**
 	 * The beats per minute of the current song at the current time.
@@ -74,7 +81,7 @@ class Conductor
 
 	public static function recalculateTimings()
 	{
-		Conductor.safeFrames = FlxG.save.data.frames;
+		Conductor.safeFrames = SafeFramesOption.get();
 		Conductor.safeZoneOffset = Math.floor((Conductor.safeFrames / 60) * 1000);
 		Conductor.timeScale = Conductor.safeZoneOffset / Scoring.TIMING_WINDOWS[0];
 	}

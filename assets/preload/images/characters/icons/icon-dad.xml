@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="icon-dad.png">
+  <SubTexture name="idle-winning0000" x="0" y="0" width="154" height="154" frameX="0" frameY="0" frameWidth="154" frameHeight="154" />
+  <SubTexture name="idle-winning0001" x="0" y="0" width="154" height="154" frameX="0" frameY="0" frameWidth="154" frameHeight="154" />
+  <SubTexture name="idle-winning0002" x="154" y="0" width="154" height="154" frameX="0" frameY="0" frameWidth="154" frameHeight="154" />
+  <SubTexture name="idle-winning0003" x="154" y="0" width="154" height="154" frameX="0" frameY="0" frameWidth="154" frameHeight="154" />
+  <SubTexture name="winning-idle0000" x="154" y="0" width="154" height="154" frameX="0" frameY="0" frameWidth="154" frameHeight="154" />
+  <SubTexture name="winning-idle0001" x="154" y="0" width="154" height="154" frameX="0" frameY="0" frameWidth="154" frameHeight="154" />
+  <SubTexture name="winning-idle0002" x="0" y="0" width="154" height="154" frameX="0" frameY="0" frameWidth="154" frameHeight="154" />
+  <SubTexture name="winning-idle0003" x="0" y="0" width="154" height="154" frameX="0" frameY="0" frameWidth="154" frameHeight="154" />
+  <SubTexture name="idle-base0000" x="0" y="154" width="154" height="154" frameX="0" frameY="0" frameWidth="154" frameHeight="154" />
+  <SubTexture name="losing-base0000" x="154" y="154" width="154" height="154" frameX="0" frameY="0" frameWidth="154" frameHeight="154" />
+  <SubTexture name="winning-base0000" x="0" y="308" width="154" height="154" frameX="0" frameY="0" frameWidth="154" frameHeight="154" />
+  <SubTexture name="winning-base0001" x="0" y="308" width="154" height="154" frameX="0" frameY="0" frameWidth="154" frameHeight="154" />
+  <SubTexture name="winning-base0002" x="154" y="308" width="154" height="154" frameX="0" frameY="0" frameWidth="154" frameHeight="154" />
+  <SubTexture name="winning-base0003" x="154" y="308" width="154" height="154" frameX="0" frameY="0" frameWidth="154" frameHeight="154" />
+</TextureAtlas>

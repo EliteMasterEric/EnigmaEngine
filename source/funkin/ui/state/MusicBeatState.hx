@@ -21,6 +21,9 @@
  */
 package funkin.ui.state;
 
+import funkin.behavior.options.Options.RainbowFPSCounterOption;
+import funkin.behavior.options.Options.MinimalModeOption;
+import funkin.behavior.options.Options.FramerateCapOption;
 import flixel.addons.ui.FlxUIState;
 import flixel.FlxBasic;
 import flixel.FlxG;
@@ -62,14 +65,14 @@ class MusicBeatState extends FlxUIState // InteractableUIState
 
 	override function add(Object:flixel.FlxBasic):flixel.FlxBasic
 	{
-		if (FlxG.save.data.optimize)
+		if (MinimalModeOption.get())
 			assets.push(Object);
 		return super.add(Object);
 	}
 
 	public function clean()
 	{
-		if (FlxG.save.data.optimize)
+		if (MinimalModeOption.get())
 		{
 			for (i in assets)
 			{
@@ -81,7 +84,7 @@ class MusicBeatState extends FlxUIState // InteractableUIState
 	override function create()
 	{
 		TimingStruct.clearTimings();
-		(cast(Lib.current.getChildAt(0), Main)).setFPSCap(FlxG.save.data.fpsCap);
+		(cast(Lib.current.getChildAt(0), Main)).setFPSCap(FramerateCapOption.get());
 
 		gameInput = new GameInput();
 
@@ -205,7 +208,7 @@ class MusicBeatState extends FlxUIState // InteractableUIState
 			}
 		}
 
-		if (FlxG.save.data.fpsRain && skippedFrames >= 6)
+		if (RainbowFPSCounterOption.get() && skippedFrames >= 6)
 		{
 			if (currentColor >= array.length)
 				currentColor = 0;
@@ -216,8 +219,8 @@ class MusicBeatState extends FlxUIState // InteractableUIState
 		else
 			skippedFrames++;
 
-		if ((cast(Lib.current.getChildAt(0), Main)).getFPSCap != FlxG.save.data.fpsCap && FlxG.save.data.fpsCap <= 340)
-			(cast(Lib.current.getChildAt(0), Main)).setFPSCap(FlxG.save.data.fpsCap);
+		if ((cast(Lib.current.getChildAt(0), Main)).getFPSCap() != FramerateCapOption.get() && FramerateCapOption.get() <= 340)
+			(cast(Lib.current.getChildAt(0), Main)).setFPSCap(FramerateCapOption.get());
 
 		super.update(elapsed);
 	}

@@ -282,27 +282,27 @@ class Character extends FlxSpriteGroup
 
 				playAnim('idle');
 
-				flipX = true;
+				flipX = false;
 			case 'bf-car':
 				tex = GraphicsAssets.loadSparrowAtlas('characters/bfCar', 'shared');
-				frames = tex;
-				animation.addByPrefix('idle', 'BF idle dance', 24, false);
-				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
-				animation.addByPrefix('singLEFT', 'BF NOTE LEFT0', 24, false);
-				animation.addByPrefix('singRIGHT', 'BF NOTE RIGHT0', 24, false);
-				animation.addByPrefix('singDOWN', 'BF NOTE DOWN0', 24, false);
-				animation.addByPrefix('singUPmiss', 'BF NOTE UP MISS', 24, false);
-				animation.addByPrefix('singLEFTmiss', 'BF NOTE LEFT MISS', 24, false);
-				animation.addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
-				animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
-				animation.addByIndices('idleHair', 'BF idle dance', [10, 11, 12, 13], "", 24, true);
+				this.internalSprite.frames = tex;
+				this.internalSprite.animation.addByPrefix('idle', 'BF idle dance', 24, false);
+				this.internalSprite.animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
+				this.internalSprite.animation.addByPrefix('singLEFT', 'BF NOTE LEFT0', 24, false);
+				this.internalSprite.animation.addByPrefix('singRIGHT', 'BF NOTE RIGHT0', 24, false);
+				this.internalSprite.animation.addByPrefix('singDOWN', 'BF NOTE DOWN0', 24, false);
+				this.internalSprite.animation.addByPrefix('singUPmiss', 'BF NOTE UP MISS', 24, false);
+				this.internalSprite.animation.addByPrefix('singLEFTmiss', 'BF NOTE LEFT MISS', 24, false);
+				this.internalSprite.animation.addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
+				this.internalSprite.animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
+				this.internalSprite.animation.addByIndices('idleHair', 'BF idle dance', [10, 11, 12, 13], "", 24, true);
 
 				loadOffsetFile(curCharacter);
 				playAnim('idle');
 
 				barColor = 0xFF31b0d1;
 
-				flipX = true;
+				flipX = false;
 			case 'bf-pixel':
 				this.internalSprite.frames = GraphicsAssets.loadSparrowAtlas('characters/bfPixel', 'shared');
 				this.internalSprite.animation.addByPrefix('idle', 'BF IDLE', 24, false);
@@ -325,7 +325,7 @@ class Character extends FlxSpriteGroup
 				width -= 100;
 				height -= 100;
 
-				antialiasing = false;
+				this.internalSprite.antialiasing = false;
 
 				barColor = 0xFF31b0d1;
 
@@ -343,7 +343,7 @@ class Character extends FlxSpriteGroup
 				// Pixel sprites are 1/6 size.
 				setGraphicSize(Std.int(width * 6));
 				updateHitbox();
-				antialiasing = false;
+				this.internalSprite.antialiasing = false;
 				flipX = true;
 
 				barColor = 0xFF31b0d1;
@@ -363,7 +363,7 @@ class Character extends FlxSpriteGroup
 				setGraphicSize(Std.int(width * 6));
 				updateHitbox();
 
-				antialiasing = false;
+				this.internalSprite.antialiasing = false;
 			case 'senpai-angry':
 				this.internalSprite.frames = GraphicsAssets.loadSparrowAtlas('characters/senpai', 'shared');
 				this.internalSprite.animation.addByPrefix('idle', 'Angry Senpai Idle', 24, false);
@@ -496,7 +496,7 @@ class Character extends FlxSpriteGroup
 		// Disable anti-aliasing on pixel art.
 		if (data.isPixel)
 		{
-			antialiasing = false;
+			this.internalSprite.antialiasing = false;
 		}
 
 		this.barColor = FlxColor.fromString(data.barColor);
@@ -532,7 +532,7 @@ class Character extends FlxSpriteGroup
 			if (curCharacter.endsWith('-car')
 				&& !getCurAnimation().startsWith('sing')
 				&& isCurAnimationFinished()
-				&& animation.getByName('idleHair') != null)
+				&& this.internalSprite.animation.getByName('idleHair') != null)
 				playAnim('idleHair');
 
 			var dadVar:Float = 4;
@@ -602,7 +602,7 @@ class Character extends FlxSpriteGroup
 							playAnim('idle', forced);
 				 */
 				default:
-					if (altAnim && animation.getByName('idle-alt') != null)
+					if (altAnim && this.internalSprite.animation.getByName('idle-alt') != null)
 						playAnim('idle-alt', forced);
 					else
 						playAnim('idle', forced);
@@ -612,7 +612,7 @@ class Character extends FlxSpriteGroup
 
 	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0):Void
 	{
-		if (AnimName.endsWith('alt') && animation.getByName(AnimName) == null)
+		if (AnimName.endsWith('alt') && this.internalSprite.animation.getByName(AnimName) == null)
 		{
 			#if debug
 			Debug.logWarn(['Such alt animation doesnt exist: ' + AnimName]);

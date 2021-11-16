@@ -141,7 +141,7 @@ class EnigmaNote
 
 	public static function loadNoteSprite(instance:FlxSprite, noteStyle:String, noteType:String, noteData:Int, isSustainNote:Bool, strumlineSize:Int):Void
 	{
-		instance.frames = GraphicsAssets.loadSparrowAtlas('notes/${noteStyle}/${noteType}Note', 'shared', true);
+		instance.frames = GraphicsAssets.loadSparrowAtlas('styles/${noteStyle}/note/${noteType}Note', 'shared', true);
 
 		// Only add the animation for the note we are using.
 		var dirName = getDirectionName(noteData, true);
@@ -212,7 +212,7 @@ class EnigmaNote
 
 			// Load the spritesheet.
 			// With my reworked sprite sheets, the animation names are the same.
-			babyArrow.frames = GraphicsAssets.loadSparrowAtlas('notes/${noteStyle}/normalNote', 'shared');
+			babyArrow.frames = GraphicsAssets.loadSparrowAtlas('styles/${noteStyle}/note/normalNote', 'shared');
 
 			// Add the proper animations to the strumline item.
 			babyArrow.animation.addByPrefix('static', arrowDir + ' Strumline');
@@ -347,85 +347,89 @@ class EnigmaNote
 			case 1:
 				// ONE KEY
 				// 1-key: Center
-				[FlxG.save.data.centerBind];
+				[FlxG.save.data.binds.centerBind];
 			case 2:
 				// UP AND DOWN
 				// 2-key: Down/Up
-				[FlxG.save.data.downBind, FlxG.save.data.upBind];
+				[FlxG.save.data.binds.downBind, FlxG.save.data.binds.upBind];
 			case 3:
 				// NO DOWN ARROW
 				// 3-key: Left/Up/Right
-				[FlxG.save.data.leftBind, FlxG.save.data.upBind, FlxG.save.data.rightBind];
+				[
+					FlxG.save.data.binds.leftBind,
+					FlxG.save.data.binds.upBind,
+					FlxG.save.data.binds.rightBind
+				];
 			case 4:
 				// VANILLA
 				// 4-key: Left/Down/Up/Right
 				[
-					FlxG.save.data.leftBind,
-					FlxG.save.data.downBind,
-					FlxG.save.data.upBind,
-					FlxG.save.data.rightBind
+					FlxG.save.data.binds.leftBind,
+					FlxG.save.data.binds.downBind,
+					FlxG.save.data.binds.upBind,
+					FlxG.save.data.binds.rightBind
 				];
 			case 5:
 				// VANILLA PLUS SPACE
 				// On 5-keys and lower, use Basic keybinds rather than Custom
 				// 5-key: Left/Down/Center/Up/Right
 				[
-					FlxG.save.data.leftBind,
-					FlxG.save.data.downBind,
-					FlxG.save.data.centerBind,
-					FlxG.save.data.upBind,
-					FlxG.save.data.rightBind
+					FlxG.save.data.binds.leftBind,
+					FlxG.save.data.binds.downBind,
+					FlxG.save.data.binds.centerBind,
+					FlxG.save.data.binds.upBind,
+					FlxG.save.data.binds.rightBind
 				];
 			case 6:
 				// Super Saiyan Shaggy
 				// On 6-keys and higher, use Custom keybinds rather than Basic
 				// 6-key: Left/Down/Right/Left Alt/Up/Right Alt
 				[
-					FlxG.save.data.left9KBind,
-					FlxG.save.data.down9KBind,
-					FlxG.save.data.right9KBind,
-					FlxG.save.data.altLeft9KBind,
-					FlxG.save.data.altUp9KBind,
-					FlxG.save.data.altRight9KBind
+					FlxG.save.data.binds.left9KBind,
+					FlxG.save.data.binds.down9KBind,
+					FlxG.save.data.binds.right9KBind,
+					FlxG.save.data.binds.altLeft9KBind,
+					FlxG.save.data.binds.altUp9KBind,
+					FlxG.save.data.binds.altRight9KBind
 				];
 			case 7:
 				// Super Saiyan Shaggy Plus Space
 				// 7-key: Left/Down/Right/Center/Left Alt/Up/Right Alt
 				[
-					FlxG.save.data.left9KBind,
-					FlxG.save.data.down9KBind,
-					FlxG.save.data.right9KBind,
-					FlxG.save.data.center9KBind,
-					FlxG.save.data.altLeft9KBind,
-					FlxG.save.data.altUp9KBind,
-					FlxG.save.data.altRight9KBind
+					FlxG.save.data.binds.left9KBind,
+					FlxG.save.data.binds.down9KBind,
+					FlxG.save.data.binds.right9KBind,
+					FlxG.save.data.binds.center9KBind,
+					FlxG.save.data.binds.altLeft9KBind,
+					FlxG.save.data.binds.altUp9KBind,
+					FlxG.save.data.binds.altRight9KBind
 				];
 			case 8:
 				// God Eater Shaggy Minus Space
 				// 8-key: Left/Down/Up/Right/Left Alt/Down Alt/Up Alt/Right Alt
 				[
-					FlxG.save.data.left9KBind,
-					FlxG.save.data.down9KBind,
-					FlxG.save.data.up9KBind,
-					FlxG.save.data.right9KBind,
-					FlxG.save.data.altLeft9KBind,
-					FlxG.save.data.altDown9KBind,
-					FlxG.save.data.altUp9KBind,
-					FlxG.save.data.altRight9KBind
+					FlxG.save.data.binds.left9KBind,
+					FlxG.save.data.binds.down9KBind,
+					FlxG.save.data.binds.up9KBind,
+					FlxG.save.data.binds.right9KBind,
+					FlxG.save.data.binds.altLeft9KBind,
+					FlxG.save.data.binds.altDown9KBind,
+					FlxG.save.data.binds.altUp9KBind,
+					FlxG.save.data.binds.altRight9KBind
 				];
 			case 9:
 				// God Eater Shaggy
 				// 9-key: Left/Down/Right/Center/Left Alt/Up/Right Alt
 				[
-					FlxG.save.data.left9KBind,
-					FlxG.save.data.down9KBind,
-					FlxG.save.data.up9KBind,
-					FlxG.save.data.right9KBind,
-					FlxG.save.data.centerBind,
-					FlxG.save.data.altLeft9KBind,
-					FlxG.save.data.altDown9KBind,
-					FlxG.save.data.altUp9KBind,
-					FlxG.save.data.altRight9KBind
+					FlxG.save.data.binds.left9KBind,
+					FlxG.save.data.binds.down9KBind,
+					FlxG.save.data.binds.up9KBind,
+					FlxG.save.data.binds.right9KBind,
+					FlxG.save.data.binds.centerBind,
+					FlxG.save.data.binds.altLeft9KBind,
+					FlxG.save.data.binds.altDown9KBind,
+					FlxG.save.data.binds.altUp9KBind,
+					FlxG.save.data.binds.altRight9KBind
 				];
 			default:
 				trace('ERROR: Unknown strumlineSize when polling key binds: ' + strumlineSize);

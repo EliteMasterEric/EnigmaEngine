@@ -20,6 +20,8 @@
  */
 package funkin.ui.state.play;
 
+import funkin.util.assets.AudioAssets;
+import funkin.behavior.options.Options;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -65,11 +67,8 @@ class PauseSubState extends MusicBeatSubstate
 				GlobalVideo.get().pause();
 		}
 
-		pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
-		pauseMusic.volume = 0;
-		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
-
-		FlxG.sound.list.add(pauseMusic);
+		pauseMusic = AudioAssets.playSound(Paths.music('gamePaused'), true, true, 0);
+		pauseMusic.volume = FlxG.random.int(0, Std.int(pauseMusic.length / 2));
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		bg.alpha = 0;
@@ -184,7 +183,7 @@ class PauseSubState extends MusicBeatSubstate
 						PlayState.luaModchart = null;
 					}
 					#end
-					if (FlxG.save.data.fpsCap > 340)
+					if (FramerateCapOption.get() > 340)
 						(cast(Lib.current.getChildAt(0), Main)).setFPSCap(120);
 
 					PlayState.instance.clean();
@@ -194,12 +193,6 @@ class PauseSubState extends MusicBeatSubstate
 					else
 						FlxG.switchState(new FreeplayState());
 			}
-		}
-
-		if (FlxG.keys.justPressed.J)
-		{
-			// for reference later!
-			// PlayerSettings.player1.controls.replaceBinding(Control.LEFT, Keys, FlxKey.J, null);
 		}
 	}
 

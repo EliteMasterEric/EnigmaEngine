@@ -1,0 +1,154 @@
+{
+  // The chart version. Should uniquely identify the format of the chart.
+  // Uses semantic versioning.
+  "chartVersion": "1.0.0-EE",
+
+  // Information identifying the chart.
+  "metadata": {
+    // The readable name of the song for this chart.
+    "name": "Tutorial",
+    // The difficulty for this chart.
+    "difficulty": "normal",
+    // Tint the background this color when the song is selected.
+    "freeplayColor": "#9271FD"
+    // needsVoices is redundant, just check if the file exists or not.
+  },
+
+  // Information about the chart's gameplay.
+  "gameplay": {
+    // The strumline size at the start of the song. Defaults to 4, can go up to 9 or down to 1.
+    "strumlineSize": 4,
+
+    // The note offset for this chart, in ms. All notes are offset by this amount.
+    "noteOffset": 0,
+    
+    // The starting BPM for this chart.
+    "bpm": 100,
+
+    // The default note style for this song. Can be overridden by notes or by song event.
+    // Defaults to "normal". Options include "pixel" or custom styles.
+    "noteStyle": "normal",
+
+    // The character used by the player at the start of the song.
+    "playerChar": "bf",
+    // The character used by the girlfriend at the start of the song.
+    "gfChar": "",
+    // The character used by the opponent at the start of the song.
+    "cpuChar": "gf",
+
+    // The scroll speed of the notes in this chart.
+    "scrollSpeed": 1
+  },
+
+  // The notes for this chart.
+  // Note data is an array of minimized objects. This allows for named and optional parameters without making the resulting file too long.
+  // Sections have been made obsolete with a combination of note parameters and song events, which makes handling notes easier.
+  // Irrelevant attributes like typeOfSection and lengthInSteps have simply been stripped completely.
+  // - To change mustHit, set the 'c' of the note and set the character to focus the camera on with a "SetCamera" event.
+  // - To change BPM, use a "SetBPM" event.
+  // - To use alt notes, set the 'a' of the note.
+  "notes": [
+    // t: time, in ms
+    // s: strumline index (0-based, default to 0)
+    // c: character (0 = player, 1 = cpu, 2+ used for scripts)
+    // a: alt animation for character (0 = default, 1 = alt, 2+ used for scripts)
+    // l: length, in ms (for sustain, default to 0)
+    // v: variant ("normal" = default, possibilities include "hazard", "instakill", etc.)
+    { "t":  9600, "s": 0, "c": 1 },
+    { "t": 10800, "s": 3, "c": 1 }, 
+    { "t": 12000, "s": 0, "c": 1 },
+    { "t": 13200, "s": 3, "c": 1 }, 
+
+    { "t": 14400, "s": 0, "c": 0 },
+    { "t": 15600, "s": 3, "c": 0 },
+    { "t": 16800, "s": 0, "c": 0 },
+    { "t": 18000, "s": 3, "c": 0 },
+    
+    { "t": 19200, "s": 0, "c": 1 },
+    { "t": 20400, "s": 3, "c": 1 },
+    { "t": 21600, "s": 0, "c": 1 },
+    { "t": 22800, "s": 3, "c": 1 },
+    
+    { "t": 24000, "s": 0, "c": 0 },
+    { "t": 25200, "s": 3, "c": 0 },
+    { "t": 26400, "s": 0, "c": 0 },
+    { "t": 27600, "s": 3, "c": 0 },
+    
+    { "t": 28800, "s": 0, "c": 1 },
+    { "t": 30000, "s": 2, "c": 1 },
+    { "t": 31200, "s": 1, "c": 1 },
+    { "t": 32400, "s": 3, "c": 1 },
+
+    { "t": 33600, "s": 0, "c": 0 },
+    { "t": 34800, "s": 2, "c": 0 },
+    { "t": 36000, "s": 1, "c": 0 },
+    { "t": 37200, "s": 3, "c": 0 },
+
+    { "t": 38400, "s": 1, "c": 1},
+    { "t": 39000, "s": 1, "c": 1},
+    { "t": 39600, "s": 2, "c": 1},
+    { "t": 40800, "s": 1, "c": 1},
+    { "t": 41400, "s": 1, "c": 1},
+    { "t": 42000, "s": 3, "c": 1},
+    
+    { "t": 43200, "s": 1, "c": 0 },
+    { "t": 43800, "s": 1, "c": 0 },
+    { "t": 44400, "s": 2, "c": 0 },
+    { "t": 45600, "s": 1, "c": 0 },
+    { "t": 46200, "s": 1, "c": 0 },
+    { "t": 46800, "s": 3, "c": 0 },
+
+    { "t": 48000, "s": 1, "c": 1},
+    { "t": 48300, "s": 2, "c": 1},
+    { "t": 48600, "s": 3, "c": 1},
+    { "t": 48900, "s": 2, "c": 1},
+    { "t": 49800, "s": 3, "c": 1},
+
+    { "t": 50400, "s": 1, "c": 0},
+    { "t": 50700, "s": 2, "c": 0},
+    { "t": 51000, "s": 3, "c": 0},
+    { "t": 51300, "s": 2, "c": 0},
+    { "t": 52200, "s": 3, "c": 0},
+    { "t": 52800, "s": 3, "c": 0},
+    { "t": 53400, "s": 1, "c": 0},
+    { "t": 54000, "s": 0, "c": 0},
+    { "t": 54600, "s": 1, "c": 0},
+    { "t": 55200, "s": 2, "c": 0},
+    { "t": 55800, "s": 3, "c": 0},
+    { "t": 56400, "s": 0, "c": 0},
+    { "t": 57000, "s": 2, "c": 0},
+    { "t": 57600, "s": 1, "c": 0, "l": 750}
+  ],
+
+  // The events for this chart.
+  // Events include things like changing BPM, changing characters, or triggering scripted events.
+  // TODO: Which of these should be relegated to the Script event?
+  // List of event types:
+  // - "SetBPM" (float): Sets the BPM to the given value.
+  // - "FollowCamera" [int, float]: Sets the camera to focus on the given character.
+  // - "SetCamera" [int, int, float]: Sets the camera to focus on a specific X/Y position with a specific zoom level.
+  // - "SetCharacter" [int, int]: Sets the character at the given index to the given character.
+  // - "ForceCharacterAnim" [int, string, int]: Forces the animation for a given character to the given animation for the given duration (ms).
+  // - "SetCameraBeatRate" (int): Sets the rate at which the camera moves to the beat. Default to every 4 beats, parts of M.I.L.F are every beat. Must be an integer.
+  // - "SetHUDBeatRate" (int): Sets the rate at which the HUD moves to the beat. Default to every 4 beats, parts of M.I.L.F are every beat. Must be an integer.
+  // - "SetCameraShake" (int): Sets the amount of shake for the camera, in pixels of distance. Remember to set the HUD shake to 0 when you're done.
+  // - "SetHUDShake" (int): Sets the amount of shake for the HUD, in pixels of distance. Remember to set the HUD shake to 0 when you're done.
+  // - "Script" [string, ...]: Runs the "onEvent" script hook with the given type. Other values are given as arguments.
+  //   - Default songs (M.I.L.F., Senpai, etc.) will use "onEvent" to trigger scripted events.
+  // - "SetIdleAnim" [int, string]: Sets the idle animation for the given character. The string is the name of the animation from the character's JSON file.
+  "events": [
+    // t: time, in ms (default to 0)
+    // e: event type ("SetBPM", "SetCharacter", "FollowCamera", etc...)
+    // v: value(s) (can be a single string/number or an array depending on event type)
+    { "t":  9600, "e": "FollowCamera", "v": 1 }, // SetCamera (0 = player, 1 = CPU, 2+ = whatever)
+    { "t": 14400, "e": "FollowCamera", "v": 0 },
+    { "t": 19200, "e": "FollowCamera", "v": 1 },
+    { "t": 24000, "e": "FollowCamera", "v": 0 },
+    { "t": 28800, "e": "FollowCamera", "v": 1 },
+    { "t": 33600, "e": "FollowCamera", "v": 0 },
+    { "t": 38400, "e": "FollowCamera", "v": 1 },
+    { "t": 43200, "e": "FollowCamera", "v": 0 },
+    { "t": 48000, "e": "FollowCamera", "v": 1 },
+    { "t": 50400, "e": "FollowCamera", "v": 0 }
+  ]
+}

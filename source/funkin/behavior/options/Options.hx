@@ -21,6 +21,7 @@
  */
 package funkin.behavior.options;
 
+import flixel.math.FlxPoint;
 import flixel.FlxG;
 import flixel.util.FlxColor;
 import funkin.behavior.options.Controls.KeyboardScheme;
@@ -207,6 +208,9 @@ class Option
 		if (SongPositionOption.get() == null)
 			SongPositionOption.set(SongPositionOption.DEFAULT);
 
+		if (JudgementPositionOption.get() == null)
+			JudgementPositionOption.set(JudgementPositionOption.DEFAULT);
+
 		if (WIFE3AccuracyOption.get() == null)
 			WIFE3AccuracyOption.set(WIFE3AccuracyOption.DEFAULT);
 	}
@@ -217,6 +221,9 @@ class Option
 	public static inline function getDefaultPreferences():Dynamic
 	{
 		return {
+			// Show help tooltips in the Editor. Press F1 to toggle.
+			showEditorHelp: true,
+
 			antiAliasing: AntiAliasingOption.DEFAULT,
 			antiMash: AntiMashOption.DEFAULT,
 			botPlay: BotPlayOption.DEFAULT,
@@ -231,6 +238,10 @@ class Option
 			fpsCounter: FPSCounterOption.DEFAULT,
 			framerateCap: FramerateCapOption.DEFAULT,
 			instantRespawn: InstantRespawnOption.DEFAULT,
+			judgePos: {
+				x: JudgementPositionOption.DEFAULT.x,
+				y: JudgementPositionOption.DEFAULT.y,
+			},
 			minimalMode: MinimalModeOption.DEFAULT,
 			missSounds: MissSoundsOption.DEFAULT,
 			noteQuantization: NoteQuantizationOption.DEFAULT,
@@ -602,8 +613,36 @@ class CPUStrumOption extends Option
 	}
 }
 
-class CustomizeGameplayMenu extends Option
+class JudgementPositionOption extends Option
 {
+	public static final DEFAULT:FlxPoint = new FlxPoint(515, 310);
+
+	// Convert {x,y} to FlxPoint
+	static var current:FlxPoint = new FlxPoint();
+
+	public static inline function get():Null<FlxPoint>
+	{
+		if (FlxG.save.data.preferences == null)
+			return DEFAULT;
+		if (current != null)
+			return current;
+
+		if (FlxG.save.data.preferences.judgePos == null)
+			return null;
+
+		current.x = FlxG.save.data.preferences.judgePos.x;
+		current.y = FlxG.save.data.preferences.judgePos.y;
+		return current;
+	}
+
+	public static inline function set(value:Null<FlxPoint>):Null<FlxPoint>
+	{
+		current = value;
+		FlxG.save.data.preferences.judgePos.x = current.x;
+		FlxG.save.data.preferences.judgePos.y = current.y;
+		return get();
+	}
+
 	public override function onPress():Bool
 	{
 		// Open the Gameplay Customize state.
@@ -613,12 +652,12 @@ class CustomizeGameplayMenu extends Option
 
 	private override function updateName():String
 	{
-		return "Customize Gameplay";
+		return "Set Judgement Position";
 	}
 
 	private override function updateDescription():String
 	{
-		return "Drag and drop gameplay modules to your preferred positions!";
+		return "Click and drag to set your preferred location for combo popups.";
 	}
 }
 
@@ -1232,7 +1271,7 @@ class NPSDisplayOption extends Option
 
 class RainbowFPSCounterOption extends Option
 {
-	public static final DEFAULT:Bool = true;
+	public static final DEFAULT:Bool = false;
 
 	public static inline function get():Null<Bool>
 	{
@@ -1594,6 +1633,69 @@ class ScrollSpeedOption extends Option
 	private override function updateDescription():String
 	{
 		return (get() == 1.0) ? "Default note speed." : 'Fixed note speed: ${Util.truncateFloat(get(), 1)}';
+	}
+}
+
+class ZoomLevelOption extends Option
+{
+	public static final DEFAULT:Float = 1.0;
+
+	public static inline function get():Null<Float>
+	{
+		if (FlxG.save.data.preferences == null)
+			return DEFAULT;
+		return FlxG.save.data.preferences.zoomLevel;
+	}
+
+	public static inline function set(value:Null<Float>):Null<Float>
+	{
+		FlxG.save.data.preferences.zoomLevel = value;
+		return get();
+	}
+
+	public override function onPress():Bool
+	{
+		return false;
+	}
+
+	public override inline function onReset():Bool
+	{
+		set(DEFAULT);
+		return true;
+	}
+
+	public override function onLeft():Bool
+	{
+		if (get() <= 0.8)
+			return false;
+
+		set(get() - 0.02);
+
+		description = updateDescription();
+
+		return true;
+	}
+
+	public override function onRight():Bool
+	{
+		if (get() >= 1.2)
+			return false;
+
+		set(get() + 0.02);
+
+		description = updateDescription();
+
+		return true;
+	}
+
+	private override function updateName():String
+	{
+		return "Camera Zoom Level";
+	}
+
+	private override function updateDescription():String
+	{
+		return (get() == 1.0) ? "Default camera zoom level." : 'Fixed camera zoom level: ${Util.truncateFloat(get(), 1)}x';
 	}
 }
 

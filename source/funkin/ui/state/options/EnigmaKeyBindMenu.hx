@@ -63,26 +63,26 @@ class EnigmaKeyBindMenu extends FlxSubState
 	var curSelected:Int = 0;
 
 	var keys:Array<String> = [
-		FlxG.save.data.left9KBind,
-		FlxG.save.data.down9KBind,
-		FlxG.save.data.up9KBind,
-		FlxG.save.data.right9KBind,
-		FlxG.save.data.centerBind,
-		FlxG.save.data.altLeftBind,
-		FlxG.save.data.altDownBind,
-		FlxG.save.data.altUpBind,
-		FlxG.save.data.altRightBind
+		FlxG.save.data.binds.left9KBind,
+		FlxG.save.data.binds.down9KBind,
+		FlxG.save.data.binds.up9KBind,
+		FlxG.save.data.binds.right9KBind,
+		FlxG.save.data.binds.centerBind,
+		FlxG.save.data.binds.altLeftBind,
+		FlxG.save.data.binds.altDownBind,
+		FlxG.save.data.binds.altUpBind,
+		FlxG.save.data.binds.altRightBind
 	];
 	var gpKeys:Array<String> = [
-		FlxG.save.data.gpleft9KBind,
-		FlxG.save.data.gpdown9KBind,
-		FlxG.save.data.gpup9KBind,
-		FlxG.save.data.gpright9KBind,
-		FlxG.save.data.gpcenterBind,
-		FlxG.save.data.gpaltLeftBind,
-		FlxG.save.data.gpaltDownBind,
-		FlxG.save.data.gpaltUpBind,
-		FlxG.save.data.gpaltRightBind
+		FlxG.save.data.binds.gpleft9KBind,
+		FlxG.save.data.binds.gpdown9KBind,
+		FlxG.save.data.binds.gpup9KBind,
+		FlxG.save.data.binds.gpright9KBind,
+		FlxG.save.data.binds.gpcenterBind,
+		FlxG.save.data.binds.gpaltLeftBind,
+		FlxG.save.data.binds.gpaltDownBind,
+		FlxG.save.data.binds.gpaltUpBind,
+		FlxG.save.data.binds.gpaltRightBind
 	];
 	var tempKey:String = '';
 	var blacklist:Array<String> = ['ESCAPE', 'ENTER', 'BACKSPACE', 'TAB'];
@@ -352,25 +352,25 @@ class EnigmaKeyBindMenu extends FlxSubState
 
 	function save()
 	{
-		FlxG.save.data.left9KBind = keys[0];
-		FlxG.save.data.down9KBind = keys[1];
-		FlxG.save.data.up9KBind = keys[2];
-		FlxG.save.data.right9KBind = keys[3];
-		FlxG.save.data.centerBind = keys[4];
-		FlxG.save.data.altLeftBind = keys[5];
-		FlxG.save.data.altDownBind = keys[6];
-		FlxG.save.data.altUpBind = keys[7];
-		FlxG.save.data.altRightBind = keys[8];
+		FlxG.save.data.binds.left9KBind = keys[0];
+		FlxG.save.data.binds.down9KBind = keys[1];
+		FlxG.save.data.binds.up9KBind = keys[2];
+		FlxG.save.data.binds.right9KBind = keys[3];
+		FlxG.save.data.binds.centerBind = keys[4];
+		FlxG.save.data.binds.altLeftBind = keys[5];
+		FlxG.save.data.binds.altDownBind = keys[6];
+		FlxG.save.data.binds.altUpBind = keys[7];
+		FlxG.save.data.binds.altRightBind = keys[8];
 
-		FlxG.save.data.gpleft9KBind = gpKeys[0];
-		FlxG.save.data.gpdown9KBind = gpKeys[1];
-		FlxG.save.data.gpup9KBind = gpKeys[2];
-		FlxG.save.data.gpright9KBind = gpKeys[3];
-		FlxG.save.data.gpcenterBind = gpKeys[4];
-		FlxG.save.data.gpaltLeftBind = gpKeys[5];
-		FlxG.save.data.gpaltDownBind = gpKeys[6];
-		FlxG.save.data.gpaltUpBind = gpKeys[7];
-		FlxG.save.data.gpaltRightBind = gpKeys[8];
+		FlxG.save.data.binds.gpleft9KBind = gpKeys[0];
+		FlxG.save.data.binds.gpdown9KBind = gpKeys[1];
+		FlxG.save.data.binds.gpup9KBind = gpKeys[2];
+		FlxG.save.data.binds.gpright9KBind = gpKeys[3];
+		FlxG.save.data.binds.gpcenterBind = gpKeys[4];
+		FlxG.save.data.binds.gpaltLeftBind = gpKeys[5];
+		FlxG.save.data.binds.gpaltDownBind = gpKeys[6];
+		FlxG.save.data.binds.gpaltUpBind = gpKeys[7];
+		FlxG.save.data.binds.gpaltRightBind = gpKeys[8];
 
 		FlxG.save.flush();
 

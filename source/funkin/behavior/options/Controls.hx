@@ -247,7 +247,7 @@ class Controls extends FlxActionSet
 		for (action in digitalActions)
 			byName[action.name] = action;
 
-		setKeyboardScheme(scheme, false);
+		loadKeyBinds();
 	}
 
 	public static var gamepad:Bool = false;
@@ -255,74 +255,78 @@ class Controls extends FlxActionSet
 	public static function resetBinds():Void
 	{
 		// DFJK for the win
-		FlxG.save.data.leftBind = "D";
-		FlxG.save.data.downBind = "F";
-		FlxG.save.data.upBind = "J";
-		FlxG.save.data.rightBind = "K";
-		FlxG.save.data.killBind = "R";
-		FlxG.save.data.fullscreenBind = "F11";
-		FlxG.save.data.gpupBind = "DPAD_UP";
-		FlxG.save.data.gpdownBind = "DPAD_DOWN";
-		FlxG.save.data.gpleftBind = "DPAD_LEFT";
-		FlxG.save.data.gprightBind = "DPAD_RIGHT";
+		FlxG.save.data.binds = {};
+		FlxG.save.data.binds.leftBind = "D";
+		FlxG.save.data.binds.downBind = "F";
+		FlxG.save.data.binds.upBind = "J";
+		FlxG.save.data.binds.rightBind = "K";
+		FlxG.save.data.binds.killBind = "R";
+		FlxG.save.data.binds.fullscreenBind = "F11";
+		FlxG.save.data.binds.gpupBind = "DPAD_UP";
+		FlxG.save.data.binds.gpdownBind = "DPAD_DOWN";
+		FlxG.save.data.binds.gpleftBind = "DPAD_LEFT";
+		FlxG.save.data.binds.gprightBind = "DPAD_RIGHT";
 	}
 
 	public static function keyCheck():Void
 	{
-		if (FlxG.save.data.leftBind == null)
+		if (FlxG.save.data.binds == null)
+			resetBinds();
+
+		if (FlxG.save.data.binds.leftBind == null)
 		{
-			FlxG.save.data.leftBind = "D";
+			FlxG.save.data.binds.leftBind = "D";
 			trace("No LEFT");
 		}
-		if (FlxG.save.data.downBind == null)
+		if (FlxG.save.data.binds.downBind == null)
 		{
-			FlxG.save.data.downBind = "F";
+			FlxG.save.data.binds.downBind = "F";
 			trace("No DOWN");
 		}
-		if (FlxG.save.data.upBind == null)
+		if (FlxG.save.data.binds.upBind == null)
 		{
-			FlxG.save.data.upBind = "J";
+			FlxG.save.data.binds.upBind = "J";
 			trace("No UP");
 		}
-		if (FlxG.save.data.rightBind == null)
+		if (FlxG.save.data.binds.rightBind == null)
 		{
-			FlxG.save.data.rightBind = "K";
+			FlxG.save.data.binds.rightBind = "K";
 			trace("No RIGHT");
 		}
 
-		if (FlxG.save.data.gpupBind == null)
+		if (FlxG.save.data.binds.gpupBind == null)
 		{
-			FlxG.save.data.gpupBind = "DPAD_UP";
+			FlxG.save.data.binds.gpupBind = "DPAD_UP";
 			trace("No GUP");
 		}
-		if (FlxG.save.data.gpdownBind == null)
+		if (FlxG.save.data.binds.gpdownBind == null)
 		{
-			FlxG.save.data.gpdownBind = "DPAD_DOWN";
+			FlxG.save.data.binds.gpdownBind = "DPAD_DOWN";
 			trace("No GDOWN");
 		}
-		if (FlxG.save.data.gpleftBind == null)
+		if (FlxG.save.data.binds.gpleftBind == null)
 		{
-			FlxG.save.data.gpleftBind = "DPAD_LEFT";
+			FlxG.save.data.binds.gpleftBind = "DPAD_LEFT";
 			trace("No GLEFT");
 		}
-		if (FlxG.save.data.gprightBind == null)
+		if (FlxG.save.data.binds.gprightBind == null)
 		{
-			FlxG.save.data.gprightBind = "DPAD_RIGHT";
+			FlxG.save.data.binds.gprightBind = "DPAD_RIGHT";
 			trace("No GRIGHT");
 		}
 
-		if (FlxG.save.data.killBind == null)
+		if (FlxG.save.data.binds.killBind == null)
 		{
-			FlxG.save.data.killBind = "R";
+			FlxG.save.data.binds.killBind = "R";
 			trace("No KILL");
 		}
-		if (FlxG.save.data.fullscreenBind == null)
+		if (FlxG.save.data.binds.fullscreenBind == null)
 		{
-			FlxG.save.data.fullscreenBind = "F11";
+			FlxG.save.data.binds.fullscreenBind = "F11";
 			trace("No FULLSCREEN");
 		}
 
-		Debug.logTrace('Current basic keybinds are: ${FlxG.save.data.leftBind}-${FlxG.save.data.downBind}-${FlxG.save.data.upBind}-${FlxG.save.data.rightBind}');
+		Debug.logTrace('Current basic keybinds are: ${FlxG.save.data.binds.leftBind}-${FlxG.save.data.binds.downBind}-${FlxG.save.data.binds.upBind}-${FlxG.save.data.binds.rightBind}');
 	}
 
 	override function update()
@@ -523,11 +527,6 @@ class Controls extends FlxActionSet
 		}
 	}
 
-	public function setKeyboardScheme(scheme:KeyboardScheme, reset = true)
-	{
-		loadKeyBinds();
-	}
-
 	public function loadKeyBinds()
 	{
 		removeKeyboard();
@@ -542,26 +541,26 @@ class Controls extends FlxActionSet
 
 		var buttons = new Map<Control, Array<FlxGamepadInputID>>();
 
-		buttons.set(Control.UP, [FlxGamepadInputID.fromString(FlxG.save.data.gpupBind)]);
-		buttons.set(Control.LEFT, [FlxGamepadInputID.fromString(FlxG.save.data.gpleftBind)]);
-		buttons.set(Control.DOWN, [FlxGamepadInputID.fromString(FlxG.save.data.gpdownBind)]);
-		buttons.set(Control.RIGHT, [FlxGamepadInputID.fromString(FlxG.save.data.gprightBind)]);
+		buttons.set(Control.UP, [FlxGamepadInputID.fromString(FlxG.save.data.binds.gpupBind)]);
+		buttons.set(Control.LEFT, [FlxGamepadInputID.fromString(FlxG.save.data.binds.gpleftBind)]);
+		buttons.set(Control.DOWN, [FlxGamepadInputID.fromString(FlxG.save.data.binds.gpdownBind)]);
+		buttons.set(Control.RIGHT, [FlxGamepadInputID.fromString(FlxG.save.data.binds.gprightBind)]);
 		buttons.set(Control.ACCEPT, [FlxGamepadInputID.A]);
 		buttons.set(Control.BACK, [FlxGamepadInputID.B]);
 		buttons.set(Control.PAUSE, [FlxGamepadInputID.START]);
 
 		addGamepad(0, buttons);
 
-		inline bindKeys(Control.UP, [FlxKey.fromString(FlxG.save.data.upBind), FlxKey.UP]);
-		inline bindKeys(Control.DOWN, [FlxKey.fromString(FlxG.save.data.downBind), FlxKey.DOWN]);
-		inline bindKeys(Control.LEFT, [FlxKey.fromString(FlxG.save.data.leftBind), FlxKey.LEFT]);
-		inline bindKeys(Control.RIGHT, [FlxKey.fromString(FlxG.save.data.rightBind), FlxKey.RIGHT]);
+		inline bindKeys(Control.UP, [FlxKey.fromString(FlxG.save.data.binds.upBind), FlxKey.UP]);
+		inline bindKeys(Control.DOWN, [FlxKey.fromString(FlxG.save.data.binds.downBind), FlxKey.DOWN]);
+		inline bindKeys(Control.LEFT, [FlxKey.fromString(FlxG.save.data.binds.leftBind), FlxKey.LEFT]);
+		inline bindKeys(Control.RIGHT, [FlxKey.fromString(FlxG.save.data.binds.rightBind), FlxKey.RIGHT]);
 		inline bindKeys(Control.ACCEPT, [Z, SPACE, ENTER]);
 		inline bindKeys(Control.BACK, [BACKSPACE, ESCAPE]);
 		inline bindKeys(Control.PAUSE, [ENTER, ESCAPE]);
 		inline bindKeys(Control.CHEAT, [GRAVEACCENT]);
-		inline bindKeys(Control.RESET, [FlxKey.fromString(FlxG.save.data.killBind)]);
-		inline bindKeys(Control.FULLSCREEN, [FlxKey.fromString(FlxG.save.data.fullscreenBind)]);
+		inline bindKeys(Control.RESET, [FlxKey.fromString(FlxG.save.data.binds.killBind)]);
+		inline bindKeys(Control.FULLSCREEN, [FlxKey.fromString(FlxG.save.data.binds.fullscreenBind)]);
 	}
 
 	function removeKeyboard()
@@ -706,7 +705,7 @@ class Controls extends FlxActionSet
 		switch (device)
 		{
 			case Keys:
-				setKeyboardScheme(None);
+				loadKeyBinds();
 			case Gamepad(id):
 				removeGamepad(id);
 		}

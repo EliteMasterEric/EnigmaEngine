@@ -20,6 +20,7 @@
  */
 package funkin.behavior.play;
 
+import funkin.behavior.options.Options;
 import flixel.FlxG;
 import funkin.behavior.play.Difficulty.DifficultyCache;
 
@@ -34,7 +35,7 @@ class Highscore
 
 	public static function saveScore(song:String, score:Int = 0, ?diffId:String = 'normal'):Void
 	{
-		if (!FlxG.save.data.botplay)
+		if (!BotPlayOption.get())
 		{
 			var daSong:String = formatSong(song, diffId);
 			if (songScores.exists(daSong))
@@ -57,7 +58,7 @@ class Highscore
 
 	public static function saveCombo(song:String, combo:String, ?diffId:String = 'normal'):Void
 	{
-		if (!FlxG.save.data.botplay)
+		if (!BotPlayOption.get())
 		{
 			var daSong:String = formatSong(song, diffId);
 			var finalCombo:String = combo.split(')')[0].replaceAll('(', '');
@@ -77,7 +78,7 @@ class Highscore
 
 	public static function saveWeekScore(week:String = 'unknown', score:Int = 0, ?diffId:String = 'normal'):Void
 	{
-		if (!FlxG.save.data.botplay)
+		if (!BotPlayOption.get())
 		{
 			var daWeek:String = formatSong(week, diffId);
 
@@ -95,7 +96,7 @@ class Highscore
 
 	public static function saveWeekCombo(week:String, combo:String, ?diffId:String = 'normal'):Void
 	{
-		if (!FlxG.save.data.botplay)
+		if (!BotPlayOption.get())
 		{
 			var daWeek:String = formatSong(week, diffId);
 			var finalCombo:String = combo.split(')')[0].replaceAll('(', '');

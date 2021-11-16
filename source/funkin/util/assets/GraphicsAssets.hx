@@ -219,10 +219,14 @@ class GraphicsAssets
 
 		Debug.logTrace('Loading animation from Sparrow atlas: $key');
 		var frames:FlxFramesCollection = FlxAtlasFrames.fromSparrow(image, Paths.file('images/$key.xml', library));
-		if (shouldCache)
+		if (frames == null)
 		{
-			cacheAnimation(key, frames);
+			Debug.logError('Could not load animation from atlas: $key');
+			return null;
 		}
+
+		if (shouldCache)
+			cacheAnimation(key, frames);
 
 		return frames;
 	}

@@ -1,1 +1,2 @@
+Debug.logTrace('[MODHOOK] shouldShowOutdatedScreen? Default = true');
 true

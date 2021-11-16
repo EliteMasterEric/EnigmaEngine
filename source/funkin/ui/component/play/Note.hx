@@ -262,8 +262,6 @@ class Note extends FlxSprite
 		// Use >= because note data is base-0.
 		this.isCPUNote = this.noteData >= NoteUtil.fetchStrumlineSize();
 
-		trace('Translated $rawNoteData to $noteData ($strumTime/$mustPress)'); // Previous note is part of the logic used by sustain notes.
-
 		// Set the note type.
 		this.noteType = noteType;
 
@@ -295,7 +293,7 @@ class Note extends FlxSprite
 
 		// If we are in the charter, we will position
 		if (!this.inCharter)
-			y += FlxG.save.data.offset + PlayState.songOffset;
+			y += SongOffsetOption.get() + PlayState.songOffset;
 
 		// Default if no noteStyle was found in chart
 		this.noteStyle = 'normal';

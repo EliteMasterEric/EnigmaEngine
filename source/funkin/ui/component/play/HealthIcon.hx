@@ -131,7 +131,7 @@ class HealthIcon extends FlxSprite
 		if (input != 'bf-pixel' && input != 'bf-old')
 			input = input.split("-")[0];
 
-		if (GraphicsAssets.isAnimated('icons/icon-$input'))
+		if (GraphicsAssets.isAnimated('characters/icons/icon-$input'))
 		{
 			// Animated icon.
 			loadIcon(input);
@@ -154,13 +154,13 @@ class HealthIcon extends FlxSprite
 	 */
 	function loadIcon(char:String)
 	{
-		if (!LibraryAssets.imageExists('icons/icon-$char'))
+		if (!LibraryAssets.imageExists('characters/icons/icon-$char'))
 		{
 			// Image is missing, fallback to 'face'
 			loadIconLegacy('face');
 			return;
 		}
-		frames = GraphicsAssets.loadSparrowAtlas('icons/icon-${char}', null, true);
+		frames = GraphicsAssets.loadSparrowAtlas('characters/icons/icon-${char}', null, true);
 
 		animation.addByPrefix("idle", "idle-base", 24, true, isPlayer);
 		animation.addByPrefix("winning", "winning-base", 24, true, isPlayer);
@@ -181,7 +181,7 @@ class HealthIcon extends FlxSprite
 	 */
 	function loadIconLegacy(char:String)
 	{
-		var image = GraphicsAssets.loadImage('icons/icon-${char}');
+		var image = GraphicsAssets.loadImage('characters/icons/icon-${char}');
 		if (image == null)
 		{
 			Debug.logError('Error loading graphic for health icon ${char}');

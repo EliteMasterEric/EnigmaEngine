@@ -25,7 +25,8 @@ import hxp.*;
 import lime.tools.*;
 import sys.FileSystem;
 
-class Project extends HXProject {
+class Project extends HXProject
+{
 	static final FEATURE_DISCORD:String = "FEATURE_DISCORD";
 	static final FEATURE_POLYMOD:String = "FEATURE_POLYMOD";
 	static final FEATURE_LUAMODCHART:String = "FEATURE_LUAMODCHART";
@@ -35,9 +36,10 @@ class Project extends HXProject {
 	static final FEATURE_MODCORE:String = "FEATURE_MODCORE";
 	static final FEATURE_GAMEJOLT:String = "FEATURE_GAMEJOLT";
 
-	public function new () {       
-		super ();
-			
+	public function new()
+	{
+		super();
+
 		// Set the project metadata.
 		configureApp();
 
@@ -63,7 +65,8 @@ class Project extends HXProject {
 	/**
 	 * Configure basic metadata about the project.
 	 */
-	function configureApp() {
+	function configureApp()
+	{
 		meta.title = "Enigma Engine";
 		meta.description = "A moddable game engine for Friday Night Funkin'.";
 		meta.version = "0.3.0-beta1";
@@ -90,9 +93,11 @@ class Project extends HXProject {
 	/**
 	 * Configure feature definitions based on the target platform.
 	 */
-	function configureFeatureDefines() {
+	function configureFeatureDefines()
+	{
 		// Ensure only supported platforms are used.
-		switch(target) {
+		switch (target)
+		{
 			case Platform.WINDOWS:
 				trace('Platform: Windows');
 			case Platform.MAC: // Mac will probably work, but I can't build it right now.
@@ -123,15 +128,21 @@ class Project extends HXProject {
 				error('Unsupported platform (got ${target})');
 		}
 
-		if (is64Bit()) {
+		if (is64Bit())
+		{
 			trace('Architecture: x64 / 64-bit');
-		} else if (is32Bit()) {
+		}
+		else if (is32Bit())
+		{
 			trace('Architecture: x86 / 32-bit');
-		} else {
+		}
+		else
+		{
 			Log.error('Unsupported architecture (got ${architectures[0]})');
 		}
 
-		if (isDesktop()) {
+		if (isDesktop())
+		{
 			haxedefs.set(FEATURE_DISCORD, true);
 			haxedefs.set(FEATURE_POLYMOD, true);
 			haxedefs.set(FEATURE_LUAMODCHART, true);
@@ -141,20 +152,24 @@ class Project extends HXProject {
 			haxedefs.set(FEATURE_GAMEJOLT, true);
 		}
 
-		if (isDesktop() || isWeb()) {
+		if (isDesktop() || isWeb())
+		{
 			haxedefs.set(FEATURE_WEBM, true);
 		}
 
-		if (isDesktop() && !isWeb()) {
+		if (isDesktop() && !isWeb())
+		{
 			haxedefs.set("FLX_NO_TOUCH", true);
 		}
 
-		if (isMobile()) {
+		if (isMobile())
+		{
 			haxedefs.set("FLX_NO_KEYBOARD", true);
 			haxedefs.set("FLX_NO_MOUSE", true);
 		}
 
-		if (!debug) {
+		if (!debug)
+		{
 			haxedefs.set("FLX_NO_DEBUG", true);
 			haxedefs.set("NAPE_RELEASE_BUILD", true);
 		}
@@ -164,7 +179,8 @@ class Project extends HXProject {
 		haxedefs.set("FLX_NO_FOCUS_LOST_SCREEN", true);
 	}
 
-	function configureOutputDir() {
+	function configureOutputDir()
+	{
 		// Set the output directory. Depends on the target platform and build type.
 		var architecture = is64Bit() ? "x64" : "x86";
 		var buildDir = 'export/${target}/${architecture.toString()}/${debug ? 'debug' : 'release'}/';
@@ -175,12 +191,14 @@ class Project extends HXProject {
 	/**
 	 * Configure the Polymod library.
 	 */
-	function configurePolymod() {
+	function configurePolymod()
+	{
 		haxedefs.set("POLYMOD_SCRIPT_EXT", ".hscript");
 		haxedefs.set("POLYMOD_SCRIPT_LIBRARY", "scripts");
 		haxedefs.set("POLYMOD_USE_NAMESPACE", "false");
 		haxedefs.set("POLYMOD_ROOT_PATH", "assets/scripts");
-		if (debug) {
+		if (debug)
+		{
 			haxedefs.set("POLYMOD_DEBUG", "true");
 		}
 	}
@@ -188,7 +206,8 @@ class Project extends HXProject {
 	/**
 	 * Configures library dependencies for the project.
 	 */
-	function configureLibraries () {
+	function configureLibraries()
+	{
 		// Primary asset management.
 		addHaxelib("lime");
 		addHaxelib("openfl");
@@ -220,13 +239,15 @@ class Project extends HXProject {
 		// A library for atomic mod loading and asset replacement.
 		addHaxelib("polymod");
 
-		if (isFeatureEnabled(FEATURE_DISCORD)) {
+		if (isFeatureEnabled(FEATURE_DISCORD))
+		{
 			trace('Discord integration is enabled, adding libraries.');
 			// A library for integration with the Discord API.
 			addHaxelib("discord_rpc");
 		}
 
-		if (isFeatureEnabled(FEATURE_LUAMODCHART)) {
+		if (isFeatureEnabled(FEATURE_LUAMODCHART))
+		{
 			trace('Lua Modchart integration is enabled, adding libraries.');
 			// A library for parsing and executing Lua code. Necessary for modcharts.
 			addHaxelib("linc_luajit");
@@ -237,7 +258,8 @@ class Project extends HXProject {
 	/**
 	 * Configures the application window.
 	 */
-	function configureWindow() {
+	function configureWindow()
+	{
 		// Automatically configure FPS.
 		window.fps = 0;
 		// Set the window size.
@@ -249,18 +271,21 @@ class Project extends HXProject {
 		window.hardware = true;
 		window.vsync = false;
 
-		if (isWeb()) {
+		if (isWeb())
+		{
 			window.resizable = true;
 		}
 
-		if (isDesktop()) {
+		if (isDesktop())
+		{
 			window.orientation = Orientation.LANDSCAPE;
 			window.fullscreen = false;
 			window.resizable = true;
 			window.vsync = false;
 		}
 
-		if (isMobile()) {
+		if (isMobile())
+		{
 			window.orientation = Orientation.LANDSCAPE;
 			window.fullscreen = false;
 			window.resizable = false;
@@ -291,29 +316,36 @@ class Project extends HXProject {
 	/**
 	 * Configure the asset folders to be used by the project.
 	 */
-	function configureAssets() {
+	function configureAssets()
+	{
 		var shouldEmbed = defines.exists("embedAssets");
 		var includeDefaultWeeks = defines.exists("includeDefaultWeeks");
 		var includeExampleMods = !defines.exists("excludeExampleMods");
 		// Only use OGG on desktop and MP3 on web.
 		var excludeExt = isWeb() ? ["*.md", "*.ogg"] : ["*.md", "*.mp3"];
-		
+
 		// You can use a define to force assets to be preloaded.
 		// Github Copilot thought of that part all on its own and that's really scary.
 		var shouldPreload = !isWeb() || defines.exists("preloadAssets");
 
-		if (shouldEmbed) {
+		if (shouldEmbed)
+		{
 			trace('NOTICE: Embedding assets into executable...');
-		} else {
+		}
+		else
+		{
 			trace('NOTICE: Including assets alongside executable...');
 		}
 
 		// Put the assets in _includeDefaultWeeks before those in the main folders.
-		if (includeDefaultWeeks) {
+		if (includeDefaultWeeks)
+		{
 			trace('NOTICE: Including default weeks...');
 
 			addAssetPath("assets/_includeDefaultWeeks", "assets", ["*"], excludeExt, shouldEmbed);
-		} else {
+		}
+		else
+		{
 			trace('NOTICE: Excluding default weeks...');
 			// addAssetLibrary("assets/_excludeDefaultWeeks", "assets", ["*"], excludeExt, shouldEmbed);
 		}
@@ -337,7 +369,8 @@ class Project extends HXProject {
 		addAssetPath("assets/core", "core", ["*"], excludeExt, shouldEmbed);
 
 		// TODO: Deprecate week-specific asset libraries.
-		if (includeDefaultWeeks) {
+		if (includeDefaultWeeks)
+		{
 			addAssetLibrary("assets/tutorial", shouldEmbed, shouldPreload);
 			addAssetLibrary("assets/week1", shouldEmbed, shouldPreload);
 			addAssetLibrary("assets/week2", shouldEmbed, shouldPreload);
@@ -354,18 +387,18 @@ class Project extends HXProject {
 			addAssetPath("assets/_includeDefaultWeeks/week5", "week5", ["*"], excludeExt, shouldEmbed);
 			addAssetPath("assets/_includeDefaultWeeks/week6", "week6", ["*"], excludeExt, shouldEmbed);
 		}
-		
+
 		addAsset("art/README.txt", "README.txt", false);
 		addAsset("LICENSE", "LICENSE.txt", false);
 		// To font, convert to OTF, then use setFormat on the text with the name of the font.
 		addAssetPath("assets/fonts", null, ["*"], excludeExt, true);
-
 	}
 
 	/**
 	 * Configure the favicon for the executable file.
 	 */
-	function configureIcons() {
+	function configureIcons()
+	{
 		addIcon("art/icon8.png", 8);
 		addIcon("art/icon16.png", 16);
 		addIcon("art/icon32.png", 32);
@@ -379,7 +412,8 @@ class Project extends HXProject {
 	 * Returns whether a given feature is enabled based on whether a HaxeDef has been provided.
 	 * @param feature The feature to check.
 	 */
-	function isFeatureEnabled (feature):Bool {
+	function isFeatureEnabled(feature):Bool
+	{
 		return defines.exists(feature);
 	}
 
@@ -387,7 +421,8 @@ class Project extends HXProject {
 	 * Returns true if the current platform has a 64-bit architecture.
 	 * @return Whether the current platform is 64-bit.
 	 */
-	function is64Bit ():Bool {
+	function is64Bit():Bool
+	{
 		return architectures.contains(Architecture.X64);
 	}
 
@@ -395,7 +430,8 @@ class Project extends HXProject {
 	 * Returns true if the current platform has a 32-bit architecture.
 	 * @return Whether the current platform is 32-bit.
 	 */
-	function is32Bit ():Bool {
+	function is32Bit():Bool
+	{
 		return architectures.contains(Architecture.X86);
 	}
 
@@ -403,7 +439,8 @@ class Project extends HXProject {
 	 * Returns true if the current platform is a desktop platform, such as Windows or Linux.
 	 * @return Whether the current platform is a desktop platform.
 	 */
-	function isDesktop():Bool {
+	function isDesktop():Bool
+	{
 		return platformType == PlatformType.DESKTOP;
 	}
 
@@ -411,15 +448,17 @@ class Project extends HXProject {
 	 * Returns true if the current platform is a mobile platform, such as Android or iOS.
 	 * @return Whether the current platform is a mobile platform.
 	 */
-	function isMobile():Bool {
+	function isMobile():Bool
+	{
 		return platformType == PlatformType.MOBILE;
 	}
-	
+
 	/**
 	 * Returns true if the current platform is a web platform, such as HTML5.
 	 * @return Whether the current platform is a web platform.
 	 */
-	function isWeb():Bool {
+	function isWeb():Bool
+	{
 		return platformType == PlatformType.WEB;
 	}
 
@@ -427,7 +466,8 @@ class Project extends HXProject {
 	 * Returns true if the current platform is a Windows desktop.
 	 * @return Whether the current platform is a Windows desktop.
 	 */
-	function isWindows():Bool {
+	function isWindows():Bool
+	{
 		return platformType == PlatformType.DESKTOP && target == Platform.WINDOWS;
 	}
 
@@ -435,7 +475,8 @@ class Project extends HXProject {
 	 * Returns true if the current platform is a Linux desktop.
 	 * @return Whether the current platform is a Linux desktop.
 	 */
-	function isLinux():Bool {
+	function isLinux():Bool
+	{
 		return platformType == PlatformType.DESKTOP && target == Platform.LINUX;
 	}
 
@@ -443,7 +484,8 @@ class Project extends HXProject {
 	 * Returns true if the current platform is a Mac desktop.
 	 * @return Whether the current platform is a Mac desktop.
 	 */
-	function isMac():Bool {
+	function isMac():Bool
+	{
 		return platformType == PlatformType.DESKTOP && target == Platform.MAC;
 	}
 
@@ -451,7 +493,8 @@ class Project extends HXProject {
 	 * Returns true if the current platform is an Android mobile device.
 	 * @return Whether the current platform is an Android mobile device.
 	 */
-	function isAndroid():Bool {
+	function isAndroid():Bool
+	{
 		return platformType == PlatformType.MOBILE && target == Platform.ANDROID;
 	}
 
@@ -459,16 +502,18 @@ class Project extends HXProject {
 	 * Returns true if the current platform is an iOS mobile device.
 	 * @return Whether the current platform is an iOS mobile device.
 	 */
-	function isIOS():Bool {
+	function isIOS():Bool
+	{
 		return platformType == PlatformType.MOBILE && target == Platform.IOS;
- }
+	}
 
 	/**
 	 * Adds a library to the list of dependencies to be included in the project.
 	 * @param name The name of the library to add.
 	 */
-	function addHaxelib(name) {
-		haxelibs.push (new Haxelib (name));
+	function addHaxelib(name)
+	{
+		haxelibs.push(new Haxelib(name));
 	}
 
 	/**
@@ -477,11 +522,13 @@ class Project extends HXProject {
 	 * @param icon The path to the icon file.
 	 * @param size The size of the icon.
 	 */
-	function addIcon(icon:String, size:Int = null) {
+	function addIcon(icon:String, size:Int = null)
+	{
 		icons.push(new Icon(icon, size));
 	}
 
-	function addAssetLibrary(name:String, embed:Bool = false, preload:Bool = false) {
+	function addAssetLibrary(name:String, embed:Bool = false, preload:Bool = false)
+	{
 		var sourcePath = null;
 		var type = null;
 		var generate = false;
@@ -491,10 +538,10 @@ class Project extends HXProject {
 		libraries.push(assetLibrary);
 	}
 
-	function addAsset(path:String, rename:String = null, embed:Bool = false) {
+	function addAsset(path:String, rename:String = null, embed:Bool = false)
+	{
 		assets.push(new Asset(path, rename, null, embed, true));
 	}
-
 
 	function addAssetPath(path:String, rename:String = null, include:Array<String> = null, exclude:Array<String> = null, embed:Bool = false):Void
 	{
@@ -540,7 +587,8 @@ class Project extends HXProject {
 			}
 			else
 			{
-				if (filter(file, include, exclude)) {
+				if (filter(file, include, exclude))
+				{
 					addAsset(path + "/" + file, targetPath + file, embed);
 				}
 			}
@@ -551,7 +599,8 @@ class Project extends HXProject {
 	 * Throw an error. This should stop the build process.
 	 * @param message The error message to display.
 	 */
-	function error(message:String) {
+	function error(message:String)
+	{
 		Log.error(message);
 	}
 }

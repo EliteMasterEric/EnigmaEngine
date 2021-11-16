@@ -40,8 +40,9 @@
   ],
   "files.associations": {
     "*.json": "jsonc",
-    "*.hxp": "haxe",
-    "*.hscript": "haxe"
+    "*.hxp": "haxe", // Haxe Project files.
+    "*.hscript": "haxe", // HScript files.
+    "*.eec": "jsonc", // Engima Engine Chart files.
   },
   "codedox": {
     "autoInsert": true, // enables insertion of function comments trigged by keystrokes

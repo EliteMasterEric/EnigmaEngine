@@ -57,16 +57,16 @@ class KeyBindMenu extends FlxSubState
 	var curSelected:Int = 0;
 
 	var keys:Array<String> = [
-		FlxG.save.data.leftBind,
-		FlxG.save.data.downBind,
-		FlxG.save.data.upBind,
-		FlxG.save.data.rightBind
+		FlxG.save.data.binds.leftBind,
+		FlxG.save.data.binds.downBind,
+		FlxG.save.data.binds.upBind,
+		FlxG.save.data.binds.rightBind
 	];
 	var gpKeys:Array<String> = [
-		FlxG.save.data.gpleftBind,
-		FlxG.save.data.gpdownBind,
-		FlxG.save.data.gpupBind,
-		FlxG.save.data.gprightBind
+		FlxG.save.data.binds.gpleftBind,
+		FlxG.save.data.binds.gpdownBind,
+		FlxG.save.data.binds.gpupBind,
+		FlxG.save.data.binds.gprightBind
 	];
 	var tempKey:String = "";
 	var blacklist:Array<String> = ["ESCAPE", "ENTER", "BACKSPACE", "SPACE", "TAB"];
@@ -313,15 +313,15 @@ class KeyBindMenu extends FlxSubState
 
 	function save()
 	{
-		FlxG.save.data.upBind = keys[2];
-		FlxG.save.data.downBind = keys[1];
-		FlxG.save.data.leftBind = keys[0];
-		FlxG.save.data.rightBind = keys[3];
+		FlxG.save.data.binds.upBind = keys[2];
+		FlxG.save.data.binds.downBind = keys[1];
+		FlxG.save.data.binds.leftBind = keys[0];
+		FlxG.save.data.binds.rightBind = keys[3];
 
-		FlxG.save.data.gpupBind = gpKeys[2];
-		FlxG.save.data.gpdownBind = gpKeys[1];
-		FlxG.save.data.gpleftBind = gpKeys[0];
-		FlxG.save.data.gprightBind = gpKeys[3];
+		FlxG.save.data.binds.gpupBind = gpKeys[2];
+		FlxG.save.data.binds.gpdownBind = gpKeys[1];
+		FlxG.save.data.binds.gpleftBind = gpKeys[0];
+		FlxG.save.data.binds.gprightBind = gpKeys[3];
 
 		FlxG.save.flush();
 

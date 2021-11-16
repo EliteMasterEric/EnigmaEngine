@@ -51,6 +51,19 @@ class Util
 		return b == 0 ? FlxMath.absInt(a) : GCD(b, a % b);
 	}
 
+	/**
+	 * @param duration The duration in seconds
+	 * @return The duration in the format "MM:SS"
+	 */
+	public static function durationToString(duration:Float):String
+	{
+		var seconds = FlxMath.roundDecimal(duration, 0) % 60;
+		var secondsStr = Strings.lpad('$seconds', 2, '0');
+		var minutes = FlxMath.roundDecimal(duration - seconds, 0) / 60;
+		var minutesStr = FlxMath.roundDecimal(minutes, 0);
+		return '$minutesStr:$secondsStr';
+	}
+
 	public static function getTypeName(input:Dynamic):String
 	{
 		return switch (Type.typeof(input))
@@ -76,5 +89,33 @@ class Util
 			default:
 				"";
 		}
+	}
+
+	/**
+	 * Utility to parse an ARGB value from the current hex value
+	 * Hex string is cached on the class so that it does not need to be recalculated for every pixel.
+	 */
+	public static function parseARGB(alpha:Int, hexStr:String):UInt
+	{
+		return Std.parseInt("0x" + Strings.toHex(alpha) + hexStr);
+	}
+
+	/**
+	 * Convert a hexadecimal number to a hexadecimal string.
+	 */
+	public static function toHexString(hex:UInt):String
+	{
+		var r:Int = (hex >> 16);
+		var g:Int = (hex >> 8 ^ r << 8);
+		var b:Int = (hex ^ (r << 16 | g << 8));
+
+		var red:String = Strings.toHex(r);
+		var green:String = Strings.toHex(g);
+		var blue:String = Strings.toHex(b);
+
+		red = (red.length < 2) ? "0" + red : red;
+		green = (green.length < 2) ? "0" + green : green;
+		blue = (blue.length < 2) ? "0" + blue : blue;
+		return (red + green + blue).toUpperCase();
 	}
 }

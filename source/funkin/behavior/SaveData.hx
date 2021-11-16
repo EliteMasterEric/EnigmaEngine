@@ -20,6 +20,7 @@
  */
 package funkin.behavior;
 
+import tjson.TJSON;
 import flixel.FlxG;
 import flixel.input.gamepad.FlxGamepad;
 import funkin.behavior.options.CustomControls;
@@ -36,13 +37,15 @@ class SaveData
 	// - preferences: A map of values stored by the options menu.
 	//   - Do NOT access preferences via FlxG directly.
 	//   - Instead, statically reference the Options menu option that controls it, like DownscrollOption.get().
-	// - binds: A map of values stored by the options menu, limited to keybinds.
+	// - binds: A map of keybinds and gamepad binds.
 	// - songScores: A String->Int map of song IDs to highscores.
 	// - songCombos: A String->String map of song IDs to highest combos.
 	// - weekScores: A String->Int map of week IDs to highscores.
 	// - weekCombos: A String->String map of week IDs to highest combos.
 	// - weeksUnlocked: A String->Bool map of week IDs to whether they are unlocked.
 	// - modConfig: A delimited String representing the mod IDs currently loaded and their order.
+	// - modData: Save data stored by mods.
+	// - autosave: While in the charter, chart data is regularly stored here in case of a crash.
 
 	/**
 	 * Retrieve saved data.
@@ -67,16 +70,12 @@ class SaveData
 			FlxG.save.data.modData = properValue;
 		}
 
-		if (FlxG.save.data.changedHit == null)
-		{
-			FlxG.save.data.changedHitX = -1;
-			FlxG.save.data.changedHitY = -1;
-			FlxG.save.data.changedHit = false;
-		}
-
 		// Commit the default values.
 		trace('Done checking save data. Flushing...');
 		FlxG.save.flush();
+
+		Debug.logInfo('Save data:');
+		Debug.logInfo('  ${TJSON.encode(FlxG.save.data, 'fancy')}');
 
 		#if FEATURE_GAMEPAD
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;

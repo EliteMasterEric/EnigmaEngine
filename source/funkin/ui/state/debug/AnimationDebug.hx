@@ -300,9 +300,9 @@ class AnimationDebug extends FlxState
 			saveCharOffsets();
 
 		if (FlxG.keys.justPressed.F1)
-			FlxG.save.data.showHelp = !FlxG.save.data.showHelp;
+			FlxG.save.data.preferences.showEditorHelp = !FlxG.save.data.preferences.showEditorHelp;
 
-		helpText.visible = FlxG.save.data.showHelp;
+		helpText.visible = FlxG.save.data.preferences.showEditorHelp;
 
 		super.update(elapsed);
 	}

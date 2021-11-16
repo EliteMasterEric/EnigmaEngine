@@ -21,6 +21,7 @@
  */
 package funkin.ui.component.play;
 
+import funkin.behavior.options.Options;
 import flash.display.Graphics;
 import flash.display.Shape;
 import flash.display.Sprite;
@@ -52,7 +53,7 @@ class HitGraph extends Sprite
 	public var minValue:Float = -(Math.floor((PlayState.currentReplay.replay.safeFrames / 60) * 1000) + 95);
 	public var maxValue:Float = Math.floor((PlayState.currentReplay.replay.safeFrames / 60) * 1000) + 95;
 
-	public var showInput:Bool = FlxG.save.data.inputShow;
+	public var showInput:Bool = ExtendedScoreInfoOption.get();
 
 	public var graphColor:FlxColor;
 

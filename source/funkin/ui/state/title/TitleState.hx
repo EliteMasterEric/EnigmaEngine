@@ -172,11 +172,20 @@ class TitleState extends MusicBeatState implements IHook
 	public function buildTitleScreenHooks():Void
 	{
 		if (script_variables.get('onCreate') != null)
+		{
+			Debug.logTrace('Found hook: onCreate');
 			cbOnCreate = script_variables.get('onCreate');
+		}
 		if (script_variables.get('onCreditsDone') != null)
+		{
+			Debug.logTrace('Found hook: onCreditsDone');
 			cbOnCreditsDone = script_variables.get('onCreditsDone');
+		}
 		if (script_variables.get('onExit') != null)
+		{
+			Debug.logTrace('Found hook: onExit');
 			cbOnExit = script_variables.get('onExit');
+		}
 		Debug.logTrace('Title screen hooks retrieved.');
 	}
 

@@ -55,7 +55,7 @@ class OptionsMenu extends MusicBeatState
 		new OptionCategory("Gameplay", [
 			new BasicKeybindOption(), Enigma.USE_CUSTOM_KEYBINDS ? new CustomKeybindsOption() : null, new DownscrollOption(), new AntiMashOption(),
 			new SafeFramesOption(), #if desktop new FramerateCapOption(), #end new ScrollSpeedOption(), new WIFE3AccuracyOption(), new ResetButtonOption(),
-			new InstantRespawnOption(), new CustomizeGameplayMenu()]),
+			new InstantRespawnOption(), new JudgementPositionOption()]),
 		new OptionCategory("Appearance", [
 			new EditorGridOption(), new DistractionsAndEffectsOption(), new FlashingLightsOption(), new CameraZoomOption(), new NoteQuantizationOption(),
 			new ShowAccuracyOption(), new SongPositionOption(), new HPBarColorOption(), new NPSDisplayOption(), new RainbowFPSCounterOption(),
@@ -120,7 +120,7 @@ class OptionsMenu extends MusicBeatState
 		versionText = new FlxText(5, FlxG.height
 			+ 40, 0,
 			"Offset (Left, Right, Shift for slow): "
-			+ Util.truncateFloat(FlxG.save.data.offset, 2)
+			+ Util.truncateFloat(SongOffsetOption.get(), 2)
 			+ " - Description - NONE", 12);
 		versionText.scrollFactor.set();
 		versionText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);

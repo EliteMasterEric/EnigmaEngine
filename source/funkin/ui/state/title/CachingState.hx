@@ -21,6 +21,7 @@
  */
 package funkin.ui.state.title;
 
+import funkin.behavior.options.Options.CharacterPreloadOption;
 import funkin.behavior.options.Options.AntiAliasingOption;
 import funkin.ui.component.play.Character;
 import funkin.util.assets.LibraryAssets;
@@ -113,13 +114,12 @@ class CachingState extends MusicBeatState
 
 		gameLogo.alpha = 0;
 
-		FlxGraphic.defaultPersist = FlxG.save.data.cacheImages;
+		FlxGraphic.defaultPersist = CharacterPreloadOption.get();
 
 		#if FEATURE_FILESYSTEM
-		if (FlxG.save.data.cacheImages)
+		Debug.logTrace("Planning to cache graphics...");
+		if (CharacterPreloadOption.get())
 		{
-			Debug.logTrace("Planning to cache graphics...");
-
 			Debug.logTrace("Planning to cache character graphics...");
 			images = GraphicsAssets.listImageFilesToCache(['characters']);
 		}

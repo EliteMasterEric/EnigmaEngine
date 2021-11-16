@@ -208,130 +208,130 @@ class CustomControls extends Controls
 		for (action in digitalActions)
 			byName[action.name] = action;
 
-		setKeyboardScheme(scheme, false);
+		loadKeyBinds();
 	}
 
 	public static function resetBinds():Void
 	{
 		Controls.resetBinds();
-		FlxG.save.data.fullscreenBind = "F11";
+		FlxG.save.data.binds.fullscreenBind = "F11";
 
-		FlxG.save.data.left9KBind = "S";
-		FlxG.save.data.down9KBind = "";
-		FlxG.save.data.up9KBind = "D";
-		FlxG.save.data.right9KBind = "F";
-		FlxG.save.data.altLeftBind = "J";
-		FlxG.save.data.altDownBind = "";
-		FlxG.save.data.altUpBind = "K";
-		FlxG.save.data.altRightBind = "L";
-		FlxG.save.data.centerBind = "SPACE";
+		FlxG.save.data.binds.left9KBind = "S";
+		FlxG.save.data.binds.down9KBind = "";
+		FlxG.save.data.binds.up9KBind = "D";
+		FlxG.save.data.binds.right9KBind = "F";
+		FlxG.save.data.binds.altLeftBind = "J";
+		FlxG.save.data.binds.altDownBind = "";
+		FlxG.save.data.binds.altUpBind = "K";
+		FlxG.save.data.binds.altRightBind = "L";
+		FlxG.save.data.binds.centerBind = "SPACE";
 
 		// TODO: Fix these.
-		FlxG.save.data.gpleft9KBind = "";
-		FlxG.save.data.gpdown9KBind = "";
-		FlxG.save.data.gpup9KBind = "";
-		FlxG.save.data.gpright9KBind = "";
-		FlxG.save.data.gpcenterBind = "";
-		FlxG.save.data.gpaltLeftBind = "";
-		FlxG.save.data.gpaltDownBind = "";
-		FlxG.save.data.gpaltUpBind = "";
-		FlxG.save.data.gpaltRightBind = "";
+		FlxG.save.data.binds.gpleft9KBind = "";
+		FlxG.save.data.binds.gpdown9KBind = "";
+		FlxG.save.data.binds.gpup9KBind = "";
+		FlxG.save.data.binds.gpright9KBind = "";
+		FlxG.save.data.binds.gpcenterBind = "";
+		FlxG.save.data.binds.gpaltLeftBind = "";
+		FlxG.save.data.binds.gpaltDownBind = "";
+		FlxG.save.data.binds.gpaltUpBind = "";
+		FlxG.save.data.binds.gpaltRightBind = "";
 
 		PlayerSettings.player1.controls.loadKeyBinds();
 	}
 
 	public static function keyCheck():Void
 	{
-		if (FlxG.save.data.left9KBind == null)
+		if (FlxG.save.data.binds.left9KBind == null)
 		{
 			trace("No LEFT9K");
-			FlxG.save.data.left9KBind = "S";
+			FlxG.save.data.binds.left9KBind = "S";
 		}
-		if (FlxG.save.data.down9KBind == null)
+		if (FlxG.save.data.binds.down9KBind == null)
 		{
 			trace("No DOWN9K");
-			FlxG.save.data.down9KBind = "";
+			FlxG.save.data.binds.down9KBind = "";
 		}
-		if (FlxG.save.data.up9KBind == null)
+		if (FlxG.save.data.binds.up9KBind == null)
 		{
 			trace("No UP9K");
-			FlxG.save.data.up9KBind = "D";
+			FlxG.save.data.binds.up9KBind = "D";
 		}
-		if (FlxG.save.data.right9KBind == null)
+		if (FlxG.save.data.binds.right9KBind == null)
 		{
 			trace("No RIGHT9K");
-			FlxG.save.data.right9KBind = "F";
+			FlxG.save.data.binds.right9KBind = "F";
 		}
-		if (FlxG.save.data.centerBind == null)
+		if (FlxG.save.data.binds.centerBind == null)
 		{
 			trace("No CENTER");
-			FlxG.save.data.centerBind = "SPACE";
+			FlxG.save.data.binds.centerBind = "SPACE";
 		}
-		if (FlxG.save.data.altLeftBind == null)
+		if (FlxG.save.data.binds.altLeftBind == null)
 		{
 			trace("No ALTLEFT");
-			FlxG.save.data.altLeftBind = "J";
+			FlxG.save.data.binds.altLeftBind = "J";
 		}
-		if (FlxG.save.data.altDownBind == null)
+		if (FlxG.save.data.binds.altDownBind == null)
 		{
 			trace("No ALTDOWN");
-			FlxG.save.data.altDownBind = "";
+			FlxG.save.data.binds.altDownBind = "";
 		}
-		if (FlxG.save.data.altUpBind == null)
+		if (FlxG.save.data.binds.altUpBind == null)
 		{
 			trace("No ALTUP");
-			FlxG.save.data.altUpBind = "K";
+			FlxG.save.data.binds.altUpBind = "K";
 		}
-		if (FlxG.save.data.altRightBind == null)
+		if (FlxG.save.data.binds.altRightBind == null)
 		{
 			trace("No ALTRIGHT");
-			FlxG.save.data.altRightBind = "L";
+			FlxG.save.data.binds.altRightBind = "L";
 		}
 
-		if (FlxG.save.data.gpleft9KBind == null)
+		if (FlxG.save.data.binds.gpleft9KBind == null)
 		{
 			trace("No gpLEFT9K");
-			FlxG.save.data.gpleft9KBind = "";
+			FlxG.save.data.binds.gpleft9KBind = "";
 		}
-		if (FlxG.save.data.gpdown9KBind == null)
+		if (FlxG.save.data.binds.gpdown9KBind == null)
 		{
 			trace("No gpDOWN9K");
-			FlxG.save.data.gpdown9KBind = "";
+			FlxG.save.data.binds.gpdown9KBind = "";
 		}
-		if (FlxG.save.data.gpup9KBind == null)
+		if (FlxG.save.data.binds.gpup9KBind == null)
 		{
 			trace("No gpUP9K");
-			FlxG.save.data.gpup9KBind = "";
+			FlxG.save.data.binds.gpup9KBind = "";
 		}
-		if (FlxG.save.data.gpright9KBind == null)
+		if (FlxG.save.data.binds.gpright9KBind == null)
 		{
 			trace("No gpRIGHT9K");
-			FlxG.save.data.gpright9KBind = "";
+			FlxG.save.data.binds.gpright9KBind = "";
 		}
-		if (FlxG.save.data.gpcenterBind == null)
+		if (FlxG.save.data.binds.gpcenterBind == null)
 		{
 			trace("No gpCENTER");
-			FlxG.save.data.gpcenterBind = "";
+			FlxG.save.data.binds.gpcenterBind = "";
 		}
-		if (FlxG.save.data.gpaltLeftBind == null)
+		if (FlxG.save.data.binds.gpaltLeftBind == null)
 		{
 			trace("No gpALTLEFT");
-			FlxG.save.data.gpaltLeftBind = "";
+			FlxG.save.data.binds.gpaltLeftBind = "";
 		}
-		if (FlxG.save.data.gpaltDownBind == null)
+		if (FlxG.save.data.binds.gpaltDownBind == null)
 		{
 			trace("No gpALTDOWN");
-			FlxG.save.data.gpaltDownBind = "";
+			FlxG.save.data.binds.gpaltDownBind = "";
 		}
-		if (FlxG.save.data.gpaltUpBind == null)
+		if (FlxG.save.data.binds.gpaltUpBind == null)
 		{
 			trace("No gpALTUP");
-			FlxG.save.data.gpaltUpBind = "";
+			FlxG.save.data.binds.gpaltUpBind = "";
 		}
-		if (FlxG.save.data.gpaltRightBind == null)
+		if (FlxG.save.data.binds.gpaltRightBind == null)
 		{
 			trace("No gpALTRIGHT");
-			FlxG.save.data.gpaltRightBind = "";
+			FlxG.save.data.binds.gpaltRightBind = "";
 		}
 	}
 
@@ -457,28 +457,28 @@ class CustomControls extends Controls
 		var buttons = new Map<CustomControl, Array<FlxGamepadInputID>>();
 
 		// Gamepad bindings.
-		buttons.set(CustomControl.LEFT_9K, [FlxGamepadInputID.fromString(FlxG.save.data.gpleft9KBind)]);
-		buttons.set(CustomControl.DOWN_9K, [FlxGamepadInputID.fromString(FlxG.save.data.gpdown9KBind)]);
-		buttons.set(CustomControl.UP_9K, [FlxGamepadInputID.fromString(FlxG.save.data.gpup9KBind)]);
-		buttons.set(CustomControl.RIGHT_9K, [FlxGamepadInputID.fromString(FlxG.save.data.gpright9KBind)]);
-		buttons.set(CustomControl.CENTER_9K, [FlxGamepadInputID.fromString(FlxG.save.data.gpcenterBind)]);
-		buttons.set(CustomControl.LEFT_ALT_9K, [FlxGamepadInputID.fromString(FlxG.save.data.gpaltLeftBind)]);
-		buttons.set(CustomControl.DOWN_ALT_9K, [FlxGamepadInputID.fromString(FlxG.save.data.gpaltDownBind)]);
-		buttons.set(CustomControl.UP_ALT_9K, [FlxGamepadInputID.fromString(FlxG.save.data.gpaltUpBind)]);
-		buttons.set(CustomControl.RIGHT_ALT_9K, [FlxGamepadInputID.fromString(FlxG.save.data.gpaltRightBind)]);
+		buttons.set(CustomControl.LEFT_9K, [FlxGamepadInputID.fromString(FlxG.save.data.binds.gpleft9KBind)]);
+		buttons.set(CustomControl.DOWN_9K, [FlxGamepadInputID.fromString(FlxG.save.data.binds.gpdown9KBind)]);
+		buttons.set(CustomControl.UP_9K, [FlxGamepadInputID.fromString(FlxG.save.data.binds.gpup9KBind)]);
+		buttons.set(CustomControl.RIGHT_9K, [FlxGamepadInputID.fromString(FlxG.save.data.binds.gpright9KBind)]);
+		buttons.set(CustomControl.CENTER_9K, [FlxGamepadInputID.fromString(FlxG.save.data.binds.gpcenterBind)]);
+		buttons.set(CustomControl.LEFT_ALT_9K, [FlxGamepadInputID.fromString(FlxG.save.data.binds.gpaltLeftBind)]);
+		buttons.set(CustomControl.DOWN_ALT_9K, [FlxGamepadInputID.fromString(FlxG.save.data.binds.gpaltDownBind)]);
+		buttons.set(CustomControl.UP_ALT_9K, [FlxGamepadInputID.fromString(FlxG.save.data.binds.gpaltUpBind)]);
+		buttons.set(CustomControl.RIGHT_ALT_9K, [FlxGamepadInputID.fromString(FlxG.save.data.binds.gpaltRightBind)]);
 
 		addGamepadCustom(0, buttons);
 
 		// Keyboard bindings.
-		inline bindCustomKeys(CustomControl.LEFT_9K, [FlxKey.fromString(FlxG.save.data.left9KBind)]);
-		inline bindCustomKeys(CustomControl.DOWN_9K, [FlxKey.fromString(FlxG.save.data.down9KBind)]);
-		inline bindCustomKeys(CustomControl.UP_9K, [FlxKey.fromString(FlxG.save.data.up9KBind)]);
-		inline bindCustomKeys(CustomControl.RIGHT_9K, [FlxKey.fromString(FlxG.save.data.right9KBind)]);
-		inline bindCustomKeys(CustomControl.CENTER_9K, [FlxKey.fromString(FlxG.save.data.centerBind)]);
-		inline bindCustomKeys(CustomControl.LEFT_ALT_9K, [FlxKey.fromString(FlxG.save.data.altLeftBind)]);
-		inline bindCustomKeys(CustomControl.DOWN_ALT_9K, [FlxKey.fromString(FlxG.save.data.altDownBind)]);
-		inline bindCustomKeys(CustomControl.UP_ALT_9K, [FlxKey.fromString(FlxG.save.data.altUpBind)]);
-		inline bindCustomKeys(CustomControl.RIGHT_ALT_9K, [FlxKey.fromString(FlxG.save.data.altRightBind)]);
+		inline bindCustomKeys(CustomControl.LEFT_9K, [FlxKey.fromString(FlxG.save.data.binds.left9KBind)]);
+		inline bindCustomKeys(CustomControl.DOWN_9K, [FlxKey.fromString(FlxG.save.data.binds.down9KBind)]);
+		inline bindCustomKeys(CustomControl.UP_9K, [FlxKey.fromString(FlxG.save.data.binds.up9KBind)]);
+		inline bindCustomKeys(CustomControl.RIGHT_9K, [FlxKey.fromString(FlxG.save.data.binds.right9KBind)]);
+		inline bindCustomKeys(CustomControl.CENTER_9K, [FlxKey.fromString(FlxG.save.data.binds.centerBind)]);
+		inline bindCustomKeys(CustomControl.LEFT_ALT_9K, [FlxKey.fromString(FlxG.save.data.binds.altLeftBind)]);
+		inline bindCustomKeys(CustomControl.DOWN_ALT_9K, [FlxKey.fromString(FlxG.save.data.binds.altDownBind)]);
+		inline bindCustomKeys(CustomControl.UP_ALT_9K, [FlxKey.fromString(FlxG.save.data.binds.altUpBind)]);
+		inline bindCustomKeys(CustomControl.RIGHT_ALT_9K, [FlxKey.fromString(FlxG.save.data.binds.altRightBind)]);
 	}
 
 	public function addGamepadCustom(id:Int, ?buttonMap:Map<CustomControl, Array<FlxGamepadInputID>>):Void

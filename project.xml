@@ -246,16 +246,6 @@
 						embed="true"
 						exclude="*.md|*.mp3"
 						unless="web" />
-		<assets path="assets/sm"
-						library="sm"
-						embed="true"
-						exclude="*.md|*.ogg"
-						if="web" />
-		<assets path="assets/sm"
-						library="sm"
-						embed="true"
-						exclude="*.md|*.mp3"
-						unless="web" />
 	</section>
 	<section unless="embedAssets">
 		<assets path="assets/core"
@@ -291,16 +281,6 @@
 						embed="false"
 						exclude="*.md|*.mp3"
 						unless="web" />
-		<assets path="assets/sm"
-						library="sm"
-						embed="false"
-						exclude="*.md|*.ogg"
-						if="web" />
-		<assets path="assets/sm"
-						library="sm"
-						embed="false"
-						exclude="*.md|*.mp3"
-						unless="web" />
 	</section>
 	<section if="includeDefaultWeeks">
 		<section if="embedAssets">
@@ -316,30 +296,6 @@
 							embed="true"
 							exclude="*.md|*.mp3"
 							unless="web" />
-			<assets path="assets/_includeDefaultWeeks/week1"
-							rename="assets/week1"
-							library="week1"
-							embed="true"
-							exclude="*.md|*.ogg"
-							if="web" />
-			<assets path="assets/_includeDefaultWeeks/week1"
-							rename="assets/week1"
-							library="week1"
-							embed="true"
-							exclude="*.md|*.mp3"
-							unless="web" />
-			<assets path="assets/_includeDefaultWeeks/week2"
-							rename="assets/week2"
-							library="week2"
-							embed="true"
-							exclude="*.md|*.ogg"
-							if="web" />
-			<assets path="assets/_includeDefaultWeeks/week2"
-							rename="assets/week2"
-							library="week2"
-							embed="true"
-							exclude="*.md|*.mp3"
-							unless="web" />
 			<assets path="assets/_includeDefaultWeeks/week3"
 							rename="assets/week3"
 							library="week3"
@@ -385,6 +341,18 @@
 			<assets path="assets/_includeDefaultWeeks/week6"
 							rename="assets/week6"
 							library="week6"
+							embed="true"
+							exclude="*.md|*.mp3"
+							unless="web" />
+      <assets path="assets/_includeDefaultWeeks/songs"
+							rename="assets/songs"
+							library="songs"
+							embed="true"
+							exclude="*.md|*.mp3"
+							unless="web" />
+      <assets path="assets/_includeDefaultWeeks/shared"
+							rename="assets/shard"
+							library="shard"
 							embed="true"
 							exclude="*.md|*.mp3"
 							unless="web" />
@@ -402,30 +370,6 @@
 							embed="false"
 							exclude="*.md|*.mp3"
 							unless="web" />
-			<assets path="assets/_includeDefaultWeeks/week1"
-							rename="assets/week1"
-							library="week1"
-							embed="false"
-							exclude="*.md|*.ogg"
-							if="web" />
-			<assets path="assets/_includeDefaultWeeks/week1"
-							rename="assets/week1"
-							library="week1"
-							embed="false"
-							exclude="*.md|*.mp3"
-							unless="web" />
-			<assets path="assets/_includeDefaultWeeks/week2"
-							rename="assets/week2"
-							library="week2"
-							embed="false"
-							exclude="*.md|*.ogg"
-							if="web" />
-			<assets path="assets/_includeDefaultWeeks/week2"
-							rename="assets/week2"
-							library="week2"
-							embed="false"
-							exclude="*.md|*.mp3"
-							unless="web" />
 			<assets path="assets/_includeDefaultWeeks/week3"
 							rename="assets/week3"
 							library="week3"
@@ -471,6 +415,18 @@
 			<assets path="assets/_includeDefaultWeeks/week6"
 							rename="assets/week6"
 							library="week6"
+							embed="false"
+							exclude="*.md|*.mp3"
+							unless="web" />
+      <assets path="assets/_includeDefaultWeeks/songs"
+							rename="assets/songs"
+							library="songs"
+							embed="false"
+							exclude="*.md|*.mp3"
+							unless="web" />
+      <assets path="assets/_includeDefaultWeeks/shared"
+							rename="assets/shared"
+							library="shared"
 							embed="false"
 							exclude="*.md|*.mp3"
 							unless="web" />
@@ -520,6 +476,19 @@
 							 preload="false" />
 		</section>
 	</section>
+
+  <!-- Localization data comes from the i18n folder,
+       which is provided by a separate repository. -->
+  <section if="embedAssets">
+    <assets path="i18n"
+            rename="assets/locale"
+            embed="true" />
+  </section>
+  <section unless="embedAssets">
+    <assets path="i18n"
+            rename="assets/locale"
+            embed="false" />
+  </section>
 
 	<!-- Move the example mods to the `mods` folder of the build. -->
 	<section unless="excludeExampleMods">
@@ -638,7 +607,7 @@
 				if="FEATURE_FILESYSTEM" />
 	<!-- Defines whether Lua Modcharts should be enabled. Only works on Windows. -->
 	<haxedef name="FEATURE_LUAMODCHART"
-					 if="desktop" unless="neko" />
+					 if="windows" unless="neko" />
 	<echo value="Platform supports feature: LUA Modcharts"
 				if="FEATURE_LUAMODCHART" />
 	<!-- Defines whether WebM videos should be enabled. Currently only enabled on Windows. -->

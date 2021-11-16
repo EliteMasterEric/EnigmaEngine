@@ -1,3 +1,26 @@
+/*
+ * Apache License, Version 2.0
+ *
+ * Copyright (c) 2021 MasterEric
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at:
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * GameplayCustomizeState.hx
+ * A state available from the options menu that allows the player to customize gameplay layout.
+ * Currently manages the following:
+ * - Judgement position
+ * - Zoom level
+ */
 package funkin.ui.state.options;
 
 import flixel.FlxCamera;
@@ -60,9 +83,9 @@ class GameplayCustomizeState extends MusicBeatState
 		sick = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('sick', 'shared'));
 		sick.antialiasing = AntiAliasingOption.get();
 		sick.scrollFactor.set();
-		background = new FlxSprite(-1000, -200).loadGraphic(GraphicsAssets.loadImage('stageback', 'shared'));
-		curt = new FlxSprite(-500, -300).loadGraphic(GraphicsAssets.loadImage('stagecurtains', 'shared'));
-		front = new FlxSprite(-650, 600).loadGraphic(GraphicsAssets.loadImage('stagefront', 'shared'));
+		background = new FlxSprite(-1000, -200).loadGraphic(GraphicsAssets.loadImage('stages/stage/stageback', 'shared'));
+		curt = new FlxSprite(-500, -300).loadGraphic(GraphicsAssets.loadImage('stages/stage/stagecurtains', 'shared'));
+		front = new FlxSprite(-650, 600).loadGraphic(GraphicsAssets.loadImage('stages/stage/stagefront', 'shared'));
 		background.antialiasing = AntiAliasingOption.get();
 		curt.antialiasing = AntiAliasingOption.get();
 		front.antialiasing = AntiAliasingOption.get();
@@ -152,14 +175,13 @@ class GameplayCustomizeState extends MusicBeatState
 		FlxTween.tween(text, {y: FlxG.height - 18}, 2, {ease: FlxEase.elasticInOut});
 		FlxTween.tween(blackBorder, {y: FlxG.height - 18}, 2, {ease: FlxEase.elasticInOut});
 
-		if (!FlxG.save.data.changedHit)
+		if (JudgementPositionOption.get() == null)
 		{
-			FlxG.save.data.changedHitX = defaultX;
-			FlxG.save.data.changedHitY = defaultY;
+			JudgementPositionOption.set(new FlxPoint(defaultX, defaultY));
 		}
 
-		sick.x = FlxG.save.data.changedHitX;
-		sick.y = FlxG.save.data.changedHitY;
+		sick.x = JudgementPositionOption.get().x;
+		sick.y = JudgementPositionOption.get().y;
 
 		Cursor.showCursor();
 	}
@@ -171,15 +193,16 @@ class GameplayCustomizeState extends MusicBeatState
 
 		super.update(elapsed);
 
-		if (FlxG.save.data.zoom < 0.8)
-			FlxG.save.data.zoom = 0.8;
+		if (ZoomLevelOption.get() < 0.8)
+			ZoomLevelOption.set(0.8);
 
-		if (FlxG.save.data.zoom > 1.2)
-			FlxG.save.data.zoom = 1.2;
+		if (ZoomLevelOption.get() > 1.2)
+			ZoomLevelOption.set(1.2);
 
 		FlxG.camera.zoom = FlxMath.lerp(0.9, FlxG.camera.zoom, 0.95);
-		camHUD.zoom = FlxMath.lerp(FlxG.save.data.zoom, camHUD.zoom, 0.95);
+		camHUD.zoom = FlxMath.lerp(ZoomLevelOption.get(), camHUD.zoom, 0.95);
 
+		// Pressed mouse to drag the judgement position
 		if (FlxG.mouse.overlaps(sick) && FlxG.mouse.pressed)
 		{
 			sick.x = (FlxG.mouse.x - sick.width / 2) - 60;
@@ -188,37 +211,38 @@ class GameplayCustomizeState extends MusicBeatState
 
 		for (i in playerStrums)
 			i.y = strumLine.y;
+
 		for (i in strumLineNotes)
 			i.y = strumLine.y;
 
+		// Pressed Q to zoom in.
 		if (FlxG.keys.justPressed.Q)
 		{
-			FlxG.save.data.zoom += 0.02;
-			camHUD.zoom = FlxG.save.data.zoom;
+			ZoomLevelOption.set(ZoomLevelOption.get() + 0.02);
+			camHUD.zoom = ZoomLevelOption.get();
 		}
 
+		// Pressed E to zoom out.
 		if (FlxG.keys.justPressed.E)
 		{
-			FlxG.save.data.zoom -= 0.02;
-			camHUD.zoom = FlxG.save.data.zoom;
+			ZoomLevelOption.set(ZoomLevelOption.get() - 0.02);
+			camHUD.zoom = ZoomLevelOption.get();
 		}
 
+		// Stopped dragging.
 		if (FlxG.mouse.overlaps(sick) && FlxG.mouse.justReleased)
 		{
-			FlxG.save.data.changedHitX = sick.x;
-			FlxG.save.data.changedHitY = sick.y;
-			FlxG.save.data.changedHit = true;
+			JudgementPositionOption.set(new FlxPoint(sick.x, sick.y));
 		}
 
+		// Pressed R to reset.
 		if (FlxG.keys.justPressed.R)
 		{
 			sick.x = defaultX;
 			sick.y = defaultY;
-			FlxG.save.data.zoom = 1;
-			camHUD.zoom = FlxG.save.data.zoom;
-			FlxG.save.data.changedHitX = sick.x;
-			FlxG.save.data.changedHitY = sick.y;
-			FlxG.save.data.changedHit = false;
+			ZoomLevelOption.set(1);
+			camHUD.zoom = ZoomLevelOption.get();
+			JudgementPositionOption.set(new FlxPoint(sick.x, sick.y));
 		}
 
 		if (controls.BACK)

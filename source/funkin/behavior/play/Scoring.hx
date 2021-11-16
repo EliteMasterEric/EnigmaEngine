@@ -22,6 +22,8 @@
  */
 package funkin.behavior.play;
 
+import funkin.behavior.options.Options;
+import funkin.behavior.options.Options.NPSDisplayOption;
 import flixel.FlxG;
 import funkin.behavior.EtternaFunctions;
 import funkin.behavior.play.Conductor;
@@ -191,15 +193,7 @@ class SongScore
 
 	public function getNotesHit():Float
 	{
-		return switch (FlxG.save.data.accuracyMod)
-		{
-			case 1:
-				wifeNotesHit;
-			case 0:
-				getBaseNotesHit();
-			default:
-				getBaseNotesHit();
-		}
+		return WIFE3AccuracyOption.get() ? wifeNotesHit : getBaseNotesHit();
 	}
 
 	public function getAccuracy():Float
@@ -240,7 +234,7 @@ class SongScore
 	public function getLetterRank()
 	{
 		var ranking = 'N/A';
-		if (FlxG.save.data.botplay)
+		if (BotPlayOption.get())
 			ranking = 'BotPlay';
 
 		return ranking;
@@ -260,8 +254,8 @@ class Scoring
 	public static function generateLetterRank(accuracy:Float) // generate a letter ranking
 	{
 		var ranking:String = "N/A";
-		if (FlxG.save.data.botplay)
-			ranking = "BotPlay";
+		if (BotPlayOption.get())
+			ranking = "(BOT)";
 
 		// Check for full combos.
 
@@ -277,7 +271,7 @@ class Scoring
 		}
 		else if (Scoring.currentScore.shit == 0)
 		{
-			// Full Clear (100% notes Hit)
+			// Full Combo (100% notes Hit)
 			ranking = "(FC)";
 		}
 		else if (Scoring.currentScore.shit < 10)
@@ -416,24 +410,24 @@ class Scoring
 	{
 		var rankingText = '';
 
-		if (FlxG.save.data.npsDisplay)
+		if (NPSDisplayOption.get())
 		{
 			rankingText += 'NPS: ${nps} (Max ${maxNPS})';
-			if (!FlxG.save.data.botplay)
+			if (!BotPlayOption.get())
 			{
 				rankingText += ' | ';
 			}
 		}
 
-		if (!FlxG.save.data.botplay)
+		if (!BotPlayOption.get())
 		{
 			rankingText += 'Score: $score';
 
-			if (FlxG.save.data.accuracyDisplay)
+			if (ShowAccuracyOption.get())
 			{
 				rankingText += ' | Combo Breaks: ${Scoring.currentScore.miss}';
 				rankingText += ' | Accuracy: ';
-				rankingText += FlxG.save.data.botplay ? 'N/A' : '${Util.truncateFloat(accuracy, 3)}%';
+				rankingText += BotPlayOption.get() ? 'N/A' : '${Util.truncateFloat(accuracy, 3)}%';
 				rankingText += ' ${generateLetterRank(accuracy)}';
 			}
 		}

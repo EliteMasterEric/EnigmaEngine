@@ -473,7 +473,11 @@ class PlayState extends MusicBeatState implements IHook
 	 */
 	private var healthBar:FlxBar;
 
-	private var healthBarBG:FlxSprite;
+	/**
+	 * The border for the health bar
+	 		* Can be customized using a custom note style
+	 */
+	private var healthBarBorder:FlxSprite;
 
 	/**
 	 * The core strumline. All strumline notes are children of it.
@@ -506,15 +510,22 @@ class PlayState extends MusicBeatState implements IHook
 	/**
 	 * The bar which displays the current position in the song.
 	 */
-	public static var songPosBar:FlxBar;
-
-	// The variable which songPosBar is tied to.
-	private var songPositionBar:Float = 0;
+	public static var songPositionBar:FlxBar;
 
 	/**
-	 * The background for the songPosBar.
+	 * The variable which songPositionBar is tied to. Modify this to update the bar's progress.
 	 */
-	public static var songPosBG:FlxSprite;
+	private var songPosition:Float = 0;
+
+	/**
+	 * The text which displays over the song position bar.
+	 */
+	private var songPositionText:FlxText;
+
+	/**
+	 * The background for the songPositionBar.
+	 */
+	public static var songPositionBG:FlxSprite;
 
 	/**
 	 * The text at the bottom of the screen which displays the song name.
@@ -536,8 +547,6 @@ class PlayState extends MusicBeatState implements IHook
 	 * All the visible combo number popups.
 	 */
 	public var visibleCombos:Array<FlxSprite> = [];
-
-	var songLength:Float = 0;
 
 	private var vocals:FlxSound;
 
@@ -671,16 +680,16 @@ class PlayState extends MusicBeatState implements IHook
 		Cursor.showCursor(false);
 
 		// Set the frame cap for this state.
-		if (FlxG.save.data.fpsCap > 290)
+		if (FramerateCapOption.get() > 290)
 			(cast(Lib.current.getChildAt(0), Main)).setFPSCap(800);
 
 		// Correct the camera zoom.
-		if (FlxG.save.data.zoom < 0.8)
-			FlxG.save.data.zoom = 0.8;
+		if (ZoomLevelOption.get() < 0.8)
+			ZoomLevelOption.set(0.8);
 
 		// Correct the camera zoom.
-		if (FlxG.save.data.zoom > 1.2)
-			FlxG.save.data.zoom = 1.2;
+		if (ZoomLevelOption.get() > 1.2)
+			ZoomLevelOption.set(1.2);
 
 		// Stop existing (i.e. menu) music.
 		if (FlxG.sound.music != null)
@@ -692,7 +701,7 @@ class PlayState extends MusicBeatState implements IHook
 
 		PlayState.safeFrames = SafeFramesOption.get();
 		this.scrollSpeed = ScrollSpeedOption.get();
-		PlayStateChangeables.zoom = FlxG.save.data.zoom;
+		PlayStateChangeables.zoom = ZoomLevelOption.get();
 
 		#if FEATURE_DISCORD
 		iconRPC = PlayState.SONG.player2;
@@ -1052,36 +1061,40 @@ class PlayState extends MusicBeatState implements IHook
 		FlxG.camera.focusOn(camFollow.getPosition());
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
 		FlxG.fixedTimestep = false;
-		if (FlxG.save.data.songPosition) // I dont wanna talk about this code :(
+		if (SongPositionOption.get())
 		{
-			songPosBG = new FlxSprite(0, 10).loadGraphic(GraphicsAssets.loadImage('healthBar'));
+			// Bar background
+			songPositionBG = new FlxSprite(0, 10).loadGraphic(GraphicsAssets.loadImage('styles/normal/healthBar'));
 			if (DownscrollOption.get())
-				songPosBG.y = FlxG.height * 0.9 + 45;
-			songPosBG.screenCenter(X);
-			songPosBG.scrollFactor.set();
-			add(songPosBG);
-			songPosBar = new FlxBar(songPosBG.x + 4, songPosBG.y + 4, LEFT_TO_RIGHT, Std.int(songPosBG.width - 8), Std.int(songPosBG.height - 8), this,
-				'songPositionBar', 0, songLength);
-			songPosBar.scrollFactor.set();
-			songPosBar.createFilledBar(FlxColor.GRAY, FlxColor.LIME);
-			add(songPosBar);
-			var songName = new FlxText(songPosBG.x + (songPosBG.width / 2) - (SONG.songId.length * 5), songPosBG.y, 0, PlayState.SONG.songName, 16);
+				songPositionBG.y = FlxG.height * 0.9 + 45;
+			songPositionBG.screenCenter(X);
+			songPositionBG.scrollFactor.set();
+			add(songPositionBG);
 
-			if (DownscrollOption.get())
-				songName.y -= 3;
-			songName.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-			songName.scrollFactor.set();
-			add(songName);
-			songName.cameras = [camHUD];
+			// Bar
+			songPositionBar = new FlxBar(songPositionBG.x + 4, songPositionBG.y + 4, LEFT_TO_RIGHT, Std.int(songPositionBG.width - 8),
+				Std.int(songPositionBG.height - 8), this, 'songPosition', 0, Conductor.songLength);
+			songPositionBar.scrollFactor.set();
+			songPositionBar.createFilledBar(FlxColor.GRAY, FlxColor.LIME);
+			add(songPositionBar);
+
+			// Bar label
+			songPositionText = new FlxText(0, songPositionBG.y, 0, '', 24);
+			songPositionText.screenCenter(X);
+			songPositionText.y -= 3;
+			songPositionText.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			songPositionText.scrollFactor.set();
+			add(songPositionText);
+			songPositionText.cameras = [camHUD];
 		}
-		healthBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic(GraphicsAssets.loadImage('healthBar'));
+		healthBarBorder = new FlxSprite(0, FlxG.height * 0.9).loadGraphic(GraphicsAssets.loadImage('styles/normal/healthBar'));
 		if (DownscrollOption.get())
-			healthBarBG.y = 50;
-		healthBarBG.screenCenter(X);
-		healthBarBG.scrollFactor.set();
-		add(healthBarBG);
-		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
-			'health', 0, 2);
+			healthBarBorder.y = 50;
+		healthBarBorder.screenCenter(X);
+		healthBarBorder.scrollFactor.set();
+		add(healthBarBorder);
+		healthBar = new FlxBar(healthBarBorder.x + 4, healthBarBorder.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBorder.width - 8),
+			Std.int(healthBarBorder.height - 8), this, 'health', 0, 2);
 		healthBar.scrollFactor.set();
 		if (HPBarColorOption.get())
 			healthBar.createFilledBar(cpuChar.barColor, playerChar.barColor);
@@ -1090,7 +1103,7 @@ class PlayState extends MusicBeatState implements IHook
 		// healthBar
 		add(healthBar);
 		// Add song name and engine version
-		songNameText = new FlxText(4, healthBarBG.y
+		songNameText = new FlxText(4, healthBarBorder.y
 			+ 50, 0,
 			SONG.songName
 			+ (FlxMath.roundDecimal(songMultiplier, 2) != 1.00 ? " (" + FlxMath.roundDecimal(songMultiplier, 2) + "x)" : "")
@@ -1103,7 +1116,7 @@ class PlayState extends MusicBeatState implements IHook
 		if (DownscrollOption.get())
 			songNameText.y = FlxG.height * 0.9 + 45;
 
-		scoreTxt = new FlxText(FlxG.width / 2 - 235, healthBarBG.y + 50, 0, "", 20);
+		scoreTxt = new FlxText(FlxG.width / 2 - 235, healthBarBorder.y + 50, 0, "", 20);
 		scoreTxt.screenCenter(X);
 		originalX = scoreTxt.x;
 		scoreTxt.scrollFactor.set();
@@ -1118,8 +1131,8 @@ class PlayState extends MusicBeatState implements IHook
 
 		if (botPlayText != '')
 		{
-			botPlayState = new FlxText(healthBarBG.x + healthBarBG.width / 2 - 75, healthBarBG.y + (PlayState.downscrollActive ? 100 : -100), 0, botPlayText,
-				20);
+			botPlayState = new FlxText(healthBarBorder.x + healthBarBorder.width / 2 - 75, healthBarBorder.y + (PlayState.downscrollActive ? 100 : -100), 0,
+				botPlayText, 20);
 			botPlayState.setFormat(Paths.font("vcr.ttf"), 42, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			botPlayState.borderSize = 4;
 			botPlayState.borderQuality = 2;
@@ -1137,16 +1150,16 @@ class PlayState extends MusicBeatState implements IHook
 		strumLineNotes.cameras = [camHUD];
 		songNotes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
-		healthBarBG.cameras = [camHUD];
+		healthBarBorder.cameras = [camHUD];
 		this.healthIconPlayer.cameras = [camHUD];
 		this.healthIconCPU.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
 		if (isStoryMode())
 			doof.cameras = [camHUD];
-		if (FlxG.save.data.songPosition)
+		if (SongPositionOption.get())
 		{
-			songPosBG.cameras = [camHUD];
-			songPosBar.cameras = [camHUD];
+			songPositionBG.cameras = [camHUD];
+			songPositionBar.cameras = [camHUD];
 		}
 		songNameText.cameras = [camHUD];
 		startingSong = true;
@@ -1377,7 +1390,7 @@ class PlayState extends MusicBeatState implements IHook
 				case 0:
 					FlxG.sound.play(Paths.sound('intro3' + altSuffix), 0.6);
 				case 1:
-					var ready:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('notes/${SONG.noteStyle}/ready'));
+					var ready:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('styles/${SONG.noteStyle}/count/ready'));
 					ready.scrollFactor.set();
 					ready.updateHitbox();
 
@@ -1395,7 +1408,7 @@ class PlayState extends MusicBeatState implements IHook
 					});
 					FlxG.sound.play(Paths.sound('intro2' + altSuffix), 0.6);
 				case 2:
-					var set:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('notes/${SONG.noteStyle}/set'));
+					var set:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('styles/${SONG.noteStyle}/count/set'));
 					set.scrollFactor.set();
 
 					if (SONG.noteStyle == 'pixel')
@@ -1412,7 +1425,7 @@ class PlayState extends MusicBeatState implements IHook
 					});
 					FlxG.sound.play(Paths.sound('intro1' + altSuffix), 0.6);
 				case 3:
-					var go:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('notes/${SONG.noteStyle}/go'));
+					var go:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('styles/${SONG.noteStyle}/count/go'));
 					go.scrollFactor.set();
 
 					if (SONG.noteStyle == 'pixel')
@@ -1977,7 +1990,7 @@ class PlayState extends MusicBeatState implements IHook
 		if (needSkip)
 		{
 			skipActive = true;
-			skipText = new FlxText(healthBarBG.x + 80, healthBarBG.y - 110, 500);
+			skipText = new FlxText(healthBarBorder.x + 80, healthBarBorder.y - 110, 500);
 			skipText.text = "Press Space to Skip Intro";
 			skipText.size = 30;
 			skipText.color = 0xFFADD8E6;
@@ -2035,45 +2048,44 @@ class PlayState extends MusicBeatState implements IHook
 		else
 		{
 			Debug.logError('Could not find instrumentals for song ${PlayState.SONG.songFile}!');
+			Debug.displayAlert('Fatal error playing ${PlayState.SONG.songName}', 'Could not find instrument for song ${PlayState.SONG.songFile}!');
 		}
 
 		FlxG.sound.music.onComplete = endSong;
 
-		// Song duration in a float, useful for the time left feature
-		songLength = FlxG.sound.music.length / 1000;
-
 		Conductor.crochet = ((60 / (SONG.bpm) * 1000)) / songMultiplier;
 		Conductor.stepCrochet = Conductor.crochet / 4;
 
-		if (FlxG.save.data.songPosition)
+		if (SongPositionOption.get())
 		{
-			remove(songPosBG);
-			remove(songPosBar);
+			remove(songPositionBG);
+			remove(songPositionBar);
 			remove(songName);
 
-			songPosBG = new FlxSprite(0, 10).loadGraphic(GraphicsAssets.loadImage('healthBar'));
+			songPositionBG = new FlxSprite(0, 10).loadGraphic(GraphicsAssets.loadImage('styles/normal/healthBar'));
 			if (DownscrollOption.get())
-				songPosBG.y = FlxG.height * 0.9 + 45;
-			songPosBG.screenCenter(X);
-			songPosBG.scrollFactor.set();
-			add(songPosBG);
+				songPositionBG.y = FlxG.height * 0.9 + 45;
+			songPositionBG.screenCenter(X);
+			songPositionBG.scrollFactor.set();
+			add(songPositionBG);
 
-			songPosBar = new FlxBar(songPosBG.x + 4, songPosBG.y + 4, LEFT_TO_RIGHT, Std.int(songPosBG.width - 8), Std.int(songPosBG.height - 8), this,
-				'songPositionBar', 0, 100);
-			songPosBar.numDivisions = 1000;
-			songPosBar.scrollFactor.set();
-			songPosBar.createFilledBar(FlxColor.GRAY, FlxColor.LIME);
-			add(songPosBar);
+			songPositionBar = new FlxBar(songPositionBG.x + 4, songPositionBG.y + 4, LEFT_TO_RIGHT, Std.int(songPositionBG.width - 8),
+				Std.int(songPositionBG.height - 8), this, 'songPosition', 0, 100);
+			songPositionBar.numDivisions = 1000;
+			songPositionBar.scrollFactor.set();
+			songPositionBar.createFilledBar(FlxColor.GRAY, FlxColor.LIME);
+			add(songPositionBar);
 
-			var songName = new FlxText(songPosBG.x + (songPosBG.width / 2) - (SONG.songName.length * 5), songPosBG.y, 0, PlayState.SONG.songName, 16);
+			var songName = new FlxText(songPositionBG.x + (songPositionBG.width / 2) - (SONG.songName.length * 5), songPositionBG.y, 0,
+				PlayState.SONG.songName, 16);
 			if (DownscrollOption.get())
 				songName.y -= 3;
 			songName.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			songName.scrollFactor.set();
 			add(songName);
 
-			songPosBG.cameras = [camHUD];
-			songPosBar.cameras = [camHUD];
+			songPositionBG.cameras = [camHUD];
+			songPositionBar.cameras = [camHUD];
 			songName.cameras = [camHUD];
 		}
 
@@ -2086,6 +2098,8 @@ class PlayState extends MusicBeatState implements IHook
 		noteData = PlayState.SONG.notes;
 
 		var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
+
+		Conductor.songLength = 0;
 
 		for (section in noteData)
 		{
@@ -2107,6 +2121,10 @@ class PlayState extends MusicBeatState implements IHook
 				else
 					prevNote = null;
 
+				// Determine the time of the last note in the song.
+				if (newNoteStrumtime > Conductor.songLength)
+					Conductor.songLength = newNoteStrumtime;
+
 				// Create a note.
 				var newNote:Note = new Note(newNoteStrumtime, newNoteRawData, prevNote, section.mustHitSection, false, false);
 				newNote.isAlt = false;
@@ -2116,7 +2134,6 @@ class PlayState extends MusicBeatState implements IHook
 				newNote.isAlt = songNotes[3]
 					|| ((section.altAnim || section.CPUAltAnim) && isEnemyNote)
 					|| (section.playerAltAnim && !isEnemyNote);
-				Debug.logTrace('Built new note (time ${newNote.strumTime}) (sus ${newNote.sustainLength})');
 
 				unspawnNotes.push(newNote);
 
@@ -2147,7 +2164,6 @@ class PlayState extends MusicBeatState implements IHook
 					newNote.children.push(sustainNote);
 					sustainNote.childIndex = type;
 					type++;
-					Debug.logTrace('Built new SUSTAIN note (time ${sustainNote.strumTime}) (${Conductor.stepCrochet})');
 
 					// Spawn the note.
 					unspawnNotes.push(sustainNote);
@@ -2250,7 +2266,7 @@ class PlayState extends MusicBeatState implements IHook
 					+ Scoring.currentScore.getScore()
 					+ " | Misses: "
 					+ Scoring.currentScore.miss,
-					iconRPC, true, songLength
+					iconRPC, true, Conductor.songLength
 					- Conductor.songPosition);
 			}
 			else
@@ -2497,7 +2513,7 @@ class PlayState extends MusicBeatState implements IHook
 		this.healthIconPlayer.x = healthBar.x + (healthBar.width * healthRange - HEALTH_ICON_OFFSET);
 		this.healthIconPlayer.handleHealth(health);
 		// Position the CPU health icon and handle any animations.
-		this.healthIconCPU.x = healthBar.x + (healthBar.width * healthRange - HEALTH_ICON_OFFSET - this.healthIconCPU.width);
+		this.healthIconCPU.x = healthBar.x + (healthBar.width * healthRange + HEALTH_ICON_OFFSET - this.healthIconCPU.width);
 		this.healthIconCPU.handleHealth(health);
 
 		// Graphics: In beatHit() we zoom in every X beats, in the update loop we lerp the value back to its default.
@@ -2782,7 +2798,7 @@ class PlayState extends MusicBeatState implements IHook
 		// Gameplay: Determine when to end the song and move to the results screen..
 		if (this.generatedMusic && this.songStarted && !this.endingSong)
 		{
-			var musicOver = FlxG.sound.music.time / songMultiplier > (songLength - 100);
+			var musicOver = FlxG.sound.music.time / songMultiplier > (FlxG.sound.music.length - 100);
 			var notesDone = unspawnNotes.length == 0 && songNotes.length == 0;
 			if (musicOver && notesDone)
 			{
@@ -2979,7 +2995,7 @@ class PlayState extends MusicBeatState implements IHook
 			camHUD.angle = luaModchart.getVar('camHudAngle', 'float');
 			if (luaModchart.getVar("showOnlyStrums", 'bool'))
 			{
-				healthBarBG.visible = false;
+				healthBarBorder.visible = false;
 				songNameText.visible = false;
 				healthBar.visible = false;
 				this.healthIconPlayer.visible = false;
@@ -2988,7 +3004,7 @@ class PlayState extends MusicBeatState implements IHook
 			}
 			else
 			{
-				healthBarBG.visible = true;
+				healthBarBorder.visible = true;
 				songNameText.visible = true;
 				healthBar.visible = true;
 				this.healthIconPlayer.visible = true;
@@ -3053,7 +3069,18 @@ class PlayState extends MusicBeatState implements IHook
 		{
 			Conductor.songPosition += FlxG.elapsed * (1000 * songMultiplier);
 			Conductor.rawPosition = FlxG.sound.music.time;
-			songPositionBar = (Conductor.songPosition - songLength) / 1000;
+
+			// Update the song position text
+			var songRemainingTime = Conductor.songLength - FlxG.sound.music.time;
+			var songElapsedTime = FlxG.sound.music.time;
+			var songProgressPercent = FlxMath.roundDecimal(songElapsedTime / Conductor.songLength * 100, 0);
+			var songRemainingDuration = Util.durationToString(songRemainingTime / 1000);
+			songPositionText.text = '${PlayState.SONG.songName} ( $songRemainingDuration $songProgressPercent% )';
+			songPositionText.screenCenter(X);
+
+			// Update the song position bar
+			songPosition = (Conductor.songPosition - Conductor.songLength) / 1000;
+
 			currentSection = getSectionByTime(Conductor.songPosition);
 			if (!this.isPaused)
 			{
@@ -3383,7 +3410,7 @@ class PlayState extends MusicBeatState implements IHook
 			PlayState.currentReplay.saveReplay(replayNotes, replayJudgements, replayInputs);
 		}
 
-		if (FlxG.save.data.fpsCap > 290)
+		if (FramerateCapOption.get() > 290)
 			(cast(Lib.current.getChildAt(0), Main)).setFPSCap(290);
 
 		endModchart();
@@ -3455,7 +3482,7 @@ class PlayState extends MusicBeatState implements IHook
 
 					AudioAssets.stopMusic();
 					vocals.stop();
-					if (FlxG.save.data.scoreScreen)
+					if (ScoreScreenOption.get())
 					{
 						openSubState(new ResultsSubState());
 						new FlxTimer().start(1, function(tmr:FlxTimer)
@@ -3476,6 +3503,15 @@ class PlayState extends MusicBeatState implements IHook
 					{
 						Highscore.saveWeekScore(storyWeek.id, Scoring.weekScore.getScore(), PlayState.songDifficulty);
 						Highscore.saveWeekCombo(storyWeek.id, Scoring.generateLetterRank(Scoring.weekScore.getAccuracy()), PlayState.PlayState.songDifficulty);
+					}
+
+					#if !debug
+					// If we're in debug mode, we always want to unlock the next week.
+					// Otherwise, we only want to unlock the next week if bot mode is off.
+					if (!BotPlayOption.get())
+					#end
+					{
+						Week.unlockWeek(PlayState.storyWeek.nextWeek);
 					}
 				}
 				else
@@ -3518,7 +3554,7 @@ class PlayState extends MusicBeatState implements IHook
 				AudioAssets.stopMusic();
 				vocals.stop();
 
-				if (FlxG.save.data.scoreScreen)
+				if (ScoreScreenOption.get())
 				{
 					openSubState(new ResultsSubState());
 					new FlxTimer().start(1, function(tmr:FlxTimer)
@@ -3586,15 +3622,15 @@ class PlayState extends MusicBeatState implements IHook
 
 		if (noteJudgement != Shit || noteJudgement != Bad)
 		{
-			judgementSprite.loadGraphic(GraphicsAssets.loadImage('notes/${SONG.noteStyle}/${noteJudgement}', null, true));
+			judgementSprite.loadGraphic(GraphicsAssets.loadImage('styles/${SONG.noteStyle}/judge/${noteJudgement}', null, true));
 			judgementSprite.screenCenter();
 			judgementSprite.y -= 50;
 			judgementSprite.x = judgementSprite.x - 125;
 
-			if (FlxG.save.data.changedHit)
+			if (JudgementPositionOption.get() != null)
 			{
-				judgementSprite.x = FlxG.save.data.changedHitX;
-				judgementSprite.y = FlxG.save.data.changedHitY;
+				judgementSprite.x = JudgementPositionOption.get().x;
+				judgementSprite.y = JudgementPositionOption.get().y;
 			}
 			judgementSprite.acceleration.y = 550;
 			judgementSprite.velocity.y -= FlxG.random.int(140, 175);
@@ -3656,7 +3692,7 @@ class PlayState extends MusicBeatState implements IHook
 			if (!BotPlayOption.get() || PlayState.replayActive)
 				add(currentNoteTiming);
 
-			var comboSpr:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('notes/${SONG.noteStyle}/combo', null, true));
+			var comboSpr:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('styles/${SONG.noteStyle}/judge/combo', null, true));
 			comboSpr.screenCenter();
 			comboSpr.x = judgementSprite.x;
 			comboSpr.y = judgementSprite.y + 100;
@@ -3718,7 +3754,7 @@ class PlayState extends MusicBeatState implements IHook
 			for (i in seperatedScore)
 			{
 				// An individual number in the score.
-				var numScore:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('notes/${SONG.noteStyle}/num${Std.int(i)}', null, true));
+				var numScore:FlxSprite = new FlxSprite().loadGraphic(GraphicsAssets.loadImage('styles/${SONG.noteStyle}/num/num${Std.int(i)}', null, true));
 				numScore.screenCenter();
 				numScore.x = judgementSprite.x + (43 * daLoop) - 50;
 				numScore.y = judgementSprite.y + 100;
@@ -3902,7 +3938,7 @@ class PlayState extends MusicBeatState implements IHook
 
 				if (possibleNotes.length > 0)
 				{
-					if (!FlxG.save.data.ghost)
+					if (AntiMashOption.get())
 					{
 						for (shit in 0...pressArray.length)
 						{ // if a direction is hit that shouldn't be
@@ -3930,7 +3966,7 @@ class PlayState extends MusicBeatState implements IHook
 					if (playerChar.getCurAnimation().startsWith('sing') && !playerChar.getCurAnimation().endsWith('miss'))
 						playerChar.dance();
 				}
-				else if (!FlxG.save.data.ghost)
+				else if (AntiMashOption.get())
 				{
 					for (i in 0...pressArray.length)
 						if (pressArray[i])
@@ -4047,7 +4083,7 @@ class PlayState extends MusicBeatState implements IHook
 		{
 			onBeat = true;
 		}
-		if (FlxG.save.data.camzoom)
+		if (CameraZoomOption.get() != null)
 		{
 			// Zoom the camera in.
 			if (onBeat && cameraBeatZooming && FlxG.camera.zoom < CAMERA_MAX_ZOOM)

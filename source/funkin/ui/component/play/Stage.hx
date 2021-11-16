@@ -89,16 +89,16 @@ class Stage extends MusicBeatState
 		{
 			case 'halloween':
 				{
-					var hallowTex = GraphicsAssets.loadSparrowAtlas('halloween_bg', 'week2');
+					var backgroundTexture = GraphicsAssets.loadSparrowAtlas('images/stages/halloween/background');
 
-					var halloweenBG = new FlxSprite(-200, -80);
-					halloweenBG.frames = hallowTex;
-					halloweenBG.animation.addByPrefix('idle', 'halloweem bg0');
-					halloweenBG.animation.addByPrefix('lightning', 'halloweem bg lightning strike', 24, false);
-					halloweenBG.animation.play('idle');
-					halloweenBG.antialiasing = AntiAliasingOption.get();
-					swagBacks['halloweenBG'] = halloweenBG;
-					toAdd.push(halloweenBG);
+					var background = new FlxSprite(-200, -80);
+					background.frames = backgroundTexture;
+					background.animation.addByPrefix('idle', 'idle');
+					background.animation.addByPrefix('lightning', 'lightning', 24, false);
+					background.animation.play('idle');
+					background.antialiasing = AntiAliasingOption.get();
+					swagBacks['halloweenBG'] = background;
+					toAdd.push(background);
 				}
 			case 'philly':
 				{
@@ -395,14 +395,14 @@ class Stage extends MusicBeatState
 				{
 					camZoom = 0.9;
 					curStage = 'stage';
-					var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(GraphicsAssets.loadImage('stageback'));
+					var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(GraphicsAssets.loadImage('stages/stage/stageback'));
 					bg.antialiasing = AntiAliasingOption.get();
 					bg.scrollFactor.set(0.9, 0.9);
 					bg.active = false;
 					swagBacks['bg'] = bg;
 					toAdd.push(bg);
 
-					var stageFront:FlxSprite = new FlxSprite(-650, 600).loadGraphic(GraphicsAssets.loadImage('stagefront'));
+					var stageFront:FlxSprite = new FlxSprite(-650, 600).loadGraphic(GraphicsAssets.loadImage('stages/stage/stagefront'));
 					stageFront.setGraphicSize(Std.int(stageFront.width * 1.1));
 					stageFront.updateHitbox();
 					stageFront.antialiasing = AntiAliasingOption.get();
@@ -411,7 +411,7 @@ class Stage extends MusicBeatState
 					swagBacks['stageFront'] = stageFront;
 					toAdd.push(stageFront);
 
-					var stageCurtains:FlxSprite = new FlxSprite(-500, -300).loadGraphic(GraphicsAssets.loadImage('stagecurtains'));
+					var stageCurtains:FlxSprite = new FlxSprite(-500, -300).loadGraphic(GraphicsAssets.loadImage('stages/stage/stagecurtains'));
 					stageCurtains.setGraphicSize(Std.int(stageCurtains.width * 0.9));
 					stageCurtains.updateHitbox();
 					stageCurtains.antialiasing = AntiAliasingOption.get();

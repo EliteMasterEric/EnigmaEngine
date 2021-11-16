@@ -204,8 +204,8 @@ class ChartingState extends MusicBeatState
 		deezNuts.set(32, 8);
 		deezNuts.set(64, 16);
 
-		if (FlxG.save.data.showHelp == null)
-			FlxG.save.data.showHelp = true;
+		if (FlxG.save.data.preferences.showEditorHelp == null)
+			FlxG.save.data.preferences.showEditorHelp = true;
 
 		sectionRenderes = new FlxTypedGroup<SectionRender>();
 		lines = new FlxTypedGroup<FlxSprite>();
@@ -2303,7 +2303,7 @@ class ChartingState extends MusicBeatState
 			+ "\n"
 			+ (shouldSnapNotesToGrid ? "Snap enabled" : "Snap disabled")
 			+
-			(FlxG.save.data.showHelp ? "\n\nHelp:\nCtrl-MWheel : Zoom in/out\nShift-Left/Right :\nChange playback speed\nCtrl-Drag Click : Select notes\nCtrl-C : Copy notes\nCtrl-V : Paste notes\nCtrl-Z : Undo\nDelete : Delete selection\nCTRL-Left/Right :\n  Change Snap\nHold Shift : Disable Snap\nClick or 1/2/3/4/5/6/7/8 :\n  Place notes\nUp/Down :\n  Move selected notes 1 step\nShift-Up/Down :\n  Move selected notes 1 beat\nSpace: Play Music\nEnter : Preview\nPress F1 to hide/show this!" : "");
+			(FlxG.save.data.preferences.showEditorHelp ? "\n\nHelp:\nCtrl-MWheel : Zoom in/out\nShift-Left/Right :\nChange playback speed\nCtrl-Drag Click : Select notes\nCtrl-C : Copy notes\nCtrl-V : Paste notes\nCtrl-Z : Undo\nDelete : Delete selection\nCTRL-Left/Right :\n  Change Snap\nHold Shift : Disable Snap\nClick or 1/2/3/4/5/6/7/8 :\n  Place notes\nUp/Down :\n  Move selected notes 1 step\nShift-Up/Down :\n  Move selected notes 1 beat\nSpace: Play Music\nEnter : Preview\nPress F1 to hide/show this!" : "");
 
 		var left = FlxG.keys.justPressed.ONE;
 		var down = FlxG.keys.justPressed.TWO;
@@ -2315,7 +2315,7 @@ class ChartingState extends MusicBeatState
 		var rightO = FlxG.keys.justPressed.EIGHT;
 
 		if (FlxG.keys.justPressed.F1)
-			FlxG.save.data.showHelp = !FlxG.save.data.showHelp;
+			FlxG.save.data.preferences.showEditorHelp = !FlxG.save.data.preferences.showEditorHelp;
 
 		var pressArray = [left, down, up, right, leftO, downO, upO, rightO];
 		var delete = false;
@@ -2735,7 +2735,8 @@ class ChartingState extends MusicBeatState
 
 		// fail-safe
 		// TODO: Refactor this to use OpenFlAssets and HealthIcon.
-		if (!FileSystem.exists(Paths.image('icons/icon-' + head.split("-")[0])) && !FileSystem.exists(Paths.image('icons/icon-' + head)))
+		if (!FileSystem.exists(Paths.image('characters/icons/icon-' + head.split("-")[0]))
+			&& !FileSystem.exists(Paths.image('characters/icons/icon-' + head)))
 		{
 			if (i.icon.animation.curAnim == null)
 				iconUpdate(true);

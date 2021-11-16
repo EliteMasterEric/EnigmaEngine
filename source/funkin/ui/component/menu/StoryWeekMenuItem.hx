@@ -64,7 +64,7 @@ class StoryWeekMenuItem extends FlxSpriteGroup
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		y = FlxMath.lerp(y, (targetY * 120) + 480, 0.17 * (60 / FlxG.save.data.fpsCap));
+		y = FlxMath.lerp(y, (targetY * 120) + 480, 0.17 * (60 / FramerateCapOption.get()));
 
 		if (isFlashing)
 			flashingInt += 1;

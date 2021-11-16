@@ -21,9 +21,6 @@
  */
 package funkin.ui.state.play;
 
-import funkin.behavior.play.Scoring;
-import funkin.ui.audio.MainMenuMusic;
-import funkin.util.Util;
 import flixel.effects.FlxFlicker;
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -42,17 +39,19 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
-import funkin.util.assets.Paths;
 import funkin.behavior.options.CustomControls;
 import funkin.behavior.options.Options;
 import funkin.behavior.options.PlayerSettings;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.Highscore;
+import funkin.behavior.play.Scoring;
+import funkin.ui.audio.MainMenuMusic;
 import funkin.ui.component.OFLSprite;
 import funkin.ui.component.play.HitGraph;
 import funkin.ui.state.menu.FreeplayState;
 import funkin.ui.state.menu.MainMenuState;
-import funkin.util.Util;
+import funkin.util.assets.AudioAssets;
+import funkin.util.assets.Paths;
 import funkin.util.Util;
 import haxe.Exception;
 import lime.app.Application;
@@ -63,7 +62,6 @@ import sys.FileSystem;
 import sys.io.File;
 #end
 
-using hx.strings.Strings;
 using hx.strings.Strings;
 
 class ResultsSubState extends FlxSubState
@@ -94,10 +92,8 @@ class ResultsSubState extends FlxSubState
 
 		if (!PlayState.instance.inResults)
 		{
-			music = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
-			music.volume = 0;
-			music.play(false, FlxG.random.int(0, Std.int(music.length / 2)));
-			FlxG.sound.list.add(music);
+			music = AudioAssets.playSound(Paths.music('gamePaused'), true, true, 0);
+			music.volume = FlxG.random.int(0, Std.int(music.length / 2));
 		}
 
 		fullBackground.alpha = 0;
