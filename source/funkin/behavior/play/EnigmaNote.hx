@@ -388,9 +388,9 @@ class EnigmaNote
 					FlxG.save.data.binds.left9KBind,
 					FlxG.save.data.binds.down9KBind,
 					FlxG.save.data.binds.right9KBind,
-					FlxG.save.data.binds.altLeft9KBind,
-					FlxG.save.data.binds.altUp9KBind,
-					FlxG.save.data.binds.altRight9KBind
+					FlxG.save.data.binds.altLeftBind,
+					FlxG.save.data.binds.altUpBind,
+					FlxG.save.data.binds.altRightBind
 				];
 			case 7:
 				// Super Saiyan Shaggy Plus Space
@@ -399,10 +399,10 @@ class EnigmaNote
 					FlxG.save.data.binds.left9KBind,
 					FlxG.save.data.binds.down9KBind,
 					FlxG.save.data.binds.right9KBind,
-					FlxG.save.data.binds.center9KBind,
-					FlxG.save.data.binds.altLeft9KBind,
-					FlxG.save.data.binds.altUp9KBind,
-					FlxG.save.data.binds.altRight9KBind
+					FlxG.save.data.binds.centerBind,
+					FlxG.save.data.binds.altLeftBind,
+					FlxG.save.data.binds.altUpBind,
+					FlxG.save.data.binds.altRightBind
 				];
 			case 8:
 				// God Eater Shaggy Minus Space
@@ -412,10 +412,10 @@ class EnigmaNote
 					FlxG.save.data.binds.down9KBind,
 					FlxG.save.data.binds.up9KBind,
 					FlxG.save.data.binds.right9KBind,
-					FlxG.save.data.binds.altLeft9KBind,
-					FlxG.save.data.binds.altDown9KBind,
-					FlxG.save.data.binds.altUp9KBind,
-					FlxG.save.data.binds.altRight9KBind
+					FlxG.save.data.binds.altLeftBind,
+					FlxG.save.data.binds.altDownBind,
+					FlxG.save.data.binds.altUpBind,
+					FlxG.save.data.binds.altRightBind
 				];
 			case 9:
 				// God Eater Shaggy
@@ -426,10 +426,10 @@ class EnigmaNote
 					FlxG.save.data.binds.up9KBind,
 					FlxG.save.data.binds.right9KBind,
 					FlxG.save.data.binds.centerBind,
-					FlxG.save.data.binds.altLeft9KBind,
-					FlxG.save.data.binds.altDown9KBind,
-					FlxG.save.data.binds.altUp9KBind,
-					FlxG.save.data.binds.altRight9KBind
+					FlxG.save.data.binds.altLeftBind,
+					FlxG.save.data.binds.altDownBind,
+					FlxG.save.data.binds.altUpBind,
+					FlxG.save.data.binds.altRightBind
 				];
 			default:
 				trace('ERROR: Unknown strumlineSize when polling key binds: ' + strumlineSize);
