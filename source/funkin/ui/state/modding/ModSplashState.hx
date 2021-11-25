@@ -33,7 +33,6 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import funkin.behavior.Debug;
 import funkin.behavior.mods.ModCore;
 
 class ModSplashState extends MusicBeatState

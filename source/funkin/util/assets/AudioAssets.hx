@@ -21,7 +21,6 @@
 package funkin.util.assets;
 
 import flixel.system.FlxSound;
-import funkin.behavior.Debug;
 import openfl.Assets as OpenFlAssets;
 
 class AudioAssets

@@ -22,7 +22,6 @@
 package funkin.ui.state.charting;
 
 import funkin.util.assets.AudioAssets;
-import funkin.behavior.Debug;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.ui.FlxInputText;
 import flixel.addons.ui.FlxUI;

@@ -493,6 +493,10 @@ class BotPlayOption extends Option
 	}
 }
 
+/**
+ * This is a BOOLEAN option that determines WHETHER the camera zooms, like on beat and stuff.
+ * To get the default camera zoom level, see `ZoomLevelOption`. 
+ */
 class CameraZoomOption extends Option
 {
 	public static final DEFAULT:Bool = false;
@@ -618,18 +622,19 @@ class JudgementPositionOption extends Option
 	public static final DEFAULT:FlxPoint = new FlxPoint(515, 310);
 
 	// Convert {x,y} to FlxPoint
-	static var current:FlxPoint = new FlxPoint();
+	static var current:FlxPoint = DEFAULT;
 
 	public static inline function get():Null<FlxPoint>
 	{
+		// No preferences are saved AT ALL. Need a fallback.
 		if (FlxG.save.data.preferences == null)
 			return DEFAULT;
-		if (current != null)
-			return current;
 
+		// This preference hasn't been set.
 		if (FlxG.save.data.preferences.judgePos == null)
 			return null;
 
+		// This preference has been set.
 		current.x = FlxG.save.data.preferences.judgePos.x;
 		current.y = FlxG.save.data.preferences.judgePos.y;
 		return current;

@@ -42,7 +42,6 @@ import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import funkin.util.assets.Paths;
-import funkin.behavior.Debug;
 import funkin.util.assets.GraphicsAssets;
 import funkin.behavior.options.PlayerSettings;
 import funkin.util.WindowUtil;

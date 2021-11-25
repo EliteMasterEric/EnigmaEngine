@@ -1,16 +1,12 @@
 {
-    "name": "MOMMY MUST MURDER",
-    "assets": {
-        "characters": ["mom", "bf", "gf"],
-        "title": "storymenu/weeks/week4",
-        "background": "#FC96D7"
-    },
-    "startSound": "confirmMenu",
-    "unlocked": false,
-    "nextWeek": "christmas",
-    "songs": [
-        "satin-panties",
-        "high",
-        "milf"
-    ]
+  "name": "MOMMY MUST MURDER",
+  "assets": {
+    "characters": ["mom", "bf", "gf"],
+    "title": "storymenu/weeks/week4",
+    "background": "#FC96D7"
+  },
+  "startSound": "confirmMenu",
+  "unlocked": false,
+  "nextWeek": "christmas",
+  "songs": ["satin-panties", "high", "milf"]
 }

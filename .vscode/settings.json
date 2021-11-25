@@ -1,81 +1,85 @@
 {
-  "[haxe]": {
-    "editor.formatOnSave": true,
-    "editor.formatOnPaste": true
-  },
-  "files.exclude": {
-    "**/.unittest": true
-  },
-  "haxeTestExplorer.testCommand": [
-    "haxelib",
-    "run",
-    "munit",
-    "config",
-    "-src", "test/src",
-    "-classPaths", "source",
-    "-bin", "export/test",
-    "-report", "report",
-    "-hxml", "test/project.hxml",
-    "-coveragePackages", "funkin"
-    // "test.bat"
-  ],
-  "haxe.displayPort": "auto",
-  "haxe.enableCompilationServer": true,
-  "lime.targetConfigurations": [
-    {
-      "label": "Windows (Default Weeks)",
-      "target": "windows",
-      "args": [
-        "-DincludeDefaultWeeks"
-      ]
-    },
-    {
-      "label": "Windows / Debug (Default Weeks)",
-      "target": "windows",
-      "args": [
-        "-debug",
-        "-DincludeDefaultWeeks"
-      ]
-    }
-  ],
-  "files.associations": {
-    "*.json": "jsonc",
-    "*.hxp": "haxe", // Haxe Project files.
-    "*.hscript": "haxe", // HScript files.
-    "*.eec": "jsonc", // Engima Engine Chart files.
-  },
-  "codedox": {
-    "autoInsert": true, // enables insertion of function comments trigged by keystrokes
-    "autoInsertHeader": true, // enables insertion of file header triggered by keystrokes
-    "autoPrefixOnEnter": true, // enables 'on enter' rules
-    "paramFormat": "@param ${name} ",  // supports ${name} and ${type}, plus built-in params
-    "returnFormat": "@return ${type}", // supports ${type}, plus built-in params
-    "allowOptionalArgs": false, // false strips the '?' prefix from optional function args
-    "alwaysMultiline": true, // if false non-functions (types) are single line
-    "commentprefix": " * ",
-    "commentbegin": "/**",
-    "commentend": " */",
-    "commentdescription": "[INSERT Description]",
-    "headerprefix": " *",
-    "headerbegin": "/*",
-    "headerend": " */",
-    "fileheader": {
-      "params": {
-        "*": {
-          "author": "MasterEric",
-          "company": "MasterEric"
-        }
-      },
-      "templates": {
-        "*": [
-          "${license_apache_2_0}",
-          "",
-          "${headerbegin}",
-          "${headerprefix} ${fname}",
-          "${headerprefix} [Module Description]",
-          "${headerend}"
-        ]
-      }
-    }
-  }
+	"[haxe]": {
+		"editor.formatOnSave": true,
+		"editor.formatOnPaste": true
+	},
+	"prettier.tabWidth": 2,
+	"editor.insertSpaces": false,
+	"editor.detectIndentation": true,
+	"editor.tabSize": 2,
+	"files.exclude": {
+		"**/.unittest": true
+	},
+	"haxeTestExplorer.testCommand": [
+		"haxelib",
+		"run",
+		"munit",
+		"config",
+		"-src", "test/src",
+		"-classPaths", "source",
+		"-bin", "export/test",
+		"-report", "report",
+		"-hxml", "test/project.hxml",
+		"-coveragePackages", "funkin"
+		// "test.bat"
+	],
+	"haxe.displayPort": "auto",
+	"haxe.enableCompilationServer": true,
+	"lime.targetConfigurations": [
+		{
+			"label": "Windows (Default Weeks)",
+			"target": "windows",
+			"args": [
+				"-DincludeDefaultWeeks"
+			]
+		},
+		{
+			"label": "Windows / Debug (Default Weeks)",
+			"target": "windows",
+			"args": [
+				"-debug",
+				"-DincludeDefaultWeeks"
+			]
+		}
+	],
+	"files.associations": {
+		"*.json": "jsonc", // JSON with Comments
+		"*.hxp": "haxe", // Haxe Project files.
+		"*.hscript": "haxe", // HScript files.
+		"*.eec": "jsonc", // Engima Engine Chart files.
+	},
+	"codedox": {
+		"autoInsert": true, // enables insertion of function comments trigged by keystrokes
+		"autoInsertHeader": true, // enables insertion of file header triggered by keystrokes
+		"autoPrefixOnEnter": true, // enables 'on enter' rules
+		"paramFormat": "@param ${name} ",  // supports ${name} and ${type}, plus built-in params
+		"returnFormat": "@return ${type}", // supports ${type}, plus built-in params
+		"allowOptionalArgs": false, // false strips the '?' prefix from optional function args
+		"alwaysMultiline": true, // if false non-functions (types) are single line
+		"commentprefix": " * ",
+		"commentbegin": "/**",
+		"commentend": " */",
+		"commentdescription": "[INSERT Description]",
+		"headerprefix": " *",
+		"headerbegin": "/*",
+		"headerend": " */",
+		"fileheader": {
+			"params": {
+				"*": {
+					"author": "MasterEric",
+					"company": "MasterEric"
+				}
+			},
+			"templates": {
+				"*": [
+					"${license_apache_2_0}",
+					"",
+					"${headerbegin}",
+					"${headerprefix} ${fname}",
+					"${headerprefix} [Module Description]",
+					"${headerend}"
+				]
+			}
+		}
+	}
 }

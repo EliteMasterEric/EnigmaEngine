@@ -1,0 +1,9 @@
+Debug.logTrace('[MODHOOK] Building Main Menu State hooks...');
+
+function onCreate() {
+  Debug.logTrace('[MODHOOK] onCreate');
+}
+
+function onExit() {
+  Debug.logTrace('[MODHOOK] onExit');
+}

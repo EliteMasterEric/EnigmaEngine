@@ -22,7 +22,6 @@
 package funkin.ui.state.debug;
 
 import funkin.util.assets.AudioAssets;
-import funkin.behavior.Debug;
 import funkin.ui.component.Cursor;
 import funkin.ui.component.play.Stage;
 import funkin.ui.state.play.PlayState;

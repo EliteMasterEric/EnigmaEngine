@@ -237,8 +237,6 @@ class ModCore
 				"shared" => "./",
 				"tutorial" => "./tutorial",
 				"scripts" => "./scripts",
-				"week1" => "./week1",
-				"week2" => "./week2",
 				"week3" => "./week3",
 				"week4" => "./week4",
 				"week5" => "./week5",

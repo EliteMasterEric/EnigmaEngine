@@ -31,7 +31,6 @@ import flixel.util.FlxColor;
 import funkin.behavior.options.Options;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.EnigmaNote;
-import funkin.behavior.play.PlayStateChangeables;
 import funkin.behavior.play.Scoring;
 import funkin.ui.state.charting.ChartingState;
 import funkin.ui.state.play.PlayState;

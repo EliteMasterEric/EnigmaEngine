@@ -28,7 +28,6 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import funkin.behavior.options.CustomControls;
 import funkin.behavior.options.Options;
-import funkin.behavior.play.PlayStateChangeables;
 import funkin.ui.component.play.Note;
 import funkin.ui.component.play.StrumlineArrow;
 import funkin.ui.state.play.PlayState;

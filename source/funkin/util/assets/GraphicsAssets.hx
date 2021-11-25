@@ -24,7 +24,6 @@ package funkin.util.assets;
 import flixel.graphics.frames.FlxFramesCollection;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
-import funkin.behavior.Debug;
 import funkin.util.assets.Paths;
 import openfl.Assets as OpenFlAssets;
 
@@ -56,7 +55,7 @@ class GraphicsAssets
 			// var graphicsName = '';
 			// Remove duplicates.
 			// if (graphicsNames.indexOf(songName) != -1)
-			// 	continue;
+			//   continue;
 			//
 			// graphicsNames.push(songName);
 		}

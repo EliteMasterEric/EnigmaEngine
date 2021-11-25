@@ -81,7 +81,7 @@ class OptionsMenu extends MusicBeatState
 
 	/**
 	 * Whether the Options menu is currently accepting input.
-	 		* Set to false if a substate opens.
+	    * Set to false if a substate opens.
 	 */
 	public var acceptInput:Bool = true;
 
@@ -150,7 +150,7 @@ class OptionsMenu extends MusicBeatState
 		{
 			if (controls.BACK && !isInCategory)
 			{
-				FlxG.switchState(new MainMenuState());
+				exitToMainMenu();
 			}
 			else if (controls.BACK)
 			{
@@ -247,6 +247,14 @@ class OptionsMenu extends MusicBeatState
 				changeSelection();
 			}
 		}
+	}
+
+	function exitToMainMenu()
+	{
+		// Commit changed options.
+		Debug.logInfo("Committing save data...");
+		FlxG.save.flush();
+		FlxG.switchState(new MainMenuState());
 	}
 
 	function rerenderCurrentOption()

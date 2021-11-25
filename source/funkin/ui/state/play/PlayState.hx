@@ -21,6 +21,7 @@
  */
 package funkin.ui.state.play;
 
+import funkin.ui.component.GameCamera;
 import funkin.behavior.mods.IHook;
 import funkin.util.assets.AudioAssets;
 import flixel.addons.display.FlxGridOverlay;
@@ -55,7 +56,6 @@ import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import flixel.util.FlxStringUtil;
 import flixel.util.FlxTimer;
-import funkin.behavior.Debug;
 import funkin.behavior.EtternaFunctions;
 import funkin.behavior.media.GlobalVideo;
 import funkin.behavior.media.WebmHandler;
@@ -65,7 +65,6 @@ import funkin.behavior.play.Conductor;
 import funkin.behavior.play.Difficulty.DifficultyCache;
 import funkin.behavior.play.EnigmaNote;
 import funkin.behavior.play.Highscore;
-import funkin.behavior.play.PlayStateChangeables;
 import funkin.behavior.play.Replay;
 import funkin.behavior.play.Replay.ReplayInput;
 import funkin.behavior.play.Scoring;
@@ -444,6 +443,27 @@ class PlayState extends MusicBeatState implements IHook
 	//
 
 	/**
+	 * The default camera. You can set the zoom level and add filters,
+	 * to affect the entire game view, including HUD and characters.
+	 */
+	private var camGame:GameCamera;
+
+	/**
+	 * The camera where the HUD (score, sustains, etc) is drawn.
+	 */
+	public var camHUD:GameCamera;
+
+	/**
+	 * TODO: Did I accidentally make this obsolete?
+	 */
+	public var camSustains:GameCamera;
+
+	/**
+	 * TODO: Did I accidentally make this obsolete?
+	 */
+	public var camNotes:GameCamera;
+
+	/**
 	 * The sprite of the CPU character.
 	 */
 	public static var cpuChar:Character;
@@ -474,8 +494,8 @@ class PlayState extends MusicBeatState implements IHook
 	private var healthBar:FlxBar;
 
 	/**
-	 * The border for the health bar
-	 		* Can be customized using a custom note style
+		* The border for the health bar
+		Can be customized using a custom note style
 	 */
 	private var healthBarBorder:FlxSprite;
 
@@ -565,12 +585,6 @@ class PlayState extends MusicBeatState implements IHook
 	private var gfSpeed:Int = 1;
 
 	private var ss:Bool = false;
-
-	public var camHUD:FlxCamera;
-	public var camSustains:FlxCamera;
-	public var camNotes:FlxCamera;
-
-	private var camGame:FlxCamera;
 
 	public static var offsetTesting:Bool = false;
 
@@ -701,7 +715,6 @@ class PlayState extends MusicBeatState implements IHook
 
 		PlayState.safeFrames = SafeFramesOption.get();
 		this.scrollSpeed = ScrollSpeedOption.get();
-		PlayStateChangeables.zoom = ZoomLevelOption.get();
 
 		#if FEATURE_DISCORD
 		iconRPC = PlayState.SONG.player2;
@@ -749,12 +762,12 @@ class PlayState extends MusicBeatState implements IHook
 			iconRPC);
 		#end
 
-		camGame = new FlxCamera();
-		camHUD = new FlxCamera();
+		camGame = new GameCamera();
+		camHUD = new GameCamera();
 		camHUD.bgColor.alpha = 0;
-		camSustains = new FlxCamera();
+		camSustains = new GameCamera();
 		camSustains.bgColor.alpha = 0;
-		camNotes = new FlxCamera();
+		camNotes = new GameCamera();
 		camNotes.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
@@ -762,10 +775,9 @@ class PlayState extends MusicBeatState implements IHook
 		FlxG.cameras.add(camSustains);
 		FlxG.cameras.add(camNotes);
 
-		camHUD.zoom = PlayStateChangeables.zoom;
+		camHUD.targetZoom = ZoomLevelOption.get();
 
-		// You have to do it this way, otherwise you'll break stuff.
-		FlxCamera.defaultCameras = [camGame];
+		GameCamera.setDefaultCameras([camGame]);
 
 		persistentUpdate = true;
 		persistentDraw = true;
@@ -2347,6 +2359,7 @@ class PlayState extends MusicBeatState implements IHook
 		Debug.quickWatch(curBeat, 'curBeat');
 		Debug.quickWatch(curStep, 'curStep');
 		Debug.quickWatch(Conductor.songPosition, 'songPos');
+		Debug.quickWatch(camHUD.zoom, 'hudZoom');
 
 		// Keybind: Press 1 during Bot Play to toggle the HUD (notes are still visible).
 		// In debug builds, immediately end the song if you aren't in Bot Play.
@@ -2523,7 +2536,7 @@ class PlayState extends MusicBeatState implements IHook
 			var baseHUDZoom = this.modchartActive ? FlxG.save.data.zoom : 1;
 
 			FlxG.camera.zoom = FlxMath.lerp(STAGE.camZoom, FlxG.camera.zoom, 0.95);
-			camHUD.zoom = FlxMath.lerp(baseHUDZoom, camHUD.zoom, 0.95);
+
 			camNotes.zoom = camHUD.zoom;
 			camSustains.zoom = camHUD.zoom;
 		}
@@ -3070,16 +3083,22 @@ class PlayState extends MusicBeatState implements IHook
 			Conductor.songPosition += FlxG.elapsed * (1000 * songMultiplier);
 			Conductor.rawPosition = FlxG.sound.music.time;
 
-			// Update the song position text
-			var songRemainingTime = Conductor.songLength - FlxG.sound.music.time;
-			var songElapsedTime = FlxG.sound.music.time;
-			var songProgressPercent = FlxMath.roundDecimal(songElapsedTime / Conductor.songLength * 100, 0);
-			var songRemainingDuration = Util.durationToString(songRemainingTime / 1000);
-			songPositionText.text = '${PlayState.SONG.songName} ( $songRemainingDuration $songProgressPercent% )';
+			// Remaining and elapsed times should be capped at song length, to avoid 101%.
+			if (Conductor.songPosition > Conductor.songLength)
+			{
+				songPositionText.text = '${PlayState.SONG.songName} ( 0:00 100% )';
+			}
+			else
+			{
+				var songRemainingTime = Conductor.songLength - Conductor.songPosition;
+				var songProgressPercent = FlxMath.roundDecimal(Conductor.songPosition / Conductor.songLength * 100, 0);
+				var songRemainingDuration = Util.durationToString(songRemainingTime / 1000);
+				songPositionText.text = '${PlayState.SONG.songName} ( $songRemainingDuration $songProgressPercent% )';
+			}
 			songPositionText.screenCenter(X);
 
-			// Update the song position bar
-			songPosition = (Conductor.songPosition - Conductor.songLength) / 1000;
+			// Update the song position bar. Cap at 100%.
+			songPosition = Conductor.songPosition;
 
 			currentSection = getSectionByTime(Conductor.songPosition);
 			if (!this.isPaused)
@@ -3332,7 +3351,7 @@ class PlayState extends MusicBeatState implements IHook
 	function positionNote(note:Note)
 	{
 		// return [
-		// 	NoteUtil.getStrumlineIndex(Math.floor(Math.abs(noteData)), PlayState.SONG.strumlineSize, mustPress)
+		//   NoteUtil.getStrumlineIndex(Math.floor(Math.abs(noteData)), PlayState.SONG.strumlineSize, mustPress)
 		// ];
 	}
 

@@ -21,7 +21,6 @@
  */
 package funkin.behavior.play;
 
-import funkin.behavior.Debug;
 import funkin.behavior.play.Section.SwagSection;
 import funkin.behavior.play.Song.SongEvent;
 import funkin.behavior.play.TimingStruct;

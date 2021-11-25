@@ -1,8 +1,6 @@
 {
-    // -40 is too far left
-    "x": 80,
-    // -45 is too far up
-    "y": 40,
-    "scale": 1,
-    "flipped": false
+  "x": 80,
+  "y": 40,
+  "scale": 0.8,
+  "flipped": false
 }

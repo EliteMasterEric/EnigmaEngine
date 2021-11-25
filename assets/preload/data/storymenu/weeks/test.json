@@ -1,14 +1,12 @@
 {
-    "name": "Test",
-    "assets": {
-        "characters": ["", "bf", "gf"],
-        "title": "storymenu/weeks/week0",
-        // Background is either a hex color code or an image.
-        "background": "#FF00DC"
-    },
-    "startSound": "confirmMenu",
-    "unlocked": true,
-    "songs": [
-        "test"
-    ]
+  "name": "Test",
+  "assets": {
+    "characters": ["", "bf", "gf"],
+    "title": "storymenu/weeks/week0",
+    // Background is either a hex color code or an image.
+    "background": "#FF00DC"
+  },
+  "startSound": "confirmMenu",
+  "unlocked": true,
+  "songs": ["test"]
 }

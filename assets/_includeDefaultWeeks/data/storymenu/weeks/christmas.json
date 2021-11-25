@@ -1,16 +1,12 @@
 {
-    "name": "RED SNOW",
-    "assets": {
-        "characters": ["parents-christmas", "bf", "gf"],
-        "title": "storymenu/weeks/week5",
-        "background": "#A0D1FF"
-    },
-    "startSound": "confirmMenu",
-    "unlocked": false,
-    "nextWeek": "senpai",
-    "songs": [
-        "cocoa",
-        "eggnog",
-        "winter-horrorland"
-    ]
+  "name": "RED SNOW",
+  "assets": {
+    "characters": ["parents-christmas", "bf", "gf"],
+    "title": "storymenu/weeks/week5",
+    "background": "#A0D1FF"
+  },
+  "startSound": "confirmMenu",
+  "unlocked": false,
+  "nextWeek": "senpai",
+  "songs": ["cocoa", "eggnog", "winter-horrorland"]
 }

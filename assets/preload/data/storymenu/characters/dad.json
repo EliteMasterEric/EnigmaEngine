@@ -1,10 +1,10 @@
 {
   // -150 is far left
   // 150 is a little right
-    "x": 100,
-    // 130 is waist at bottom
-    // 30 is feet hidden
-    "y": -30,
-    "scale": 0.5,
-    "flipped": false
+  "x": 100,
+  // 130 is waist at bottom
+  // 30 is feet hidden
+  "y": -30,
+  "scale": 0.5,
+  "flipped": false
 }

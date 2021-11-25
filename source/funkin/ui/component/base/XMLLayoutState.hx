@@ -25,7 +25,6 @@ import flixel.addons.ui.FlxUISprite;
 import flixel.addons.ui.FlxUIButton;
 import flixel.FlxSprite;
 import funkin.util.Util;
-import funkin.behavior.Debug;
 import funkin.util.assets.Paths;
 import flixel.text.FlxText;
 import flixel.addons.ui.FlxUI;

@@ -28,7 +28,6 @@ import flixel.addons.ui.FlxUIState;
 import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.util.FlxColor;
-import funkin.behavior.Debug;
 import funkin.behavior.options.Controls;
 import funkin.behavior.options.CustomControls;
 import funkin.behavior.options.PlayerSettings;

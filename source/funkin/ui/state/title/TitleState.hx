@@ -35,7 +35,6 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import funkin.behavior.Debug;
 import funkin.behavior.mods.IHook;
 import funkin.behavior.options.Options;
 import funkin.behavior.options.PlayerSettings;
@@ -96,7 +95,7 @@ class TitleState extends MusicBeatState implements IHook
 
 	/**
 	 * Sprite group containing all the parts of the intro credits.
-	 		* Makes the logic for skipping the title screen easy.
+	    * Makes the logic for skipping the title screen easy.
 	 */
 	var creditsGroup:FlxGroup;
 
@@ -140,7 +139,7 @@ class TitleState extends MusicBeatState implements IHook
 
 	/**
 	 * Text that reads "Press ENTER to Start".
-	 		* Customize this by replacing `images/titleEnter.png` and the associated XML.
+	    * Customize this by replacing `images/titleEnter.png` and the associated XML.
 	 */
 	var titleText:FlxSprite;
 

@@ -1,17 +1,17 @@
 {
-  "version": "0.2.0",
-  "configurations": [
-    // Wondering how to switch platforms? Select it in the status bar next to 'Lime',
-    // or press CTRL-SHIFT-P and select Lime: Select Target Configuration.
-    {
+	"version": "0.2.0",
+	"configurations": [
+		// Wondering how to switch platforms? Select it in the status bar next to 'Lime',
+		// or press CTRL-SHIFT-P and select Lime: Select Target Configuration.
+		{
 			"name": "Build and Launch",
 			"type": "lime",
 			"request": "launch"
 		},
-    {
+		{
 			"name": "Test and Launch",
 			"type": "lime",
 			"request": "launch"
-		},
-  ],
+		}
+	]
 }

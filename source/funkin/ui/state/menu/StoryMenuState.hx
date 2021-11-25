@@ -41,7 +41,6 @@ import flixel.util.FlxTimer;
 import funkin.behavior.play.Week;
 import funkin.util.assets.Paths;
 import funkin.behavior.play.Song;
-import funkin.behavior.Debug;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.Highscore;

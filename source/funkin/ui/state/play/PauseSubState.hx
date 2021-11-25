@@ -68,7 +68,7 @@ class PauseSubState extends MusicBeatSubstate
 		}
 
 		pauseMusic = AudioAssets.playSound(Paths.music('gamePaused'), true, true, 0);
-		pauseMusic.volume = FlxG.random.int(0, Std.int(pauseMusic.length / 2));
+		// pauseMusic.volume = FlxG.random.int(0, Std.int(pauseMusic.length / 2));
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		bg.alpha = 0;
@@ -198,8 +198,8 @@ class PauseSubState extends MusicBeatSubstate
 
 	override function destroy()
 	{
+		pauseMusic.pause();
 		pauseMusic.destroy();
-
 		super.destroy();
 	}
 

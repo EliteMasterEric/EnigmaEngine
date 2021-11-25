@@ -12,7 +12,6 @@ import flixel.math.FlxMath;
 import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import funkin.behavior.Debug;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.DiffCalc;
 import funkin.behavior.play.Difficulty;

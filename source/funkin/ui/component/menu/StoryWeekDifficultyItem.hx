@@ -29,7 +29,6 @@ import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import funkin.behavior.Debug;
 import funkin.behavior.play.Difficulty;
 import funkin.behavior.play.Week.WeekCache;
 import funkin.ui.component.input.InteractableSprite;

@@ -23,7 +23,6 @@ package funkin.behavior.play;
 
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
-import funkin.behavior.Debug;
 import funkin.const.Enigma;
 import funkin.util.assets.DataAssets;
 import funkin.util.assets.Paths;

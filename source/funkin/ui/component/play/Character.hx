@@ -28,7 +28,6 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxFramesCollection;
 import flixel.util.FlxColor;
-import funkin.behavior.Debug;
 import funkin.behavior.play.Conductor;
 import funkin.util.assets.DataAssets;
 import funkin.util.assets.GraphicsAssets;
@@ -454,6 +453,11 @@ class Character extends FlxSpriteGroup
 		var tex:Null<FlxFramesCollection> = null;
 		switch (data.atlasType)
 		{
+			// case 'model3d':
+			// case 'adobeatlas':
+			// case 'spine':
+			// case 'dragonbones':
+			// case 'multisparrow':
 			case 'packer':
 				tex = GraphicsAssets.loadPackerAtlas(data.asset, 'shared');
 			// case 'sparrow':

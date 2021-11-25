@@ -26,7 +26,6 @@ package funkin.ui.component.play;
 import funkin.behavior.options.Options.AntiAliasingOption;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import funkin.behavior.Debug;
 import funkin.util.assets.GraphicsAssets;
 import funkin.util.assets.LibraryAssets;
 

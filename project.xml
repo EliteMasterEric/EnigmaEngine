@@ -446,10 +446,6 @@
 		<section if="PRELOAD_ALL">
 			<library name="tutorial"
 							 preload="true" />
-			<library name="week1"
-							 preload="true" />
-			<library name="week2"
-							 preload="true" />
 			<library name="week3"
 							 preload="true" />
 			<library name="week4"
@@ -461,10 +457,6 @@
 		</section>
 		<section unless="PRELOAD_ALL">
 			<library name="tutorial"
-							 preload="false" />
-			<library name="week1"
-							 preload="false" />
-			<library name="week2"
 							 preload="false" />
 			<library name="week3"
 							 preload="false" />

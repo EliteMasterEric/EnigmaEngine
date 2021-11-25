@@ -26,7 +26,6 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.graphics.frames.FlxFramesCollection;
-import funkin.behavior.Debug;
 import funkin.util.assets.DataAssets;
 import funkin.util.assets.GraphicsAssets;
 import funkin.util.assets.Paths;
@@ -47,6 +46,11 @@ typedef CharacterSetting =
 	var ?frameRate:Int;
 
 	/**
+	 * @default <charId>
+	 */
+	var ?asset:String;
+
+	/**
 	 * @default false
 	 */
 	var ?flipped:Bool;
@@ -56,6 +60,7 @@ class MenuCharacter extends FlxSprite
 {
 	private var danceLeft:Bool = false;
 	private var charId:String = '';
+	private var charAsset:String = '';
 	private var charSettings:CharacterSetting = null;
 
 	var baseX:Float = 0.0;
@@ -86,15 +91,15 @@ class MenuCharacter extends FlxSprite
 		{
 			this.x = this.baseX;
 			if (this.charSettings.x != null)
-			{
 				this.x += this.charSettings.x;
-			}
 
 			this.y = baseY;
 			if (this.charSettings.y != null)
-			{
 				this.y += this.charSettings.y;
-			}
+
+			this.charAsset = this.charId;
+			if (this.charAsset != null)
+				this.charAsset = this.charSettings.asset;
 
 			// Fallback to default values if null.
 			this.flipX = this.charSettings.flipped != null ? this.charSettings.flipped : false;

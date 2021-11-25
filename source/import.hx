@@ -34,4 +34,5 @@ import haxe.macro.Context;
 // =====================
 // flixel
 import flixel.FlxG;
+import funkin.behavior.Debug;
 #end

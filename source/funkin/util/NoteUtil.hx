@@ -21,7 +21,6 @@
  */
 package funkin.util;
 
-import funkin.behavior.Debug;
 import funkin.ui.component.play.Note;
 import funkin.ui.component.play.StrumlineArrow;
 import flixel.FlxG;
@@ -34,10 +33,10 @@ class NoteUtil
 {
 	/**
 	 * Provides values based on the current strumlineSize:
-	 		* [NOTE POSITION, NOTE GRAPHIC SCALE, BASE OFFSET, OPTIMIZE OFFSET]
-	 		* - Distance between origin of each note (112 = 160 * 0.7)
-	 		* - Size of the note graphic (will have to shrink for larger strumlines)
-	 		* - Move over this amount to give space to the edge of the screen.
+	    * [NOTE POSITION, NOTE GRAPHIC SCALE, BASE OFFSET, OPTIMIZE OFFSET]
+	    * - Distance between origin of each note (112 = 160 * 0.7)
+	    * - Size of the note graphic (will have to shrink for larger strumlines)
+	    * - Move over this amount to give space to the edge of the screen.
 	 */
 	public static final NOTE_GEOMETRY_DATA:Map<Int, Array<Float>> = [
 		1 => [160, 1.00, 0],
@@ -192,13 +191,13 @@ class NoteUtil
 		{
 			note.x += note.parent.width / 2;
 			note.x -= note.width / 2;
-			//			switch (note.noteStyle)
-			//			{
-			//				case 'pixel':
-			//					note.x += 9;
-			//				default:
-			//					note.x += 20;
-			//			}
+			//      switch (note.noteStyle)
+			//      {
+			//        case 'pixel':
+			//          note.x += 9;
+			//        default:
+			//          note.x += 20;
+			//      }
 		}
 	}
 }

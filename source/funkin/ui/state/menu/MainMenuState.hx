@@ -21,6 +21,7 @@
  */
 package funkin.ui.state.menu;
 
+import funkin.ui.component.Alphabet;
 import flixel.effects.FlxFlicker;
 import flixel.FlxBasic;
 import flixel.FlxG;
@@ -34,7 +35,6 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import funkin.behavior.Debug;
 import funkin.behavior.mods.IHook;
 import funkin.behavior.options.Controls.KeyboardScheme;
 import funkin.behavior.options.Options;
@@ -53,13 +53,11 @@ import funkin.behavior.api.Discord.DiscordClient;
 
 using hx.strings.Strings;
 
-class MainMenuState extends MusicBeatState
+@hscript({
+	context: ['addToState', 'currentMenuOption']
+})
+class MainMenuState extends MusicBeatState implements IHook
 {
-	function testValue():String
-	{
-		return 'coolerBeans';
-	}
-
 	var menuItems:FlxTypedGroup<FlxSprite>;
 
 	var mainMenuOptions:Array<String> = ['story mode', 'freeplay', 'options'];
@@ -77,6 +75,31 @@ class MainMenuState extends MusicBeatState
 
 	// There's only ever one MainMenuState at a time, so we can make this static.
 	static var curSelected:Int = 0;
+
+	// Callbacks provided by hscript.
+	var cbOnCreate:Void->Void = function() return;
+	var cbOnExit:Void->Void = function() return;
+
+	/**
+	 * Mod hook called when the credits sequence starts.
+	 */
+	@:hscript({
+		pathName: "menu/TitleScreen",
+	})
+	public function buildTitleScreenHooks():Void
+	{
+		if (script_variables.get('onCreate') != null)
+		{
+			Debug.logTrace('Found hook: onCreate');
+			cbOnCreate = script_variables.get('onCreate');
+		}
+		if (script_variables.get('onExit') != null)
+		{
+			Debug.logTrace('Found hook: onExit');
+			cbOnExit = script_variables.get('onExit');
+		}
+		Debug.logTrace('Title screen hooks retrieved.');
+	}
 
 	function addToState(obj:FlxBasic)
 	{
@@ -139,6 +162,8 @@ class MainMenuState extends MusicBeatState
 		add(versionText);
 
 		changeItem(0);
+
+		cbOnCreate();
 
 		super.create();
 
@@ -249,6 +274,8 @@ class MainMenuState extends MusicBeatState
 	function goToState()
 	{
 		var currentMenuOption:String = mainMenuOptions[curSelected];
+
+		cbOnExit();
 
 		switch (currentMenuOption)
 		{

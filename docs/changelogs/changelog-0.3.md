@@ -32,6 +32,7 @@ First public release. Now has support for data-driven custom weeks and a mod con
 - Project XML reworked with additional improvements.
   - Added new defines: `-DincludeDefaultWeeks`, `-DembedAssets`.
 - Added a unit test suite to help prevent regressions. See `test/README.md` for more info.
+- The Alphabet text can now properly render all symbols (including )
 - Song data JSON can now specify the song asset used. This is useful if two charts use the same song file or if different difficulties of a chart use modified audio.
 - Various bug fixes.
   - Cut out some informational logging calls for macros (people thought they were errors).
@@ -52,16 +53,15 @@ First public release. Now has support for data-driven custom weeks and a mod con
   - Fixed a bug where, during 'duets', the other character's notes would be swapped twice, putting all notes on one strumline.
   - Fixed a bug where animated author icon was not displaying in default opening credits.
   - Fixed a bug where the CPU health icon was offset to the left.
+  - Fixed a bug where opponent graphics in story mode had incorrect offsets.
+  - Fixed a bug where the judgement/combo graphic was moved to the upper left corner and ignored the user configuration.
   - Removed Herobrine.
   - Fixed a LOT of other bugs not listed here.
 
 ## Known Issues
-- [ ] Story mode character graphics have incorrect offsets and need to be manually adjusted.
-- [X] Percentage too long, no padded on single digit, 0:60 on progress bar.
-- [ ] Progress bar not filling
-- [ ] Hide song progress bar while song is in done state (no notes remaining)
 - [ ] The Play State UI will be zoomed out until the opponent hits a note.
-- [ ] The judgement/combo graphic has moved to the upper left corner.
+- [ ] 
+
 - [ ] Sustain notes with short durations (only one segment) hide the segment behind the parent note.
 - [ ] Some sustain notes in Dad Battle (appox 65 seconds in) do not render the parent note.
 - [ ] Pausing will occasionally not stop the music from playing, causing the chart to skip ahead when unpausing.
@@ -77,6 +77,7 @@ First public release. Now has support for data-driven custom weeks and a mod con
 - [] [Use HXP for project files.](https://github.com/haxelime/lime/issues/1486)
   - Might fix issues with `includeDefaultWeeks`?
 - [] Finish moving all default characters to data files.
+- [] Change log files to use date-based filenames.
 - [] Deprecate week-specific asset libraries. Data will go in `shared/stage` or applicable subfolder.
   - [x] tutorial
   - [x] week1
@@ -95,6 +96,7 @@ First public release. Now has support for data-driven custom weeks and a mod con
 - [] Un-hardcode EVERYTHING.
   - Look for switch/case structures that check for specific levels or characters.
   - Move that data to the song/stage/character metadata as appropriate.
+- [] Replace all instances of FlxG.log.add
 - [] Move logging to a separate thread so it doesn't slow down the game.
 - [] Test for and fix any bugs.
   - Test all default weeks on multiple difficulties.

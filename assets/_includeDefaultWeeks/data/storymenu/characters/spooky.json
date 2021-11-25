@@ -1,7 +1,6 @@
 {
-  // 20 is a smidge to the left of where we want
-    "x": 80,
-    "y": 20,
-    "scale": 0.5,
-    "flipped": false
+  "x": 80,
+  "y": 20,
+  "scale": 0.5,
+  "flipped": false
 }

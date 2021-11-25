@@ -23,7 +23,6 @@ package funkin.ui.state.modding;
 import funkin.util.Util;
 import funkin.ui.component.base.XMLLayoutState;
 import flixel.addons.ui.FlxUIButton;
-import funkin.behavior.Debug;
 import funkin.behavior.mods.ModCore;
 import funkin.ui.component.modding.ModList;
 import flixel.addons.ui.interfaces.IFlxUIWidget;

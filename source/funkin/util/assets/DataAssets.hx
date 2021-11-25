@@ -22,7 +22,6 @@
 package funkin.util.assets;
 
 import funkin.util.assets.Paths;
-import funkin.behavior.Debug;
 import openfl.Assets as OpenFlAssets;
 import tjson.TJSON;
 

@@ -20,7 +20,6 @@
  */
 package funkin.util.assets;
 
-import funkin.behavior.Debug;
 import flixel.FlxG;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;

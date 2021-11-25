@@ -25,7 +25,6 @@ import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxState;
 import flixel.util.FlxColor;
-import funkin.behavior.Debug;
 import funkin.behavior.media.WebmHandler;
 import funkin.behavior.mods.ModCore;
 import funkin.ui.component.Cursor;

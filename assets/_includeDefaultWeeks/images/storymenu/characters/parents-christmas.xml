@@ -1,16 +1,17 @@
 <?xml version='1.0' encoding='utf-8'?>
-<TextureAtlas imagePath="parents-christmas.png"><SubTexture name="parents-christmas idle0000" x="0" y="0" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
-<SubTexture name="parents-christmas idle0001" x="888" y="0" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
-<SubTexture name="parents-christmas idle0002" x="1776" y="0" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
-<SubTexture name="parents-christmas idle0003" x="0" y="786" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
-<SubTexture name="parents-christmas idle0004" x="888" y="786" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
-<SubTexture name="parents-christmas idle0005" x="1776" y="786" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
-<SubTexture name="parents-christmas idle0006" x="0" y="1572" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
-<SubTexture name="parents-christmas idle0007" x="888" y="1572" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
-<SubTexture name="parents-christmas idle0008" x="1776" y="1572" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
-<SubTexture name="parents-christmas idle0009" x="0" y="2358" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
-<SubTexture name="parents-christmas idle0010" x="888" y="2358" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
-<SubTexture name="parents-christmas idle0011" x="1776" y="2358" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
-<SubTexture name="parents-christmas idle0012" x="0" y="3144" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
-<SubTexture name="parents-christmas idle0013" x="888" y="3144" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
+<TextureAtlas imagePath="parents-christmas.png">
+  <SubTexture name="idle0000" x="0" y="0" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
+  <SubTexture name="idle0001" x="888" y="0" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
+  <SubTexture name="idle0002" x="1776" y="0" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
+  <SubTexture name="idle0003" x="0" y="786" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
+  <SubTexture name="idle0004" x="888" y="786" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
+  <SubTexture name="idle0005" x="1776" y="786" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
+  <SubTexture name="idle0006" x="0" y="1572" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
+  <SubTexture name="idle0007" x="888" y="1572" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
+  <SubTexture name="idle0008" x="1776" y="1572" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
+  <SubTexture name="idle0009" x="0" y="2358" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
+  <SubTexture name="idle0010" x="888" y="2358" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
+  <SubTexture name="idle0011" x="1776" y="2358" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
+  <SubTexture name="idle0012" x="0" y="3144" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
+  <SubTexture name="idle0013" x="888" y="3144" width="888" height="786" frameX="0" frameY="0" frameWidth="888" frameHeight="786" />
 </TextureAtlas>

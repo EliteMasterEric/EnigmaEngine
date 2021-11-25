@@ -38,6 +38,9 @@ REM Localization handling
 haxelib install firetongue
 REM Required for debugging
 haxelib install hxcpp-debug-server
+REM Atomic mod support. Make sure you're using the latest version from HaxeLib.
+haxelib remove polymod
+haxelib install polymod
 REM I think this is required for one of the video player classes?
 haxelib git actuate https://github.com/jgranick/actuate
 REM Discord integration
@@ -46,8 +49,6 @@ haxelib git hscript https://github.com/HaxeFoundation/hscript
 REM Lua modchart support
 haxelib git hxvm-luajit https://github.com/nebulazorua/hxvm-luajit
 haxelib git linc_luajit https://github.com/EnigmaEngine/linc_luajit
-REM Atomic mod support
-haxelib git polymod https://github.com/MasterEric/polymod develop
 REM More leniant JSON parsing. Using my fork because of: https://github.com/JWambaugh/TJSON/pull/34
 haxelib git tjson https://github.com/MasterEric/TJSON
 REM Required for WEBM video cutscenes
