@@ -1,5 +1,7 @@
-0.2;
-- Reworked title and intro credits to be fully data driven.
-- Added 9-key support for songs.
-- Added custom keybinds for 9-key songs.
-- Rebindable fullscreen button.
+0.3;
+- ⛧Basic script hook implementation.
+- ⛧Made weeks data driven and added support for custom weeks.
+- ⛧Added support for custom difficulties.
+- ⛧Added support for animated health icons.
+- ⛧Reworked the input system.
+- ⛧9 bajillion bug fixes and performance improvements.
