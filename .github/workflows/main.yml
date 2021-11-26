@@ -41,7 +41,6 @@ jobs:
           haxelib install haxe-strings
           haxelib install firetongue
           haxelib install hxcpp-debug-server
-          haxelib remove polymod
           haxelib install polymod
           haxelib git actuate https://github.com/jgranick/actuate
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
@@ -52,6 +51,8 @@ jobs:
           haxelib git extension-webm https://github.com/EnigmaEngine/extension-webm
           haxelib run lime rebuild extension-webm windows
   
+          haxelib install mlib
+          haxelib install test-adapter
           haxelib install munit
           haxelib install hamcrest
           haxelib git mockatoo https://github.com/EnigmaEngine/mockatoo
@@ -109,7 +110,6 @@ jobs:
           haxelib install haxe-strings
           haxelib install firetongue
           haxelib install hxcpp-debug-server
-          haxelib remove polymod
           haxelib install polymod
           haxelib git actuate https://github.com/jgranick/actuate
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
@@ -120,9 +120,13 @@ jobs:
           haxelib git extension-webm https://github.com/EnigmaEngine/extension-webm
           haxelib run lime rebuild extension-webm windows
   
+          haxelib install mlib
+          haxelib install test-adapter
           haxelib install munit
           haxelib install hamcrest
           haxelib git mockatoo https://github.com/EnigmaEngine/mockatoo
+
+          haxelib list
       - name: build linux
         run: |
           haxelib run lime build linux -DembedAssets -DexcludeExampleMods -DpreloadAssets -DincludeDefaultWeeks 
@@ -160,7 +164,8 @@ jobs:
           mkdir "%HAXELIB_ROOT%"
           haxelib setup "%HAXELIB_ROOT%"
           haxelib install lime
-                    haxelib install hxp
+          
+          haxelib install hxp
           haxelib install openfl
           haxelib install flixel
           haxelib install flixel-tools
@@ -174,7 +179,6 @@ jobs:
           haxelib install haxe-strings
           haxelib install firetongue
           haxelib install hxcpp-debug-server
-          haxelib remove polymod
           haxelib install polymod
           haxelib git actuate https://github.com/jgranick/actuate
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
@@ -185,9 +189,13 @@ jobs:
           haxelib git extension-webm https://github.com/EnigmaEngine/extension-webm
           haxelib run lime rebuild extension-webm windows
   
+          haxelib install mlib
+          haxelib install test-adapter
           haxelib install munit
           haxelib install hamcrest
           haxelib git mockatoo https://github.com/EnigmaEngine/mockatoo
+
+          haxelib list
       - name: build html5
         run: |
           haxelib run lime build html5 -DexcludeExampleMods -DincludeDefaultWeeks 
@@ -200,5 +208,5 @@ jobs:
         with:
           name: HTML5 (Vanilla)
           path: export/release/vanilla/x86/html5/bin
-  # I haven't gotten unit testing working on mobile yet,
+  # I haven't gotten unit testing working on HTML5 yet,
   # so for now HTML5 only does compilation checking.
