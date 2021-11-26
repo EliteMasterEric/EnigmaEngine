@@ -39,7 +39,7 @@ class Project extends HXProject {
 		super ();
 			
 		// Display ASCII art.
-		// flair();
+		flair();
 
 		// Set the project metadata.
 		configureApp();
@@ -69,7 +69,7 @@ class Project extends HXProject {
 	function configureApp() {
 		meta.title = "Enigma Engine";
 		meta.description = "A moddable game engine for Friday Night Funkin'.";
-		meta.version = "0.3.0-beta1";
+		meta.version = "0.3.0";
 		meta.packageName = "com.mastereric.enigmaengine";
 		meta.company = "";
 		// meta.buildNumber
@@ -126,12 +126,33 @@ class Project extends HXProject {
 				error('Unsupported platform (got ${target})');
 		}
 
-		if (is64Bit()) {
-			info('Architecture: x64 / 64-bit');
-		} else if (is32Bit()) {
-			info('Architecture: x86 / 32-bit');
-		} else {
-			Log.error('Unsupported architecture (got ${architectures[0]})');
+		for (architecture in architectures) {
+			// Ensure only supported architectures are used.
+			switch(architecture) {
+				case Architecture.X86:
+					info('Architecture: x86');
+				case Architecture.X64:
+					info('Architecture: x64');
+				case Architecture.ARMV5:
+					info('Architecture: ARMv5');
+				case Architecture.ARMV6:
+					info('Architecture: ARMv6');
+				case Architecture.ARMV7:
+					info('Architecture: ARMv7');
+				case Architecture.ARMV7S:
+					info('Architecture: ARMv7S');
+				case Architecture.ARM64:
+					info('Architecture: ARMx64');
+				case Architecture.MIPS:
+					info('Architecture: MIPS');
+				case Architecture.MIPSEL:
+					info('Architecture: MIPSEL');
+				case null:
+					if (!isWeb())
+						error('Unsupported architecture (got null on non-web platform)');
+				default:
+					error('Unsupported architecture (got ${architecture})');
+			}
 		}
 
 		if (isDesktop()) {
@@ -144,7 +165,7 @@ class Project extends HXProject {
 			haxedefs.set(FEATURE_GAMEJOLT, "true");
 		}
 
-		if (isDesktop() || isWeb()) {
+		if (isDesktop() /*|| isWeb()*/) {
 			haxedefs.set(FEATURE_WEBM, "true");
 		}
 
@@ -170,7 +191,8 @@ class Project extends HXProject {
 	function configureOutputDir() {
 		// Set the output directory. Depends on the target platform and build type.
 		var architecture = is64Bit() ? "x64" : "x86";
-		var buildDir = 'export/${debug ? 'debug' : 'release'}/$architecture'; // /$target
+		var includeDefaultWeeks = defines.exists("includeDefaultWeeks");
+		var buildDir = 'export/${debug ? 'debug' : 'release'}/${includeDefaultWeeks ? 'vanilla' : 'base'}/$architecture'; // /$target
 
 		info('Output directory: $buildDir');
 		// setenv('BUILD_DIR', buildDir);
@@ -211,8 +233,6 @@ class Project extends HXProject {
 		addHaxelib("firetongue");
 		// A motion library used by the video handler.
 		addHaxelib("actuate");
-		// A library which allows for loading and parsing of WEBM videos. Used for cutscenes.
-		addHaxelib("extension-webm");
 
 		// A library for tolerant JSON parsing. Fewer typo bugs means fewer GitHub issues.
 		addHaxelib("tjson");
@@ -229,6 +249,13 @@ class Project extends HXProject {
 			info('Discord integration is enabled, adding libraries.');
 			// A library for integration with the Discord API.
 			addHaxelib("discord_rpc");
+		}
+
+		if (isFeatureEnabled(FEATURE_WEBM) && isDesktop()) {
+			info('WEBM integration is enabled, adding DESKTOP libraries.');
+			// A library which allows for loading and parsing of WEBM videos on desktop. Used for cutscenes.
+			// On web, this library isn't needed, it already supports video.
+			addHaxelib("extension-webm");
 		}
 
 		if (isFeatureEnabled(FEATURE_LUAMODCHART)) {
@@ -320,7 +347,7 @@ class Project extends HXProject {
 			addAssetPath("assets/_includeDefaultWeeks", "assets", ["*"], excludeExt, shouldEmbed);
 		} else {
 			info('NOTICE: Excluding default weeks...');
-			// addAssetLibrary("assets/_excludeDefaultWeeks", "assets", ["*"], excludeExt, shouldEmbed);
+			addAssetPath("assets/_excludeDefaultWeeks", "assets", ["*"], excludeExt, shouldEmbed);
 		}
 
 		// Add the preloaded main asset path.
@@ -333,31 +360,31 @@ class Project extends HXProject {
 		// addAssetLibrary("sm", shouldEmbed, shouldPreload);
 
 		// Add the main asset paths (AFTER the libraries).
-		addAssetPath("assets/core", "core", ["*"], excludeExt, true);
-		addAssetPath("assets/scripts", "scripts", ["*"], excludeExt, true);
-		addAssetPath("assets/songs", "songs", ["*"], excludeExt, shouldEmbed);
-		addAssetPath("assets/shared", "shared", ["*"], excludeExt, shouldEmbed);
+		addAssetPath("assets/core", "assets/core", ["*"], excludeExt, true);
+		addAssetPath("assets/scripts", "assets/scripts", ["*"], excludeExt, true);
+		addAssetPath("assets/songs", "assets/songs", ["*"], excludeExt, shouldEmbed);
+		addAssetPath("assets/shared", "assets/shared", ["*"], excludeExt, shouldEmbed);
 		// addAssetPath("assets/sm", "sm", ["*"], excludeExt, shouldEmbed);
-		addAssetPath("assets/core", "core", ["*"], excludeExt, shouldEmbed);
-		addAssetPath("assets/core", "core", ["*"], excludeExt, shouldEmbed);
+		addAssetPath("assets/core", "assets/core", ["*"], excludeExt, shouldEmbed);
+		addAssetPath("assets/core", "assets/core", ["*"], excludeExt, shouldEmbed);
 
 		// TODO: Deprecate week-specific asset libraries.
 		if (includeDefaultWeeks) {
 			// addAssetLibrary("assets/tutorial", shouldEmbed, shouldPreload);
 			// addAssetLibrary("assets/week1", shouldEmbed, shouldPreload);
 			// addAssetLibrary("assets/week2", shouldEmbed, shouldPreload);
-			addAssetLibrary("assets/week3", shouldEmbed, shouldPreload);
-			addAssetLibrary("assets/week4", shouldEmbed, shouldPreload);
-			addAssetLibrary("assets/week5", shouldEmbed, shouldPreload);
-			addAssetLibrary("assets/week6", shouldEmbed, shouldPreload);
+			addAssetLibrary("week3", shouldEmbed, shouldPreload);
+			addAssetLibrary("week4", shouldEmbed, shouldPreload);
+			addAssetLibrary("week5", shouldEmbed, shouldPreload);
+			addAssetLibrary("week6", shouldEmbed, shouldPreload);
 
 			// addAssetPath("assets/_includeDefaultWeeks/tutorial", "tutorial", ["*"], excludeExt, shouldEmbed);
 			// addAssetPath("assets/_includeDefaultWeeks/week1", "week1", ["*"], excludeExt, shouldEmbed);
 			// addAssetPath("assets/_includeDefaultWeeks/week2", "week2", ["*"], excludeExt, shouldEmbed);
-			addAssetPath("assets/_includeDefaultWeeks/week3", "week3", ["*"], excludeExt, shouldEmbed);
-			addAssetPath("assets/_includeDefaultWeeks/week4", "week4", ["*"], excludeExt, shouldEmbed);
-			addAssetPath("assets/_includeDefaultWeeks/week5", "week5", ["*"], excludeExt, shouldEmbed);
-			addAssetPath("assets/_includeDefaultWeeks/week6", "week6", ["*"], excludeExt, shouldEmbed);
+			addAssetPath("assets/_includeDefaultWeeks/week3", "assets/week3", ["*"], excludeExt, shouldEmbed);
+			addAssetPath("assets/_includeDefaultWeeks/week4", "assets/week4", ["*"], excludeExt, shouldEmbed);
+			addAssetPath("assets/_includeDefaultWeeks/week5", "assets/week5", ["*"], excludeExt, shouldEmbed);
+			addAssetPath("assets/_includeDefaultWeeks/week6", "assets/week6", ["*"], excludeExt, shouldEmbed);
 		}
 		
 		addAsset("art/README.txt", "README.txt", false);
@@ -540,8 +567,9 @@ class Project extends HXProject {
 		{
 			if (FileSystem.isDirectory(path + "/" + file))
 			{
+				// Recursive file calls.
 				if (filter(file, ["*"], exclude))
-					includeAssets(path + "/" + file, targetPath + file, include, exclude);
+					addAssetPath(path + "/" + file, targetPath + file, include, exclude, embed);
 			}
 			else
 			{
@@ -610,8 +638,8 @@ class Project extends HXProject {
 	function info(message:String) {
 		// Disable info() log calls because of a bug.
 		// https://github.com/haxelime/lime-vscode-extension/issues/88
-		/// Log.info(message);
-		trace(message);
+		Log.info(message);
+		// trace(message);
 		// Sys.println(message);
 		// Sys.stdout().writeString(message);
 		// Sys.stderr().writeString(message);

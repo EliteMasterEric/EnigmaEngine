@@ -23,6 +23,7 @@ package funkin.ui.state.debug;
 
 import funkin.util.assets.AudioAssets;
 import funkin.ui.component.Cursor;
+import funkin.ui.component.GameCamera;
 import funkin.ui.component.play.Stage;
 import funkin.ui.state.play.PlayState;
 import flixel.FlxCamera;
@@ -128,8 +129,7 @@ class StageDebugState extends FlxState
 		camGame.zoom = 0.7;
 		FlxG.cameras.add(camGame);
 		FlxG.cameras.add(camHUD);
-		// You have to do it this way, otherwise you'll break stuff.
-		FlxCamera.defaultCameras = [camGame];
+		GameCamera.setDefaultCameras([camGame]);
 		FlxG.camera = camGame;
 		camGame.follow(camFollow);
 

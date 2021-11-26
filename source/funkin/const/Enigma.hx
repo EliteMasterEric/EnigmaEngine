@@ -40,9 +40,10 @@ class Enigma extends MusicBeatState
 	/**
 	 * The suffix applied to the engine version. Make sure to change this with each respective release.
 	 */
-	// public static final ENGINE_SUFFIX:String = ''; // For RELEASES
+	public static final ENGINE_SUFFIX:String = ''; // For RELEASES
+
 	// public static final ENGINE_SUFFIX:String = '-beta1'; // For BETA/PRERELEASE
-	public static final ENGINE_SUFFIX:String = '-$COMMIT_HASH'; // For DEVELOP
+	// public static final ENGINE_SUFFIX:String = '-$COMMIT_HASH'; // For DEVELOP
 
 	/**
 	 * The full engine version with -prerelease suffix if applicable.

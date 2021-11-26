@@ -446,7 +446,7 @@ class PlayState extends MusicBeatState implements IHook
 	 * The default camera. You can set the zoom level and add filters,
 	 * to affect the entire game view, including HUD and characters.
 	 */
-	private var camGame:GameCamera;
+	private var camGame:FlxCamera;
 
 	/**
 	 * The camera where the HUD (score, sustains, etc) is drawn.
@@ -456,12 +456,12 @@ class PlayState extends MusicBeatState implements IHook
 	/**
 	 * TODO: Did I accidentally make this obsolete?
 	 */
-	public var camSustains:GameCamera;
+	public var camSustains:FlxCamera;
 
 	/**
 	 * TODO: Did I accidentally make this obsolete?
 	 */
-	public var camNotes:GameCamera;
+	public var camNotes:FlxCamera;
 
 	/**
 	 * The sprite of the CPU character.
@@ -762,12 +762,12 @@ class PlayState extends MusicBeatState implements IHook
 			iconRPC);
 		#end
 
-		camGame = new GameCamera();
+		camGame = new FlxCamera();
 		camHUD = new GameCamera();
 		camHUD.bgColor.alpha = 0;
-		camSustains = new GameCamera();
+		camSustains = new FlxCamera();
 		camSustains.bgColor.alpha = 0;
-		camNotes = new GameCamera();
+		camNotes = new FlxCamera();
 		camNotes.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);

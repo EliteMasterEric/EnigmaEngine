@@ -129,90 +129,64 @@ class Option
 
 		if (AntiAliasingOption.get() == null)
 			AntiAliasingOption.set(AntiAliasingOption.DEFAULT);
-
 		if (AntiMashOption.get() == null)
 			AntiMashOption.set(AntiMashOption.DEFAULT);
-
 		if (BotPlayOption.get() == null)
 			BotPlayOption.set(BotPlayOption.DEFAULT);
-
 		if (CameraZoomOption.get() == null)
 			CameraZoomOption.set(CameraZoomOption.DEFAULT);
-
-		if (HPBarColorOption.get() == null)
-			HPBarColorOption.set(HPBarColorOption.DEFAULT);
-
-		if (CPUStrumOption.get() == null)
-			CPUStrumOption.set(CPUStrumOption.DEFAULT);
-
-		if (DistractionsAndEffectsOption.get() == null)
-			DistractionsAndEffectsOption.set(DistractionsAndEffectsOption.DEFAULT);
-
-		if (DownscrollOption.get() == null)
-			DownscrollOption.set(DownscrollOption.DEFAULT);
-
-		if (EditorGridOption.get() == null)
-			EditorGridOption.set(EditorGridOption.DEFAULT);
-
-		if (ExtendedScoreInfoOption.get() == null)
-			ExtendedScoreInfoOption.set(ExtendedScoreInfoOption.DEFAULT);
-
-		if (FlashingLightsOption.get() == null)
-			FlashingLightsOption.set(FlashingLightsOption.DEFAULT);
-
-		if (FPSCounterOption.get() == null)
-			FPSCounterOption.set(FPSCounterOption.DEFAULT);
-
-		if (FramerateCapOption.get() == null)
-			FramerateCapOption.set(FramerateCapOption.DEFAULT);
-
-		if (InstantRespawnOption.get() == null)
-			InstantRespawnOption.set(InstantRespawnOption.DEFAULT);
-
-		if (MinimalModeOption.get() == null)
-			MinimalModeOption.set(MinimalModeOption.DEFAULT);
-
-		if (MissSoundsOption.get() == null)
-			MissSoundsOption.set(MissSoundsOption.DEFAULT);
-
-		if (NoteQuantizationOption.get() == null)
-			NoteQuantizationOption.set(NoteQuantizationOption.DEFAULT);
-
-		if (NPSDisplayOption.get() == null)
-			NPSDisplayOption.set(NPSDisplayOption.DEFAULT);
-
 		if (CharacterPreloadOption.get() == null)
 			CharacterPreloadOption.set(CharacterPreloadOption.DEFAULT);
-
-		if (RainbowFPSCounterOption.get() == null)
-			RainbowFPSCounterOption.set(RainbowFPSCounterOption.DEFAULT);
-
-		if (ResetButtonOption.get() == null)
-			ResetButtonOption.set(ResetButtonOption.DEFAULT);
-
-		if (SafeFramesOption.get() == null)
-			SafeFramesOption.set(SafeFramesOption.DEFAULT);
-
-		if (ScoreScreenOption.get() == null)
-			ScoreScreenOption.set(ScoreScreenOption.DEFAULT);
-
-		if (ScrollSpeedOption.get() == null)
-			ScrollSpeedOption.set(ScrollSpeedOption.DEFAULT);
-
-		if (ShowAccuracyOption.get() == null)
-			ShowAccuracyOption.set(ShowAccuracyOption.DEFAULT);
-
-		if (SongOffsetOption.get() == null)
-			SongOffsetOption.set(SongOffsetOption.DEFAULT);
-
-		if (SongPositionOption.get() == null)
-			SongPositionOption.set(SongPositionOption.DEFAULT);
-
+		if (CPUStrumOption.get() == null)
+			CPUStrumOption.set(CPUStrumOption.DEFAULT);
+		if (DistractionsAndEffectsOption.get() == null)
+			DistractionsAndEffectsOption.set(DistractionsAndEffectsOption.DEFAULT);
+		if (DownscrollOption.get() == null)
+			DownscrollOption.set(DownscrollOption.DEFAULT);
+		if (EditorGridOption.get() == null)
+			EditorGridOption.set(EditorGridOption.DEFAULT);
+		if (ExtendedScoreInfoOption.get() == null)
+			ExtendedScoreInfoOption.set(ExtendedScoreInfoOption.DEFAULT);
+		if (FlashingLightsOption.get() == null)
+			FlashingLightsOption.set(FlashingLightsOption.DEFAULT);
+		if (FPSCounterOption.get() == null)
+			FPSCounterOption.set(FPSCounterOption.DEFAULT);
+		if (FramerateCapOption.get() == null)
+			FramerateCapOption.set(FramerateCapOption.DEFAULT);
+		if (HPBarColorOption.get() == null)
+			HPBarColorOption.set(HPBarColorOption.DEFAULT);
+		if (InstantRespawnOption.get() == null)
+			InstantRespawnOption.set(InstantRespawnOption.DEFAULT);
 		if (JudgementPositionOption.get() == null)
 			JudgementPositionOption.set(JudgementPositionOption.DEFAULT);
-
+		if (MinimalModeOption.get() == null)
+			MinimalModeOption.set(MinimalModeOption.DEFAULT);
+		if (MissSoundsOption.get() == null)
+			MissSoundsOption.set(MissSoundsOption.DEFAULT);
+		if (NoteQuantizationOption.get() == null)
+			NoteQuantizationOption.set(NoteQuantizationOption.DEFAULT);
+		if (NPSDisplayOption.get() == null)
+			NPSDisplayOption.set(NPSDisplayOption.DEFAULT);
+		if (RainbowFPSCounterOption.get() == null)
+			RainbowFPSCounterOption.set(RainbowFPSCounterOption.DEFAULT);
+		if (ResetButtonOption.get() == null)
+			ResetButtonOption.set(ResetButtonOption.DEFAULT);
+		if (SafeFramesOption.get() == null)
+			SafeFramesOption.set(SafeFramesOption.DEFAULT);
+		if (ScoreScreenOption.get() == null)
+			ScoreScreenOption.set(ScoreScreenOption.DEFAULT);
+		if (ScrollSpeedOption.get() == null)
+			ScrollSpeedOption.set(ScrollSpeedOption.DEFAULT);
+		if (ShowAccuracyOption.get() == null)
+			ShowAccuracyOption.set(ShowAccuracyOption.DEFAULT);
+		if (SongOffsetOption.get() == null)
+			SongOffsetOption.set(SongOffsetOption.DEFAULT);
+		if (SongPositionOption.get() == null)
+			SongPositionOption.set(SongPositionOption.DEFAULT);
 		if (WIFE3AccuracyOption.get() == null)
 			WIFE3AccuracyOption.set(WIFE3AccuracyOption.DEFAULT);
+		if (ZoomLevelOption.get() == null)
+			ZoomLevelOption.set(ZoomLevelOption.DEFAULT);
 	}
 
 	/**
@@ -1649,6 +1623,10 @@ class ZoomLevelOption extends Option
 	{
 		if (FlxG.save.data.preferences == null)
 			return DEFAULT;
+
+		if (FlxG.save.data.preferences.zoomLevel == null)
+			return DEFAULT;
+
 		return FlxG.save.data.preferences.zoomLevel;
 	}
 

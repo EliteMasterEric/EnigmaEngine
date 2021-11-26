@@ -16,7 +16,7 @@
 
 /*
  * GameCamera.hx
- * This is an FlxCamera with additional utility functions applied to it.
+ * This is an extension of FlxCamera with additional utility functions applied to it.
  */
 package funkin.ui.component;
 
@@ -26,8 +26,6 @@ import flixel.math.FlxMath;
 class GameCamera extends FlxCamera
 {
 	public var targetZoom(default, set):Float = 1.0;
-
-	private var originalZoom:Float = 1.0;
 
 	/**
 	 * @param x Initial x position of the camera.
@@ -41,16 +39,23 @@ class GameCamera extends FlxCamera
 		super(x, y, w, h, z);
 	}
 
-	/**
-	 * Function called when setting this.targetZoom.
-	 * Sets the original zoom and target zoom values.
-	 */
 	function set_targetZoom(value:Float):Float
 	{
-		this.originalZoom = this.zoom;
+		// Set the desired zoom level. Each frame, the camera will linearly interpolate towards the target value.
 		this.targetZoom = value;
 		return this.targetZoom;
 	}
+
+	/**
+	 * Each frame, move X% of the way to the target zoom level.
+	 */
+	static final ZOOM_RATE = 0.05;
+
+	/**
+	 * If the camera is this close to the target zoom, it will snap to it.
+	 * This prevents the weird floating-point Zeno's-paradox situation.
+	 */
+	static final ZOOM_THRESHOLD = 0.001;
 
 	/**
 	 * Called every game tick.
@@ -58,19 +63,15 @@ class GameCamera extends FlxCamera
 	 */
 	public override function update(elapsed:Float)
 	{
-		lerpCameraZoom(elapsed);
+		// Lerp the camera zoom towards the target zoom level.
+		this.zoom = FlxMath.lerp(this.zoom, this.targetZoom, ZOOM_RATE);
+
+		// Stop lerping if we're really close.
+		if (Math.abs(this.zoom - this.targetZoom) < ZOOM_THRESHOLD)
+			this.zoom = this.targetZoom;
 	}
 
-	static final ZOOM_RATE = 0.95;
-
-	function lerpCameraZoom(elapsed:Float)
-	{
-		// We need to do this relative to the original zoom rather than relative to the current zoom,
-		// otherwise we get a Zeno's paradox situation where the camera never reaches the destination.
-		this.zoom = FlxMath.lerp(this.originalZoom, this.targetZoom, ZOOM_RATE);
-	}
-
-	public static function setDefaultCameras(cameras:Array<GameCamera>)
+	public static function setDefaultCameras(cameras:Array<FlxCamera>)
 	{
 		// I haven't figured out how to change this line without messing up the existing cameras.
 		FlxCamera.defaultCameras = cast cameras;
