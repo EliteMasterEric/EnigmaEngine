@@ -21,9 +21,15 @@
  */
 package funkin.ui.state.title;
 
+import funkin.data.WeekData.WeekDataHandler;
+import funkin.data.CharacterData;
+import funkin.data.DifficultyData;
+import flixel.math.FlxMath;
 import funkin.behavior.options.Options.CharacterPreloadOption;
+import funkin.behavior.options.Options.StagePreloadOption;
 import funkin.behavior.options.Options.AntiAliasingOption;
-import funkin.ui.component.play.Character;
+import funkin.ui.component.play.character.OldCharacter;
+import funkin.ui.component.play.character.CharacterFactory;
 import funkin.util.assets.LibraryAssets;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
@@ -47,7 +53,8 @@ import funkin.behavior.options.PlayerSettings;
 import funkin.util.WindowUtil;
 import funkin.behavior.SaveData;
 import funkin.ui.component.Cursor;
-import funkin.util.ThreadUtil;
+import funkin.util.concurrency.TaskWorker;
+import funkin.util.concurrency.ThreadUtil;
 import funkin.util.Util;
 import funkin.util.assets.SongAssets;
 import haxe.Exception;
@@ -65,148 +72,251 @@ using hx.strings.Strings;
 
 class CachingState extends MusicBeatState
 {
-	var toBeDone = 0;
-	var done = 0;
-
-	var loaded = false;
-
+	/**
+	 * The onscreen text, such as "Loading..."
+	 */
 	var text:FlxText;
+
+	/**
+	 * The engine logo graphic.
+	 */
 	var gameLogo:FlxSprite;
 
-	var images:Array<String> = [];
-	var music:Array<String> = [];
-	var charts:Array<String> = [];
+	/**
+	 * A list of images that need to be cached.
+	 */
+	var toCacheImages:Array<String> = [];
+
+	/**
+	 * A list of songs that needs to be cached.
+	 */
+	var toCacheMusic:Array<String> = [];
+
+	final LOGO_Y_OFFSET = -100;
+
+	final PROGRESS_BAR_Y_OFFSET = 100;
+	final PROGRESS_BAR_WIDTH = 400;
+	final PROGRESS_BAR_HEIGHT = 60;
+	final PROGRESS_BAR_PAD = 4;
+
+	final FADE_DURATION = 3.0;
+
+	var progressDone:Int = 0;
+	var progressTotal:Int = 1;
 
 	override function create()
 	{
+		Debug.logTrace('Initializing CachingState...');
+
 		// Load the save file.
 		SaveData.bindSave();
 
 		// Initialize the player settings.
 		PlayerSettings.init();
 
-		// Load the list of characters for the Charter.
-		Character.initCharacterList();
-
 		// Load the player's save data.
 		SaveData.initSave();
 
+		// Disable the cursor for this scene.
 		Cursor.showCursor(false);
 
 		FlxG.worldBounds.set(0, 0);
+		FlxGraphic.defaultPersist = false;
 
-		text = new FlxText(FlxG.width / 2, FlxG.height / 2 + 300, 0, "Loading...");
-		text.size = 34;
-		text.alignment = FlxTextAlign.CENTER;
-		text.alpha = 1;
-
-		gameLogo = new FlxSprite(FlxG.width / 2, FlxG.height / 2).loadGraphic(GraphicsAssets.loadImage('logo'));
-		gameLogo.x -= gameLogo.width / 2;
-		gameLogo.y -= gameLogo.height / 2 + 100;
-		text.y -= gameLogo.height / 2 - 125;
-		text.x -= 170;
-		gameLogo.setGraphicSize(Std.int(gameLogo.width * 0.6));
-		if (AntiAliasingOption.get() != null)
-			gameLogo.antialiasing = AntiAliasingOption.get();
-		else
-			gameLogo.antialiasing = true;
-
-		gameLogo.alpha = 0;
-
-		FlxGraphic.defaultPersist = CharacterPreloadOption.get();
-
-		#if FEATURE_FILESYSTEM
-		Debug.logTrace("Planning to cache graphics...");
 		if (CharacterPreloadOption.get())
 		{
 			Debug.logTrace("Planning to cache character graphics...");
-			images = GraphicsAssets.listImageFilesToCache(['characters']);
+			// Preload folder. Used for icons.
+			for (path in LibraryAssets.listImagesInPath('characters'))
+			{
+				toCacheImages.push(Paths.image(path));
+			}
+			// Shared library.
+			for (path in LibraryAssets.listImagesInPath('characters', 'shared'))
+			{
+				toCacheImages.push(Paths.image(path, 'shared'));
+			}
 		}
 
-		Debug.logTrace("Planning to cache music files...");
+		if (StagePreloadOption.get())
+		{
+			Debug.logTrace("Planning to cache stage graphics...");
+			// Shared library.
+			for (path in LibraryAssets.listImagesInPath('stages', 'shared'))
+			{
+				toCacheImages.push(Paths.image(path, 'shared'));
+			}
+		}
 
-		music = SongAssets.listMusicFilesToCache();
-		#end
+		Debug.logTrace("Planning to cache song audio files...");
+		toCacheMusic = SongAssets.listMusicFilesToCache();
 
-		toBeDone = Lambda.count(images) + Lambda.count(music);
-
-		var bar = new FlxBar(10, FlxG.height - 50, FlxBarFillDirection.LEFT_TO_RIGHT, FlxG.width, 40, null, "done", 0, toBeDone);
-		bar.color = FlxColor.PURPLE;
-
-		add(bar);
-
+		// Game engine logo.
+		gameLogo = new FlxSprite(0, 0).loadGraphic(GraphicsAssets.loadImage('logo'));
+		gameLogo.alpha = 0;
+		gameLogo.setGraphicSize(Std.int(gameLogo.width * 0.6));
+		gameLogo.x = FlxG.width / 2 - gameLogo.width / 2;
+		gameLogo.y = FlxG.height / 2 - gameLogo.height / 2 + LOGO_Y_OFFSET;
+		gameLogo.antialiasing = AntiAliasingOption.get();
 		add(gameLogo);
+
+		// Loading text.
+		text = new FlxText(0, FlxG.height / 2 + 300, FlxG.width, "Loading...");
+		text.alpha = 1;
+		text.size = 34;
+		text.y = FlxG.height / 2 + 130;
+		text.alignment = FlxTextAlign.CENTER;
 		add(text);
 
-		Debug.logTrace('Begin caching..');
+		var progressBar = new FlxBar(0, 0, FlxBarFillDirection.LEFT_TO_RIGHT, PROGRESS_BAR_WIDTH, PROGRESS_BAR_HEIGHT, null, "progressDone", 0, progressTotal);
+		progressBar.x = FlxG.width / 2 - progressBar.width / 2;
+		progressBar.y = text.y + PROGRESS_BAR_Y_OFFSET;
+		progressBar.color = FlxColor.RED;
+		add(progressBar);
 
-		#if FEATURE_MULTITHREADING
+		var progressBarBg = new FlxSprite(0,
+			0).makeGraphic(PROGRESS_BAR_WIDTH + (2 * PROGRESS_BAR_PAD), PROGRESS_BAR_HEIGHT + (2 * PROGRESS_BAR_PAD), FlxColor.WHITE);
+		progressBarBg.x = progressBar.x - PROGRESS_BAR_PAD;
+		progressBarBg.y = progressBar.y - PROGRESS_BAR_PAD;
+
+		Debug.logTrace('Begin caching...');
+		cacheSync();
+		// We need to do this in a separate thread, to allow the UI thread to run.
 		ThreadUtil.doInBackground(cache);
-		#end
 
-		Debug.logTrace('Created cache thread.');
 		super.create();
 	}
 
-	var calledDone = false;
+	// All these variables and logic are tied to making the loading text animate.
+	var loadingDone:Bool = false;
+	var textPrefix:String = "Loading";
+	var textSuffix:String = "";
+	var dotCount:Int = 3;
+	var dotElapsed:Float = 0;
+	final LOADING_COOLDOWN = 600;
 
 	override function update(elapsed)
 	{
 		super.update(elapsed);
 
-		// Update the loading text. This should be done in the main UI thread.
-		var alpha = Util.truncateFloat(done / toBeDone * 100, 2) / 100;
-		gameLogo.alpha = alpha;
-		text.text = "Loading... (" + done + "/" + toBeDone + ")";
+		// Fade the engine logo in over 3 seconds.
+		gameLogo.alpha = FlxMath.lerp(0.1, 1, gameLogo.alpha + (elapsed / FADE_DURATION));
+
+		// Update the text every 0.5 seconds, animating the numer of dots.
+		dotElapsed += elapsed;
+
+		if (loadingDone)
+		{
+			this.text.text = 'Loading complete!';
+		}
+		else
+		{
+			if (dotElapsed > 0.5 && !loadingDone)
+			{
+				dotCount++;
+				if (dotCount > 3)
+					dotCount = 1;
+
+				dotElapsed = 0;
+			}
+			this.text.text = textPrefix + ".".repeat(dotCount) + textSuffix;
+		}
 	}
 
 	function cache()
 	{
-		#if FEATURE_FILESYSTEM
-		Debug.logTrace("Cache thread initialized. Caching " + toBeDone + " items...");
+		Debug.logTrace("Cache thread initialized.");
 
-		for (i in images)
+		Debug.logTrace('Caching graphics...');
+		textPrefix = 'Loading graphics';
+		textSuffix = ' (0/${toCacheImages.length})';
+		progressTotal = toCacheImages.length;
+		for (index in 0...toCacheImages.length)
 		{
-			var replaced = i.replaceAll(".png", "");
+			var path = toCacheImages[index];
 
-			var imagePath = Paths.image(replaced, 'shared');
-			Debug.logTrace('Caching character graphic $i ($imagePath)...');
-			var data = OpenFlAssets.getBitmapData(imagePath);
+			if (!OpenFlAssets.exists(path))
+			{
+				Debug.logWarn('  HEY, what gives? Graphic ($path) does not exist.');
+				continue;
+			}
+			Debug.logTrace('Caching graphic ($path)...');
+			var data = OpenFlAssets.getBitmapData(path, true);
 			var graph = FlxGraphic.fromBitmapData(data);
+			GraphicsAssets.cacheImage(path, graph);
 
-			GraphicsAssets.cacheImage(replaced, graph);
-			done++;
+			textSuffix = ' ($index/${toCacheImages.length})';
+			progressDone = index;
 		}
 
-		for (i in music)
+		Debug.logTrace('Caching songs...');
+		textPrefix = 'Loading songs';
+		textSuffix = ' (0/${toCacheMusic.length})';
+		progressTotal = toCacheMusic.length;
+		for (index in 0...toCacheMusic.length)
 		{
-			Debug.logTrace('Caching song "$i"...');
-			var inst = Paths.inst(i);
+			var songName = toCacheMusic[index];
+
+			Debug.logTrace('Caching song ($songName)...');
+			var inst = Paths.inst(songName);
 			if (LibraryAssets.soundExists(inst))
 			{
 				// Audio caching is handled by Flixel.
 				FlxG.sound.cache(inst);
-				Debug.logTrace('  Cached inst for song "$i"');
+				Debug.logTrace('  Cached inst for song ($songName');
 			}
 
-			var voices = Paths.voices(i);
+			var voices = Paths.voices(songName);
 			if (LibraryAssets.soundExists(voices))
 			{
 				// Audio caching is handled by Flixel.
 				FlxG.sound.cache(voices);
-				Debug.logTrace('  Cached voices for song "$i"');
+				Debug.logTrace('  Cached voices for song ($songName)');
 			}
 
-			done++;
+			textSuffix = ' ($index/${toCacheMusic.length})';
+			progressDone = index;
 		}
 
-		Debug.logTrace("Finished caching...");
+		Debug.logTrace('Caching weeks...');
+		textPrefix = 'Loading weeks';
+		WeekDataHandler.cacheWithProgress(function(weekDone:Int, weekTotal:Int)
+		{
+			Debug.logTrace('Caching week data ($weekDone/$weekTotal)...');
+			textSuffix = ' ($weekDone/$weekTotal)';
+			progressDone = weekDone;
+			progressTotal = weekTotal;
+		});
 
-		loaded = true;
-		#end
+		// Debug.logTrace('Caching difficulties...');
+		// textPrefix = 'Loading difficulties';
+		// textSuffix = '';
+		// DifficultyDataHandler.cacheSync();
 
-		// If the file system is supported, move to the title state after caching is done.
-		// If the file system isn't supported, move to the title state immediately.
+		// Debug.logTrace('Caching characters...');
+		// CharacterDataHandler.cacheWithProgress(function(charDone, charTotal)
+		// {
+		// 	Debug.logTrace('Caching character data ($charDone/$charTotal)...');
+		//
+		// 	textSuffix = ' ($charDone/${charTotal})';
+		// 	progressDone = charDone;
+		// 	progressTotal = charTotal;
+		// });
+
+		Debug.logTrace("Finished caching.");
+
+		loadingDone = true;
+
+		TaskWorker.performTaskWithDelay(moveToTitle, LOADING_COOLDOWN);
+	}
+
+	function cacheSync()
+	{
+		// Something is buggy with one or both of these loading functions.
+	}
+
+	function moveToTitle()
+	{
 		FlxG.switchState(new TitleState());
 	}
 }
