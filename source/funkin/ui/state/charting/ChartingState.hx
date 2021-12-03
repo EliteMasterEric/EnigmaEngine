@@ -21,6 +21,7 @@
  */
 package funkin.ui.state.charting;
 
+import funkin.data.CharacterData.CharacterDataHandler;
 import funkin.util.assets.AudioAssets;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.ui.FlxInputText;
@@ -31,7 +32,6 @@ import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxUITabMenu;
 import flixel.addons.ui.FlxUIText;
-import funkin.behavior.play.Difficulty.DifficultyCache;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -45,19 +45,21 @@ import flixel.util.FlxColor;
 import funkin.util.assets.Paths;
 import funkin.util.assets.FileUtil;
 import funkin.behavior.play.Song;
-import funkin.behavior.play.Song.SongData;
-import funkin.behavior.play.Song.SongEvent;
-import funkin.behavior.play.Song.SongMeta;
+import funkin.behavior.data.SongData;
+import funkin.behavior.data.SongEvent;
+import funkin.behavior.data.SongMeta;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.EnigmaNote;
-import funkin.behavior.play.Section.SwagSection;
+import funkin.behavior.data.Section.SwagSection;
 import funkin.behavior.play.TimingStruct;
 import funkin.const.Enigma;
+import funkin.data.DifficultyData.DifficultyDataHandler;
 import funkin.ui.component.charting.ChartingBox;
 import funkin.ui.component.charting.SectionRender;
 import funkin.ui.component.Cursor;
-import funkin.ui.component.play.Boyfriend;
-import funkin.ui.component.play.Character;
+import funkin.ui.component.play.character.Boyfriend;
+import funkin.ui.component.play.character.OldCharacter;
+import funkin.ui.component.play.character.CharacterFactory;
 import funkin.ui.component.play.HealthIcon;
 import funkin.ui.component.play.Note;
 import funkin.ui.component.Waveform;
@@ -150,7 +152,7 @@ class ChartingState extends MusicBeatState
 	var gridBlackLine:FlxSprite;
 	var vocals:FlxSound;
 
-	var player2:Character = new Character(0, 0, "dad");
+	var player2:OldCharacter = new OldCharacter(0, 0, "dad");
 	var player1:Boyfriend = new Boyfriend(0, 0, "bf");
 
 	public static var leftIcon:HealthIcon;
@@ -214,7 +216,7 @@ class ChartingState extends MusicBeatState
 
 		if (PlayState.SONG != null)
 		{
-			var diffSuffix = DifficultyCache.getSuffix(PlayState.songDifficulty);
+			var diffSuffix = DifficultyDataHandler.fetch(PlayState.songDifficulty).songSuffix;
 			_song = Song.conversionChecks(Song.loadFromJson(PlayState.SONG.songId, diffSuffix));
 		}
 		else
@@ -1048,8 +1050,8 @@ class ChartingState extends MusicBeatState
 			shiftNotes(Std.int(stepperShiftNoteDial.value), Std.int(stepperShiftNoteDialstep.value), Std.int(stepperShiftNoteDialms.value));
 		});
 
-		var characters:Array<String> = Character.characterList;
-		var gfVersions:Array<String> = Character.girlfriendList;
+		var characters:Array<String> = CharacterDataHandler.characterIds;
+		var gfVersions:Array<String> = CharacterDataHandler.girlfriendIds;
 		var stages:Array<String> = DataAssets.loadLinesFromFile(Paths.txt('data/stageList'));
 		var noteStyles:Array<String> = DataAssets.loadLinesFromFile(Paths.txt('data/noteStyleList'));
 
@@ -1501,7 +1503,7 @@ class ChartingState extends MusicBeatState
 		{
 			AudioAssets.playMusic(Paths.inst(daSong), false, 0.6, false);
 
-			var diffSuffix = DifficultyCache.getSuffix(PlayState.songDifficulty);
+			var diffSuffix = DifficultyDataHandler.fetch(PlayState.songDifficulty).songSuffix;
 			_song = Song.conversionChecks(Song.loadFromJson(PlayState.SONG.songId, diffSuffix));
 		}
 		vocals = new FlxSound().loadEmbedded(Paths.voices(daSong));
@@ -3236,7 +3238,7 @@ class ChartingState extends MusicBeatState
 
 	function loadJson(songId:String):Void
 	{
-		var diffSuffix = DifficultyCache.getSuffix(PlayState.songDifficulty);
+		var diffSuffix = DifficultyDataHandler.fetch(PlayState.songDifficulty).songSuffix;
 		PlayState.SONG = Song.loadFromJson(songId, diffSuffix);
 
 		while (curRenderedNotes.members.length > 0)
@@ -3358,7 +3360,7 @@ class ChartingState extends MusicBeatState
 		};
 
 		var data:String = TJSON.encode(json, "fancy");
-		var diffSuffix = DifficultyCache.getSuffix(PlayState.songDifficulty);
+		var diffSuffix = DifficultyDataHandler.fetch(PlayState.songDifficulty).songSuffix;
 		var fileName = '${_song.songId.toLowerCase()}${diffSuffix}.json';
 
 		// TODO: Does this work on HTML5? Lime supports it...

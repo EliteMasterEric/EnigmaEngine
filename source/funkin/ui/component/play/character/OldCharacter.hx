@@ -19,25 +19,27 @@
  * A sprite which represents either Boyfriend, Girlfriend, or an opponent during the Play state.
  * Handles loading of animations and offsets, and of character dancing animation status.
  */
-package funkin.ui.component.play;
+package funkin.ui.component.play.character;
 
-import flixel.math.FlxPoint;
-import flixel.group.FlxSpriteGroup;
 import flixel.addons.effects.FlxTrail;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxFramesCollection;
+import flixel.group.FlxSpriteGroup;
+import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
+import funkin.behavior.options.Options.AntiAliasingOption;
 import funkin.behavior.play.Conductor;
 import funkin.util.assets.DataAssets;
 import funkin.util.assets.GraphicsAssets;
 import funkin.util.assets.Paths;
-import funkin.behavior.options.Options.AntiAliasingOption;
+import funkin.util.Util;
+import funkin.data.CharacterData;
 
 using hx.strings.Strings;
 
 // Character is an FlxSpriteGroup that can contain multiple individual Character sprites.
-class Character extends FlxSpriteGroup
+class OldCharacter extends FlxSpriteGroup
 {
 	public var animOffsets:Map<String, Array<Dynamic>>;
 	public var debugMode:Bool = false;
@@ -80,38 +82,6 @@ class Character extends FlxSpriteGroup
 		return this.trailEnabled;
 	}
 
-	/**
-	 * Contains a list of characters valid to use as a player or CPU.
-	 */
-	public static var characterList:Array<String> = [];
-
-	/**
-	 * Contains a list of background characters valid only to use as a GF.
-	 */
-	public static var girlfriendList:Array<String> = [];
-
-	public static function initCharacterList()
-	{
-		characterList = DataAssets.listJSONsInPath('characters/');
-
-		for (charId in characterList)
-		{
-			var charData:CharacterData = parseDataFile(charId);
-			if (charData == null)
-			{
-				// TODO: Fix Polymod so unloaded mods don't appear in .list().
-				Debug.logError('Character $charId failed to load.');
-				characterList.remove(charId);
-				continue;
-			}
-			if (charData.isGF)
-			{
-				characterList.remove(charId);
-				girlfriendList.push(charId);
-			}
-		}
-	}
-
 	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
 	{
 		super(0, 0);
@@ -136,13 +106,13 @@ class Character extends FlxSpriteGroup
 				this.internalSprite.animation.addByPrefix('singRIGHT', 'GF Right Note', 24, false);
 				this.internalSprite.animation.addByPrefix('singUP', 'GF Up Note', 24, false);
 				this.internalSprite.animation.addByPrefix('singDOWN', 'GF Down Note', 24, false);
-				this.internalSprite.animation.addByIndices('sad', 'gf sad', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "", 24, false);
+				this.internalSprite.animation.addByIndices('sad', 'gf sad', Util.buildArrayFromRange(0, 12), "", 24, false);
 				this.internalSprite.animation.addByIndices('danceLeft', 'GF Dancing Beat', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24,
 					false);
-				this.internalSprite.animation.addByIndices('danceRight', 'GF Dancing Beat', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "",
-					24, false);
-				this.internalSprite.animation.addByIndices('hairBlow', "GF Dancing Beat Hair blowing", [0, 1, 2, 3], "", 24);
-				this.internalSprite.animation.addByIndices('hairFall', "GF Dancing Beat Hair Landing", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], "", 24, false);
+				this.internalSprite.animation.addByIndices('danceRight', 'GF Dancing Beat', Util.buildArrayFromRange(15, 29), "", 24, false);
+
+				this.internalSprite.animation.addByIndices('hairBlow', "GF Dancing Beat Hair blowing", Util.buildArrayFromRange(0, 3), "", 24);
+				this.internalSprite.animation.addByIndices('hairFall', "GF Dancing Beat Hair Landing", Util.buildArrayFromRange(0, 11), "", 24, false);
 				this.internalSprite.animation.addByPrefix('scared', 'GF FEAR', 24);
 
 				loadOffsetFile(curCharacter);
@@ -418,34 +388,15 @@ class Character extends FlxSpriteGroup
 				loadAnimationsFromDataFile();
 		}
 
-		this.trail = new FlxTrail(this.internalSprite, null, 4, 24, 0.3, 0.069);
-		this.trail.changeValuesEnabled(true, true, true, true);
-		// Set this.trailEnabled = true to add the trail.
-		// add(this.trail);
-
 		if (curCharacter.startsWith('bf'))
 			dance();
-	}
-
-	private static function parseDataFile(charId:String):CharacterData
-	{
-		// Load the data from JSON and cast it to a struct we can easily read.
-		var jsonData = DataAssets.loadJSON('characters/${charId}');
-		if (jsonData == null)
-		{
-			Debug.logError('Failed to parse JSON data for character ${charId}');
-			return null;
-		}
-
-		var data:CharacterData = cast jsonData;
-		return data;
 	}
 
 	function loadAnimationsFromDataFile()
 	{
 		Debug.logInfo('Generating character (${curCharacter}) from JSON data...');
 
-		var data:CharacterData = parseDataFile(curCharacter);
+		var data:CharacterData = CharacterDataHandler.fetch(curCharacter);
 		if (data == null)
 			return;
 
@@ -728,116 +679,4 @@ class Character extends FlxSpriteGroup
 	{
 		this.internalSprite.visible = visible;
 	}
-}
-
-typedef CharacterData =
-{
-	/**
-	 * The readable name for this character.
-	 * Used for menus like the Chart Editor.
-	 */
-	var name:String;
-
-	/**
-	 * The location of this asset relative to `assets/images`.
-	 */
-	var asset:String;
-
-	/**
-	 * The animation used when the character is initialized.
-	 */
-	var startingAnim:String;
-
-	/**
-	 * Value is true if the character is a Girlfriend character.
-	 * Meant only to dance in the BG and play animations.
-	 * Will not have singing animations.
-	 * @default false
-	 */
-	var ?isGF:Bool;
-
-	/**
-	 * Value is true if the character graphic is pixel art.
-	 * Forcibly disables anti-aliasing.
-	 * @default false
-	 */
-	var ?isPixel:Bool;
-
-	/**
-	 * Multiplier to scale the sprite by.
-	 * Default is 1 for no scaling.
-	 * Set this to 6 for pixel characters from Week 6.
-	 * @default 1
-	 */
-	var ?scale:Float;
-
-	/**
-	 * Define what type of texture atlas is used for this sheet.
-	 * Set this to 'packer' for the Spirit and 'sparrow' for everyone else.
-	 * @default 'sparrow'
-	 */
-	var ?atlasType:String;
-
-	/**
-	 * The color of this character's health bar.
-	 */
-	var barColor:String;
-
-	/**
-	 * A list of animations to add to this character.
-	 * If you're creating a GF, you should make a danceLeft and a danceRight.
-	 * If you're creating a BF, you should add an idle, and singLEFT, singUP, etc.
-	 */
-	var animations:Array<AnimationData>;
-}
-
-typedef AnimationData =
-{
-	/**
-	 * The name of this animation as referenced by the game.
-	 */
-	var name:String;
-
-	/**
-	 * The prefix for this animation's frames within the XML file.
-	 */
-	var prefix:String;
-
-	/**
-	 * The X and Y offset of this animation relative to the others. Defaults to 0, 0.
-	 * @default [0, 0]
-	 */
-	var ?offsets:Array<Int>;
-
-	/**
-	 * Whether this animation is looped.
-	 * @default false
-	 */
-	var ?looped:Bool;
-
-	/**
-	 * Set this to true to flip the sprites of this animation horizontally.
-	 * @default false
-	 */
-	var ?flipX:Bool;
-
-	/**
-	 * Set this to true to flip the sprites of this animation vertically.
-	 * @default false
-	 */
-	var ?flipY:Bool;
-
-	/**
-	 * The frame rate of this animation.
-	 * @default 24
-	 */
-	var ?frameRate:Int;
-
-	/**
-	 * If you want this animation to use only certain frames of an animation with a given prefix,
-	 * select them here.
-	 * @example [] (all frames)
-	 * @default [0, 1, 2, 3] (use only the first four frames)
-	 */
-	var ?frameIndices:Array<Int>;
 }

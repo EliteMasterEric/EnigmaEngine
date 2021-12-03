@@ -18,9 +18,10 @@
  * I18n.hx
  * Functionality to translate text. Powered by FireTongue.
  */
-package funkin.behavior.localization;
+package funkin.behavior.locale;
 
 import firetongue.FireTongue;
+import firetongue.Replace;
 
 class I18n
 {
@@ -36,18 +37,26 @@ class I18n
 	 * Fetch a string by its translation key.
 	 * @param key 
 	 */
-	public static function t(key:String, ns:String = 'data')
+	public static function t(key:String, ns:String = 'data'):String
 	{
 		var result = tongue.get(key, ns);
 		trace('Translate: $ns:$key -> "$result"');
+		return result;
 	}
 
-	/**
-	 * `<Q>`  = Standard single quotation mark ( " )
-	 * `<LQ>` = Fancy left quotation mark ( “ )
-	 * `<RQ>` = Fancy right quotation mark ( ” )
-	 * `<C>`  = Standard comma
-	 * `<N>`  = Line break
-	 * `<T>`  = Tab
-	 */
+	public static function f(key:String, format:Map<String, String>, ns:String = 'data'):String
+	{
+		var keys = [];
+		var values = [];
+		for (key => value in format)
+		{
+			keys.push(key);
+			values.push(value);
+		};
+
+		var result = Replace.flags(tongue.get(key, ns), keys, values);
+
+		trace('Format: $ns:$key -> "$result"');
+		return result;
+	}
 }

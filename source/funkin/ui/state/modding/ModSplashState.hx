@@ -119,7 +119,8 @@ class ModSplashState extends MusicBeatState
 		else if (FlxG.keys.justPressed.TWO)
 		{
 			Debug.logInfo("User chose to DISABLE mods.");
-			// Don't call ModCore.
+			// Make sure to init debug callbacks etc if we aren't loading mods.
+			ModCore.loadNoMods();
 			loadMainGame();
 		}
 		else if (FlxG.keys.justPressed.THREE)

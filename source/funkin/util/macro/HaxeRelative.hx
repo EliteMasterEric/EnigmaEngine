@@ -32,7 +32,7 @@ class HaxeRelative
 			return fields;
 		}
 
-		// Context.info('${cls.name}: Implementing IRelative...', cls.pos);
+		trace('[INFO] ${cls.name}: Implementing IRelative...');
 
 		// Create properties which additionally run this code when the updatePosition function when set.
 		var propertyBody = [macro this.updatePosition()];

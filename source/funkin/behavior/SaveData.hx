@@ -91,4 +91,20 @@ class SaveData
 
 		(cast(Lib.current.getChildAt(0), Main)).setFPSCap(FramerateCapOption.get());
 	}
+
+	/**
+	 * Sets the player's save data to indicate that the given week has been unlocked.
+	 * @param id The ID of the week to unlock.
+	 */
+	public static function unlockWeek(id:String, shouldUnlock:Bool = true)
+	{
+		if (id == null)
+			return;
+
+		if (FlxG.save.data.weeksUnlocked == null)
+			FlxG.save.data.weeksUnlocked = {};
+
+		FlxG.save.data.weeksUnlocked.set(id, shouldUnlock);
+		FlxG.save.flush();
+	}
 }

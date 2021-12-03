@@ -36,6 +36,8 @@ import funkin.ui.state.options.KeyBindMenu;
 import funkin.ui.state.options.OptionsMenu;
 import funkin.ui.state.play.LoadReplayState;
 import funkin.ui.state.play.PlayState;
+// import funkin.behavior.locale.I18n.t;
+// import funkin.behavior.locale.I18n.f;
 import funkin.util.Util;
 import lime.app.Application;
 import openfl.Lib;
@@ -48,7 +50,9 @@ class OptionCategory
 	/**
 	 * The display name of this category.
 	 */
-	public var name(default, null):String = "BLANK Category";
+	public var name(default, null):String = "UNKNOWN";
+
+	var key:String;
 
 	/**
 	 * The options in this category.
@@ -57,12 +61,14 @@ class OptionCategory
 
 	/**
 	 * The constructor.
-	 * @param catName The name to use for this category.
+	 * @param catKey The name to use for this category.
 	 * @param options The initial list of options for this category.
 	 */
-	public function new(catName:String, options:Array<Option>)
+	public function new(catKey:String, options:Array<Option>)
 	{
-		this.name = catName;
+		this.key = catKey;
+		// this.name = t(catKey, 'options');
+		this.name = catKey;
 		this._options = options;
 	}
 
@@ -183,6 +189,8 @@ class Option
 			SongOffsetOption.set(SongOffsetOption.DEFAULT);
 		if (SongPositionOption.get() == null)
 			SongPositionOption.set(SongPositionOption.DEFAULT);
+		if (StagePreloadOption.get() == null)
+			StagePreloadOption.set(StagePreloadOption.DEFAULT);
 		if (WIFE3AccuracyOption.get() == null)
 			WIFE3AccuracyOption.set(WIFE3AccuracyOption.DEFAULT);
 		if (ZoomLevelOption.get() == null)
@@ -221,6 +229,7 @@ class Option
 			noteQuantization: NoteQuantizationOption.DEFAULT,
 			npsDisplay: NPSDisplayOption.DEFAULT,
 			preloadCharacters: CharacterPreloadOption.DEFAULT,
+			preloadStages: StagePreloadOption.DEFAULT,
 			rainbowFpsCounter: RainbowFPSCounterOption.DEFAULT,
 			resetButton: ResetButtonOption.DEFAULT,
 			safeFrames: SafeFramesOption.DEFAULT,
@@ -539,12 +548,12 @@ class CharacterPreloadOption extends Option
 
 	private override function updateName():String
 	{
-		return get() ? "Preload Characters" : "Do not Preload Characters";
+		return get() ? "Preload Characters On" : "Preload Characters Off";
 	}
 
 	private override function updateDescription():String
 	{
-		return "Cache characters when the game starts. Significantly reduce song load time but increase memory usage.";
+		return "Cache character graphics when the game starts. Significantly reduce song load time but increase memory usage.";
 	}
 }
 
@@ -1883,6 +1892,49 @@ class SongPositionOption extends Option
 	private override function updateDescription():String
 	{
 		return "Toggles a progress bar and timer showing progress in the song.";
+	}
+}
+
+class StagePreloadOption extends Option
+{
+	public static final DEFAULT:Bool = true;
+
+	public static inline function get():Null<Bool>
+	{
+		if (FlxG.save.data.preferences == null)
+			return DEFAULT;
+		return FlxG.save.data.preferences.preloadStages;
+	}
+
+	public static inline function set(value:Null<Bool>):Null<Bool>
+	{
+		FlxG.save.data.preferences.preloadStages = value;
+		return get();
+	}
+
+	public override function onPress():Bool
+	{
+		set(!get());
+
+		name = updateName();
+		description = updateDescription();
+		return true;
+	}
+
+	public override inline function onReset():Bool
+	{
+		set(DEFAULT);
+		return true;
+	}
+
+	private override function updateName():String
+	{
+		return get() ? "Preload Stages On" : "Preload Stages Off";
+	}
+
+	private override function updateDescription():String
+	{
+		return "Cache stage graphics when the game starts. Significantly reduce song load time but increase memory usage.";
 	}
 }
 

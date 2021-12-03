@@ -22,6 +22,7 @@
  */
 package funkin.util;
 
+import openfl.desktop.ClipboardFormats;
 import flixel.math.FlxPoint;
 import flixel.FlxG;
 import flixel.util.FlxAxes;
@@ -29,6 +30,7 @@ import funkin.const.GameDimensions;
 import lime.app.Application as LimeApplication;
 import lime.math.Rectangle;
 import lime.system.System as LimeSystem;
+import openfl.desktop.Clipboard;
 
 class WindowUtil
 {
@@ -115,6 +117,26 @@ class WindowUtil
 		LimeApplication.current.window.y = y;
 	}
 
+	public static function setClipboard(value:String):Void
+	{
+		Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, value);
+	}
+
+	public static function getClipboard():String
+	{
+		return Clipboard.generalClipboard.getData(ClipboardFormats.TEXT_FORMAT);
+	}
+
+	/**
+	 * Pause execution for the given duration.
+	 * WARNING: This is a blocking call. The application will freeze if this is called from the main thread.
+	 * @param milliseconds Time to pause in milliseconds.
+	 */
+	public static function sleep(milliseconds:Int):Void
+	{
+		Sys.sleep(milliseconds / 1000);
+	}
+
 	/**
 	 * Crashes the game, like Bob does at the end of ONSLAUGHT.
 	 * Only works on SYS platforms like Windows/Mac/Linux/Android/iOS
@@ -151,12 +173,11 @@ class WindowUtil
  */
 class WindowShakeEvent
 {
-	public var intensity(default, null):Float;
-	public var duration(default, null):Float;
-	public var axes(default, null):FlxAxes;
+	public final intensity:Float;
+	public final duration:Float;
+	public final axes:FlxAxes;
 
 	var timeRemaining:Float = 0;
-
 	var basePosition:FlxPoint;
 	var offset:FlxPoint;
 

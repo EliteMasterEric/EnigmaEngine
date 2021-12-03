@@ -31,8 +31,8 @@ import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import funkin.ui.component.play.Boyfriend;
-import funkin.ui.component.play.Character;
+import funkin.ui.component.play.character.Boyfriend;
+import funkin.ui.component.play.character.OldCharacter;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
 import openfl.net.FileReference;
@@ -44,8 +44,8 @@ class AnimationDebug extends FlxState
 	var _file:FileReference;
 
 	var playerChar:Boyfriend;
-	var cpuChar:Character;
-	var currentChar:Character;
+	var cpuChar:OldCharacter;
+	var currentChar:OldCharacter;
 
 	var textAnim:FlxText;
 	var dumbTexts:FlxTypedGroup<FlxText>;
@@ -74,7 +74,7 @@ class AnimationDebug extends FlxState
 
 		if (isDad)
 		{
-			cpuChar = new Character(0, 0, daAnim);
+			cpuChar = new OldCharacter(0, 0, daAnim);
 			cpuChar.screenCenter();
 			cpuChar.debugMode = true;
 			add(cpuChar);

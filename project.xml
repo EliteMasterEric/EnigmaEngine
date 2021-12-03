@@ -512,6 +512,8 @@
 	<haxelib name="hscript" />
 	<!-- A motion library. Used by VideoHandler. -->
 	<haxelib name="actuate" />
+	<!-- A library for handling asynchronous tasks. -->
+	<haxelib name="haxe-concurrent" />
 	<!-- A library which allows loading and parting of WEBM video files. Used for cutscenes. -->
 	<haxelib name="extension-webm" />
 	<!-- A library providing a consistent set of user interface widgets. -->
@@ -607,11 +609,6 @@
 					 if="windows" unless="neko" />
 	<echo value="Platform supports feature: WebM"
 				if="FEATURE_WEBM" />
-	<!-- Defines whether the Thread class can be used. -->
-	<haxedef name="FEATURE_MULTITHREADING"
-					 if="cpp" />
-	<echo value="Platform supports feature: Multithreading"
-				if="FEATURE_MULTITHREADING" />
 	<!-- Defines whether mods are supported on this platform. -->
 	<haxedef name="FEATURE_MODCORE"
 					 if="desktop" />

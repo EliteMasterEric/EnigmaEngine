@@ -1,0 +1,6 @@
+// Defines the layout and behavior of the 'spooky' stage.
+
+function onCreate() {
+	// Here we need to define our script objects,
+	// as well as the base positions of our characters.
+}

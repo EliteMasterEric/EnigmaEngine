@@ -24,7 +24,7 @@ package funkin.ui.state.debug;
 import funkin.util.assets.AudioAssets;
 import funkin.ui.component.Cursor;
 import funkin.ui.component.GameCamera;
-import funkin.ui.component.play.Stage;
+import funkin.ui.component.play.stage.OldStage;
 import funkin.ui.state.play.PlayState;
 import flixel.FlxCamera;
 import flixel.FlxG;
@@ -35,8 +35,8 @@ import flixel.group.FlxGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxCollision;
 import flixel.util.FlxColor;
-import funkin.ui.component.play.Boyfriend;
-import funkin.ui.component.play.Character;
+import funkin.ui.component.play.character.Boyfriend;
+import funkin.ui.component.play.character.OldCharacter;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
 import openfl.net.FileReference;
@@ -52,9 +52,9 @@ class StageDebugState extends FlxState
 
 	var _file:FileReference;
 
-	var gfChar:Character;
+	var gfChar:OldCharacter;
 	var playerChar:Boyfriend;
-	var cpuChar:Character;
+	var cpuChar:OldCharacter;
 	var STAGE:Stage;
 	var camFollow:FlxObject;
 	var posText:FlxText;

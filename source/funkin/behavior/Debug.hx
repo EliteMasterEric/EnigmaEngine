@@ -24,16 +24,17 @@
  */
 package funkin.behavior;
 
-import funkin.util.SystemUtil;
+import funkin.util.concurrency.TaskWorker;
+import funkin.util.SystemSpecUtil;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.system.debug.log.LogStyle;
 import flixel.system.debug.watch.Tracker.TrackerProfile;
 import flixel.util.FlxStringUtil;
 import funkin.behavior.play.Song;
-import funkin.behavior.play.Song.SongData;
+import funkin.behavior.data.SongData;
 import funkin.const.Enigma;
-import funkin.ui.component.play.Character;
+import funkin.ui.component.play.character.OldCharacter;
 import funkin.ui.component.play.HealthIcon;
 import funkin.ui.component.play.Note;
 import funkin.ui.state.menu.FreeplayState;
@@ -242,7 +243,12 @@ class Debug
 		logInfo('  Friday Night Funkin\' version: ${Enigma.GAME_VERSION}');
 		logInfo('  Git commit: ${Enigma.COMMIT_HASH}');
 		logInfo('System telemetry:');
-		logInfo('  OS: ${SystemUtil.getOS()}');
+		logInfo('  OS: ${SystemSpecUtil.getOS()}');
+		logInfo('  CPU: ${SystemSpecUtil.getCPU()}');
+		logInfo('  GPU: ${SystemSpecUtil.getGPU()}');
+		logInfo('  Manufacturer: ${SystemSpecUtil.getManufacturer()}');
+		logInfo('  Language: ${SystemSpecUtil.getLanguage()}');
+		logInfo('  Screen resolution: ${SystemSpecUtil.getScreenResolution()}');
 
 		// Add a crash handler.
 		openfl.Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onUncaughtError);
@@ -318,7 +324,7 @@ class Debug
 	static function defineTrackerProfiles()
 	{
 		// Example: This will display all the properties that FlxSprite does, along with curCharacter and barColor.
-		FlxG.debugger.addTrackerProfile(new TrackerProfile(Character, ["curCharacter", "isPlayer", "barColor"], [FlxSprite]));
+		FlxG.debugger.addTrackerProfile(new TrackerProfile(OldCharacter, ["curCharacter", "isPlayer", "barColor"], [FlxSprite]));
 		FlxG.debugger.addTrackerProfile(new TrackerProfile(HealthIcon, ["char", "isPlayer", "isOldIcon"], [FlxSprite]));
 		FlxG.debugger.addTrackerProfile(new TrackerProfile(Note, ["x", "y", "strumTime", "mustPress", "rawNoteData", "sustainLength"], []));
 		FlxG.debugger.addTrackerProfile(new TrackerProfile(Song, [
@@ -501,9 +507,20 @@ class DebugLogWriter
 	}
 
 	/**
-	 * Output text to the log file.
+	 * Output text to the log file. Delegates the task to an async thread pool.
 	 */
 	public function write(input:Array<Dynamic>, logLevel = 'TRACE'):Void
+	{
+		TaskWorker.performTask(function():Void
+		{
+			writeSync(input, logLevel);
+		});
+	}
+
+	/**
+	 * Output text to the log file.
+	 */
+	public function writeSync(input:Array<Dynamic>, logLevel = 'TRACE'):Void
 	{
 		var ts = FlxStringUtil.formatTime(getTime(), true);
 		var msg = '$ts [${logLevel.rpad(5)}] ${input.join('')}';

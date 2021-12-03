@@ -21,8 +21,10 @@
  */
 package funkin.behavior.play;
 
-import funkin.behavior.play.Section.SwagSection;
-import funkin.behavior.play.Song.SongEvent;
+import funkin.behavior.data.SongData;
+import funkin.behavior.data.SongMeta;
+import funkin.behavior.data.Section.SwagSection;
+import funkin.behavior.data.SongEvent;
 import funkin.behavior.play.TimingStruct;
 import funkin.util.assets.DataAssets;
 import funkin.util.assets.LibraryAssets;
@@ -31,67 +33,6 @@ import funkin.util.assets.SongAssets;
 import tjson.TJSON;
 
 using hx.strings.Strings;
-
-class SongEvent
-{
-	public var name:String;
-	public var position:Float;
-	public var value:Float;
-	public var type:String;
-
-	public function new(name:String, pos:Float, value:Float, type:String)
-	{
-		this.name = name;
-		this.position = pos;
-		this.value = value;
-		this.type = type;
-	}
-}
-
-typedef SongData =
-{
-	@:deprecated
-	var ?song:String;
-
-	/**
-	 * The readable name of the song, as displayed to the user.
-	 * Can be any string.
-	 */
-	var ?songName:String;
-
-	/**
-	 * The internal name of the song, as used in the file system.
-	 */
-	var ?songId:String;
-
-	/**
-	 * The path of the song's instrumental and vocal files.
-	 * @default The song ID.
-	 */
-	var ?songFile:String;
-
-	var chartVersion:String;
-	var notes:Array<SwagSection>;
-	var eventObjects:Array<SongEvent>;
-	var bpm:Float;
-	var speed:Float;
-	var player1:String;
-	var player2:String;
-	var gfVersion:String;
-	var stage:String;
-	var ?offset:Int;
-	var ?freeplayColor:String;
-	var ?noteStyle:String;
-	var ?validScore:Bool;
-	var ?strumlineSize:Int;
-}
-
-typedef SongMeta =
-{
-	var ?offset:Int;
-	var ?name:String;
-	var ?freeplayColor:String;
-}
 
 class Song
 {

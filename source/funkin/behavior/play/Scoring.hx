@@ -186,19 +186,43 @@ class SongScore
 		return Math.round(result);
 	}
 
-	function getBaseNotesHit():Float
+	inline function getBaseNotesHit():Float
 	{
 		return (MISS_ACCURACY * miss) + (SHIT_ACCURACY * shit) + (BAD_ACCURACY * bad) + (GOOD_ACCURACY * good) + (SICK_ACCURACY * sick);
 	}
 
-	public function getNotesHit():Float
+	public inline function getNotesHit():Float
 	{
 		return WIFE3AccuracyOption.get() ? wifeNotesHit : getBaseNotesHit();
 	}
 
-	public function getAccuracy():Float
+	/**
+	 * Returns a value from 0-100%.
+	 */
+	public inline function getAccuracy():Float
 	{
 		return Math.max(0, getNotesHit() / totalNotes * 100);
+	}
+
+	/**
+	 * I made this a piecewise function because decimal accuracy only matters to those who get high numbers.
+	 * 0.75243 -> 75%
+	 * 0.95866 -> 95.8%
+	 * 0.99986 -> 99.986%
+	 */
+	public inline function getAccuracyStr():String
+	{
+		return formatAccuracyStr(getAccuracy());
+	}
+
+	public static function formatAccuracyStr(value:Float):String
+	{
+		if (value < 95)
+			return Util.truncateFloat(value, 0) + '%';
+		else if (value < 98)
+			return Util.truncateFloat(value, 1) + '%';
+		else
+			return Util.truncateFloat(value, 3) + '%';
 	}
 
 	/**

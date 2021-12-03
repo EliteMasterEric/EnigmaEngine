@@ -68,6 +68,17 @@ class ModCore
 		#end
 	}
 
+	public static function loadNoMods()
+	{
+		// We still need to configure the debug print calls etc.
+		#if FEATURE_MODCORE
+		Debug.logInfo("Initializing ModCore (using no mods)...");
+		loadModsById([]);
+		#else
+		Debug.logInfo("ModCore not initialized; not supported on this platform.");
+		#end
+	}
+
 	/**
 	 * If the user has configured an order of mods to load, returns the list of mod IDs in order.
 	 * Otherwise, returns a list of ALL installed mods in alphabetical order.
@@ -252,12 +263,12 @@ class ModCore
 		switch (error.code)
 		{
 			case MOD_LOAD_PREPARE:
-				Debug.logInfo(error.message, null);
+				Debug.logInfo('[POLYMOD] ${error.message}', null);
 			case MOD_LOAD_DONE:
-				Debug.logInfo(error.message, null);
+				Debug.logInfo('[POLYMOD] ${error.message}', null);
 			// case MOD_LOAD_FAILED:
 			case MISSING_ICON:
-				Debug.logWarn('A mod is missing an icon, will just skip it but please add one: ${error.message}', null);
+				Debug.logWarn('[POLYMOD] A mod is missing an icon, will just skip it but please add one: ${error.message}', null);
 			// case "parse_mod_version":
 			// case "parse_api_version":
 			// case "parse_mod_api_version":
@@ -278,11 +289,11 @@ class ModCore
 				switch (error.severity)
 				{
 					case NOTICE:
-						Debug.logInfo(error.message, null);
+						Debug.logInfo('[POLYMOD] ${error.message}', null);
 					case WARNING:
-						Debug.logWarn(error.message, null);
+						Debug.logWarn('[POLYMOD] ${error.message}', null);
 					case ERROR:
-						Debug.logError(error.message, null);
+						Debug.logError('[POLYMOD] ${error.message}', null);
 				}
 		}
 	}

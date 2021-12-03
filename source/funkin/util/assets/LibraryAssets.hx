@@ -56,4 +56,32 @@ class LibraryAssets
 	{
 		return assetExists(Paths.image(key, library), IMAGE);
 	}
+
+	/**
+	 * List all file IDs files under a given subdirectory.
+	 * @param path The path to look under.
+	 * @return The list of image files under that path.
+	 */
+	public static function listImagesInPath(path:String, ?library:String = null)
+	{
+		// We need to query OpenFlAssets, not the file system, because of Polymod.
+
+		// These are in the form of a RAW file system path.
+		// We need to filter them by
+		// then make them in the form of an internal asset ID.
+		var typedAssets = OpenFlAssets.list(IMAGE);
+
+		var queryRegex = new EReg('^(assets|mods/[a-z0-9]+)/' + (library != null ? '${library}/' : '') + 'images/(${path}/.+)\\.(.+)$', 'i');
+
+		var filteredAssets = typedAssets.map(function(asset:String):String
+		{
+			// Get just the asset ID, without the extension. Filter out any values that don't match the query.
+			return queryRegex.match(asset) ? queryRegex.matched(2) : null;
+		}).filter(function(asset:String):Bool
+		{
+			return asset != null;
+		});
+
+		return filteredAssets;
+	}
 }

@@ -40,8 +40,8 @@ import funkin.behavior.play.Scoring;
 import funkin.const.Enigma;
 import funkin.behavior.options.Options;
 import funkin.ui.component.Cursor;
-import funkin.ui.component.play.Boyfriend;
-import funkin.ui.component.play.Character;
+import funkin.ui.component.play.character.Boyfriend;
+import funkin.ui.component.play.character.OldCharacter;
 import funkin.ui.component.play.Note;
 import funkin.util.assets.GraphicsAssets;
 import funkin.util.assets.Paths;
@@ -65,8 +65,8 @@ class GameplayCustomizeState extends MusicBeatState
 	var blackBorder:FlxSprite;
 
 	var bf:Boyfriend;
-	var dad:Character;
-	var gf:Character;
+	var dad:OldCharacter;
+	var gf:OldCharacter;
 
 	var strumLine:FlxSprite;
 	var strumLineNotes:FlxTypedGroup<FlxSprite>;
@@ -110,11 +110,11 @@ class GameplayCustomizeState extends MusicBeatState
 
 		var camFollow = new FlxObject(0, 0, 1, 1);
 
-		dad = new Character(100, 100, 'dad');
+		dad = new OldCharacter(100, 100, 'dad');
 
 		bf = new Boyfriend(770, 450, 'bf');
 
-		gf = new Character(400, 130, 'gf');
+		gf = new OldCharacter(400, 130, 'gf');
 		gf.scrollFactor.set(0.95, 0.95);
 
 		var camPos:FlxPoint = new FlxPoint(dad.getGraphicMidpoint().x + 400, dad.getGraphicMidpoint().y);

@@ -21,6 +21,7 @@
  */
 package funkin.ui.component.menu;
 
+import funkin.data.DifficultyData;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.FlxGraphic;
@@ -29,8 +30,6 @@ import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import funkin.behavior.play.Difficulty;
-import funkin.behavior.play.Week.WeekCache;
 import funkin.ui.component.input.InteractableSprite;
 import funkin.ui.state.menu.MainMenuState;
 import funkin.util.assets.DataAssets;
@@ -40,16 +39,12 @@ import funkin.util.Util;
 
 class StoryWeekDifficultyItem extends InteractableSprite
 {
-	public var curDifficultyId(default, set):String = "normal";
-	public var curDifficultyData(default, null):Difficulty = {
-		id: "normal",
-		songSuffix: "",
-		graphic: null, // Load this later.
-	};
+	public var curDifficultyId(default, set):String = DifficultyDataHandler.defaultDifficulty;
+	public var curDifficultyData(default, null):DifficultyData = DifficultyDataHandler.fetch(DifficultyDataHandler.defaultDifficulty);
 
 	function set_curDifficultyId(newValue:String)
 	{
-		var diff = DifficultyCache.get(newValue);
+		var diff = DifficultyDataHandler.fetch(newValue);
 		if (diff != null)
 		{
 			trace('Updating difficulty graphic (${newValue}:${diff})...');
@@ -66,7 +61,7 @@ class StoryWeekDifficultyItem extends InteractableSprite
 
 	public function changeDifficulty(index:Int)
 	{
-		var oldIndex = DifficultyCache.difficultyList.indexOf(curDifficultyId);
+		var oldIndex = DifficultyDataHandler.indexOfId(curDifficultyId);
 		if (oldIndex < 0)
 		{
 			Debug.logWarn('Difficulty not found in list, resetting...');
@@ -75,11 +70,11 @@ class StoryWeekDifficultyItem extends InteractableSprite
 
 		var newIndex = oldIndex + index;
 		if (newIndex < 0)
-			newIndex = DifficultyCache.difficultyList.length - 1;
-		if (newIndex >= DifficultyCache.difficultyList.length)
+			newIndex = DifficultyDataHandler.difficultyIds.length - 1;
+		if (newIndex >= DifficultyDataHandler.difficultyIds.length)
 			newIndex = 0;
 
-		this.curDifficultyId = DifficultyCache.difficultyList[newIndex];
+		this.curDifficultyId = DifficultyDataHandler.getByIndex(newIndex).id;
 	}
 
 	public function new(x:Float, y:Float)
@@ -91,10 +86,10 @@ class StoryWeekDifficultyItem extends InteractableSprite
 
 	function loadDifficultyGraphic()
 	{
-		if (DifficultyCache.difficultyList.contains(curDifficultyId))
+		if (DifficultyDataHandler.difficultyIds.contains(curDifficultyId))
 		{
-			var g = DifficultyCache.get(curDifficultyId).graphic;
-			if (DifficultyCache.get(curDifficultyId).graphic != null)
+			var g = DifficultyDataHandler.fetch(curDifficultyId).graphic;
+			if (g != null)
 			{
 				this.loadGraphic(g);
 				this.updateHitbox();
@@ -107,7 +102,7 @@ class StoryWeekDifficultyItem extends InteractableSprite
 		else
 		{
 			Debug.logWarn('Could not load difficulty data (${curDifficultyId}), using fallback graphic!');
-			var g = DifficultyCache.getFallback().graphic;
+			var g = DifficultyDataHandler.getFallback().graphic;
 			if (g != null)
 			{
 				this.loadGraphic(g);

@@ -78,38 +78,33 @@ class DataAssets
 		return results;
 	}
 
-	public static function loadJSON(key:String, ?library:String):Dynamic
+	public static function loadJSON(key:String, ?library:String):Null<Dynamic>
 	{
+		var path:String = Paths.json(key, library);
+
+		if (!LibraryAssets.textExists(path))
+		{
+			Debug.logError('Could not load data from non-existant file ${path}');
+			return null;
+		}
+
 		var rawJson:String = null;
 		try
 		{
 			rawJson = OpenFlAssets.getText(Paths.json(key, library)).trim();
-		}
-		catch (e)
-		{
-			Debug.logError('AN ERROR OCCURRED trying to read a JSON file (${library}:${key}). It probably does not exist.');
-			Debug.logError(e.message);
-			return null;
-		}
+			// Perform cleanup on files that have bad data at the end.
+			while (rawJson != null && rawJson.length > 0 && !rawJson.endsWith("}"))
+			{
+				rawJson = rawJson.substr(0, rawJson.length - 1);
+			}
 
-		// Perform cleanup on files that have bad data at the end.
-		while (rawJson != null && rawJson.length > 0 && !rawJson.endsWith("}"))
-		{
-			rawJson = rawJson.substr(0, rawJson.length - 1);
-		}
-
-		try
-		{
 			// Attempt to parse and return the JSON data.
 			// Use TJSON, which is much more flexible (allows comments and missing commas).
 			return TJSON.parse(rawJson);
 		}
 		catch (e)
 		{
-			Debug.logError('AN ERROR OCCURRED parsing a JSON file (${library}:${key}).');
-			Debug.logError(e.message);
-
-			// Return null.
+			Debug.logError('AN ERROR OCCURRED while reading a JSON file $path');
 			return null;
 		}
 	}

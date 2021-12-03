@@ -27,7 +27,7 @@ import funkin.util.assets.Paths;
 import funkin.ui.state.menu.FreeplayState;
 import funkin.ui.state.menu.StoryMenuState;
 import funkin.behavior.play.Conductor;
-import funkin.ui.component.play.Boyfriend;
+import funkin.ui.component.play.character.Boyfriend;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.util.FlxColor;
@@ -42,7 +42,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	public function new(x:Float, y:Float)
 	{
-		var daStage = PlayState.STAGE.curStage;
+		var daStage = PlayState.STAGE.stageId;
 		var daBf:String = '';
 		switch (PlayState.playerChar.curCharacter)
 		{

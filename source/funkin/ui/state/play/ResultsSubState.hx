@@ -242,6 +242,7 @@ class ResultsSubState extends FlxSubState
 			// Save your song score.
 			Highscore.saveScore(PlayState.SONG.songId, Scoring.currentScore.getScore(), PlayState.songDifficulty);
 			Highscore.saveCombo(PlayState.SONG.songId, Scoring.generateLetterRank(Scoring.currentScore.getAccuracy()), PlayState.songDifficulty);
+			Highscore.saveAccuracy(PlayState.SONG.songId, Scoring.currentScore.getAccuracy(), PlayState.songDifficulty);
 
 			if (PlayState.isStoryMode())
 			{
@@ -268,6 +269,7 @@ class ResultsSubState extends FlxSubState
 			// Save your song score.
 			Highscore.saveScore(PlayState.SONG.songId, Scoring.currentScore.getScore(), PlayState.songDifficulty);
 			Highscore.saveCombo(PlayState.SONG.songId, Scoring.generateLetterRank(Scoring.currentScore.getAccuracy()), PlayState.songDifficulty);
+			Highscore.saveAccuracy(PlayState.SONG.songId, Scoring.currentScore.getAccuracy(), PlayState.songDifficulty);
 
 			if (music != null)
 				music.fadeOut(0.3);

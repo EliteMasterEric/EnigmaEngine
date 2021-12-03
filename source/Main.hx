@@ -20,6 +20,7 @@
  */
 package;
 
+import funkin.util.FocusUtil;
 import funkin.const.GameDimensions;
 import flixel.FlxG;
 import flixel.FlxGame;
@@ -157,6 +158,8 @@ class Main extends Sprite
 		// Perform custom initialization.
 		Cursor.setupCursor();
 		GestureUtil.initMouseControls();
+
+		FocusUtil.init();
 
 		#if FEATURE_DISCORD
 		Debug.logTrace("App has Discord integration support...");

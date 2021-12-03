@@ -18,7 +18,7 @@
  * Section.hx
  * A data structure used by the Charter to hold data about the notes in a section.
  */
-package funkin.behavior.play;
+package funkin.behavior.data;
 
 typedef SwagSection =
 {

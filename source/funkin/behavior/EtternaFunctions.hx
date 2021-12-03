@@ -21,7 +21,7 @@
 package funkin.behavior;
 
 import funkin.behavior.play.Scoring;
-import funkin.behavior.play.Song.SongData;
+import funkin.behavior.data.SongData;
 import funkin.ui.state.play.PlayState;
 
 class EtternaFunctions

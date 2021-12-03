@@ -26,7 +26,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.util.FlxColor;
-import funkin.behavior.play.Section.SwagSection;
+import funkin.behavior.data.Section.SwagSection;
 import funkin.ui.state.charting.ChartingState;
 
 class SectionRender extends FlxSprite

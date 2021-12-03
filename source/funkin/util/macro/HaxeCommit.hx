@@ -41,7 +41,7 @@ class HaxeCommit
 		var commitHash:String = process.stdout.readLine();
 		var commitHashSplice:String = commitHash.substr(0, 7);
 
-		// haxe.macro.Context.info('[INFO] We are building in git commit ${commitHashSplice}', pos);
+		trace('[INFO] We are building in git commit ${commitHashSplice}');
 
 		// Generates a string expression
 		return macro $v{commitHashSplice};

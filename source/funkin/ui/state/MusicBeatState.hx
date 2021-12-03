@@ -21,6 +21,7 @@
  */
 package funkin.ui.state;
 
+import funkin.util.FocusUtil;
 import funkin.behavior.options.Options.RainbowFPSCounterOption;
 import funkin.behavior.options.Options.MinimalModeOption;
 import funkin.behavior.options.Options.FramerateCapOption;
@@ -117,6 +118,16 @@ class MusicBeatState extends FlxUIState // InteractableUIState
 	function onGamepadRemoved(event:GameInputEvent)
 	{
 		return;
+	}
+
+	override function onFocus()
+	{
+		FocusUtil.onFocus();
+	}
+
+	override function onFocusLost()
+	{
+		FocusUtil.onFocusLost();
 	}
 
 	var array:Array<FlxColor> = [

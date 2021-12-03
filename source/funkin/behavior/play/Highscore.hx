@@ -20,9 +20,10 @@
  */
 package funkin.behavior.play;
 
+import funkin.data.DifficultyData.DifficultyDataHandler;
+import funkin.data.DifficultyData.DifficultyDataHandler;
 import funkin.behavior.options.Options;
 import flixel.FlxG;
-import funkin.behavior.play.Difficulty.DifficultyCache;
 
 using hx.strings.Strings;
 
@@ -30,8 +31,10 @@ class Highscore
 {
 	public static var songScores:Map<String, Int> = new Map();
 	public static var songCombos:Map<String, String> = new Map();
+	public static var songAccuracy:Map<String, Float> = new Map();
 	public static var weekScores:Map<String, Int> = new Map();
 	public static var weekCombos:Map<String, String> = new Map();
+	public static var weekAccuracy:Map<String, Float> = new Map();
 
 	public static function saveScore(song:String, score:Int = 0, ?diffId:String = 'normal'):Void
 	{
@@ -76,6 +79,18 @@ class Highscore
 		}
 	}
 
+	public static function saveAccuracy(song:String, accuracy:Float, ?diffId:String = 'normal'):Void
+	{
+		if (!BotPlayOption.get())
+		{
+			var daSong:String = formatSong(song, diffId);
+			if (!songAccuracy.exists(daSong) || (songAccuracy.exists(daSong) && songAccuracy.get(daSong) < accuracy))
+			{
+				setSongAccuracy(daSong, accuracy);
+			}
+		}
+	}
+
 	public static function saveWeekScore(week:String = 'unknown', score:Int = 0, ?diffId:String = 'normal'):Void
 	{
 		if (!BotPlayOption.get())
@@ -113,6 +128,19 @@ class Highscore
 		}
 	}
 
+	public static function saveWeekAccuracy(week:String, accuracy:Float, ?diffId:String = 'normal'):Void
+	{
+		if (!BotPlayOption.get())
+		{
+			var daWeek:String = formatSong(week, diffId);
+
+			if (!weekAccuracy.exists(daWeek) || (weekAccuracy.exists(daWeek) && weekAccuracy.get(daWeek) < accuracy))
+			{
+				setWeekAccuracy(daWeek, accuracy);
+			}
+		}
+	}
+
 	static function setSongScore(song:String, score:Int):Void
 	{
 		songScores.set(song, score);
@@ -124,6 +152,13 @@ class Highscore
 	{
 		songCombos.set(song, combo);
 		FlxG.save.data.songCombos = songCombos;
+		FlxG.save.flush();
+	}
+
+	static function setSongAccuracy(song:String, accuracy:Float):Void
+	{
+		songAccuracy.set(song, accuracy);
+		FlxG.save.data.songAccuracy = songAccuracy;
 		FlxG.save.flush();
 	}
 
@@ -141,6 +176,13 @@ class Highscore
 		FlxG.save.flush();
 	}
 
+	static function setWeekAccuracy(week:String, accuracy:Float):Void
+	{
+		weekAccuracy.set(week, accuracy);
+		FlxG.save.data.weekAccuracy = weekAccuracy;
+		FlxG.save.flush();
+	}
+
 	public static function clearScores()
 	{
 		for (key in songScores.keys())
@@ -153,6 +195,11 @@ class Highscore
 			setSongCombo(key, '');
 		}
 
+		for (key in songAccuracy.keys())
+		{
+			setSongAccuracy(key, 0);
+		}
+
 		for (key in weekScores.keys())
 		{
 			setWeekScore(key, 0);
@@ -163,29 +210,32 @@ class Highscore
 			setWeekCombo(key, '');
 		}
 
+		for (key in weekAccuracy.keys())
+		{
+			setWeekAccuracy(key, 0);
+		}
+
 		FlxG.save.flush();
 	}
 
 	public static function formatSong(song:String, diffId:String):String
 	{
-		var diffSuffix = DifficultyCache.getSuffix(diffId);
-
-		return '$song$diffSuffix';
+		return '$song${DifficultyDataHandler.fetch(diffId).songSuffix}';
 	}
 
 	static function getComboInt(combo:String):Int
 	{
 		switch (combo)
 		{
-			case 'SDCB':
+			case 'SDCB': // Single Digit Combo Breaks
 				return 1;
-			case 'FC':
+			case 'FC': // Full Clear (Bad Full Clear)
 				return 2;
-			case 'GFC':
+			case 'GFC': // Good Full Clear
 				return 3;
-			case 'SFC':
+			case 'SFC': // Sick Full Clear
 				return 4;
-			default:
+			default: // None
 				return 0;
 		}
 	}
@@ -206,12 +256,28 @@ class Highscore
 		return songCombos.get(formatSong(song, diffId));
 	}
 
+	public static function getSongAccuracy(song:String, diffId:String):Float
+	{
+		if (!songAccuracy.exists(formatSong(song, diffId)))
+			setSongAccuracy(formatSong(song, diffId), 0);
+
+		return songAccuracy.get(formatSong(song, diffId));
+	}
+
 	public static function getWeekScore(week:String, diffId:String):Int
 	{
 		if (!weekScores.exists(formatSong(week, diffId)))
 			setWeekScore(formatSong(week, diffId), 0);
 
 		return weekScores.get(formatSong(week, diffId));
+	}
+
+	public static function getWeekAccuracy(week:String, diffId:String):Float
+	{
+		if (!weekAccuracy.exists(formatSong(week, diffId)))
+			setWeekAccuracy(formatSong(week, diffId), 0);
+
+		return weekAccuracy.get(formatSong(week, diffId));
 	}
 
 	public static function getWeekCombo(week:String, diffId:String):String
@@ -228,6 +294,10 @@ class Highscore
 		{
 			songScores = FlxG.save.data.songScores;
 		}
+		if (FlxG.save.data.songAccuracy != null)
+		{
+			songAccuracy = FlxG.save.data.songAccuracy;
+		}
 		if (FlxG.save.data.songCombos != null)
 		{
 			songCombos = FlxG.save.data.songCombos;
@@ -235,6 +305,10 @@ class Highscore
 		if (FlxG.save.data.weekScores != null)
 		{
 			weekScores = FlxG.save.data.weekScores;
+		}
+		if (FlxG.save.data.weekAccuracy != null)
+		{
+			weekAccuracy = FlxG.save.data.weekAccuracy;
 		}
 		if (FlxG.save.data.weekCombos != null)
 		{

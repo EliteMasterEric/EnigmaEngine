@@ -21,6 +21,7 @@
  */
 package funkin.ui.state.title;
 
+import funkin.data.DifficultyData.DifficultyDataHandler;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
 import flixel.addons.transition.TransitionData;
@@ -39,19 +40,17 @@ import funkin.behavior.mods.IHook;
 import funkin.behavior.options.Options;
 import funkin.behavior.options.PlayerSettings;
 import funkin.behavior.play.Conductor;
-import funkin.behavior.play.Difficulty.DifficultyCache;
 import funkin.behavior.play.Highscore;
 import funkin.behavior.SaveData;
 import funkin.const.Enigma;
 import funkin.ui.component.Alphabet;
 import funkin.ui.component.Cursor;
-import funkin.ui.component.play.Character;
+import funkin.ui.component.play.character.OldCharacter;
 import funkin.ui.state.menu.MainMenuState;
 import funkin.util.assets.DataAssets;
 import funkin.util.assets.GraphicsAssets;
 import funkin.util.assets.Paths;
 import haxe.extern.EitherType;
-import openfl.Assets as OpenFlAssets;
 import openfl.Assets;
 #if FEATURE_DISCORD
 import funkin.behavior.api.Discord.DiscordClient;
@@ -95,7 +94,7 @@ class TitleState extends MusicBeatState implements IHook
 
 	/**
 	 * Sprite group containing all the parts of the intro credits.
-	    * Makes the logic for skipping the title screen easy.
+	 		* Makes the logic for skipping the title screen easy.
 	 */
 	var creditsGroup:FlxGroup;
 
@@ -139,7 +138,7 @@ class TitleState extends MusicBeatState implements IHook
 
 	/**
 	 * Text that reads "Press ENTER to Start".
-	    * Customize this by replacing `images/titleEnter.png` and the associated XML.
+	 		* Customize this by replacing `images/titleEnter.png` and the associated XML.
 	 */
 	var titleText:FlxSprite;
 
@@ -209,14 +208,6 @@ class TitleState extends MusicBeatState implements IHook
 			sys.FileSystem.createDirectory('${Sys.getCwd()}/replays');
 		}
 		#end
-
-		// No reason not to do this step as early as possible.
-		DifficultyCache.initDifficulties();
-
-		@:privateAccess
-		{
-			Debug.logTrace("OpenFL loaded " + openfl.Assets.getLibrary("default").assetsLoaded + " assets into the default library");
-		}
 
 		// This line only runs if we didn't run the Caching state (i.e. on HTML5 platforms).
 		#if !FEATURE_FILESYSTEM
@@ -616,9 +607,7 @@ class TitleState extends MusicBeatState implements IHook
 	 */
 	function reloadWackyText():Void
 	{
-		var wackyText:String = Assets.getText(Paths.txt('data/introText'));
-
-		var wackyTextLines:Array<String> = wackyText.split('\n');
+		var wackyTextLines:Array<String> = DataAssets.loadLinesFromFile(Paths.txt('data/introText'));
 		var wackyTextEntries:Array<Array<String>> = [];
 
 		for (i in wackyTextLines)

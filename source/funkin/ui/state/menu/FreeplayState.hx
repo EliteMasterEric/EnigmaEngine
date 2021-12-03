@@ -14,12 +14,11 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.DiffCalc;
-import funkin.behavior.play.Difficulty;
-import funkin.behavior.play.Difficulty.DifficultyCache;
+import funkin.data.DifficultyData;
 import funkin.behavior.play.Highscore;
 import funkin.behavior.play.Scoring;
 import funkin.behavior.play.Song;
-import funkin.behavior.play.Song.SongData;
+import funkin.behavior.data.SongData;
 import funkin.ui.audio.MainMenuMusic;
 import funkin.ui.component.Alphabet;
 import funkin.ui.component.play.HealthIcon;
@@ -61,8 +60,10 @@ class FreeplayState extends MusicBeatState
 	var diffCalcText:FlxText;
 	var previewtext:FlxText;
 	var lerpScore:Int = 0;
-	var intendedScore:Int = 0;
-	var combo:String = '';
+
+	var highScore:Int = 0;
+	var highAccuracy:Float = 0;
+	var highCombo:String = '';
 
 	var bg:FlxSprite;
 
@@ -81,7 +82,7 @@ class FreeplayState extends MusicBeatState
 
 	public static function loadDiff(diff:String, format:String, array:Map<String, SongData>)
 	{
-		var curSongData = Song.loadFromJson(format, DifficultyCache.getSuffix(diff));
+		var curSongData = Song.loadFromJson(format, DifficultyDataHandler.fetch(PlayState.songDifficulty).songSuffix);
 		if (curSongData == null)
 		{
 			Debug.logError('ERROR in Freeplay trying to load song data: ${format} : ${diff}');
@@ -192,7 +193,7 @@ class FreeplayState extends MusicBeatState
 
 			// Scan for valid difficulties for this song.
 			if (SongAssets.doesSongExist(songId, ''))
-				diffsThatExist.push(DifficultyCache.defaultDifficulty);
+				diffsThatExist.push(DifficultyDataHandler.defaultDifficulty);
 			diffsThatExist = diffsThatExist.concat(SongAssets.listDifficultiesForSong(songId));
 
 			// If none exist, display a popup (VERY high priority notification).
@@ -236,13 +237,13 @@ class FreeplayState extends MusicBeatState
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
 
-		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, 0.4));
+		lerpScore = Math.floor(FlxMath.lerp(lerpScore, highScore, 0.4));
 
-		if (Math.abs(lerpScore - intendedScore) <= 10)
-			lerpScore = intendedScore;
+		if (Math.abs(lerpScore - highScore) <= 10)
+			lerpScore = highScore;
 
 		scoreText.text = "PERSONAL BEST:" + lerpScore;
-		comboText.text = combo + '\n';
+		comboText.text = SongScore.formatAccuracyStr(highAccuracy) + '($highCombo)\n';
 
 		if (FlxG.sound.music.volume > 0.8)
 		{
@@ -365,7 +366,7 @@ class FreeplayState extends MusicBeatState
 	{
 		var curSongId = songs[curSongIndex].songId;
 		var curSongData = songData.get(curSongId);
-		var curDiffData = DifficultyCache.getByIndex(curDiffIndex);
+		var curDiffData = DifficultyDataHandler.getByIndex(curDiffIndex);
 		var curSongCurDiff = curSongData.get(curDiffData.id);
 		if (curSongCurDiff != null)
 		{
@@ -376,7 +377,7 @@ class FreeplayState extends MusicBeatState
 		{
 			Debug.logWarn('Song ${songs[curSongIndex].songName} (${songs[curSongIndex].songId}) has no difficulty ${curDiffIndex}, is this intended?');
 			diffCalcText.text = 'RATING: N/A';
-			diffText.text = '${DifficultyCache.getByIndex(curDiffIndex).id.toUpperCase()} (NOT AVAILABLE)';
+			diffText.text = '${DifficultyDataHandler.getByIndex(curDiffIndex).id.toUpperCase()} (NOT AVAILABLE)';
 		}
 	}
 
@@ -385,7 +386,7 @@ class FreeplayState extends MusicBeatState
 		try
 		{
 			// First, get the song data.
-			var curDiffData = DifficultyCache.getByIndex(curDiffIndex);
+			var curDiffData = DifficultyDataHandler.getByIndex(curDiffIndex);
 			var currentSongData = songData.get(songs[curSongIndex].songName).get(curDiffData.id);
 			if (currentSongData == null)
 				return;
@@ -405,7 +406,7 @@ class FreeplayState extends MusicBeatState
 
 	function loadSong(isCharting:Bool = false)
 	{
-		loadSongInFreePlay(songs[curSongIndex].songId, DifficultyCache.getByIndex(curDiffIndex).id, isCharting);
+		loadSongInFreePlay(songs[curSongIndex].songId, DifficultyDataHandler.getByIndex(curDiffIndex).id, isCharting);
 
 		clean();
 	}
@@ -454,12 +455,12 @@ class FreeplayState extends MusicBeatState
 		curDiffIndex += change;
 
 		if (curDiffIndex < 0)
-			curDiffIndex = DifficultyCache.difficultyList.length - 1;
-		if (curDiffIndex > (DifficultyCache.difficultyList.length - 1))
+			curDiffIndex = DifficultyDataHandler.difficultyIds.length - 1;
+		if (curDiffIndex > (DifficultyDataHandler.difficultyIds.length - 1))
 			curDiffIndex = 0;
 
 		// Only allow VALID difficulties. We may need to skip again.
-		if (!songs[curSongIndex].diffs.contains(DifficultyCache.getByIndex(curDiffIndex).id))
+		if (!songs[curSongIndex].diffs.contains(DifficultyDataHandler.getByIndex(curDiffIndex).id))
 		{
 			if (change != 0)
 			{
@@ -468,8 +469,9 @@ class FreeplayState extends MusicBeatState
 			return;
 		}
 
-		intendedScore = Highscore.getSongScore(songs[curSongIndex].songId, DifficultyCache.getByIndex(curDiffIndex).id);
-		combo = Highscore.getSongCombo(songs[curSongIndex].songId, DifficultyCache.getByIndex(curDiffIndex).id);
+		highScore = Highscore.getSongScore(songs[curSongIndex].songId, DifficultyDataHandler.getByIndex(curDiffIndex).id);
+		highAccuracy = Highscore.getSongAccuracy(songs[curSongIndex].songId, DifficultyDataHandler.getByIndex(curDiffIndex).id);
+		highCombo = Highscore.getSongCombo(songs[curSongIndex].songId, DifficultyDataHandler.getByIndex(curDiffIndex).id);
 		updateDifficultyText();
 	}
 
@@ -484,19 +486,20 @@ class FreeplayState extends MusicBeatState
 		if (curSongIndex >= songs.length)
 			curSongIndex = 0;
 
-		var curDiffId = DifficultyCache.getByIndex(curDiffIndex).id;
+		var curDiffId = DifficultyDataHandler.getByIndex(curDiffIndex).id;
 
 		// Does existing difficulty count?
 		if (songs[curSongIndex] != null && !songs[curSongIndex].diffs.contains(curDiffId))
 		{
-			curDiffIndex = DifficultyCache.indexOfId(songs[curSongIndex].diffs[0]);
+			curDiffIndex = DifficultyDataHandler.indexOfId(songs[curSongIndex].diffs[0]);
 		}
 
 		// Recolor the background.
 		this.bg.color = songs[curSongIndex].color;
 
-		intendedScore = Highscore.getSongScore(songs[curSongIndex].songId, curDiffId);
-		combo = Highscore.getSongCombo(songs[curSongIndex].songId, curDiffId);
+		highScore = Highscore.getSongScore(songs[curSongIndex].songId, curDiffId);
+		highAccuracy = Highscore.getSongAccuracy(songs[curSongIndex].songId, curDiffId);
+		highCombo = Highscore.getSongCombo(songs[curSongIndex].songId, curDiffId);
 
 		updateDifficultyText();
 
@@ -506,7 +509,7 @@ class FreeplayState extends MusicBeatState
 
 		try
 		{
-			var curDiffId = DifficultyCache.getByIndex(curDiffIndex).id;
+			var curDiffId = DifficultyDataHandler.getByIndex(curDiffIndex).id;
 			var songDataCurrentDiff = songData.get(songs[curSongIndex].songId).get(curDiffId);
 			if (songDataCurrentDiff != null)
 			{

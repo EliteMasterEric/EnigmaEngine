@@ -21,11 +21,11 @@
  */
 package funkin.ui.state.play;
 
+import funkin.data.DifficultyData.DifficultyDataHandler;
 import funkin.behavior.options.Options.AntiAliasingOption;
 import funkin.behavior.play.Song;
 import funkin.ui.state.options.OptionsMenu;
 import funkin.behavior.play.Replay;
-import funkin.behavior.play.Difficulty.DifficultyCache;
 import funkin.util.Util;
 import funkin.util.assets.Paths;
 import flash.text.TextField;
@@ -213,11 +213,9 @@ class LoadReplayState extends MusicBeatState
 						songFormat = 'milf';
 				}
 
-				var songPath = "";
-
 				try
 				{
-					var diffSuffix = DifficultyCache.getSuffix(PlayState.currentReplay.replay.songDifficulty);
+					var diffSuffix = DifficultyDataHandler.fetch(PlayState.songDifficulty).songSuffix;
 					PlayState.SONG = Song.loadFromJson(PlayState.currentReplay.replay.songName, diffSuffix);
 				}
 				catch (e:Exception)

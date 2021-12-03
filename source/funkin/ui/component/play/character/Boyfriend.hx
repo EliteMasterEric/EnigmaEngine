@@ -18,7 +18,7 @@
  * Boyfriend.hx
  * An extension of `Character.hx` which includes additional logic for Boyfriend specifically. 
  */
-package funkin.ui.component.play;
+package funkin.ui.component.play.character;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -27,7 +27,7 @@ import flixel.util.FlxTimer;
 
 using hx.strings.Strings;
 
-class Boyfriend extends Character
+class Boyfriend extends OldCharacter
 {
 	public var stunned:Bool = false;
 

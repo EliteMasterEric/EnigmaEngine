@@ -21,6 +21,8 @@
  */
 package funkin.ui.state.menu;
 
+import funkin.data.DifficultyData.DifficultyDataHandler;
+import funkin.data.WeekData;
 import funkin.behavior.options.Options.AntiAliasingOption;
 import funkin.behavior.play.Scoring;
 import funkin.behavior.play.Scoring.SongScore;
@@ -36,9 +38,7 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import funkin.behavior.play.Difficulty.DifficultyCache;
 import flixel.util.FlxTimer;
-import funkin.behavior.play.Week;
 import funkin.util.assets.Paths;
 import funkin.behavior.play.Song;
 import funkin.behavior.play.Conductor;
@@ -157,11 +157,7 @@ class StoryMenuState extends MusicBeatState
 		#end
 
 		// Load the filtered week list.
-		weekIds = DataAssets.loadLinesFromFile(Paths.txt('data/weekOrder')).filter(function(weekId)
-		{
-			// Filter by whether the week is currently hidden.
-			return !WeekCache.isWeekHidden(weekId);
-		});
+		weekIds = WeekDataHandler.weekIds;
 
 		if (weekIds.length == 0)
 		{
@@ -206,7 +202,7 @@ class StoryMenuState extends MusicBeatState
 		{
 			Debug.logTrace('Rendering entry for week ${weekIds[i]}');
 
-			var weekDataEntry:Week = WeekCache.get(weekIds[i]);
+			var weekDataEntry:WeekData = WeekDataHandler.fetch(weekIds[i]);
 
 			var weekMenuItem:StoryWeekMenuItem = new StoryWeekMenuItem(0, 56 + 400 + 10, weekDataEntry);
 			weekMenuItem.y += ((weekMenuItem.height + 20) * i);
@@ -217,7 +213,7 @@ class StoryMenuState extends MusicBeatState
 			weekMenuItem.antialiasing = AntiAliasingOption.get();
 
 			// Needs an offset thingie
-			if (!weekDataEntry.isWeekUnlocked())
+			if (!weekDataEntry.isUnlocked())
 			{
 				trace('Locking week ${weekIds[i]}');
 				var lock:FlxSprite = new FlxSprite(weekMenuItem.width + 10 + weekMenuItem.x);
@@ -250,7 +246,7 @@ class StoryMenuState extends MusicBeatState
 		for (item in grpWeekText.members)
 		{
 			item.targetY = curWeekTextMember - curWeekIndex;
-			if (item.targetY == Std.int(0) && getCurrentWeek().isWeekUnlocked())
+			if (item.targetY == Std.int(0) && getCurrentWeek().isUnlocked())
 				item.alpha = 1;
 			else
 				item.alpha = 0.6;
@@ -296,7 +292,7 @@ class StoryMenuState extends MusicBeatState
 	 */
 	public static function playWeek(weekId:String, difficultyId:String):Bool
 	{
-		var chosenWeek = WeekCache.get(weekId);
+		var chosenWeek = WeekDataHandler.fetch(weekId);
 
 		if (chosenWeek == null)
 		{
@@ -314,14 +310,14 @@ class StoryMenuState extends MusicBeatState
 			return false;
 		}
 
-		if (chosenWeek.isWeekUnlocked())
+		if (chosenWeek.isUnlocked())
 		{
 			PlayState.storyPlaylistPos = 0;
 			PlayState.storyWeek = chosenWeek;
 			PlayState.songMultiplier = 1;
 			PlayState.songDifficulty = difficultyId;
 
-			var diffSuffix = DifficultyCache.getSuffix(PlayState.songDifficulty);
+			var diffSuffix = DifficultyDataHandler.fetch(PlayState.songDifficulty).songSuffix;
 			PlayState.SONG = Song.conversionChecks(Song.loadFromJson(PlayState.storyWeek.playlist[PlayState.storyPlaylistPos], diffSuffix));
 
 			// Reset the score.
@@ -503,7 +499,7 @@ class StoryMenuState extends MusicBeatState
 		for (item in grpWeekText.members)
 		{
 			item.targetY = curWeekTextMember - curWeekIndex;
-			if (item.targetY == Std.int(0) && getCurrentWeek().isWeekUnlocked())
+			if (item.targetY == Std.int(0) && getCurrentWeek().isUnlocked())
 				item.alpha = 1;
 			else
 				item.alpha = 0.6;
@@ -516,7 +512,7 @@ class StoryMenuState extends MusicBeatState
 		txtWeekTitle.x = FlxG.width - (txtWeekTitle.width + 10);
 
 		// Only show the difficulty selector UI (left and right arrow) if the current week is unlocked.
-		difficultySelectors.visible = getCurrentWeek().isWeekUnlocked();
+		difficultySelectors.visible = getCurrentWeek().isUnlocked();
 
 		// Scroll in the menu.
 		FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -524,9 +520,9 @@ class StoryMenuState extends MusicBeatState
 		updateText();
 	}
 
-	function getCurrentWeek():Week
+	function getCurrentWeek():WeekData
 	{
-		return WeekCache.get(weekIds[curWeekIndex]);
+		return WeekDataHandler.getByIndex(curWeekIndex);
 	}
 
 	/**

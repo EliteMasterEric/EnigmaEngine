@@ -28,7 +28,7 @@ import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
 import funkin.behavior.options.Options;
-import funkin.behavior.play.Week;
+import funkin.data.WeekData;
 import funkin.util.assets.GraphicsAssets;
 import funkin.util.assets.Paths;
 
@@ -37,9 +37,9 @@ class StoryWeekMenuItem extends FlxSpriteGroup
 	public var targetY:Float = 0;
 	public var week:FlxSprite;
 	public var flashingInt:Int = 0;
-	public var weekData(default, null):Week;
+	public var weekData(default, null):WeekData;
 
-	public function new(x:Float, y:Float, weekData:Week)
+	public function new(x:Float, y:Float, weekData:WeekData)
 	{
 		super(x, y);
 		this.weekData = weekData;

@@ -2,9 +2,12 @@
 
 Changes marked with ⛧ will be listed in the short version of the changelog in `version.downloadMe`.
 
-First public release. Now has support for data-driven custom weeks and a mod configuration menu, among other things.
+This release, and all subsequent releases, will provide two builds for each platform. The `base` build only includes the tutorial, whereas the `full` build includes the six vanilla weeks.
 
-### Added
+## New Contributors
+* @prokube made their first contribution in https://github.com/EnigmaEngine/EnigmaEngine/pull/70
+
+## Added
 - ⛧Made weeks data driven and added support for custom weeks.
   - You can use custom backgrounds for the story menu (either a color or a 1280x400 image).
   - By default, weeks will use the colors from Week 7.
@@ -16,7 +19,7 @@ First public release. Now has support for data-driven custom weeks and a mod con
   - The only available scripts right now are `shouldShowOutdatedScreen.hscript` (which should output whether to show the screen that states the engine version is outdated) and `menu/TitleScreen.hscript` (which contains three functions, called onCreate, onCreditsDone, and onExit), but a LOT MORE will be available in the future (such as scripts for custom modchart).
 - New `Advanced Key Binds` option for rebinding 9-key binds.
 
-### Changed
+## Changed
 - Split the game into `vanilla` and `base` builds.
   - Vanilla builds include Weeks 1-6 and the corresponding enemy characters and are good if you want to play the base game with the improved engine.
   - Base builds only include the Tutorial and are good if you want a baseline to install mods with.
@@ -35,7 +38,7 @@ First public release. Now has support for data-driven custom weeks and a mod con
 - The Alphabet text can now properly render all symbols (including $, %, and numbers). Doesn't work on bold yet.
 - Song data JSON can now specify the song asset used. This is useful if two charts use the same song file or if different difficulties of a chart use modified audio.
 
-### Fixed
+## Fixed
 - Cut out some informational logging calls for macros (people thought they were errors).
 - Fixed a bug where sustains did not render properly.
   - It's probably the best it'll be for now.

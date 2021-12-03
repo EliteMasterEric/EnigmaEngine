@@ -23,7 +23,7 @@ package funkin.behavior.play;
 
 import funkin.behavior.options.Options.SafeFramesOption;
 import flixel.FlxG;
-import funkin.behavior.play.Song.SongData;
+import funkin.behavior.data.SongData;
 
 typedef BPMChangeEvent =
 {

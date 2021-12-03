@@ -28,14 +28,16 @@ using hx.strings.Strings;
 
 class Util
 {
-	public static function buildArrayFromRange(max:Int, ?min = 0):Array<Int>
+	/**
+	 * Create an array representing the range of numbers from X to Y, inclusive.
+	 */
+	public static function buildArrayFromRange(x:Int, y:Int):Array<Int>
 	{
-		var dumbArray:Array<Int> = [];
-		for (i in min...max)
-		{
-			dumbArray.push(i);
-		}
-		return dumbArray;
+		var result:Array<Int> = [];
+		for (i in x...y)
+			result.push(i);
+
+		return result;
 	}
 
 	public static function truncateFloat(number:Float, precision:Int):Float

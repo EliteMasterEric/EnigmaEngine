@@ -36,6 +36,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import funkin.behavior.mods.IHook;
+// import funkin.behavior.locale.I18n;
 import funkin.behavior.options.Controls.KeyboardScheme;
 import funkin.behavior.options.Options;
 import funkin.const.Enigma;
@@ -84,9 +85,10 @@ class MainMenuState extends MusicBeatState implements IHook
 	 * Mod hook called when the credits sequence starts.
 	 */
 	@:hscript({
-		pathName: "menu/TitleScreen",
+		pathName: "menu/MainMenuScreen",
+		optional: true,
 	})
-	public function buildTitleScreenHooks():Void
+	public function buildMainMenuScreenHooks():Void
 	{
 		if (script_variables.get('onCreate') != null)
 		{
@@ -110,6 +112,9 @@ class MainMenuState extends MusicBeatState implements IHook
 	{
 		clean();
 
+		trace('Started initializing MainMenuState...');
+		buildMainMenuScreenHooks();
+
 		#if FEATURE_DISCORD
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);
@@ -119,6 +124,9 @@ class MainMenuState extends MusicBeatState implements IHook
 
 		// Load the player's keybinds.
 		controls.loadKeyBinds();
+
+		// Initialize localization.
+		// I18n.initLocalization();
 
 		persistentUpdate = persistentDraw = true;
 

@@ -21,6 +21,7 @@
  */
 package funkin.ui.state.play;
 
+import funkin.behavior.SaveData;
 import funkin.ui.component.GameCamera;
 import funkin.behavior.mods.IHook;
 import funkin.util.assets.AudioAssets;
@@ -62,28 +63,28 @@ import funkin.behavior.media.WebmHandler;
 import funkin.behavior.options.CustomControls;
 import funkin.behavior.options.Options;
 import funkin.behavior.play.Conductor;
-import funkin.behavior.play.Difficulty.DifficultyCache;
+import funkin.data.DifficultyData;
 import funkin.behavior.play.EnigmaNote;
 import funkin.behavior.play.Highscore;
 import funkin.behavior.play.Replay;
 import funkin.behavior.play.Replay.ReplayInput;
 import funkin.behavior.play.Scoring;
 import funkin.behavior.play.Scoring.SongScore;
-import funkin.behavior.play.Section.SwagSection;
+import funkin.behavior.data.Section.SwagSection;
 import funkin.behavior.play.Song;
-import funkin.behavior.play.Song.SongData;
-import funkin.behavior.play.Song.SongEvent;
+import funkin.behavior.data.SongData;
+import funkin.behavior.data.SongEvent;
 import funkin.behavior.play.TimingStruct;
-import funkin.behavior.play.Week;
+import funkin.data.WeekData;
 import funkin.ui.audio.MainMenuMusic;
 import funkin.ui.component.Cursor;
-import funkin.ui.component.play.Boyfriend;
-import funkin.ui.component.play.Character;
+import funkin.ui.component.play.character.Boyfriend;
+import funkin.ui.component.play.character.OldCharacter;
 import funkin.ui.component.play.DialogueBox;
 import funkin.ui.component.play.HealthIcon;
 import funkin.ui.component.play.Note;
 import funkin.ui.component.play.NoteGroup;
-import funkin.ui.component.play.Stage;
+import funkin.ui.component.play.stage.OldStage;
 import funkin.ui.component.play.StrumlineArrow;
 import funkin.ui.effects.WiggleEffect;
 import funkin.ui.effects.WiggleEffect.WiggleEffectType;
@@ -199,7 +200,7 @@ class PlayState extends MusicBeatState implements IHook
 	 * The current story week being used.
 	 * Set to null if the level is not in story mode.
 	 */
-	public static var storyWeek:Null<Week> = null;
+	public static var storyWeek:Null<WeekData> = null;
 
 	/**
 	 * Returns whether the level is being played in story mode.
@@ -466,12 +467,12 @@ class PlayState extends MusicBeatState implements IHook
 	/**
 	 * The sprite of the CPU character.
 	 */
-	public static var cpuChar:Character;
+	public static var cpuChar:OldCharacter;
 
 	/**
 	 * The sprite of the background character.
 	 */
-	public static var gfChar:Character;
+	public static var gfChar:OldCharacter;
 
 	/**
 	 * The sprite of the player character.
@@ -754,8 +755,8 @@ class PlayState extends MusicBeatState implements IHook
 			+ ") "
 			+ Scoring.generateLetterRank(Scoring.currentScore.getAccuracy()),
 			"\nAcc: "
-			+ Util.truncateFloat(Scoring.currentScore.getAccuracy(), 2)
-			+ "% | Score: "
+			+ Scoring.currentScore.getAccuracyStr()
+			+ " | Score: "
 			+ Scoring.currentScore.getScore()
 			+ " | Misses: "
 			+ Scoring.currentScore.miss,
@@ -851,11 +852,11 @@ class PlayState extends MusicBeatState implements IHook
 
 		if (!stageTesting)
 		{
-			gfChar = new Character(400, 130, gfCheck);
+			gfChar = new OldCharacter(400, 130, gfCheck);
 			if (!gfChar.isValid())
 			{
 				Debug.logWarn(["Couldn't load gf: " + gfCheck + ". Loading default gf"]);
-				gfChar = new Character(400, 130, 'gf');
+				gfChar = new OldCharacter(400, 130, 'gf');
 			}
 			playerChar = new Boyfriend(770, 450, PlayState.SONG.player1);
 			if (!playerChar.isValid())
@@ -867,7 +868,7 @@ class PlayState extends MusicBeatState implements IHook
 				#end
 				playerChar = new Boyfriend(770, 450, 'bf');
 			}
-			cpuChar = new Character(100, 100, PlayState.SONG.player2);
+			cpuChar = new OldCharacter(100, 100, PlayState.SONG.player2);
 			if (!cpuChar.isValid())
 			{
 				#if debug
@@ -875,11 +876,11 @@ class PlayState extends MusicBeatState implements IHook
 					"Couldn't load CPU opponent: " + PlayState.SONG.player2 + ". Loading default dad"
 				]);
 				#end
-				cpuChar = new Character(100, 100, 'dad');
+				cpuChar = new OldCharacter(100, 100, 'dad');
 			}
 			STAGE = new Stage(SONG.stage);
 		}
-		var positions = STAGE.positions[STAGE.curStage];
+		var positions = STAGE.positions[STAGE.stageId];
 
 		if (positions != null && !stageTesting)
 		{
@@ -1971,7 +1972,7 @@ class PlayState extends MusicBeatState implements IHook
 			+ ") "
 			+ Scoring.generateLetterRank(Scoring.currentScore.getAccuracy()),
 			"\nAcc: "
-			+ Util.truncateFloat(Scoring.currentScore.getAccuracy(), 2)
+			+ Scoring.currentScore.getAccuracyStr()
 			+ "% | Score: "
 			+ Scoring.currentScore.getScore()
 			+ " | Misses: "
@@ -2235,7 +2236,7 @@ class PlayState extends MusicBeatState implements IHook
 				+ ") "
 				+ Scoring.generateLetterRank(Scoring.currentScore.getAccuracy()),
 				"\nAcc: "
-				+ Util.truncateFloat(Scoring.currentScore.getAccuracy(), 2)
+				+ Scoring.currentScore.getAccuracyStr()
 				+ "% | Score: "
 				+ Scoring.currentScore.getScore()
 				+ " | Misses: "
@@ -2273,7 +2274,7 @@ class PlayState extends MusicBeatState implements IHook
 					+ ") "
 					+ Scoring.generateLetterRank(Scoring.currentScore.getAccuracy()),
 					"\nAcc: "
-					+ Util.truncateFloat(Scoring.currentScore.getAccuracy(), 2)
+					+ Scoring.currentScore.getAccuracyStr()
 					+ "% | Score: "
 					+ Scoring.currentScore.getScore()
 					+ " | Misses: "
@@ -2326,7 +2327,7 @@ class PlayState extends MusicBeatState implements IHook
 			+ ") "
 			+ Scoring.generateLetterRank(Scoring.currentScore.getAccuracy()),
 			"\nAcc: "
-			+ Util.truncateFloat(Scoring.currentScore.getAccuracy(), 2)
+			+ Scoring.currentScore.getAccuracyStr()
 			+ "% | Score: "
 			+ Scoring.currentScore.getScore()
 			+ " | Misses: "
@@ -2479,7 +2480,7 @@ class PlayState extends MusicBeatState implements IHook
 					remove(cpuChar);
 					remove(gfChar);
 				});
-				FlxG.switchState(new StageDebugState(STAGE.curStage, gfChar.curCharacter, playerChar.curCharacter, cpuChar.curCharacter));
+				FlxG.switchState(new StageDebugState(STAGE.stageId, gfChar.curCharacter, playerChar.curCharacter, cpuChar.curCharacter));
 				clean();
 				destroyEventListeners();
 				endModchart();
@@ -2588,7 +2589,7 @@ class PlayState extends MusicBeatState implements IHook
 					+ ") "
 					+ Scoring.generateLetterRank(Scoring.currentScore.getAccuracy()),
 					"\nAcc: "
-					+ Util.truncateFloat(Scoring.currentScore.getAccuracy(), 2)
+					+ Scoring.currentScore.getAccuracyStr()
 					+ "% | Score: "
 					+ Scoring.currentScore.getScore()
 					+ " | Misses: "
@@ -3269,7 +3270,7 @@ class PlayState extends MusicBeatState implements IHook
 					luaModchart.executeState('playerOneTurn', []);
 				#end
 				if (!MinimalModeOption.get())
-					switch (STAGE.curStage)
+					switch (STAGE.stageId)
 					{
 						case 'limo':
 							camFollow.x = playerChar.getMidpoint().x - 300;
@@ -3444,6 +3445,7 @@ class PlayState extends MusicBeatState implements IHook
 			Debug.logInfo('Saving highscores...');
 			Highscore.saveScore(PlayState.SONG.songId, Math.round(Scoring.currentScore.getScore()), PlayState.songDifficulty);
 			Highscore.saveCombo(PlayState.SONG.songId, Scoring.generateLetterRank(Scoring.currentScore.getAccuracy()), PlayState.songDifficulty);
+			Highscore.saveAccuracy(PlayState.SONG.songId, Scoring.currentScore.getAccuracy(), PlayState.songDifficulty);
 		}
 
 		onCompleteSong();
@@ -3473,7 +3475,7 @@ class PlayState extends MusicBeatState implements IHook
 				remove(cpuChar);
 				remove(gfChar);
 			});
-			FlxG.switchState(new StageDebugState(STAGE.curStage));
+			FlxG.switchState(new StageDebugState(STAGE.stageId));
 		}
 		else
 		{
@@ -3521,7 +3523,8 @@ class PlayState extends MusicBeatState implements IHook
 					if (SONG.validScore)
 					{
 						Highscore.saveWeekScore(storyWeek.id, Scoring.weekScore.getScore(), PlayState.songDifficulty);
-						Highscore.saveWeekCombo(storyWeek.id, Scoring.generateLetterRank(Scoring.weekScore.getAccuracy()), PlayState.PlayState.songDifficulty);
+						Highscore.saveWeekCombo(storyWeek.id, Scoring.generateLetterRank(Scoring.weekScore.getAccuracy()), PlayState.songDifficulty);
+						Highscore.saveWeekAccuracy(storyWeek.id, Scoring.weekScore.getAccuracy(), PlayState.PlayState.songDifficulty);
 					}
 
 					#if !debug
@@ -3530,12 +3533,12 @@ class PlayState extends MusicBeatState implements IHook
 					if (!BotPlayOption.get())
 					#end
 					{
-						Week.unlockWeek(PlayState.storyWeek.nextWeek);
+						SaveData.unlockWeek(PlayState.storyWeek.nextWeek);
 					}
 				}
 				else
 				{
-					var diffSuffix = DifficultyCache.getSuffix(PlayState.songDifficulty);
+					var diffSuffix = DifficultyDataHandler.fetch(PlayState.songDifficulty).songSuffix;
 
 					Debug.logInfo('Loading next song in Story playlist...');
 					Debug.logInfo('Next song in playlist is (${PlayState.storyWeek.playlist[storyPlaylistPos]}${diffSuffix})');

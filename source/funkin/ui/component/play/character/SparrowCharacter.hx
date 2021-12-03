@@ -15,25 +15,23 @@
  */
 
 /*
- * ThreadUtil.hx
- * Contains utility functions to simplify the process of performing tasks in a background thread.
- * Good for fully utilizing multi-processor support.
+ * SparrowCharacter.hx
+ * A Sparrow character uses a SparrowV2 spritesheet to render the character.
+ * This is the standard rendering type used by the vanilla game.
  */
-package funkin.util;
+package funkin.ui.component.play.character;
 
-class ThreadUtil
+import funkin.data.CharacterData;
+
+class SparrowCharacter extends BaseCharacter
 {
-	public static function doInBackground(cb:Void->Void)
+	public function new(/*charData:CharacterData*/)
 	{
-		#if FEATURE_MULTITHREADING
-		sys.thread.Thread.create(() ->
-		{
-			// Run in the background.
-			cb();
-		});
-		#else
-		trace('WARNING: Tried to run callback with doInBackground, but multithreading is disabled on this platform.');
-		cb();
-		#end
+		super('Sparrow');
+	}
+
+	public override function toString():String
+	{
+		return 'Character[${characterId}][Sparrow]';
 	}
 }

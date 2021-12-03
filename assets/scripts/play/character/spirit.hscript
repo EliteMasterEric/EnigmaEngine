@@ -1,0 +1,15 @@
+// Defines the behavior of the 'spirit' character.
+
+var trail;
+
+function onCreate() {
+	// Create and add an animation trail.
+	trail = new FlxTrail(sprite, null, 4, 24, 0.3, 0.069);
+	add(trail);
+}
+
+function onPlayAnimation(name:String) {
+	// Called when playing an animation.
+	// Call cancel() to skip the default animation handling,
+	// then you can handle playing the animation yourself.
+}

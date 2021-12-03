@@ -1,6 +1,7 @@
 {
   "name": "Boyfriend",
   "isGF": false,
+  "isPlayer": true,
   "flipX": false,
   "asset": "characters/BOYFRIEND",
   "barColor": "#31B0D1",

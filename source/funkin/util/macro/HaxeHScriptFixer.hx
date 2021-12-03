@@ -28,6 +28,11 @@ using Lambda;
 
 class HaxeHScriptFixer
 {
+	/**
+	 * Hey, past self!
+	 * If you got an error pointing here, make sure that:
+	 * - Any child class have defined their constructors properly.
+	 */
 	public static macro function build():Array<Field>
 	{
 		var cls = Context.getLocalClass().get();
@@ -39,8 +44,11 @@ class HaxeHScriptFixer
 
 		// We first make sure the class has a constructor. We can create one if it doesn't have one.
 		// The constructor is needed because script loading is done there.
-		if (cls.constructor == null)
+		var constructor = fields.find(function(field) return field.name == "new");
+		if (constructor == null)
 		{
+			trace('[INFO] Class (${cls.name}) is missing a constructor, building a basic one...');
+
 			var constBody:Array<Expr> = [];
 
 			var parentCls = cls.superClass.t.get();

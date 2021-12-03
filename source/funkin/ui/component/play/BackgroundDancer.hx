@@ -27,6 +27,7 @@ import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import funkin.util.assets.GraphicsAssets;
 import funkin.util.assets.Paths;
+import funkin.util.Util;
 
 class BackgroundDancer extends FlxSprite
 {
@@ -35,8 +36,8 @@ class BackgroundDancer extends FlxSprite
 		super(x, y);
 
 		frames = GraphicsAssets.loadSparrowAtlas("limo/limoDancer", 'week4', true);
-		animation.addByIndices('danceLeft', 'bg dancer sketch PINK', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-		animation.addByIndices('danceRight', 'bg dancer sketch PINK', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
+		animation.addByIndices('danceLeft', 'bg dancer sketch PINK', Util.buildArrayFromRange(0, 14), "", 24, false);
+		animation.addByIndices('danceRight', 'bg dancer sketch PINK', Util.buildArrayFromRange(15, 29), "", 24, false);
 		animation.play('danceLeft');
 		antialiasing = AntiAliasingOption.get();
 	}

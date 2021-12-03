@@ -69,6 +69,7 @@ class OptionsMenu extends MusicBeatState
 			new ExtendedScoreInfoOption(),
 			new MinimalModeOption(),
 			new CharacterPreloadOption(),
+			new StagePreloadOption(),
 			new BotPlayOption()
 		]),
 		new OptionCategory("Saves and Data", [
@@ -81,7 +82,7 @@ class OptionsMenu extends MusicBeatState
 
 	/**
 	 * Whether the Options menu is currently accepting input.
-	    * Set to false if a substate opens.
+	 		* Set to false if a substate opens.
 	 */
 	public var acceptInput:Bool = true;
 

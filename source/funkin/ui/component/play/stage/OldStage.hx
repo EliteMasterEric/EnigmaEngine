@@ -16,10 +16,9 @@
 
 /*
  * Stage.hx
- * The graphics and layers for a stage.
- * TODO: Make this data driven.
+ * An object which handles the graphics and layers for a given stage.
  */
-package funkin.ui.component.play;
+package funkin.ui.component.play.stage;
 
 import flixel.addons.effects.chainable.FlxWaveEffect;
 import flixel.FlxBasic;
@@ -40,8 +39,17 @@ import funkin.util.assets.Paths;
 
 class Stage extends MusicBeatState
 {
-	public var curStage:String = '';
-	public var camZoom:Float; // The zoom of the camera to have at the start of the game
+	/**
+	 * The internal ID of the current stage.
+	 */
+	public var stageId:String = '';
+
+	/**
+	 * The zoom level of the game camera to use for this stage.
+	 * Smaller values than 1.0 will zoom the camera out, and higher values will zoom in.
+	 */
+	public var camZoom:Float;
+
 	public var hideLastBG:Bool = false; // True = hide last BGs and show ones from slowBacks on certain step, False = Toggle visibility of BGs from SlowBacks on certain step
 	// Use visible property to manage if BG would be visible or not at the start of the game
 	public var tweenDuration:Float = 2; // How long will it tween hiding/showing BGs, variable above must be set to True for tween to activate
@@ -74,17 +82,17 @@ class Stage extends MusicBeatState
 		'schoolEvil' => ['gf-pixel' => [580, 430], 'bf-pixel' => [970, 670], 'spirit' => [-50, 200]]
 	];
 
-	public function new(daStage:String)
+	public function new(stageIdParam:String)
 	{
 		super();
-		this.curStage = daStage;
+		this.stageId = stageIdParam;
 		camZoom = 1.05; // Don't change zoom here, unless you want to change zoom of every stage that doesn't have custom one
 
 		// In minimal mode, we don't build the stage at all. Just a black void.
 		if (MinimalModeOption.get())
 			return;
 
-		switch (daStage)
+		switch (this.stageId)
 		{
 			case 'halloween':
 				{
@@ -393,7 +401,7 @@ class Stage extends MusicBeatState
 			default:
 				{
 					camZoom = 0.9;
-					curStage = 'stage';
+					this.stageId = 'stage';
 					var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(GraphicsAssets.loadImage('stages/stage/stageback'));
 					bg.antialiasing = AntiAliasingOption.get();
 					bg.scrollFactor.set(0.9, 0.9);
@@ -429,7 +437,7 @@ class Stage extends MusicBeatState
 
 		if (!MinimalModeOption.get())
 		{
-			switch (curStage)
+			switch (this.stageId)
 			{
 				case 'philly':
 					if (trainMoving)
@@ -496,7 +504,7 @@ class Stage extends MusicBeatState
 
 		if (!MinimalModeOption.get())
 		{
-			switch (curStage)
+			switch (this.stageId)
 			{
 				case 'halloween':
 					if (FlxG.random.bool(Conductor.bpm > 320 ? 100 : 10) && curBeat > lightningStrikeBeat + lightningOffset)

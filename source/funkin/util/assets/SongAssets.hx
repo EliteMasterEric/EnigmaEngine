@@ -23,7 +23,7 @@ package funkin.util.assets;
 
 import funkin.util.assets.Paths;
 import funkin.util.assets.LibraryAssets;
-import funkin.behavior.play.Difficulty.DifficultyCache;
+import funkin.data.DifficultyData;
 import openfl.Assets as OpenFlAssets;
 
 class SongAssets
@@ -68,7 +68,7 @@ class SongAssets
 	{
 		if (songId == null || songId == "")
 			return false;
-		var suffix = DifficultyCache.getSuffix(difficultyId);
+		var suffix = DifficultyDataHandler.fetch(difficultyId).songSuffix;
 		var path = Paths.json('songs/${songId}/${songId}${suffix}');
 		return LibraryAssets.textExists(path);
 	}
@@ -78,8 +78,7 @@ class SongAssets
 	 */
 	public static function listDifficultiesForSong(songId:String)
 	{
-		var diffList = DifficultyCache.difficultyList;
-		var filteredDiffs = diffList.filter(function(diffId)
+		var filteredDiffs = DifficultyDataHandler.difficultyIds.filter(function(diffId)
 		{
 			return doesSongExist(songId, diffId);
 		});

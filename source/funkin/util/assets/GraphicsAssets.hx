@@ -34,35 +34,6 @@ class GraphicsAssets
 	static var flxImageCache:Map<String, FlxGraphic> = new Map<String, FlxGraphic>();
 	static var flxAnimationCache:Map<String, FlxFramesCollection> = new Map<String, FlxFramesCollection>();
 
-	/**
-	 * List all the music files in the `songs` folder, so we can precache them all.
-	 */
-	public static function listImageFilesToCache(prefixes:Array<String>)
-	{
-		// We need to query OpenFlAssets, not the file system, because of Polymod.
-		var graphicsAssets = OpenFlAssets.list(MUSIC).concat(OpenFlAssets.list(SOUND));
-
-		var graphicsNames = [];
-
-		for (graphic in graphicsAssets)
-		{
-			// Parse end-to-beginning to support mods.
-			var path = graphic.split('/');
-			path.reverse();
-
-			// TODO: Fix this logic!
-
-			// var graphicsName = '';
-			// Remove duplicates.
-			// if (graphicsNames.indexOf(songName) != -1)
-			//   continue;
-			//
-			// graphicsNames.push(songName);
-		}
-
-		return graphicsNames;
-	}
-
 	public static function cacheImage(key:String, graphic:FlxGraphic)
 	{
 		graphic.persist = true;
@@ -76,11 +47,45 @@ class GraphicsAssets
 	 * This is useful to free up memory if you know the graphic won't be used for a while.
 	 * @param keys A list of filenames relative to `./assets/images` to remove from the cache.
 	 */
-	public static function purgeCachedImages(keys:Array<String>)
+	public static function purgeCachedImages(?keys:Array<String> = null)
 	{
-		for (key in keys)
+		if (keys == null)
 		{
-			flxImageCache.remove(key);
+			flxImageCache.clear();
+			// Flixel has an aggressive internal cache for graphics,
+			// so additional steps are needed to unload the images.
+			// This code was developed by Yoshubs and haya3218.
+			@:privateAccess
+			for (key in FlxG.bitmap._cache.keys())
+			{
+				var obj = FlxG.bitmap._cache.get(key);
+				if (obj != null)
+				{
+					OpenFlAssets.cache.removeBitmapData(key);
+					FlxG.bitmap._cache.remove(key);
+					obj.destroy();
+				}
+			}
+		}
+		else
+		{
+			for (key in keys)
+			{
+				flxImageCache.remove(key);
+			}
+
+			// This code was developed by Yoshubs and haya3218.
+			@:privateAccess
+			for (key in keys)
+			{
+				var obj = FlxG.bitmap._cache.get(key);
+				if (obj != null)
+				{
+					OpenFlAssets.cache.removeBitmapData(key);
+					FlxG.bitmap._cache.remove(key);
+					obj.destroy();
+				}
+			}
 		}
 	}
 
@@ -99,40 +104,19 @@ class GraphicsAssets
 	 * This is useful to free up memory if you know the animation won't be used for a while.
 	 * @param keys A list of filenames relative to `./assets/images` to remove from the cache.
 	 */
-	public static function purgeCachedAnimations(keys:Array<String>)
+	public static function purgeCachedAnimations(?keys:Array<String> = null)
 	{
-		for (key in keys)
+		if (keys == null)
 		{
-			flxAnimationCache.remove(key);
+			flxAnimationCache.clear();
 		}
-	}
-
-	/**
-	 * List all the image files under a given subdirectory.
-	 * @param path The path to look under.
-	 * @return The list of image files under that path.
-	 */
-	public static function listImagesInPath(path:String)
-	{
-		// We need to query OpenFlAssets, not the file system, because of Polymod.
-		var imageAssets = OpenFlAssets.list(IMAGE);
-
-		var queryPath = 'images/${path}';
-
-		var results:Array<String> = [];
-
-		for (image in imageAssets)
+		else
 		{
-			// Parse end-to-beginning to support mods.
-			var path = image.split('/');
-			if (image.indexOf(queryPath) != -1)
+			for (key in keys)
 			{
-				var suffixPos = image.indexOf(queryPath) + queryPath.length;
-				results.push(image.substr(suffixPos).replaceAll('.json', ''));
+				flxAnimationCache.remove(key);
 			}
 		}
-
-		return results;
 	}
 
 	/**
