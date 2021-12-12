@@ -24,10 +24,10 @@
  */
 package funkin.behavior;
 
-import funkin.util.concurrency.TaskWorker;
 import funkin.util.SystemSpecUtil;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import funkin.util.concurrency.ThreadUtil;
 import flixel.system.debug.log.LogStyle;
 import flixel.system.debug.watch.Tracker.TrackerProfile;
 import flixel.util.FlxStringUtil;
@@ -511,7 +511,7 @@ class DebugLogWriter
 	 */
 	public function write(input:Array<Dynamic>, logLevel = 'TRACE'):Void
 	{
-		TaskWorker.performTask(function():Void
+		ThreadUtil.doInBackground(function():Void
 		{
 			writeSync(input, logLevel);
 		});

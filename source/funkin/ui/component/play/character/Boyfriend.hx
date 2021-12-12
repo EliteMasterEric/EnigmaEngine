@@ -20,17 +20,10 @@
  */
 package funkin.ui.component.play.character;
 
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.util.FlxTimer;
-
 using hx.strings.Strings;
 
 class Boyfriend extends OldCharacter
 {
-	public var stunned:Bool = false;
-
 	public function new(x:Float, y:Float, ?char:String = 'bf')
 	{
 		super(x, y, char, true);

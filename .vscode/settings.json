@@ -40,6 +40,14 @@
 				"-debug",
 				"-DincludeDefaultWeeks"
 			]
+		},
+		{
+			"label": "HashLink / Debug (Default Weeks)",
+			"target": "hl",
+			"args": [
+				"-debug",
+				"-DincludeDefaultWeeks"
+			]
 		}
 	],
 	"files.associations": {

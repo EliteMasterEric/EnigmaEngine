@@ -223,6 +223,12 @@ class PlayState extends MusicBeatState implements IHook
 	}
 
 	/**
+	 * Set to true when the player is in the middle of the game over cutscene.
+	 * Disables note processing logic.
+	 */
+	public var isDying:Bool = false;
+
+	/**
 	 * The current position in the story playlist.
 	 */
 	public static var storyPlaylistPos:Int = 0;
@@ -1654,7 +1660,7 @@ class PlayState extends MusicBeatState implements IHook
 	function onNoteMiss(currentNote:Note):Void
 	{
 		// Don't process notes if the player has died.
-		if (playerChar.stunned)
+		if (isDying)
 			return;
 
 		// Mute vocals when we miss.
@@ -1773,7 +1779,7 @@ class PlayState extends MusicBeatState implements IHook
 		if (currentNote.wasGoodHit)
 			return;
 		// Don't process notes if the player has died.
-		if (playerChar.stunned)
+		if (isDying)
 			return;
 
 		// The difference between the time you pressed the note at,
@@ -2558,7 +2564,7 @@ class PlayState extends MusicBeatState implements IHook
 			if (!usedTimeTravel)
 			{
 				// Blue balled. Ignore any further misses.
-				playerChar.stunned = true;
+				this.isDying = true;
 
 				// Prevent pausing and prepare to switch shtates.
 				persistentUpdate = false;

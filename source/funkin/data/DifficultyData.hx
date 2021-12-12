@@ -21,9 +21,9 @@
  */
 package funkin.data;
 
-import funkin.util.concurrency.TaskWorker;
 import funkin.util.assets.DataAssets;
 import flixel.graphics.FlxGraphic;
+import funkin.util.concurrency.ThreadUtil;
 import funkin.util.assets.Paths;
 import funkin.util.assets.GraphicsAssets;
 
@@ -88,7 +88,7 @@ class DifficultyDataHandler
 	 */
 	public static function cacheAsync()
 	{
-		TaskWorker.performTask(cacheSync);
+		ThreadUtil.doInBackground(cacheSync);
 	}
 
 	/**

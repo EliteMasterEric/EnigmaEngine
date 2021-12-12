@@ -37,14 +37,22 @@ class StoryWeekMenuItem extends FlxSpriteGroup
 	public var targetY:Float = 0;
 	public var week:FlxSprite;
 	public var flashingInt:Int = 0;
-	public var weekData(default, null):WeekData;
+	public final weekData:WeekData;
 
 	public function new(x:Float, y:Float, weekData:WeekData)
 	{
 		super(x, y);
 		this.weekData = weekData;
-		this.week = new FlxSprite().loadGraphic(GraphicsAssets.loadImage(weekData.titleGraphic));
-		this.week.antialiasing = AntiAliasingOption.get();
+		if (this.weekData != null)
+		{
+			this.week = new FlxSprite().loadGraphic(GraphicsAssets.loadImage(this.weekData.titleGraphic));
+			this.week.antialiasing = AntiAliasingOption.get();
+		}
+		else
+		{
+			Debug.logWarn('WeekData is null for this StoryWeekMenuItem!');
+		}
+
 		add(this.week);
 	}
 

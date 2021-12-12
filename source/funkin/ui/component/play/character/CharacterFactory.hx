@@ -41,12 +41,14 @@ class CharacterFactory
 			// case 'spine':
 			// case 'dragonbones':
 			// case 'multisparrow':
-			// case 'packer':
 			// tex = GraphicsAssets.loadPackerAtlas(data.asset, 'shared');
+			case 'packer':
+				// return new PackerCharacter();
+				return new SparrowCharacter(data);
 			case 'sparrow':
-				return new SparrowCharacter();
+				return new SparrowCharacter(data);
 			default:
-				return new SparrowCharacter();
+				return new SparrowCharacter(data);
 		}
 	}
 }

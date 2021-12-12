@@ -4,13 +4,13 @@
 		// Wondering how to switch platforms? Select it in the status bar next to 'Lime',
 		// or press CTRL-SHIFT-P and select Lime: Select Target Configuration.
 		{
-			"name": "Build and Launch",
+			"name": "Build (Lime)",
 			"type": "lime",
 			"request": "launch"
 		},
 		{
-			"name": "Test and Launch",
-			"type": "lime",
+			"name": "Build (HashLink)",
+			"type": "hl",
 			"request": "launch"
 		}
 	]

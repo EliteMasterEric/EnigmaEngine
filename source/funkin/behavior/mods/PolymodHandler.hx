@@ -15,7 +15,7 @@
  */
 
 /*
- * ModCore.hx
+ * PolymodHandler.hx
  * The central handler for the system which handles retrieving and loading mods.
  */
 package funkin.behavior.mods;
@@ -29,9 +29,6 @@ import polymod.format.ParseRules.LinesParseFormat;
 import polymod.format.ParseRules.TextFileFormat;
 #end
 
-/**
- * Okay now this is epic.
- */
 class ModCore
 {
 	/**
@@ -48,34 +45,34 @@ class ModCore
 
 	public static function loadAllMods()
 	{
-		#if FEATURE_MODCORE
-		Debug.logInfo("Initializing ModCore (using all mods)...");
+		#if FEATURE_POLYMOD
+		Debug.logInfo("Initializing Polymod (using all mods)...");
 		loadModsById(getAllModIds());
 		#else
-		Debug.logInfo("ModCore not initialized; not supported on this platform.");
+		Debug.logInfo("Polymod not initialized; not supported on this platform.");
 		#end
 	}
 
 	public static function loadConfiguredMods()
 	{
-		#if FEATURE_MODCORE
-		Debug.logInfo("Initializing ModCore (using user config)...");
+		#if FEATURE_POLYMOD
+		Debug.logInfo("Initializing Polymod (using user config)...");
 		Debug.logTrace('  User mod config: ${FlxG.save.data.modConfig}');
 		var userModConfig = getConfiguredMods();
 		loadModsById(userModConfig);
 		#else
-		Debug.logInfo("ModCore not initialized; not supported on this platform.");
+		Debug.logInfo("Polymod not initialized; not supported on this platform.");
 		#end
 	}
 
 	public static function loadNoMods()
 	{
 		// We still need to configure the debug print calls etc.
-		#if FEATURE_MODCORE
-		Debug.logInfo("Initializing ModCore (using no mods)...");
+		#if FEATURE_POLYMOD
+		Debug.logInfo("Initializing Polymod (using no mods)...");
 		loadModsById([]);
 		#else
-		Debug.logInfo("ModCore not initialized; not supported on this platform.");
+		Debug.logInfo("Polymod not initialized; not supported on this platform.");
 		#end
 	}
 
@@ -115,7 +112,7 @@ class ModCore
 
 	public static function loadModsById(ids:Array<String>)
 	{
-		#if FEATURE_MODCORE
+		#if FEATURE_POLYMOD
 		if (ids.length == 0)
 		{
 			Debug.logWarn('You attempted to load zero mods.');
@@ -144,7 +141,7 @@ class ModCore
 
 			// Use a custom backend so we can get a picture of what's going on,
 			// or even override behavior ourselves.
-			customBackend: ModCoreBackend,
+			customBackend: EnigmaBackend,
 
 			// List of filenames to ignore in mods. Use the default list to ignore the metadata file, etc.
 			ignoredFiles: Polymod.getDefaultIgnoreList(),
@@ -203,7 +200,7 @@ class ModCore
 	 */
 	public static function hasMods():Bool
 	{
-		#if FEATURE_MODCORE
+		#if FEATURE_POLYMOD
 		return getAllMods().length > 0;
 		#else
 		return false;
@@ -224,7 +221,7 @@ class ModCore
 		return modIds;
 	}
 
-	#if FEATURE_MODCORE
+	#if FEATURE_POLYMOD
 	static function buildParseRules():polymod.format.ParseRules
 	{
 		var output = polymod.format.ParseRules.getDefault();
@@ -300,42 +297,36 @@ class ModCore
 	#end
 }
 
-#if FEATURE_MODCORE
-class ModCoreBackend extends OpenFLBackend
+#if FEATURE_POLYMOD
+class EnigmaBackend extends OpenFLBackend
 {
 	public function new()
 	{
 		super();
-		Debug.logTrace('Initialized custom asset loader backend.');
 	}
 
 	public override function clearCache()
 	{
 		super.clearCache();
-		Debug.logWarn('Custom asset cache has been cleared.');
 	}
 
 	public override function exists(id:String):Bool
 	{
-		Debug.logTrace('Call to ModCoreBackend: exists($id)');
 		return super.exists(id);
 	}
 
 	public override function getBytes(id:String):lime.utils.Bytes
 	{
-		Debug.logTrace('Call to ModCoreBackend: getBytes($id)');
 		return super.getBytes(id);
 	}
 
 	public override function getText(id:String):String
 	{
-		Debug.logTrace('Call to ModCoreBackend: getText($id)');
 		return super.getText(id);
 	}
 
 	public override function list(type:PolymodAssetType = null):Array<String>
 	{
-		Debug.logTrace('Listing assets in custom asset cache ($type).');
 		return super.list(type);
 	}
 }

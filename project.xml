@@ -512,10 +512,11 @@
 	<haxelib name="hscript" />
 	<!-- A motion library. Used by VideoHandler. -->
 	<haxelib name="actuate" />
-	<!-- A library for handling asynchronous tasks. -->
-	<haxelib name="haxe-concurrent" />
+	<!-- A library for handling asynchronous tasks.
+		<haxelib name="haxe-concurrent" />
+	-->
 	<!-- A library which allows loading and parting of WEBM video files. Used for cutscenes. -->
-	<haxelib name="extension-webm" />
+	<haxelib name="extension-webm" unless="neko || hl" />
 	<!-- A library providing a consistent set of user interface widgets. -->
 	<haxelib name="flixel-ui" />
 	<!-- A library for tolerant JSON parsing. Fewer bugs caused by typos means fewer issues on GitHub. -->
@@ -587,7 +588,7 @@
 	<!-- Allowed inputs are mobile,desktop,web,ios,android,windows,mac,linux,switch,html5,cpp,neko,flash,js -->
 	<!-- Defines whether the Discord presence client should be enabled. Only works on desktop. -->
 	<haxedef name="FEATURE_DISCORD"
-					 if="desktop" unless="neko" />
+					 if="desktop" unless="neko || hl" />
 	<echo value="Platform supports feature: Discord"
 				if="FEATURE_DISCORD" />
   <haxedef name="FEATURE_GAMEPAD"
@@ -597,16 +598,17 @@
 	<!-- Defines whether the file system can be read/written directly. Does not work in browser. -->
 	<haxedef name="FEATURE_FILESYSTEM"
 					 if="desktop" />
+	<haxedef name="FEATURE_MULTITHREADING" if="desktop" />
 	<echo value="Platform supports feature: File System Access"
 				if="FEATURE_FILESYSTEM" />
 	<!-- Defines whether Lua Modcharts should be enabled. Only works on Windows. -->
 	<haxedef name="FEATURE_LUAMODCHART"
-					 if="windows" unless="neko" />
+					 if="windows" unless="neko || hl" />
 	<echo value="Platform supports feature: LUA Modcharts"
 				if="FEATURE_LUAMODCHART" />
 	<!-- Defines whether WebM videos should be enabled. Currently only enabled on Windows. -->
 	<haxedef name="FEATURE_WEBM"
-					 if="windows" unless="neko" />
+					 if="windows" unless="neko || hl" />
 	<echo value="Platform supports feature: WebM"
 				if="FEATURE_WEBM" />
 	<!-- Defines whether mods are supported on this platform. -->

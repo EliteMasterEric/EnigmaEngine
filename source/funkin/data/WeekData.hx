@@ -23,8 +23,8 @@ package funkin.data;
 
 import funkin.util.assets.Paths;
 import flixel.util.FlxColor;
+import funkin.util.concurrency.ThreadUtil;
 import funkin.const.Enigma;
-import funkin.util.concurrency.TaskWorker;
 import funkin.util.assets.DataAssets;
 import flixel.FlxSprite;
 
@@ -120,7 +120,7 @@ class WeekDataHandler
 	 */
 	public static function cacheAsync()
 	{
-		TaskWorker.performTask(cacheSync);
+		ThreadUtil.doInBackground(cacheSync);
 	}
 
 	/**

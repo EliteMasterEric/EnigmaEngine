@@ -20,6 +20,7 @@
  */
 package funkin.behavior;
 
+import funkin.util.concurrency.ThreadUtil;
 import tjson.TJSON;
 import flixel.FlxG;
 import flixel.input.gamepad.FlxGamepad;
@@ -75,6 +76,8 @@ class SaveData
 		FlxG.save.flush();
 
 		Debug.logInfo('Save data:');
+		// I want to do this in a thread because it's a long blocking operation,
+		// but I can't because the log writer isn't thread-safe.
 		Debug.logInfo('  ${TJSON.encode(FlxG.save.data, 'fancy')}');
 
 		#if FEATURE_GAMEPAD

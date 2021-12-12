@@ -21,9 +21,9 @@
  */
 package funkin.ui.state.title;
 
+import funkin.data.WeekData.WeekDataHandler;
 import funkin.behavior.options.Options.CharacterPreloadOption;
 import funkin.behavior.options.Options.AntiAliasingOption;
-import funkin.ui.component.play.Character;
 import funkin.util.assets.LibraryAssets;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
@@ -47,7 +47,7 @@ import funkin.behavior.options.PlayerSettings;
 import funkin.util.WindowUtil;
 import funkin.behavior.SaveData;
 import funkin.ui.component.Cursor;
-import funkin.util.ThreadUtil;
+import funkin.util.concurrency.ThreadUtil;
 import funkin.util.Util;
 import funkin.util.assets.SongAssets;
 import haxe.Exception;
@@ -85,9 +85,6 @@ class CachingState extends MusicBeatState
 		// Initialize the player settings.
 		PlayerSettings.init();
 
-		// Load the list of characters for the Charter.
-		Character.initCharacterList();
-
 		// Load the player's save data.
 		SaveData.initSave();
 
@@ -120,7 +117,16 @@ class CachingState extends MusicBeatState
 		if (CharacterPreloadOption.get())
 		{
 			Debug.logTrace("Planning to cache character graphics...");
-			images = GraphicsAssets.listImageFilesToCache(['characters']);
+			// Preload folder. Used for icons.
+			for (path in LibraryAssets.listImagesInPath('characters'))
+			{
+				images.push(Paths.image(path));
+			}
+			// Shared library.
+			for (path in LibraryAssets.listImagesInPath('characters', 'shared'))
+			{
+				images.push(Paths.image(path, 'shared'));
+			}
 		}
 
 		Debug.logTrace("Planning to cache music files...");
@@ -140,10 +146,14 @@ class CachingState extends MusicBeatState
 
 		Debug.logTrace('Begin caching..');
 
+		// Ugh.
+		cacheSync();
+
 		#if FEATURE_MULTITHREADING
 		ThreadUtil.doInBackground(cache);
+		#else
+		cache();
 		#end
-
 		Debug.logTrace('Created cache thread.');
 		super.create();
 	}
@@ -165,22 +175,9 @@ class CachingState extends MusicBeatState
 		#if FEATURE_FILESYSTEM
 		Debug.logTrace("Cache thread initialized. Caching " + toBeDone + " items...");
 
-		for (i in images)
-		{
-			var replaced = i.replaceAll(".png", "");
-
-			var imagePath = Paths.image(replaced, 'shared');
-			Debug.logTrace('Caching character graphic $i ($imagePath)...');
-			var data = OpenFlAssets.getBitmapData(imagePath);
-			var graph = FlxGraphic.fromBitmapData(data);
-
-			GraphicsAssets.cacheImage(replaced, graph);
-			done++;
-		}
-
+		Debug.logTrace('Caching songs...');
 		for (i in music)
 		{
-			Debug.logTrace('Caching song "$i"...');
 			var inst = Paths.inst(i);
 			if (LibraryAssets.soundExists(inst))
 			{
@@ -207,6 +204,44 @@ class CachingState extends MusicBeatState
 
 		// If the file system is supported, move to the title state after caching is done.
 		// If the file system isn't supported, move to the title state immediately.
+		moveToTitle();
+	}
+
+	function cacheSync()
+	{
+		// I hate this so god damn much.
+		// There's some bug that's causing caching functions to crash sometimes,
+		// but they ONLY happen when caching asynchronously
+		// and they aren't giving me breakpoints or error traces or anything.
+		// The only solution is to cach synchronously, which freezes the program on launch.
+
+		Debug.logTrace('Caching weeks...');
+		WeekDataHandler.cacheWithProgress(function(weekDone:Int, weekTotal:Int)
+		{
+			Debug.logTrace('Caching week data ($weekDone/$weekTotal)...');
+		});
+
+		Debug.logTrace('Caching graphics...');
+		for (index in 0...images.length)
+		{
+			var path = images[index];
+
+			if (!OpenFlAssets.exists(path))
+			{
+				Debug.logWarn('  HEY, what gives? Graphic ($path) does not exist.');
+				continue;
+			}
+			Debug.logTrace('Caching graphic ($path)...');
+			var data = OpenFlAssets.getBitmapData(path, true);
+			var graph = FlxGraphic.fromBitmapData(data);
+			GraphicsAssets.cacheImage(path, graph);
+
+			done++;
+		}
+	}
+
+	function moveToTitle()
+	{
 		FlxG.switchState(new TitleState());
 	}
 }

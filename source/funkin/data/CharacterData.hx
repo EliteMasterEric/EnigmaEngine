@@ -21,9 +21,8 @@
  */
 package funkin.data;
 
-import flixel.addons.ui.U;
+import funkin.util.concurrency.ThreadUtil;
 import funkin.util.assets.DataAssets;
-import funkin.util.concurrency.TaskWorker;
 
 class CharacterDataHandler
 {
@@ -136,7 +135,7 @@ class CharacterDataHandler
 	 */
 	public static function cacheAsync()
 	{
-		TaskWorker.performTask(cacheSync);
+		ThreadUtil.doInBackground(cacheSync);
 	}
 
 	/**
