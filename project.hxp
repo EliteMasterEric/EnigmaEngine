@@ -56,6 +56,9 @@ class Project extends HXProject {
 		// Configure library dependencies.
 		configureLibraries();
 
+		// Set the window size.
+		configureWindow();
+
 		// Configure asset libraries.
 		configureAssets();
 
@@ -352,6 +355,9 @@ class Project extends HXProject {
 
 		// Add the preloaded main asset path.
 		addAssetPath("assets/preload", "assets", ["*"], excludeExt, shouldEmbed);
+
+		// Add the crash handler.
+		addAsset("CrashDialog.exe", "CrashDialog.exe", false);
 
 		// Add the main libraries.
 		addAssetLibrary("scripts", true, true); // Scripts should always be embedded.

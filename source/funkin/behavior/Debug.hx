@@ -245,7 +245,7 @@ class Debug
 		logInfo('  OS: ${SystemUtil.getOS()}');
 
 		// Add a crash handler.
-		openfl.Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onUncaughtError);
+		// openfl.Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onUncaughtError);
 	}
 
 	static function onUncaughtError(error:UncaughtErrorEvent)
@@ -437,7 +437,7 @@ class DebugLogWriter
 		printDebug("Initializing log file...");
 
 		// The path of the log file.
-		var logFilePath = '$LOG_FOLDER/${Sys.time()}.log';
+		var logFilePath = '$LOG_FOLDER/${getDateString()}.log';
 
 		// Make sure that the log directory exists.
 		if (logFilePath.indexOf("/") != -1)
@@ -458,6 +458,11 @@ class DebugLogWriter
 
 		// Get the absolute time in seconds. This lets us show relative time in log, which is more readable.
 		startTime = getTime(true);
+	}
+
+	public static inline function getDateString():String
+	{
+		return Date.now().toString().replaceAll(" ", "_").replaceAll(":", "'");
 	}
 
 	public function isActive()

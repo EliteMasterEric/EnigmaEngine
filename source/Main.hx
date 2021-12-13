@@ -33,6 +33,7 @@ import funkin.ui.state.modding.ModSplashState;
 import funkin.ui.state.title.CachingState;
 import funkin.ui.state.title.TitleState;
 import funkin.util.input.GestureUtil;
+import funkin.behavior.debug.UncaughtErrorHandler;
 import lime.app.Application;
 import openfl.Assets;
 import openfl.display.BlendMode;
@@ -41,6 +42,7 @@ import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.Lib;
 import openfl.text.TextFormat;
+import openfl.events.UncaughtErrorEvent;
 #if FEATURE_DISCORD
 import funkin.behavior.api.Discord.DiscordClient;
 #end
@@ -89,6 +91,9 @@ class Main extends Sprite
 	public function new()
 	{
 		super();
+
+		// Setup the crash handler before LITERALLY anything else.
+		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, UncaughtErrorHandler.onUncaughtError);
 
 		if (stage != null)
 		{
