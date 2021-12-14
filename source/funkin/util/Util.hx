@@ -38,6 +38,18 @@ class Util
 		return dumbArray;
 	}
 
+	public static function createDirectoryIfNotExists(localFolder:String):String
+	{
+		#if FEATURE_FILESYSTEM
+		var fullPath = '${Sys.getCwd()}/$localFolder';
+		if (!sys.FileSystem.exists(fullPath))
+			sys.FileSystem.createDirectory(fullPath);
+		return fullPath;
+		#else
+		return localFolder;
+		#end
+	}
+
 	public static function truncateFloat(number:Float, precision:Int):Float
 	{
 		var num = number;

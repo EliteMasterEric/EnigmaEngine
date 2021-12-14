@@ -2060,7 +2060,7 @@ class PlayState extends MusicBeatState implements IHook
 		else
 		{
 			Debug.logError('Could not find instrumentals for song ${PlayState.SONG.songFile}!');
-			Debug.displayAlert('Fatal error playing ${PlayState.SONG.songName}', 'Could not find instrument for song ${PlayState.SONG.songFile}!');
+			Debug.displayAlert('Fatal error playing ${PlayState.SONG.songName}', 'Could not find instrumentals for song ${PlayState.SONG.songFile}!');
 		}
 
 		FlxG.sound.music.onComplete = endSong;

@@ -95,7 +95,7 @@ class TitleState extends MusicBeatState implements IHook
 
 	/**
 	 * Sprite group containing all the parts of the intro credits.
-	    * Makes the logic for skipping the title screen easy.
+	 		* Makes the logic for skipping the title screen easy.
 	 */
 	var creditsGroup:FlxGroup;
 
@@ -139,7 +139,7 @@ class TitleState extends MusicBeatState implements IHook
 
 	/**
 	 * Text that reads "Press ENTER to Start".
-	    * Customize this by replacing `images/titleEnter.png` and the associated XML.
+	 		* Customize this by replacing `images/titleEnter.png` and the associated XML.
 	 */
 	var titleText:FlxSprite;
 
@@ -201,14 +201,6 @@ class TitleState extends MusicBeatState implements IHook
 	{
 		trace('Started initializing TitleState...');
 		buildTitleScreenHooks();
-
-		#if FEATURE_FILESYSTEM
-		// If the replay folder does not exist, create it.
-		if (!sys.FileSystem.exists('${Sys.getCwd()}/replays'))
-		{
-			sys.FileSystem.createDirectory('${Sys.getCwd()}/replays');
-		}
-		#end
 
 		// No reason not to do this step as early as possible.
 		DifficultyCache.initDifficulties();
