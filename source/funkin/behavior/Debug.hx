@@ -249,7 +249,7 @@ class Debug
 
 	/**
 	 * Called when OpenFL encounters an uncaught fatal error.
-	 * Note that traditional logging should NOT be used here in case that was the problem.
+	 * Note that the default logging system should NOT be used here in case that was the problem.
 	 * @param error The error that was thrown.
 	 */
 	public static function onUncaughtError(error:UncaughtErrorEvent)
@@ -302,14 +302,14 @@ class Debug
 		sys.io.File.saveContent('${logFolderPath}/Enigma ${DebugLogWriter.getDateString()}.crash', crashLogLines.join('\n'));
 
 		displayAlert('Catastrophic Error',
-			'An error has occurrd and the game is forced to close. Please access the "crash" folder and send the .crash file to the developers: ' +
+			'An error has occurred and the game is forced to close.\nPlease access the "crash" folder and send the .crash file to the developers:\n' +
 			ERROR_REPORT_URL);
 
 		// Commit sudoku.
 		Sys.exit(1);
 		#else
 		displayAlert('Catastrophic Error',
-			'An error has occurred and the game is forced to close. We cannot write a log file though. Tell the developers: ' + ERROR_REPORT_URL);
+			'An error has occurred and the game is forced to close.\nWe cannot write a log file though. Tell the developers:\n' + ERROR_REPORT_URL);
 		#end
 	}
 

@@ -1,0 +1,35 @@
+name: The game crashed!
+description: Report a catastrophic error with Enigma Engine
+title: 'Crash Report: '
+labels: ["crash", "priority/triage"]
+body:
+- type: checkboxes
+  id: checks
+  attributes:
+    label: Checks
+    options:
+      - label: >
+          I have confirmed I am using the latest version of Enigma Engine.
+        required: true
+      - label: >
+          I have validated that this issue is with the game and not a problem caused by a mod.
+        required: true
+- type: textarea
+  id: context
+  attributes:
+    label: Description
+    description: Give a clear and concise summary of the context in which the crash occurred.
+  validations:
+    required: true
+- type: textarea
+  id: reproduction
+  attributes:
+    label: Steps to Reproduce
+    description: Provide a simple set of steps that reliably produces the crash.
+  validations:
+    required: true
+- type: textarea
+  id: logs
+  attributes:
+    label: Crash Logs
+    description: Paste the contents of the crash log file. It's available in the 'logs' folder, it should have a '.crash' extension.

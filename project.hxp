@@ -376,9 +376,6 @@ class Project extends HXProject {
 		// Add the preloaded main asset path.
 		addAssetPath("assets/preload", "default", "assets", ["*"], excludeExt, shouldEmbed);
 
-		// Add the crash handler.
-		addAsset("CrashDialog.exe", "default", "CrashDialog.exe", false);
-
 		// TODO: Deprecate week-specific asset libraries.
 		if (includeDefaultWeeks) {
 			// addAssetLibrary("assets/tutorial", shouldEmbed, shouldPreload);

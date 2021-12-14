@@ -48,6 +48,9 @@
 		"*.hscript": "haxe", // HScript files.
 		"*.eec": "jsonc", // Engima Engine Chart files.
 	},
+	"yaml.schemas": {
+		"https://json.schemastore.org/github-issue-config.json": "/.github/ISSUE_TEMPLATE/config.yml"
+	},
 	"codedox": {
 		"autoInsert": true, // enables insertion of function comments trigged by keystrokes
 		"autoInsertHeader": true, // enables insertion of file header triggered by keystrokes
