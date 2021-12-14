@@ -48,7 +48,7 @@ class Enigma extends MusicBeatState
 	/**
 	 * The full engine version with -prerelease suffix if applicable.
 	 */
-	public static final ENGINE_VERSION:String = '0.3.0' + ENGINE_SUFFIX;
+	public static final ENGINE_VERSION:String = '0.3.1' + ENGINE_SUFFIX;
 
 	/**
 	 * This is the version of Friday Night Funkin' the engine is based on.

@@ -1,4 +1,4 @@
-# assets/_includeDefaultWeeks
+# assets/_vanilla
 
 These assets are only included in builds in which the compiler definition `includeDefaultWeeks` is true.
 
