@@ -56,14 +56,14 @@ class Project extends HXProject {
 		// Configure library dependencies.
 		configureLibraries();
 
+		// Configure favicons.
+		configureIcons();
+
 		// Set the window size.
 		configureWindow();
 
 		// Configure asset libraries.
 		configureAssets();
-
-		// Configure favicons.
-		configureIcons();
 	}
 
 	/**
@@ -157,6 +157,9 @@ class Project extends HXProject {
 					error('Unsupported architecture (got ${architecture})');
 			}
 		}
+
+		defines.set('FLX_SUPPRESS_ICON', "true");
+		haxedefs.set("FLX_SUPPRESS_ICON", true);
 
 		if (isDesktop()) {
 			haxedefs.set(FEATURE_DISCORD, "true");
@@ -267,6 +270,8 @@ class Project extends HXProject {
 			addHaxelib("linc_luajit");
 			addHaxelib("hxvm-luajit");
 		}
+
+		// flushHaxelibs();
 	}
 
 	/**
@@ -414,6 +419,23 @@ class Project extends HXProject {
 	}
 
 	/**
+	 * Loads and merges the properties from each Haxelib's `include.xml` file to the project.
+	 * This allows you to apply additional properties AFTER the ones from the Haxelibs.
+	 * @see https://github.com/haxelime/lime/issues/1508#issuecomment-992730085
+	 */
+	function flushHaxelibs() {
+		info('Flushing Haxelibs...');
+
+		HXProject.processHaxelibs(this, HXProject._userDefines);
+
+		// Remove all the Haxelibs we processed.
+		while (haxelibs.length > 0)
+			haxelibs.pop();
+
+		info('Done flushing Haxelibs...');
+	}
+
+	/**
 	 * Returns whether a given feature is enabled based on whether a HaxeDef has been provided.
 	 * @param feature The feature to check.
 	 */
@@ -517,6 +539,10 @@ class Project extends HXProject {
 	 */
 	function addIcon(icon:String, size:Int = null) {
 		icons.push(new Icon(icon, size));
+	}
+
+	function addTemplate(path:String, rename:String) {
+		assets.push(new Asset(path, rename, AssetType.TEMPLATE));
 	}
 
 	function addAssetLibrary(name:String, embed:Bool = false, preload:Bool = false) {

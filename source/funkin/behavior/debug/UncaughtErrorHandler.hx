@@ -5,9 +5,11 @@ import haxe.CallStack;
 import haxe.io.Path;
 import lime.app.Application;
 import openfl.events.UncaughtErrorEvent;
+#if sys
 import sys.FileSystem;
 import sys.io.File;
 import sys.io.Process;
+#end
 
 class UncaughtErrorHandler
 {
@@ -28,7 +30,7 @@ class UncaughtErrorHandler
 		dateNow = StringTools.replace(dateNow, " ", "_");
 		dateNow = StringTools.replace(dateNow, ":", "'");
 
-		path = "./crash/" + "FE_" + dateNow + ".txt";
+		path = './crash/EE_${dateNow}.txt';
 
 		for (stackItem in callStack)
 		{
@@ -37,7 +39,7 @@ class UncaughtErrorHandler
 				case FilePos(s, file, line, column):
 					errMsg += file + " (line " + line + ")\n";
 				default:
-					Sys.println(stackItem);
+					print(stackItem);
 			}
 		}
 
@@ -48,8 +50,8 @@ class UncaughtErrorHandler
 
 		File.saveContent(path, errMsg + "\n");
 
-		Sys.println(errMsg);
-		Sys.println("Crash dump saved in " + Path.normalize(path));
+		print(errMsg);
+		print("Crash dump saved in " + Path.normalize(path));
 
 		var crashDialoguePath:String = "CrashDialog";
 
@@ -59,7 +61,7 @@ class UncaughtErrorHandler
 
 		if (FileSystem.exists("./" + crashDialoguePath))
 		{
-			Sys.println("Found crash dialog: " + crashDialoguePath);
+			print("Found crash dialog: " + crashDialoguePath);
 
 			#if linux
 			crashDialoguePath = "./" + crashDialoguePath;
@@ -68,10 +70,21 @@ class UncaughtErrorHandler
 		}
 		else
 		{
-			Sys.println("No crash dialog found! Making a simple alert instead...");
+			print("No crash dialog found! Making a simple alert instead...");
 			Application.current.window.alert(errMsg, "Error!");
 		}
 
+		#if sys
 		Sys.exit(1);
+		#end
+	}
+
+	static function print(string:String):Void
+	{
+		#if sys
+		Sys.println(string);
+		#else
+		trace(string);
+		#end
 	}
 }

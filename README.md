@@ -78,4 +78,5 @@ Enigma Engine would not be possible without these fine people:
 * The developers of Haxe, OpenFL, Lime, and HaxeFlixel, who have built a powerful and open source framework for cross-platform game development.
 * NinjaMuffin99 and the developers of Friday Night Funkin', for deciding not to wait for the online instant game ecosystem to resurrect itself.
 * KadeDev and the contributors to Kade Engine, for developing its awesome features and the foundation upon which the skyscraper of Enigma is built.
-* Lars Doucet, the game developer who has sunk loads of time, effort, and love into creating and maintaining [Polymod](https://github.com/larsiusprime/polymod) and other libraries for Haxe and HaxeFlixel, and especially for making the changes to Polymod that allowed this project to exist.
+* [Lars Doucet](https://github.com/larsiusprime/), the game developer who has sunk loads of time, effort, and love into creating and maintaining [Polymod](https://github.com/larsiusprime/polymod) and other libraries for Haxe and HaxeFlixel, and especially for making the changes to Polymod that allowed this project to exist.
+* [player-03](https://github.com/player-03) for assisting with project configuration in HXP.
