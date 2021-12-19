@@ -18,9 +18,9 @@ import funkin.behavior.play.Difficulty;
 import funkin.behavior.play.Difficulty.DifficultyCache;
 import funkin.behavior.play.Highscore;
 import funkin.behavior.play.Scoring;
+import funkin.util.assets.AudioAssets;
 import funkin.behavior.play.Song;
 import funkin.behavior.play.Song.SongData;
-import funkin.ui.audio.MainMenuMusic;
 import funkin.ui.component.Alphabet;
 import funkin.ui.component.play.HealthIcon;
 import funkin.ui.state.charting.ChartingState;
@@ -333,7 +333,8 @@ class FreeplayState extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			MainMenuMusic.playMenuMusic();
+			AudioAssets.playMusic(Paths.music('freakyMenu'), true, false, 1);
+			Conductor.changeBPM(102);
 			FlxG.switchState(new MainMenuState());
 		}
 

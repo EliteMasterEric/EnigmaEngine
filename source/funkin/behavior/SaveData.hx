@@ -74,8 +74,7 @@ class SaveData
 		trace('Done checking save data. Flushing...');
 		FlxG.save.flush();
 
-		Debug.logInfo('Save data:');
-		Debug.logInfo('  ${TJSON.encode(FlxG.save.data, 'fancy')}');
+		// logSaveData();
 
 		#if FEATURE_GAMEPAD
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
@@ -90,5 +89,12 @@ class SaveData
 		CustomControls.keyCheck();
 
 		(cast(Lib.current.getChildAt(0), Main)).setFPSCap(FramerateCapOption.get());
+	}
+
+	function logSaveData()
+	{
+		// Running this is actually a big performance hit during load time.
+		Debug.logInfo('Save data:');
+		Debug.logInfo('  ${TJSON.encode(FlxG.save.data, 'fancy')}');
 	}
 }

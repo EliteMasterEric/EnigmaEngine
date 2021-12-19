@@ -155,7 +155,8 @@ class Week
 		if (FlxG.save.data.weeksUnlocked == null)
 			FlxG.save.data.weeksUnlocked = {};
 
-		FlxG.save.data.weeksUnlocked.set(id, shouldUnlock);
+		var weeksUnlocked:haxe.DynamicAccess<Dynamic> = FlxG.save.data.weeksUnlocked;
+		weeksUnlocked.set(id, shouldUnlock);
 		FlxG.save.flush();
 	}
 
@@ -173,7 +174,8 @@ class Week
 		// Is unlocked in save data?
 		if (FlxG.save.data.weeksUnlocked != null)
 		{
-			if (FlxG.save.data.weeksUnlocked.get(this.id))
+			var weeksUnlocked:haxe.DynamicAccess<Dynamic> = FlxG.save.data.weeksUnlocked;
+			if (weeksUnlocked.get(this.id))
 				return true;
 		}
 

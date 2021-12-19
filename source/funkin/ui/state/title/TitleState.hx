@@ -29,6 +29,7 @@ import flixel.FlxSprite;
 import flixel.graphics.FlxGraphic;
 import flixel.group.FlxGroup;
 import flixel.math.FlxPoint;
+import funkin.util.assets.AudioAssets;
 import flixel.math.FlxRect;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
@@ -393,7 +394,7 @@ class TitleState extends MusicBeatState implements IHook
 			transOut = FlxTransitionableState.defaultTransOut;
 
 			// Play the title music. Gettin' freaky on a friday night!
-			FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+			AudioAssets.playMusic(Paths.music('freakyMenu'), true, false, 0);
 
 			// Music fades in.
 			FlxG.sound.music.fadeIn(4, 0, 0.7);

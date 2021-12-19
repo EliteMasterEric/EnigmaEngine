@@ -31,6 +31,7 @@ import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.text.FlxText;
+import funkin.util.assets.AudioAssets;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
@@ -39,7 +40,7 @@ import funkin.behavior.mods.IHook;
 import funkin.behavior.options.Controls.KeyboardScheme;
 import funkin.behavior.options.Options;
 import funkin.const.Enigma;
-import funkin.ui.audio.MainMenuMusic;
+import funkin.behavior.play.Conductor;
 import funkin.ui.component.menu.MainMenuItem;
 import funkin.ui.state.options.OptionsMenu;
 import funkin.ui.state.title.TitleState;
@@ -115,7 +116,8 @@ class MainMenuState extends MusicBeatState implements IHook
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 
-		MainMenuMusic.playMenuMusic();
+		AudioAssets.playMusic(Paths.music('freakyMenu'), true, false, 1);
+		Conductor.changeBPM(102);
 
 		// Load the player's keybinds.
 		controls.loadKeyBinds();

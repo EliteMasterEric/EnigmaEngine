@@ -36,8 +36,6 @@ class SongAssets
 		// We need to query OpenFlAssets, not the file system, because of Polymod.
 		var soundAssets = OpenFlAssets.list(MUSIC).concat(OpenFlAssets.list(SOUND));
 
-		trace('listMusicFilesToCache: ${soundAssets}');
-
 		var songNames = [];
 
 		for (sound in soundAssets)

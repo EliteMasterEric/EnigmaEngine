@@ -77,18 +77,20 @@
 	<error value="Target platform Electron is not supported"
 				 if="html5 electron" />
 	<!-- Print out the target platform. -->
-	<!-- <echo value="Target platform: Windows"   if="windows" />
-	<echo value="Target platform: MacOS"     if="mac" />
-	<echo value="Target platform: Linux"     if="linux" />
-	<echo value="Target platform: HTML5/Web" if="html5" unless="electron" />
-	<echo value="Target platform: Android"   if="android" />
-	
-	<echo value="Platform host: Desktop" if="desktop" />
-	<echo value="Platform host: Mobile"  if="mobile" />
-	<echo value="Platform host: Web"     if="web" />
-	
-	<echo value="Platform architecture: 32-bit" if="HXCPP_M32" />
-	<echo value="Platform architecture: 64-bit" if="HXCPP_M64" /> -->
+	<!--
+	-->
+		<echo value="Target platform: Windows"   if="windows" />
+		<echo value="Target platform: MacOS"     if="mac" />
+		<echo value="Target platform: Linux"     if="linux" />
+		<echo value="Target platform: HTML5/Web" if="html5" unless="electron" />
+		<echo value="Target platform: Android"   if="android" />
+		
+		<echo value="Platform host: Desktop" if="desktop" />
+		<echo value="Platform host: Mobile"  if="mobile" />
+		<echo value="Platform host: Web"     if="web" />
+		
+		<echo value="Platform architecture: 32-bit" if="HXCPP_M32" />
+		<echo value="Platform architecture: 64-bit" if="HXCPP_M64" />
 	<!-- The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal" -->
 	<!-- <app preloader="Preloader" resizable="true" /> -->
@@ -284,18 +286,6 @@
 	</section>
 	<section if="includeDefaultWeeks">
 		<section if="embedAssets">
-			<assets path="assets/_vanilla/tutorial"
-							rename="assets/tutorial"
-							library="tutorial"
-							embed="true"
-							exclude="*.md|*.ogg"
-							if="web" />
-			<assets path="assets/_vanilla/tutorial"
-							rename="assets/tutorial"
-							library="tutorial"
-							embed="true"
-							exclude="*.md|*.mp3"
-							unless="web" />
 			<assets path="assets/_vanilla/week3"
 							rename="assets/week3"
 							library="week3"
@@ -358,18 +348,6 @@
 							unless="web" />
 		</section>
 		<section unless="embedAssets">
-			<assets path="assets/_vanilla/tutorial"
-							rename="assets/tutorial"
-							library="tutorial"
-							embed="false"
-							exclude="*.md|*.ogg"
-							if="web" />
-			<assets path="assets/_vanilla/tutorial"
-							rename="assets/tutorial"
-							library="tutorial"
-							embed="false"
-							exclude="*.md|*.mp3"
-							unless="web" />
 			<assets path="assets/_vanilla/week3"
 							rename="assets/week3"
 							library="week3"

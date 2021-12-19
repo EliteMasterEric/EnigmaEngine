@@ -10,19 +10,6 @@
 	"files.exclude": {
 		"**/.unittest": true
 	},
-	"haxeTestExplorer.testCommand": [
-		"haxelib",
-		"run",
-		"munit",
-		"config",
-		"-src", "test/src",
-		"-classPaths", "source",
-		"-bin", "export/test",
-		"-report", "report",
-		"-hxml", "test/project.hxml",
-		"-coveragePackages", "funkin"
-		// "test.bat"
-	],
 	"haxe.displayPort": "auto",
 	"haxe.enableCompilationServer": true,
 	"lime.targetConfigurations": [

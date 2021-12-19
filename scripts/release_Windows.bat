@@ -1,5 +1,5 @@
-lime build windows -DembedAssets -DexcludeExampleMods -DpreloadAssets -DincludeDefaultWeeks 
-lime build windows -DembedAssets -DexcludeExampleMods -DpreloadAssets
+lime build windows -DembedAssets -DexcludeExampleMods -DincludeDefaultWeeks 
+lime build windows -DembedAssets -DexcludeExampleMods
 REM TODO: How to build for 32-bit?
-lime build html5 -DexcludeExampleMods -DincludeDefaultWeeks 
-lime build html5 -DexcludeExampleMods
+REM lime build html5 -DexcludeExampleMods -DincludeDefaultWeeks 
+REM lime build html5 -DexcludeExampleMods

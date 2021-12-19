@@ -39,13 +39,13 @@ import flixel.util.FlxColor;
 import funkin.behavior.play.Difficulty.DifficultyCache;
 import flixel.util.FlxTimer;
 import funkin.behavior.play.Week;
+import funkin.util.assets.AudioAssets;
 import funkin.util.assets.Paths;
 import funkin.behavior.play.Song;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.Highscore;
 import funkin.const.Enigma;
-import funkin.ui.audio.MainMenuMusic;
 import funkin.ui.component.menu.MenuCharacter;
 import funkin.ui.component.menu.StoryWeekDifficultyItem;
 import funkin.ui.component.menu.StoryWeekMenuItem;
@@ -172,9 +172,6 @@ class StoryMenuState extends MusicBeatState
 		// Make sure the diamond fade in is used.
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
-
-		// Make sure freaky music is playing.
-		MainMenuMusic.playMenuMusic();
 
 		// Make sure this state draws and updates even if other substates overlay it.
 		persistentUpdate = persistentDraw = true;

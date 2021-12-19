@@ -75,7 +75,6 @@ import funkin.behavior.play.Song.SongData;
 import funkin.behavior.play.Song.SongEvent;
 import funkin.behavior.play.TimingStruct;
 import funkin.behavior.play.Week;
-import funkin.ui.audio.MainMenuMusic;
 import funkin.ui.component.Cursor;
 import funkin.ui.component.play.Boyfriend;
 import funkin.ui.component.play.Character;
@@ -3435,10 +3434,13 @@ class PlayState extends MusicBeatState implements IHook
 		endModchart();
 
 		canPause = false;
+		if (vocals != null)
+		{
+			vocals.volume = 0;
+			vocals.stop();
+		}
 		FlxG.sound.music.volume = 0;
-		vocals.volume = 0;
 		AudioAssets.stopMusic();
-		vocals.stop();
 		if (SONG.validScore)
 		{
 			Debug.logInfo('Saving highscores...');
@@ -3450,7 +3452,8 @@ class PlayState extends MusicBeatState implements IHook
 
 		if (offsetTesting)
 		{
-			MainMenuMusic.playMenuMusic();
+			AudioAssets.playMusic(Paths.music('freakyMenu'), true, true, 1);
+			Conductor.changeBPM(102);
 			offsetTesting = false;
 			LoadingState.loadAndSwitchState(new OptionsMenu());
 			clean();
@@ -3511,7 +3514,8 @@ class PlayState extends MusicBeatState implements IHook
 					}
 					else
 					{
-						MainMenuMusic.playMenuMusic();
+						AudioAssets.playMusic(Paths.music('freakyMenu'), true, true, 1);
+						Conductor.changeBPM(102);
 						FlxG.switchState(new StoryMenuState());
 						clean();
 					}

@@ -190,7 +190,7 @@ class Main extends Sprite
 	{
 		#if FEATURE_FILESYSTEM
 		// Create folders if they don't exist.
-		Util.createDirectoryIfNotExists('log');
+		Util.createDirectoryIfNotExists('logs');
 		Util.createDirectoryIfNotExists('mods');
 		Util.createDirectoryIfNotExists('replays');
 		#end
