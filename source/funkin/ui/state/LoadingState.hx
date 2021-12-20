@@ -17,7 +17,9 @@
 /*
  * LoadingState.hx
  * A state used for loading screens.
- * Mainly gets used on platforms where nothing is preloaded, such as HTML5.
+ * On the desktop platform, all libraries are preloaded and this state does nothing.
+ * On web platforms, the game waits until a song loads, then uses this state to load graphics from the relevant libraries,
+ * including `shared` and `song`.
  */
 package funkin.ui.state;
 

@@ -30,6 +30,7 @@ import flixel.FlxSprite;
 import flixel.graphics.FlxGraphic;
 import flixel.group.FlxGroup;
 import flixel.math.FlxPoint;
+import funkin.util.assets.AudioAssets;
 import flixel.math.FlxRect;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
@@ -201,13 +202,13 @@ class TitleState extends MusicBeatState implements IHook
 		trace('Started initializing TitleState...');
 		buildTitleScreenHooks();
 
-		#if FEATURE_FILESYSTEM
-		// If the replay folder does not exist, create it.
-		if (!sys.FileSystem.exists('${Sys.getCwd()}/replays'))
+		// No reason not to do this step as early as possible.
+		DifficultyCache.initDifficulties();
+
+		@:privateAccess
 		{
-			sys.FileSystem.createDirectory('${Sys.getCwd()}/replays');
+			Debug.logTrace("OpenFL loaded " + openfl.Assets.getLibrary("default").assetsLoaded + " assets into the default library");
 		}
-		#end
 
 		// This line only runs if we didn't run the Caching state (i.e. on HTML5 platforms).
 		#if !FEATURE_FILESYSTEM
@@ -392,7 +393,7 @@ class TitleState extends MusicBeatState implements IHook
 			transOut = FlxTransitionableState.defaultTransOut;
 
 			// Play the title music. Gettin' freaky on a friday night!
-			FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+			AudioAssets.playMusic(Paths.music('freakyMenu'), true, false, 0);
 
 			// Music fades in.
 			FlxG.sound.music.fadeIn(4, 0, 0.7);

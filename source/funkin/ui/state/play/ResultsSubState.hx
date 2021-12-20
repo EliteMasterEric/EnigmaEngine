@@ -45,7 +45,7 @@ import funkin.behavior.options.PlayerSettings;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.Highscore;
 import funkin.behavior.play.Scoring;
-import funkin.ui.audio.MainMenuMusic;
+import funkin.behavior.play.Conductor;
 import funkin.ui.component.OFLSprite;
 import funkin.ui.component.play.HitGraph;
 import funkin.ui.state.menu.FreeplayState;
@@ -233,7 +233,8 @@ class ResultsSubState extends FlxSubState
 
 		if (PlayerSettings.player1.controls.ACCEPT)
 		{
-			music.fadeOut(0.3);
+			if (music != null)
+				music.fadeOut(0.3);
 
 			PlayState.replayActive = false;
 			PlayState.stageTesting = false;
@@ -247,8 +248,8 @@ class ResultsSubState extends FlxSubState
 			if (PlayState.isStoryMode())
 			{
 				// Move back to the main menu after completing a story week.
-				MainMenuMusic.stopMenuMusic();
-				MainMenuMusic.playMenuMusic();
+				AudioAssets.playMusic(Paths.music('freakyMenu'), true, true, 1);
+				Conductor.changeBPM(102);
 				FlxG.switchState(new MainMenuState());
 			}
 			else

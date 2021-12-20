@@ -8,7 +8,7 @@
 			 packageName="com.mastereric.enigmaengine"
 			 package="com.mastereric.enigmaengine"
 			 main="Main"
-			 version="0.3.0"
+			 version="0.3.1"
 			 company="mastereric" />
 	<!-- I wanted to print a cool ASCII logo at the start of each build,
 		but apparently the "echo" command breaks the Lime VSCode integration on Windows.
@@ -77,18 +77,20 @@
 	<error value="Target platform Electron is not supported"
 				 if="html5 electron" />
 	<!-- Print out the target platform. -->
-	<!-- <echo value="Target platform: Windows"   if="windows" />
-	<echo value="Target platform: MacOS"     if="mac" />
-	<echo value="Target platform: Linux"     if="linux" />
-	<echo value="Target platform: HTML5/Web" if="html5" unless="electron" />
-	<echo value="Target platform: Android"   if="android" />
-	
-	<echo value="Platform host: Desktop" if="desktop" />
-	<echo value="Platform host: Mobile"  if="mobile" />
-	<echo value="Platform host: Web"     if="web" />
-	
-	<echo value="Platform architecture: 32-bit" if="HXCPP_M32" />
-	<echo value="Platform architecture: 64-bit" if="HXCPP_M64" /> -->
+	<!--
+	-->
+		<echo value="Target platform: Windows"   if="windows" />
+		<echo value="Target platform: MacOS"     if="mac" />
+		<echo value="Target platform: Linux"     if="linux" />
+		<echo value="Target platform: HTML5/Web" if="html5" unless="electron" />
+		<echo value="Target platform: Android"   if="android" />
+		
+		<echo value="Platform host: Desktop" if="desktop" />
+		<echo value="Platform host: Mobile"  if="mobile" />
+		<echo value="Platform host: Web"     if="web" />
+		
+		<echo value="Platform architecture: 32-bit" if="HXCPP_M32" />
+		<echo value="Platform architecture: 64-bit" if="HXCPP_M64" />
 	<!-- The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal" -->
 	<!-- <app preloader="Preloader" resizable="true" /> -->
@@ -137,7 +139,7 @@
 
   <section if="includeDefaultWeeks">
     <section unless="embedAssets">
-      <assets path="assets/_includeDefaultWeeks"
+      <assets path="assets/_vanilla"
         rename="assets"
         embed="false"
         exclude="*.md" />
@@ -146,13 +148,13 @@
 
   <section if="excludeDefaultWeeks">
   	<section if="embedAssets">
-			<assets path="assets/_excludeDefaultWeeks"
+			<assets path="assets/_base"
 							rename="assets"
 							embed="true"
 							exclude="*.md" />
 		</section>
     <section unless="embedAssets">
-      <assets path="assets/_excludeDefaultWeeks"
+      <assets path="assets/_base"
         rename="assets"
         embed="false"
         exclude="*.md" />
@@ -284,73 +286,61 @@
 	</section>
 	<section if="includeDefaultWeeks">
 		<section if="embedAssets">
-			<assets path="assets/_includeDefaultWeeks/tutorial"
-							rename="assets/tutorial"
-							library="tutorial"
-							embed="true"
-							exclude="*.md|*.ogg"
-							if="web" />
-			<assets path="assets/_includeDefaultWeeks/tutorial"
-							rename="assets/tutorial"
-							library="tutorial"
-							embed="true"
-							exclude="*.md|*.mp3"
-							unless="web" />
-			<assets path="assets/_includeDefaultWeeks/week3"
+			<assets path="assets/_vanilla/week3"
 							rename="assets/week3"
 							library="week3"
 							embed="true"
 							exclude="*.md|*.ogg"
 							if="web" />
-			<assets path="assets/_includeDefaultWeeks/week3"
+			<assets path="assets/_vanilla/week3"
 							rename="assets/week3"
 							library="week3"
 							embed="true"
 							exclude="*.md|*.mp3"
 							unless="web" />
-			<assets path="assets/_includeDefaultWeeks/week4"
+			<assets path="assets/_vanilla/week4"
 							rename="assets/week4"
 							library="week4"
 							embed="true"
 							exclude="*.md|*.ogg"
 							if="web" />
-			<assets path="assets/_includeDefaultWeeks/week4"
+			<assets path="assets/_vanilla/week4"
 							rename="assets/week4"
 							library="week4"
 							embed="true"
 							exclude="*.md|*.mp3"
 							unless="web" />
-			<assets path="assets/_includeDefaultWeeks/week5"
+			<assets path="assets/_vanilla/week5"
 							rename="assets/week5"
 							library="week5"
 							embed="true"
 							exclude="*.md|*.ogg"
 							if="web" />
-			<assets path="assets/_includeDefaultWeeks/week5"
+			<assets path="assets/_vanilla/week5"
 							rename="assets/week5"
 							library="week5"
 							embed="true"
 							exclude="*.md|*.mp3"
 							unless="web" />
-			<assets path="assets/_includeDefaultWeeks/week6"
+			<assets path="assets/_vanilla/week6"
 							rename="assets/week6"
 							library="week6"
 							embed="true"
 							exclude="*.md|*.ogg"
 							if="web" />
-			<assets path="assets/_includeDefaultWeeks/week6"
+			<assets path="assets/_vanilla/week6"
 							rename="assets/week6"
 							library="week6"
 							embed="true"
 							exclude="*.md|*.mp3"
 							unless="web" />
-      <assets path="assets/_includeDefaultWeeks/songs"
+      <assets path="assets/_vanilla/songs"
 							rename="assets/songs"
 							library="songs"
 							embed="true"
 							exclude="*.md|*.mp3"
 							unless="web" />
-      <assets path="assets/_includeDefaultWeeks/shared"
+      <assets path="assets/_vanilla/shared"
 							rename="assets/shard"
 							library="shard"
 							embed="true"
@@ -358,73 +348,61 @@
 							unless="web" />
 		</section>
 		<section unless="embedAssets">
-			<assets path="assets/_includeDefaultWeeks/tutorial"
-							rename="assets/tutorial"
-							library="tutorial"
-							embed="false"
-							exclude="*.md|*.ogg"
-							if="web" />
-			<assets path="assets/_includeDefaultWeeks/tutorial"
-							rename="assets/tutorial"
-							library="tutorial"
-							embed="false"
-							exclude="*.md|*.mp3"
-							unless="web" />
-			<assets path="assets/_includeDefaultWeeks/week3"
+			<assets path="assets/_vanilla/week3"
 							rename="assets/week3"
 							library="week3"
 							embed="false"
 							exclude="*.md|*.ogg"
 							if="web" />
-			<assets path="assets/_includeDefaultWeeks/week3"
+			<assets path="assets/_vanilla/week3"
 							rename="assets/week3"
 							library="week3"
 							embed="false"
 							exclude="*.md|*.mp3"
 							unless="web" />
-			<assets path="assets/_includeDefaultWeeks/week4"
+			<assets path="assets/_vanilla/week4"
 							rename="assets/week4"
 							library="week4"
 							embed="false"
 							exclude="*.md|*.ogg"
 							if="web" />
-			<assets path="assets/_includeDefaultWeeks/week4"
+			<assets path="assets/_vanilla/week4"
 							rename="assets/week4"
 							library="week4"
 							embed="false"
 							exclude="*.md|*.mp3"
 							unless="web" />
-			<assets path="assets/_includeDefaultWeeks/week5"
+			<assets path="assets/_vanilla/week5"
 							rename="assets/week5"
 							library="week5"
 							embed="false"
 							exclude="*.md|*.ogg"
 							if="web" />
-			<assets path="assets/_includeDefaultWeeks/week5"
+			<assets path="assets/_vanilla/week5"
 							rename="assets/week5"
 							library="week5"
 							embed="false"
 							exclude="*.md|*.mp3"
 							unless="web" />
-			<assets path="assets/_includeDefaultWeeks/week6"
+			<assets path="assets/_vanilla/week6"
 							rename="assets/week6"
 							library="week6"
 							embed="false"
 							exclude="*.md|*.ogg"
 							if="web" />
-			<assets path="assets/_includeDefaultWeeks/week6"
+			<assets path="assets/_vanilla/week6"
 							rename="assets/week6"
 							library="week6"
 							embed="false"
 							exclude="*.md|*.mp3"
 							unless="web" />
-      <assets path="assets/_includeDefaultWeeks/songs"
+      <assets path="assets/_vanilla/songs"
 							rename="assets/songs"
 							library="songs"
 							embed="false"
 							exclude="*.md|*.mp3"
 							unless="web" />
-      <assets path="assets/_includeDefaultWeeks/shared"
+      <assets path="assets/_vanilla/shared"
 							rename="assets/shared"
 							library="shared"
 							embed="false"
@@ -438,7 +416,7 @@
 	<section if="includeDefaultWeeks">
 		<!-- <echo value="NOTICE: Build will include default weeks!" /> -->
   	<section if="embedAssets">
-			<assets path="assets/_includeDefaultWeeks"
+			<assets path="assets/_vanilla"
 							rename="assets"
 							embed="true"
 							exclude="*.md" />

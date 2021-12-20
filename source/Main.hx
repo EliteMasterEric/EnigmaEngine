@@ -26,10 +26,13 @@ import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxState;
 import flixel.util.FlxColor;
+import funkin.util.Util;
+import funkin.behavior.Debug;
 import funkin.behavior.media.WebmHandler;
 import funkin.behavior.mods.ModCore;
-import funkin.ui.component.Cursor;
 import funkin.behavior.options.Options;
+import funkin.const.GameDimensions;
+import funkin.ui.component.Cursor;
 import funkin.ui.state.modding.ModSplashState;
 import funkin.ui.state.title.CachingState;
 import funkin.ui.state.title.TitleState;
@@ -42,6 +45,7 @@ import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.Lib;
 import openfl.text.TextFormat;
+import openfl.events.UncaughtErrorEvent;
 #if FEATURE_DISCORD
 import funkin.behavior.api.Discord.DiscordClient;
 #end
@@ -91,6 +95,9 @@ class Main extends Sprite
 	{
 		super();
 
+		// Setup the crash handler before LITERALLY anything else.
+		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, Debug.onUncaughtError);
+
 		if (stage != null)
 		{
 			init();
@@ -134,6 +141,8 @@ class Main extends Sprite
 		gameHeight = 720;
 		framerate = 60;
 		#end
+
+		initLocalFolders();
 
 		// Run this first so we can see logs.
 		Debug.onInitProgram();
@@ -179,6 +188,16 @@ class Main extends Sprite
 
 		// Finish up loading debug tools.
 		Debug.onGameStart();
+	}
+
+	function initLocalFolders()
+	{
+		#if FEATURE_FILESYSTEM
+		// Create folders if they don't exist.
+		Util.createDirectoryIfNotExists('logs');
+		Util.createDirectoryIfNotExists('mods');
+		Util.createDirectoryIfNotExists('replays');
+		#end
 	}
 
 	var game:FlxGame;

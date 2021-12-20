@@ -47,6 +47,7 @@ import funkin.ui.effects.WiggleEffect;
 import funkin.ui.state.menu.FreeplayState;
 import funkin.ui.state.play.PlayState;
 import funkin.util.assets.Paths;
+import funkin.util.assets.DataAssets;
 import lime.app.Application;
 import llua.Convert;
 import llua.Lua;
@@ -441,13 +442,16 @@ class ModchartHandler
 				songLowercase = 'milf';
 		}
 
-		var path = Paths.lua('songs/${PlayState.SONG.songId}/modchart');
+		// Instead of LuaL.dofile, we have to read the text then call dostring.
 
-		var result = LuaL.dofile(lua, path); // execute le file
+		var path = 'songs/${PlayState.SONG.songId}/modchart';
+		var rawLua = DataAssets.loadLua(path);
+
+		var result = LuaL.dostring(lua, rawLua); // execute le file
 
 		if (result != 0)
 		{
-			Application.current.window.alert("LUA COMPILE ERROR:\n" + Lua.tostring(lua, result), "Enigma Engine Modcharts");
+			Debug.displayAlert('Compile error with Lua Modchart: ${Lua.tostring(lua, result)}', 'Lua Modchart Error');
 			FlxG.switchState(new FreeplayState());
 			return;
 		}

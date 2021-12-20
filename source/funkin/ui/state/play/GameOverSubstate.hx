@@ -108,7 +108,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		if (playerChar.getCurAnimation() == 'firstDeath' && playerChar.isCurAnimationFinished())
 		{
-			FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix));
+			AudioAssets.playMusic(Paths.music('gameOver$stageSuffix'), true, true, 1);
 			startVibin = true;
 		}
 

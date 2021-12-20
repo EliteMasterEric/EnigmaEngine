@@ -31,6 +31,8 @@ import flixel.input.gamepad.FlxGamepad;
 import flixel.input.keyboard.FlxKey;
 import flixel.system.FlxSound;
 import flixel.text.FlxText;
+import funkin.util.assets.AudioAssets;
+import funkin.behavior.play.Conductor;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
@@ -67,8 +69,10 @@ class PauseSubState extends MusicBeatSubstate
 				GlobalVideo.get().pause();
 		}
 
-		pauseMusic = AudioAssets.playSound(Paths.music('gamePaused'), true, true, 0);
-		// pauseMusic.volume = FlxG.random.int(0, Std.int(pauseMusic.length / 2));
+		pauseMusic = AudioAssets.loadSound(Paths.music('gamePaused'), true, true);
+		pauseMusic.volume = 0; // We'll fade this in.
+		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
+		FlxG.sound.list.add(pauseMusic);
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		bg.alpha = 0;
@@ -117,9 +121,6 @@ class PauseSubState extends MusicBeatSubstate
 
 	override function update(elapsed:Float)
 	{
-		if (pauseMusic.volume < 0.5)
-			pauseMusic.volume += 0.01 * elapsed;
-
 		super.update(elapsed);
 
 		if (PlayState.instance.backgroundVideoActive)
@@ -188,17 +189,22 @@ class PauseSubState extends MusicBeatSubstate
 
 					PlayState.instance.clean();
 
+					AudioAssets.playMusic(Paths.music('freakyMenu'), true, true, 1);
+					Conductor.changeBPM(102);
+
 					if (PlayState.isStoryMode())
 						FlxG.switchState(new StoryMenuState());
 					else
 						FlxG.switchState(new FreeplayState());
 			}
 		}
+
+		if (pauseMusic.volume < 0.5)
+			pauseMusic.volume += 0.01 * elapsed;
 	}
 
 	override function destroy()
 	{
-		pauseMusic.pause();
 		pauseMusic.destroy();
 		super.destroy();
 	}

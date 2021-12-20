@@ -75,10 +75,7 @@ class SaveData
 		trace('Done checking save data. Flushing...');
 		FlxG.save.flush();
 
-		Debug.logInfo('Save data:');
-		// I want to do this in a thread because it's a long blocking operation,
-		// but I can't because the log writer isn't thread-safe.
-		Debug.logInfo('  ${TJSON.encode(FlxG.save.data, 'fancy')}');
+		// logSaveData();
 
 		#if FEATURE_GAMEPAD
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
@@ -109,5 +106,12 @@ class SaveData
 
 		FlxG.save.data.weeksUnlocked.set(id, shouldUnlock);
 		FlxG.save.flush();
+	}
+
+	function logSaveData()
+	{
+		// Running this is actually a big performance hit during load time.
+		Debug.logInfo('Save data:');
+		Debug.logInfo('  ${TJSON.encode(FlxG.save.data, 'fancy')}');
 	}
 }

@@ -50,11 +50,15 @@ class AudioAssets
 
 		if (LibraryAssets.soundExists(soundPath))
 		{
-			var result = FlxG.sound.play(soundPath, volume, shouldLoop, null, true, onComplete);
+			var result = AudioAssets.loadSound(soundPath, true, true);
 			if (result == null)
 			{
 				Debug.logWarn('Could not play sound ($soundPath): Unknown error.');
+				return null;
 			}
+
+			result.volume = volume;
+			FlxG.sound.list.add(result);
 			return result;
 		}
 		else
@@ -65,21 +69,58 @@ class AudioAssets
 	}
 
 	/**
+	 * Loads the provided audio track and gives you a handle so you can play it later.
+	 * @param soundPath 
+	 * @return The sound object, allowing you to control playback.
+	 */
+	public static function loadSound(soundPath:String, shouldCache = false, shouldLoop = false):Null<FlxSound>
+	{
+		if (shouldCache)
+			cacheSound(soundPath);
+
+		if (LibraryAssets.soundExists(soundPath))
+		{
+			var result = new FlxSound().loadEmbedded(soundPath, shouldLoop);
+			return result;
+		}
+		else
+		{
+			Debug.logWarn('Could not load sound ($soundPath): File does not exist.');
+			return null;
+		}
+	}
+
+	/**
 	 * Attempts to load and play the provided audio track. Overrides the current background music track.
 	 * Only one music track can be loaded at a time.
+	 * @param shouldRestart If the same track is already playing, should we restart it?
 	 */
-	public static function playMusic(songPath:String, shouldCache:Bool = true, volume:Float = 1, looped:Bool = false)
+	public static function playMusic(songPath:String, shouldCache:Bool = true, shouldRestart:Bool = true, volume:Float = 1, looped:Bool = false):Null<FlxSound>
 	{
+		if (FlxG.sound.music != null)
+		{
+			if (shouldRestart)
+			{
+				FlxG.sound.music.stop();
+			}
+			else
+			{
+				return FlxG.sound.music;
+			}
+		}
+
 		if (shouldCache)
 			cacheSound(songPath);
 
 		if (LibraryAssets.soundExists(songPath))
 		{
 			FlxG.sound.playMusic(songPath, volume, looped);
+			return FlxG.sound.music;
 		}
 		else
 		{
 			Debug.logError('Could not play music ($songPath) because the file does not exist.');
+			return null;
 		}
 	}
 

@@ -489,6 +489,7 @@ class AlphaCharacter extends FlxSprite
 
 	function createSymbol(letter:String, ?bold:Bool = false)
 	{
+		// Debug.logTrace('createSymbol : $letter ($bold)');
 		var suffix = bold ? ' bold' : '';
 		switch (letter)
 		{

@@ -108,4 +108,23 @@ class DataAssets
 			return null;
 		}
 	}
+
+	/**
+	 * DEPRECATED: Please use HScript modcharts instead I beg you.
+	 */
+	public static function loadLua(key:String, ?library:String):String
+	{
+		var rawLua:String = null;
+		try
+		{
+			rawLua = OpenFlAssets.getText(Paths.lua(key, library)).trim();
+			return rawLua;
+		}
+		catch (e)
+		{
+			Debug.logError('AN ERROR OCCURRED trying to read a LUA file (${library}:${key}). It probably does not exist.');
+			Debug.logError(e.message);
+			return null;
+		}
+	}
 }

@@ -136,10 +136,18 @@ class CachingState extends MusicBeatState
 
 		toBeDone = Lambda.count(images) + Lambda.count(music);
 
-		var bar = new FlxBar(10, FlxG.height - 50, FlxBarFillDirection.LEFT_TO_RIGHT, FlxG.width, 40, null, "done", 0, toBeDone);
-		bar.color = FlxColor.PURPLE;
-
-		add(bar);
+		if (toBeDone == 0)
+		{
+			Debug.logTrace("WARNING: No files to cache.");
+			done = toBeDone;
+			loaded = true;
+		}
+		else
+		{
+			var bar = new FlxBar(10, FlxG.height - 50, FlxBarFillDirection.LEFT_TO_RIGHT, FlxG.width, 40, null, "done", 0, toBeDone);
+			bar.color = FlxColor.PURPLE;
+			add(bar);
+		}
 
 		add(gameLogo);
 		add(text);
@@ -165,7 +173,7 @@ class CachingState extends MusicBeatState
 		super.update(elapsed);
 
 		// Update the loading text. This should be done in the main UI thread.
-		var alpha = Util.truncateFloat(done / toBeDone * 100, 2) / 100;
+		var alpha = Util.truncateFloat(toBeDone == 0 ? 0.5 : (done / toBeDone * 100), 2) / 100;
 		gameLogo.alpha = alpha;
 		text.text = "Loading... (" + done + "/" + toBeDone + ")";
 	}

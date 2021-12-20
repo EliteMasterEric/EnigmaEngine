@@ -39,7 +39,7 @@ class Project extends HXProject {
 		super ();
 			
 		// Display ASCII art.
-		flair();
+		// flair();
 
 		// Set the project metadata.
 		configureApp();
@@ -56,11 +56,14 @@ class Project extends HXProject {
 		// Configure library dependencies.
 		configureLibraries();
 
-		// Configure asset libraries.
-		configureAssets();
-
 		// Configure favicons.
 		configureIcons();
+
+		// Set the window size.
+		configureWindow();
+
+		// Configure asset libraries.
+		configureAssets();
 	}
 
 	/**
@@ -69,7 +72,7 @@ class Project extends HXProject {
 	function configureApp() {
 		meta.title = "Enigma Engine";
 		meta.description = "A moddable game engine for Friday Night Funkin'.";
-		meta.version = "0.3.0";
+		meta.version = "0.3.1";
 		meta.packageName = "com.mastereric.enigmaengine";
 		meta.company = "";
 		// meta.buildNumber
@@ -97,15 +100,15 @@ class Project extends HXProject {
 		// Ensure only supported platforms are used.
 		switch(target) {
 			case Platform.WINDOWS:
-				info('Platform: Windows');
+				info('Platform is Windows');
 			case Platform.MAC: // Mac will probably work, but I can't build it right now.
-				info('Platform: Mac');
+				info('Platform is Mac');
 			case Platform.LINUX:
-				info('Platform: Linux');
+				info('Platform is Linux');
 			case Platform.ANDROID:
-				info('Platform: Android');
+				info('Platform is Android');
 			case Platform.HTML5:
-				info('Platform: HTML5');
+				info('Platform is HTML5');
 			// case Platform.EMSCRITEN: // A WebAssembly build might be interesting...
 			// case Platform.IOS: // I can't support iOS right now, since I don't have the ability to build.
 			// case Platform.AIR:
@@ -130,23 +133,23 @@ class Project extends HXProject {
 			// Ensure only supported architectures are used.
 			switch(architecture) {
 				case Architecture.X86:
-					info('Architecture: x86');
+					info('Architecture is x86');
 				case Architecture.X64:
-					info('Architecture: x64');
+					info('Architecture is x64');
 				case Architecture.ARMV5:
-					info('Architecture: ARMv5');
+					info('Architecture is ARMv5');
 				case Architecture.ARMV6:
-					info('Architecture: ARMv6');
+					info('Architecture is ARMv6');
 				case Architecture.ARMV7:
-					info('Architecture: ARMv7');
+					info('Architecture is ARMv7');
 				case Architecture.ARMV7S:
-					info('Architecture: ARMv7S');
+					info('Architecture is ARMv7S');
 				case Architecture.ARM64:
-					info('Architecture: ARMx64');
+					info('Architecture is ARMx64');
 				case Architecture.MIPS:
-					info('Architecture: MIPS');
+					info('Architecture is MIPS');
 				case Architecture.MIPSEL:
-					info('Architecture: MIPSEL');
+					info('Architecture is MIPSEL');
 				case null:
 					if (!isWeb())
 						error('Unsupported architecture (got null on non-web platform)');
@@ -154,6 +157,10 @@ class Project extends HXProject {
 					error('Unsupported architecture (got ${architecture})');
 			}
 		}
+
+		defines.set('FLX_SUPPRESS_ICON', "true");
+		defines.set('disable-version-check', "true");
+		haxedefs.set("FLX_SUPPRESS_ICON", true);
 
 		if (isDesktop()) {
 			haxedefs.set(FEATURE_DISCORD, "true");
@@ -194,7 +201,7 @@ class Project extends HXProject {
 		var includeDefaultWeeks = defines.exists("includeDefaultWeeks");
 		var buildDir = 'export/${debug ? 'debug' : 'release'}/${includeDefaultWeeks ? 'vanilla' : 'base'}/$architecture'; // /$target
 
-		info('Output directory: $buildDir');
+		info('Output directory is $buildDir');
 		// setenv('BUILD_DIR', buildDir);
 		app.path = buildDir;
 	}
@@ -264,6 +271,8 @@ class Project extends HXProject {
 			addHaxelib("linc_luajit");
 			addHaxelib("hxvm-luajit");
 		}
+
+		// flushHaxelibs();
 	}
 
 	/**
@@ -329,10 +338,9 @@ class Project extends HXProject {
 		var includeExampleMods = !defines.exists("excludeExampleMods");
 		// Only use OGG on desktop and MP3 on web.
 		var excludeExt = isWeb() ? ["*.md", "*.ogg"] : ["*.md", "*.mp3"];
-		
-		// You can use a define to force assets to be preloaded.
-		// Github Copilot thought of that part all on its own and that's really scary.
-		var shouldPreload = !isWeb() || defines.exists("preloadAssets");
+
+		// ALL assets are preloaded on desktop platforms.
+		var preloadAll = !isWeb();
 
 		if (shouldEmbed) {
 			info('NOTICE: Embedding assets into executable...');
@@ -340,57 +348,58 @@ class Project extends HXProject {
 			info('NOTICE: Including assets alongside executable...');
 		}
 
-		// Put the assets in _includeDefaultWeeks before those in the main folders.
+		// Define the main libraries.
+		addAssetLibrary("scripts", true, true); // Scripts should always be embedded.
+		addAssetLibrary("core", true, true);
+		addAssetLibrary("songs", shouldEmbed, preloadAll);
+		addAssetLibrary("shared", shouldEmbed, preloadAll);
+
+		// Put the assets in _vanilla before those in the main folders.
 		if (includeDefaultWeeks) {
 			info('NOTICE: Including default weeks...');
 
-			addAssetPath("assets/_includeDefaultWeeks", "assets", ["*"], excludeExt, shouldEmbed);
+			addAssetPath("assets/_vanilla/data", "default", "assets/data", ["*"], excludeExt, shouldEmbed);
+			addAssetPath("assets/_vanilla/images", "default", "assets/images", ["*"], excludeExt, shouldEmbed);
+			addAssetPath("assets/_vanilla/shared", "shared", "assets/shared", ["*"], excludeExt, shouldEmbed);
+			addAssetPath("assets/_vanilla/songs", "songs", "assets/songs", ["*"], excludeExt, shouldEmbed);
 		} else {
 			info('NOTICE: Excluding default weeks...');
-			addAssetPath("assets/_excludeDefaultWeeks", "assets", ["*"], excludeExt, shouldEmbed);
+			// GOOD
+			addAssetPath("assets/_base/data", "default", "assets/data", ["*"], excludeExt, shouldEmbed);
 		}
 
 		// Add the preloaded main asset path.
-		addAssetPath("assets/preload", "assets", ["*"], excludeExt, shouldEmbed);
-
-		// Add the main libraries.
-		addAssetLibrary("scripts", true, true); // Scripts should always be embedded.
-		addAssetLibrary("songs", shouldEmbed, shouldPreload);
-		addAssetLibrary("shared", shouldEmbed, shouldPreload);
-		// addAssetLibrary("sm", shouldEmbed, shouldPreload);
+		addAssetPath("assets/preload", "default", "assets", ["*"], excludeExt, shouldEmbed);
 
 		// Add the main asset paths (AFTER the libraries).
-		addAssetPath("assets/core", "assets/core", ["*"], excludeExt, true);
-		addAssetPath("assets/scripts", "assets/scripts", ["*"], excludeExt, true);
-		addAssetPath("assets/songs", "assets/songs", ["*"], excludeExt, shouldEmbed);
-		addAssetPath("assets/shared", "assets/shared", ["*"], excludeExt, shouldEmbed);
-		// addAssetPath("assets/sm", "sm", ["*"], excludeExt, shouldEmbed);
-		addAssetPath("assets/core", "assets/core", ["*"], excludeExt, shouldEmbed);
-		addAssetPath("assets/core", "assets/core", ["*"], excludeExt, shouldEmbed);
+		addAssetPath("assets/core", "core", "assets/core", ["*"], excludeExt, shouldEmbed);
+		addAssetPath("assets/scripts", "scripts", "assets/scripts", ["*"], excludeExt, shouldEmbed);
+		addAssetPath("assets/songs", "songs", "assets/songs", ["*"], excludeExt, shouldEmbed);
+		addAssetPath("assets/shared", "shared", "assets/shared", ["*"], excludeExt, shouldEmbed);
 
 		// TODO: Deprecate week-specific asset libraries.
 		if (includeDefaultWeeks) {
 			// addAssetLibrary("assets/tutorial", shouldEmbed, shouldPreload);
 			// addAssetLibrary("assets/week1", shouldEmbed, shouldPreload);
 			// addAssetLibrary("assets/week2", shouldEmbed, shouldPreload);
-			addAssetLibrary("week3", shouldEmbed, shouldPreload);
-			addAssetLibrary("week4", shouldEmbed, shouldPreload);
-			addAssetLibrary("week5", shouldEmbed, shouldPreload);
-			addAssetLibrary("week6", shouldEmbed, shouldPreload);
+			addAssetLibrary("week3", shouldEmbed, preloadAll);
+			addAssetLibrary("week4", shouldEmbed, preloadAll);
+			addAssetLibrary("week5", shouldEmbed, preloadAll);
+			addAssetLibrary("week6", shouldEmbed, preloadAll);
 
-			// addAssetPath("assets/_includeDefaultWeeks/tutorial", "tutorial", ["*"], excludeExt, shouldEmbed);
-			// addAssetPath("assets/_includeDefaultWeeks/week1", "week1", ["*"], excludeExt, shouldEmbed);
-			// addAssetPath("assets/_includeDefaultWeeks/week2", "week2", ["*"], excludeExt, shouldEmbed);
-			addAssetPath("assets/_includeDefaultWeeks/week3", "assets/week3", ["*"], excludeExt, shouldEmbed);
-			addAssetPath("assets/_includeDefaultWeeks/week4", "assets/week4", ["*"], excludeExt, shouldEmbed);
-			addAssetPath("assets/_includeDefaultWeeks/week5", "assets/week5", ["*"], excludeExt, shouldEmbed);
-			addAssetPath("assets/_includeDefaultWeeks/week6", "assets/week6", ["*"], excludeExt, shouldEmbed);
+			// addAssetPath("assets/_vanilla/tutorial", "tutorial", ["*"], excludeExt, shouldEmbed);
+			// addAssetPath("assets/_vanilla/week1", "week1", ["*"], excludeExt, shouldEmbed);
+			// addAssetPath("assets/_vanilla/week2", "week2", ["*"], excludeExt, shouldEmbed);
+			addAssetPath("assets/_vanilla/week3", "week3", "assets/week3", ["*"], excludeExt, shouldEmbed);
+			addAssetPath("assets/_vanilla/week4", "week4", "assets/week4", ["*"], excludeExt, shouldEmbed);
+			addAssetPath("assets/_vanilla/week5", "week5", "assets/week5", ["*"], excludeExt, shouldEmbed);
+			addAssetPath("assets/_vanilla/week6", "week6", "assets/week6", ["*"], excludeExt, shouldEmbed);
 		}
 		
-		addAsset("art/README.txt", "README.txt", false);
-		addAsset("LICENSE", "LICENSE.txt", false);
+		addAsset("art/README.txt", "default", "README.txt", false);
+		addAsset("LICENSE", "default", "LICENSE.txt", false);
 		// To font, convert to OTF, then use setFormat on the text with the name of the font.
-		addAssetPath("assets/fonts", null, ["*"], excludeExt, true);
+		addAssetPath("assets/fonts", "default", null, ["*"], excludeExt, true);
 
 	}
 
@@ -405,6 +414,23 @@ class Project extends HXProject {
 		addIcon("art/icon128.png", 128);
 		addIcon("art/icon256.png", 256);
 		addIcon("art/iconOG.png");
+	}
+
+	/**
+	 * Loads and merges the properties from each Haxelib's `include.xml` file to the project.
+	 * This allows you to apply additional properties AFTER the ones from the Haxelibs.
+	 * @see https://github.com/haxelime/lime/issues/1508#issuecomment-992730085
+	 */
+	function flushHaxelibs() {
+		info('Flushing Haxelibs...');
+
+		HXProject.processHaxelibs(this, HXProject._userDefines);
+
+		// Remove all the Haxelibs we processed.
+		while (haxelibs.length > 0)
+			haxelibs.pop();
+
+		info('Done flushing Haxelibs...');
 	}
 
 	/**
@@ -513,6 +539,16 @@ class Project extends HXProject {
 		icons.push(new Icon(icon, size));
 	}
 
+	function addTemplate(path:String, rename:String) {
+		assets.push(new Asset(path, rename, AssetType.TEMPLATE));
+	}
+
+	/**
+	 * Define a new asset library. Use `addAsset` and `addAssetPath` to include assets in it.
+	 * @param name 
+	 * @param embed 
+	 * @param preload 
+	 */
 	function addAssetLibrary(name:String, embed:Bool = false, preload:Bool = false) {
 		var sourcePath = null;
 		var type = null;
@@ -523,12 +559,16 @@ class Project extends HXProject {
 		libraries.push(assetLibrary);
 	}
 
-	function addAsset(path:String, rename:String = null, embed:Bool = false) {
-		assets.push(new Asset(path, rename, null, embed, true));
+	function addAsset(path:String, library:String = "default", rename:String = null, embed:Bool = false) {
+		var asset = new Asset(path, rename, null, embed, true);
+		asset.library = library;
+		assets.push(asset);
 	}
 
-
-	function addAssetPath(path:String, rename:String = null, include:Array<String> = null, exclude:Array<String> = null, embed:Bool = false):Void
+	/**
+	 * Add all the asset files in a given path to a given library.
+	 */
+	function addAssetPath(path:String, library:String = "default", rename:String = null, include:Array<String> = null, exclude:Array<String> = null, embed:Bool = false):Void
 	{
 		if (path == "")
 			return;
@@ -569,12 +609,12 @@ class Project extends HXProject {
 			{
 				// Recursive file calls.
 				if (filter(file, ["*"], exclude))
-					addAssetPath(path + "/" + file, targetPath + file, include, exclude, embed);
+					addAssetPath(path + "/" + file, library, targetPath + file, include, exclude, embed);
 			}
 			else
 			{
 				if (filter(file, include, exclude)) {
-					addAsset(path + "/" + file, targetPath + file, embed);
+					addAsset(path + "/" + file, library, targetPath + file, embed);
 				}
 			}
 		}
@@ -638,7 +678,7 @@ class Project extends HXProject {
 	function info(message:String) {
 		// Disable info() log calls because of a bug.
 		// https://github.com/haxelime/lime-vscode-extension/issues/88
-		Log.info(message);
+		// Log.info(message);
 		// trace(message);
 		// Sys.println(message);
 		// Sys.stdout().writeString(message);

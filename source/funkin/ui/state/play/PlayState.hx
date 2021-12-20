@@ -2067,7 +2067,7 @@ class PlayState extends MusicBeatState implements IHook
 		else
 		{
 			Debug.logError('Could not find instrumentals for song ${PlayState.SONG.songFile}!');
-			Debug.displayAlert('Fatal error playing ${PlayState.SONG.songName}', 'Could not find instrument for song ${PlayState.SONG.songFile}!');
+			Debug.displayAlert('Fatal error playing ${PlayState.SONG.songName}', 'Could not find instrumentals for song ${PlayState.SONG.songFile}!');
 		}
 
 		FlxG.sound.music.onComplete = endSong;
@@ -3442,10 +3442,13 @@ class PlayState extends MusicBeatState implements IHook
 		endModchart();
 
 		canPause = false;
+		if (vocals != null)
+		{
+			vocals.volume = 0;
+			vocals.stop();
+		}
 		FlxG.sound.music.volume = 0;
-		vocals.volume = 0;
 		AudioAssets.stopMusic();
-		vocals.stop();
 		if (SONG.validScore)
 		{
 			Debug.logInfo('Saving highscores...');
@@ -3458,7 +3461,8 @@ class PlayState extends MusicBeatState implements IHook
 
 		if (offsetTesting)
 		{
-			MainMenuMusic.playMenuMusic();
+			AudioAssets.playMusic(Paths.music('freakyMenu'), true, true, 1);
+			Conductor.changeBPM(102);
 			offsetTesting = false;
 			LoadingState.loadAndSwitchState(new OptionsMenu());
 			clean();
@@ -3519,7 +3523,8 @@ class PlayState extends MusicBeatState implements IHook
 					}
 					else
 					{
-						MainMenuMusic.playMenuMusic();
+						AudioAssets.playMusic(Paths.music('freakyMenu'), true, true, 1);
+						Conductor.changeBPM(102);
 						FlxG.switchState(new StoryMenuState());
 						clean();
 					}

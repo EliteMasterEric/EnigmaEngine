@@ -249,14 +249,39 @@ class Debug
 		logInfo('  Manufacturer: ${SystemSpecUtil.getManufacturer()}');
 		logInfo('  Language: ${SystemSpecUtil.getLanguage()}');
 		logInfo('  Screen resolution: ${SystemSpecUtil.getScreenResolution()}');
-
-		// Add a crash handler.
-		openfl.Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onUncaughtError);
 	}
 
-	static function onUncaughtError(error:UncaughtErrorEvent)
+	static final ERROR_REPORT_URL = "https://github.com/EnigmaEngine/EnigmaEngine/issues";
+
+	/**
+	 * Called when OpenFL encounters an uncaught fatal error.
+	 * Note that the default logging system should NOT be used here in case that was the problem.
+	 * @param error The error that was thrown.
+	 */
+	public static function onUncaughtError(error:UncaughtErrorEvent)
 	{
-		logError('FATAL ERROR: An uncaught error was thrown by OpenFL.');
+		#if FEATURE_FILESYSTEM
+		var crashLogLines:Array<String> = [];
+
+		crashLogLines.push('==========FATAL ERROR==========');
+		crashLogLines.push('An uncaught error was thrown, and the game had to close.');
+		crashLogLines.push('Please use the link below, create a new issue, and upload this file to report the error.');
+		crashLogLines.push('');
+		crashLogLines.push(ERROR_REPORT_URL);
+		crashLogLines.push('');
+
+		crashLogLines.push('==========SYSTEM INFO==========');
+		crashLogLines.push('Enigma Engine version: ${Enigma.ENGINE_VERSION}');
+		crashLogLines.push('  HaxeFlixel version: ${Std.string(FlxG.VERSION)}');
+		crashLogLines.push('  Friday Night Funkin\' version: ${Enigma.GAME_VERSION}');
+		crashLogLines.push('  Git commit: ${Enigma.COMMIT_HASH}');
+		crashLogLines.push('System telemetry:');
+		crashLogLines.push('  OS: ${SystemUtil.getOS()}');
+
+		crashLogLines.push('');
+
+		crashLogLines.push('==========STACK TRACE==========');
+		crashLogLines.push(error.error);
 
 		var errorCallStack:Array<StackItem> = CallStack.exceptionStack(true);
 
@@ -265,23 +290,33 @@ class Debug
 			switch (line)
 			{
 				case CFunction:
-					logError('  function:');
+					crashLogLines.push('  function:');
 				case Module(m):
-					logError('  module:${m}');
+					crashLogLines.push('  module:${m}');
 				case FilePos(s, file, line, column):
-					logError('  (${file}#${line},${column})');
+					crashLogLines.push('  (${file}#${line},${column})');
 				case Method(className, method):
-					logError('  method:(${className}/${method}');
+					crashLogLines.push('  method:(${className}/${method}');
 				case LocalFunction(v):
-					logError('  localFunction:${v}');
+					crashLogLines.push('  localFunction:${v}');
 			}
 		}
+		crashLogLines.push('');
 
-		logError('ADDITIONAL INFO:');
-		logError('Type of instigator: ${Util.getTypeName(error.error)}');
-		displayAlert('Fatal Crash Error',
-			'A fatal error has occurred. ' +
-			'Please retrieve your log file from the "logs" folder and report it to the GitHub page: https://github.com/EnigmaEngine/EnigmaEngine');
+		var logFolderPath = Util.createDirectoryIfNotExists('logs');
+
+		sys.io.File.saveContent('${logFolderPath}/Enigma ${DebugLogWriter.getDateString()}.crash', crashLogLines.join('\n'));
+
+		displayAlert('Catastrophic Error',
+			'An error has occurred and the game is forced to close.\nPlease access the "crash" folder and send the .crash file to the developers:\n' +
+			ERROR_REPORT_URL);
+
+		// Commit sudoku.
+		Sys.exit(1);
+		#else
+		displayAlert('Catastrophic Error',
+			'An error has occurred and the game is forced to close.\nWe cannot write a log file though. Tell the developers:\n' + ERROR_REPORT_URL);
+		#end
 	}
 
 	/**
@@ -442,17 +477,11 @@ class DebugLogWriter
 		#if FEATURE_FILESYSTEM
 		printDebug("Initializing log file...");
 
-		// The path of the log file.
-		var logFilePath = '$LOG_FOLDER/${Sys.time()}.log';
+		Util.createDirectoryIfNotExists(LOG_FOLDER);
 
-		// Make sure that the log directory exists.
-		if (logFilePath.indexOf("/") != -1)
-		{
-			var lastIndex:Int = logFilePath.lastIndexOf("/");
-			var logFolderPath:String = logFilePath.substr(0, lastIndex);
-			printDebug('Creating log folder $logFolderPath');
-			sys.FileSystem.createDirectory(logFolderPath);
-		}
+		// The path of the log file.
+		var logFilePath = '$LOG_FOLDER/Enigma ${getDateString()}.log';
+
 		// Open the file
 		printDebug('Creating log file $logFilePath');
 		file = sys.io.File.write(logFilePath, false);
@@ -464,6 +493,11 @@ class DebugLogWriter
 
 		// Get the absolute time in seconds. This lets us show relative time in log, which is more readable.
 		startTime = getTime(true);
+	}
+
+	public static inline function getDateString():String
+	{
+		return Date.now().toString().replaceAll(":", "-");
 	}
 
 	public function isActive()

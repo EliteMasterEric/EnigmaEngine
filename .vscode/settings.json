@@ -10,19 +10,6 @@
 	"files.exclude": {
 		"**/.unittest": true
 	},
-	"haxeTestExplorer.testCommand": [
-		"haxelib",
-		"run",
-		"munit",
-		"config",
-		"-src", "test/src",
-		"-classPaths", "source",
-		"-bin", "export/test",
-		"-report", "report",
-		"-hxml", "test/project.hxml",
-		"-coveragePackages", "funkin"
-		// "test.bat"
-	],
 	"haxe.displayPort": "auto",
 	"haxe.enableCompilationServer": true,
 	"lime.targetConfigurations": [
@@ -55,6 +42,9 @@
 		"*.hxp": "haxe", // Haxe Project files.
 		"*.hscript": "haxe", // HScript files.
 		"*.eec": "jsonc", // Engima Engine Chart files.
+	},
+	"yaml.schemas": {
+		"https://json.schemastore.org/github-issue-config.json": "/.github/ISSUE_TEMPLATE/config.yml"
 	},
 	"codedox": {
 		"autoInsert": true, // enables insertion of function comments trigged by keystrokes

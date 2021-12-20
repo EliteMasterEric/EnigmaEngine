@@ -1,0 +1,42 @@
+name: I have an idea for a feature!
+description: Suggest enhancements for Enigma Engine
+title: 'Enhancement: '
+labels: ["enhancement"]
+body:
+- type: checkboxes
+  id: checks
+  attributes:
+    label: Checks
+    options:
+      - label: >
+          I have checked that this suggestion has not already been requested.
+        required: true
+      - label: >
+          I have validated that this suggestion is not already implemented in the latest version.
+        required: true
+- type: textarea
+  id: problem
+  attributes:
+    label: Is your feature related to a problem you are having?
+    description: >
+      Please provide a description of what the problem is, e.g. "I wish I could use Enigma Engine to do [...]"
+  validations:
+    required: true
+- type: textarea
+  id: solution
+  attributes:
+    label: Describe your solution to the problem.
+    description: >
+      Please provide a description of the feature request. Why should the feature be implemented?
+  validations:
+    required: true
+- type: textarea
+  id: alternatives
+  attributes:
+    label: Describe possible alternatives you considered
+    description: Please provide a description of any alternative solutions or featurse you've considered
+- type: textarea
+  id: example
+  attributes:
+    label: Additional context
+    description: Please provide any other context, code examples, or references to existing implementations (such as mods which utilize the feature).
