@@ -31,8 +31,8 @@ import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import funkin.ui.component.play.character.Boyfriend;
-import funkin.ui.component.play.character.OldCharacter;
+import funkin.ui.component.play.character.BaseCharacter;
+import funkin.ui.component.play.character.CharacterFactory;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
 import openfl.net.FileReference;
@@ -43,9 +43,9 @@ class AnimationDebug extends FlxState
 {
 	var _file:FileReference;
 
-	var playerChar:Boyfriend;
-	var cpuChar:OldCharacter;
-	var currentChar:OldCharacter;
+	var playerChar:BaseCharacter;
+	var cpuChar:BaseCharacter;
+	var currentChar:BaseCharacter;
 
 	var textAnim:FlxText;
 	var dumbTexts:FlxTypedGroup<FlxText>;
@@ -74,9 +74,8 @@ class AnimationDebug extends FlxState
 
 		if (isDad)
 		{
-			cpuChar = new OldCharacter(0, 0, daAnim);
+			cpuChar = CharacterFactory.buildCharacter(daAnim);
 			cpuChar.screenCenter();
-			cpuChar.debugMode = true;
 			add(cpuChar);
 
 			currentChar = cpuChar;
@@ -84,9 +83,8 @@ class AnimationDebug extends FlxState
 		}
 		else
 		{
-			playerChar = new Boyfriend(0, 0);
+			playerChar = CharacterFactory.buildCharacter('bf');
 			playerChar.screenCenter();
-			playerChar.debugMode = true;
 			add(playerChar);
 
 			currentChar = playerChar;
@@ -119,8 +117,9 @@ class AnimationDebug extends FlxState
 	{
 		var daLoop:Int = 0;
 
-		for (anim => offsets in currentChar.animOffsets)
+		for (anim in currentChar.getAnimations())
 		{
+			var offsets = currentChar.getAnimationOffsets(anim);
 			var text:FlxText = new FlxText(10, 20 + (18 * daLoop), 0, anim + ": " + offsets, 15);
 			text.scrollFactor.set();
 			text.color = FlxColor.BLUE;
@@ -137,10 +136,10 @@ class AnimationDebug extends FlxState
 	{
 		var result = "";
 
-		for (anim => offsets in currentChar.animOffsets)
+		for (anim in currentChar.getAnimations())
 		{
-			var text = anim + " " + offsets.join(" ");
-			result += text + "\n";
+			var offsets = currentChar.getAnimationOffsets(anim);
+			result += '$anim ${offsets.join(" ")}\n';
 		}
 
 		if ((result != null) && (result.length > 0))
@@ -149,7 +148,7 @@ class AnimationDebug extends FlxState
 			_file.addEventListener(Event.COMPLETE, onSaveComplete);
 			_file.addEventListener(Event.CANCEL, onSaveCancel);
 			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
-			_file.save(result.trim(), daAnim + "Offsets.txt");
+			_file.save(result.trim(), '${daAnim}Offsets.txt');
 		}
 	}
 
@@ -211,7 +210,7 @@ class AnimationDebug extends FlxState
 
 	override function update(elapsed:Float)
 	{
-		textAnim.text = currentChar.getCurAnimation();
+		textAnim.text = currentChar.getAnimation();
 
 		if (FlxG.keys.justPressed.ENTER || FlxG.keys.justPressed.ESCAPE)
 			FlxG.switchState(new PlayState());
@@ -263,7 +262,7 @@ class AnimationDebug extends FlxState
 
 		if (FlxG.keys.justPressed.S || FlxG.keys.justPressed.W || FlxG.keys.justPressed.SPACE)
 		{
-			currentChar.playAnim(animList[curAnim]);
+			currentChar.playAnimation(animList[curAnim]);
 
 			updateTexts();
 			displayCharOffsets(false);
@@ -282,18 +281,28 @@ class AnimationDebug extends FlxState
 		if (upP || rightP || downP || leftP)
 		{
 			updateTexts();
+			var offsets = currentChar.getAnimationOffsets(animList[curAnim]);
 			if (upP)
-				currentChar.animOffsets.get(animList[curAnim])[1] += 1 * multiplier;
+			{
+				offsets[1] += 1 * multiplier;
+			}
 			if (downP)
-				currentChar.animOffsets.get(animList[curAnim])[1] -= 1 * multiplier;
+			{
+				offsets[1] -= 1 * multiplier;
+			}
 			if (leftP)
-				currentChar.animOffsets.get(animList[curAnim])[0] += 1 * multiplier;
+			{
+				offsets[0] += 1 * multiplier;
+			}
 			if (rightP)
-				currentChar.animOffsets.get(animList[curAnim])[0] -= 1 * multiplier;
+			{
+				offsets[0] -= 1 * multiplier;
+			}
+			currentChar.setAnimationOffsets(animList[curAnim], offsets);
 
 			updateTexts();
 			displayCharOffsets(false);
-			currentChar.playAnim(animList[curAnim]);
+			currentChar.playAnimation(animList[curAnim]);
 		}
 
 		if (FlxG.keys.pressed.CONTROL && FlxG.keys.justPressed.S)

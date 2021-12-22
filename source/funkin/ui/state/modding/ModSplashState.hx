@@ -33,7 +33,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import funkin.behavior.mods.ModCore;
+import funkin.behavior.mods.PolymodHandler;
 
 class ModSplashState extends MusicBeatState
 {
@@ -42,8 +42,8 @@ class ModSplashState extends MusicBeatState
 
 	override function create()
 	{
-		#if FEATURE_MODCORE
-		var modsToLoad = ModCore.getConfiguredMods();
+		#if FEATURE_POLYMOD
+		var modsToLoad = PolymodHandler.getConfiguredMods();
 		configFound = (modsToLoad != null && modsToLoad.length > 0);
 		#else
 		configFound = false;
@@ -105,14 +105,14 @@ class ModSplashState extends MusicBeatState
 			{
 				Debug.logInfo("User chose to enable configured mods.");
 				// Gotta run this before any assets get loaded.
-				ModCore.loadConfiguredMods();
+				PolymodHandler.loadConfiguredMods();
 				loadMainGame();
 			}
 			else
 			{
 				Debug.logInfo("User chose to enable ALL available mods.");
 				// Gotta run this before any assets get loaded.
-				ModCore.loadAllMods();
+				PolymodHandler.loadAllMods();
 				loadMainGame();
 			}
 		}
@@ -120,7 +120,7 @@ class ModSplashState extends MusicBeatState
 		{
 			Debug.logInfo("User chose to DISABLE mods.");
 			// Make sure to init debug callbacks etc if we aren't loading mods.
-			ModCore.loadNoMods();
+			PolymodHandler.loadNoMods();
 			loadMainGame();
 		}
 		else if (FlxG.keys.justPressed.THREE)

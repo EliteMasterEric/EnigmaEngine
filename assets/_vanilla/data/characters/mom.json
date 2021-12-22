@@ -1,0 +1,48 @@
+{
+  "name": "Mommy Mearest",
+  "isGF": false,
+  "isPlayer": false,
+  "flipX": false,
+  "asset": "characters/Mom_Assets",
+  "barColor": "#AF66CE",
+  "startingAnim": "idle",
+  "animations": [
+    {
+      "name": "idle",
+      "prefix": "Mom Idle",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [0, 0]
+    },
+    {
+      "name": "singUP",
+      "prefix": "Mom Up Pose",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [14, 71]
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "MOM DOWN POSE",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [20, -160]
+    },
+    {
+      "name": "singLEFT",
+      "prefix": "Mom Left Pose",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [250, -23]
+    },
+    {
+      "name": "singRIGHT",
+      // ANIMATION IS CALLED MOM LEFT POSE BUT ITS FOR THE RIGHT
+      // CUZ DAVE IS DUMB!
+      "prefix": "Mom Pose Left",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [10, -60]
+    }
+  ]
+}

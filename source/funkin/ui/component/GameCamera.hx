@@ -63,6 +63,8 @@ class GameCamera extends FlxCamera
 	 */
 	public override function update(elapsed:Float)
 	{
+		super.update(elapsed);
+
 		// Lerp the camera zoom towards the target zoom level.
 		this.zoom = FlxMath.lerp(this.zoom, this.targetZoom, ZOOM_RATE);
 

@@ -21,6 +21,7 @@
  */
 package funkin.ui.state.title;
 
+import funkin.data.DifficultyData.DifficultyDataHandler;
 import funkin.data.WeekData.WeekDataHandler;
 import funkin.behavior.options.Options.CharacterPreloadOption;
 import funkin.behavior.options.Options.AntiAliasingOption;
@@ -183,6 +184,24 @@ class CachingState extends MusicBeatState
 		#if FEATURE_FILESYSTEM
 		Debug.logTrace("Cache thread initialized. Caching " + toBeDone + " items...");
 
+		Debug.logTrace('Caching graphics...');
+		for (index in 0...images.length)
+		{
+			var path = images[index];
+
+			if (!OpenFlAssets.exists(path))
+			{
+				Debug.logWarn('  HEY, what gives? Graphic ($path) does not exist.');
+				continue;
+			}
+			Debug.logTrace('Caching graphic ($path)...');
+			var data = OpenFlAssets.getBitmapData(path, true);
+			var graph = FlxGraphic.fromBitmapData(data);
+			GraphicsAssets.cacheImage(path, graph);
+
+			done++;
+		}
+
 		Debug.logTrace('Caching songs...');
 		for (i in music)
 		{
@@ -218,34 +237,20 @@ class CachingState extends MusicBeatState
 	function cacheSync()
 	{
 		// I hate this so god damn much.
-		// There's some bug that's causing caching functions to crash sometimes,
-		// but they ONLY happen when caching asynchronously
-		// and they aren't giving me breakpoints or error traces or anything.
-		// The only solution is to cach synchronously, which freezes the program on launch.
+		// There's some buggy behavior with the initial caching process,
+		// but it seems to only happen in an async process, where breakpoints
+		// and stack traces don't seem to show up.
+		// My temporary solution is to cache some items synchronously,
+		// which sadly freezes the program on launch since that stops the game's update loop.
+
+		Debug.logTrace('Caching difficulties...');
+		DifficultyDataHandler.cacheSync();
 
 		Debug.logTrace('Caching weeks...');
 		WeekDataHandler.cacheWithProgress(function(weekDone:Int, weekTotal:Int)
 		{
 			Debug.logTrace('Caching week data ($weekDone/$weekTotal)...');
 		});
-
-		Debug.logTrace('Caching graphics...');
-		for (index in 0...images.length)
-		{
-			var path = images[index];
-
-			if (!OpenFlAssets.exists(path))
-			{
-				Debug.logWarn('  HEY, what gives? Graphic ($path) does not exist.');
-				continue;
-			}
-			Debug.logTrace('Caching graphic ($path)...');
-			var data = OpenFlAssets.getBitmapData(path, true);
-			var graph = FlxGraphic.fromBitmapData(data);
-			GraphicsAssets.cacheImage(path, graph);
-
-			done++;
-		}
 	}
 
 	function moveToTitle()

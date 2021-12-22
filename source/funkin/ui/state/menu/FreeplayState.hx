@@ -1,10 +1,10 @@
 package funkin.ui.state.menu;
 
-import funkin.behavior.options.Options.AntiAliasingOption;
 import flash.text.TextField;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.FlxCamera;
 import flixel.FlxG;
+import funkin.const.Enigma;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.gamepad.FlxGamepad;
@@ -12,20 +12,20 @@ import flixel.math.FlxMath;
 import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import funkin.behavior.data.SongData;
+import funkin.behavior.options.Options.AntiAliasingOption;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.DiffCalc;
-import funkin.data.DifficultyData;
 import funkin.behavior.play.Highscore;
 import funkin.behavior.play.Scoring;
-import funkin.util.assets.AudioAssets;
 import funkin.behavior.play.Song;
-import funkin.behavior.data.SongData;
-import funkin.ui.audio.MainMenuMusic;
+import funkin.data.DifficultyData;
 import funkin.ui.component.Alphabet;
 import funkin.ui.component.play.HealthIcon;
 import funkin.ui.state.charting.ChartingState;
 import funkin.ui.state.debug.AnimationDebug;
 import funkin.ui.state.play.PlayState;
+import funkin.util.assets.AudioAssets;
 import funkin.util.assets.DataAssets;
 import funkin.util.assets.GraphicsAssets;
 import funkin.util.assets.Paths;
@@ -193,8 +193,15 @@ class FreeplayState extends MusicBeatState
 			var diffsThatExist:Array<String> = [];
 
 			// Scan for valid difficulties for this song.
-			if (SongAssets.doesSongExist(songId, ''))
+			if (SongAssets.doesSongExist(songId, DifficultyDataHandler.defaultDifficulty))
+			{
 				diffsThatExist.push(DifficultyDataHandler.defaultDifficulty);
+			}
+			else
+			{
+				Debug.logWarn('Default difficulty (${DifficultyDataHandler.defaultDifficulty}) does not exist for song $songId.');
+			}
+
 			diffsThatExist = diffsThatExist.concat(SongAssets.listDifficultiesForSong(songId));
 
 			// If none exist, display a popup (VERY high priority notification).
@@ -335,20 +342,28 @@ class FreeplayState extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			AudioAssets.playMusic(Paths.music('freakyMenu'), true, false, 1);
+			AudioAssets.playMusic(Paths.music('freakyMenu'), true, false, 1, true);
 			Conductor.changeBPM(102);
 			FlxG.switchState(new MainMenuState());
 		}
 
 		if (accepted)
 		{
-			trace('Attempting to load current song...');
+			Debug.logInfo('Attempting to load selected song in Freeplay...');
 			loadSong();
 		}
 		else if (charting)
 		{
-			trace('Attempting to chart current song...');
-			loadSong(true);
+			if (Enigma.ALLOW_CHARTER)
+			{
+				Debug.logInfo('Attempting to load selected song in Charter...');
+				loadSong(true);
+			}
+			else
+			{
+				Debug.logWarn("Song charting is disabled in this build of Enigma Engine.");
+				FlxG.sound.play(Paths.sound('cancelMenu'));
+			}
 		}
 
 		// AnimationDebug and StageDebug are only enabled in debug builds.

@@ -22,14 +22,14 @@ package funkin.behavior.mods;
 
 import flixel.FlxG;
 import polymod.Polymod;
-#if FEATURE_MODCORE
+#if FEATURE_POLYMOD
 import polymod.backends.OpenFLBackend;
 import polymod.backends.PolymodAssets.PolymodAssetType;
 import polymod.format.ParseRules.LinesParseFormat;
 import polymod.format.ParseRules.TextFileFormat;
 #end
 
-class ModCore
+class PolymodHandler
 {
 	/**
 	 * The current API version.

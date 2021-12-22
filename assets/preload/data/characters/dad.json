@@ -1,0 +1,47 @@
+{
+  // Dad acts as the fallback when the CPU character can't be loaded, so we keep him in the base game.
+  "name": "Daddy Dearest",
+  "isGF": false,
+  "isPlayer": false,
+  "flipX": false,
+  "asset": "characters/DADDY_DEAREST",
+  "barColor": "#AF66CE",
+  "startingAnim": "idle",
+  "animations": [
+    {
+      "name": "idle",
+      "prefix": "Dad idle dance",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [0, 0]
+    },
+    {
+      "name": "singUP",
+      "prefix": "Dad Sing Note UP",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [-6, 50]
+    },
+    {
+      "name": "singRIGHT",
+      "prefix": "Dad Sing Note RIGHT",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [0, 27]
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "Dad Sing Note DOWN",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [0, -30]
+    },
+    {
+      "name": "singLEFT",
+      "prefix": "Dad Sing Note LEFT",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [-10, 10]
+    }
+  ]
+}

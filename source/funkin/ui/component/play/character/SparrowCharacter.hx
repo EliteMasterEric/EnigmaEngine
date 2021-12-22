@@ -33,7 +33,7 @@ class SparrowCharacter extends BaseCharacter
 {
 	public var baseSprite:FlxSprite;
 
-	var animOffsets:Map<String, Array<Dynamic>> = new Map<String, Array<Dynamic>>();
+	var animOffsets:Map<String, Array<Int>> = new Map<String, Array<Int>>();
 
 	public function new(charData:CharacterData)
 	{
@@ -70,9 +70,15 @@ class SparrowCharacter extends BaseCharacter
 
 		if (charData.scale != null)
 		{
-			setGraphicSize(Std.int(this.width * charData.scale));
-			updateHitbox();
+			this.baseSprite.setGraphicSize(Std.int(this.baseSprite.width * charData.scale));
+			this.baseSprite.updateHitbox();
 		}
+	}
+
+	public override function setScrollFactor(x:Float = 1, y:Float = 1):Void
+	{
+		this.baseSprite.scrollFactor.x = x;
+		this.baseSprite.scrollFactor.y = y;
 	}
 
 	function loadAnimations(charData:CharacterData)
@@ -102,7 +108,7 @@ class SparrowCharacter extends BaseCharacter
 		return this.baseSprite.animation.getByName(animName) != null;
 	}
 
-	public override function playAnimation(animName:String, ?restart:Bool = false):Bool
+	public override function playAnimation(animName:String, ?restart:Bool = false):Void
 	{
 		if (cbOnPlayAnimation != null)
 		{
@@ -115,7 +121,7 @@ class SparrowCharacter extends BaseCharacter
 		if (animName == null)
 		{
 			Debug.logWarn('Tried to play a null animation!');
-			return false;
+			return;
 		}
 
 		if (animName.endsWith('alt') && !hasAnimation(animName))
@@ -130,7 +136,7 @@ class SparrowCharacter extends BaseCharacter
 			if (!hasAnimation('idle'))
 			{
 				Debug.logError('Character ($characterId) does not support idle animation! Check your character data!');
-				return false;
+				return;
 			}
 			animName = 'idle';
 		}
@@ -146,8 +152,46 @@ class SparrowCharacter extends BaseCharacter
 		{
 			this.baseSprite.offset.set(0, 0);
 		}
+	}
 
-		return true;
+	public override function getAnimationOffsets(name:String):Array<Int>
+	{
+		return animOffsets.get(name);
+	}
+
+	public override function setAnimationOffsets(name:String, value:Array<Int>):Void
+	{
+		animOffsets.set(name, value);
+	}
+
+	public override function getAnimations():Array<String>
+	{
+		var result = [];
+		for (key in animOffsets.keys())
+		{
+			result.push(key);
+		}
+		return result;
+	}
+
+	public override function getAnimation():String
+	{
+		return this.baseSprite.animation.name;
+	}
+
+	public override function setVisible(visible:Bool):Void
+	{
+		this.baseSprite.visible = visible;
+	}
+
+	public override function getAnimationFrame():Int
+	{
+		return this.baseSprite.animation.frameIndex;
+	}
+
+	public override function isValid():Bool
+	{
+		return this.baseSprite != null && this.baseSprite.frames != null;
 	}
 
 	public override function toString():String

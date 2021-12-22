@@ -68,7 +68,13 @@ class SongAssets
 	{
 		if (songId == null || songId == "")
 			return false;
-		var suffix = DifficultyDataHandler.fetch(difficultyId).songSuffix;
+		var difficulty = DifficultyDataHandler.fetch(difficultyId);
+		if (difficulty == null)
+		{
+			Debug.logWarn('Difficulty $difficultyId is not valid, song $songId cannot use it.');
+			return false;
+		}
+		var suffix = difficulty.songSuffix;
 		var path = Paths.json('songs/${songId}/${songId}${suffix}');
 		return LibraryAssets.textExists(path);
 	}

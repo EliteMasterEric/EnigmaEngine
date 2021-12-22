@@ -1,6 +1,7 @@
 {
   "name": "Girlfriend",
   "isGF": true,
+  "isPlayer": false,
   "asset": "characters/GF_assets",
   "barColor": "#A5004D",
   "startingAnim": "danceRight",

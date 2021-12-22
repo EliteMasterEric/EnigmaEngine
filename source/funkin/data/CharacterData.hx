@@ -196,7 +196,7 @@ class CharacterData
 	/**
 	 * The location of this asset relative to `assets/images`.
 	 */
-	public var asset:String = '';
+	public var asset:String = null;
 
 	/**
 	 * The animation used when the character is initialized.
@@ -353,4 +353,11 @@ typedef AnimationData =
 	 * @default [0, 1, 2, 3] (use only the first four frames)
 	 */
 	var ?frameIndices:Array<Int>;
+
+	/**
+	 * The asset file to use for this animation.
+	 * Valid only for `multiSparrow` characters, which use a separate asset file for some animations.
+	 * @default The value of the parent character's `asset` property.
+	 */
+	var ?asset:String;
 }

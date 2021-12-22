@@ -71,6 +71,7 @@ More info on making contributions and pull requests: LINK
 Enigma Engine was developed by:
 
 * [MasterEric](https://github.com/MasterEric) developed the main engine based on the Kade Engine codebase.
+* [prokube](https://github.com/prokube) provided feedback and various bug fixes.
 * You! Seriously if you want to contribute assets or code, it would be greatly appreciated.
 
 Enigma Engine would not be possible without these fine people:
@@ -78,6 +79,5 @@ Enigma Engine would not be possible without these fine people:
 * The developers of Haxe, OpenFL, Lime, and HaxeFlixel, who have built a powerful and open source framework for cross-platform game development.
 * NinjaMuffin99 and the developers of Friday Night Funkin', for deciding not to wait for the online instant game ecosystem to resurrect itself.
 * KadeDev and the contributors to Kade Engine, for developing its awesome features and the foundation upon which the skyscraper of Enigma is built.
-* @prokube for providing feedback and various bug fixes.
 * [Lars Doucet](https://github.com/larsiusprime/), the game developer who has sunk loads of time, effort, and love into creating and maintaining [Polymod](https://github.com/larsiusprime/polymod) and other libraries for Haxe and HaxeFlixel, and especially for making the changes to Polymod that allowed this project to exist.
-* [player-03](https://github.com/player-03) for assisting with project configuration in HXP.
+* [player-03](https://github.com/player-03) for assisting with Lime and project configuration in HXP.

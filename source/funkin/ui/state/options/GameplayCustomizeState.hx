@@ -40,8 +40,8 @@ import funkin.behavior.play.Scoring;
 import funkin.const.Enigma;
 import funkin.behavior.options.Options;
 import funkin.ui.component.Cursor;
-import funkin.ui.component.play.character.Boyfriend;
-import funkin.ui.component.play.character.OldCharacter;
+import funkin.ui.component.play.character.BaseCharacter;
+import funkin.ui.component.play.character.CharacterFactory;
 import funkin.ui.component.play.Note;
 import funkin.util.assets.GraphicsAssets;
 import funkin.util.assets.Paths;
@@ -64,9 +64,9 @@ class GameplayCustomizeState extends MusicBeatState
 	var text:FlxText;
 	var blackBorder:FlxSprite;
 
-	var bf:Boyfriend;
-	var dad:OldCharacter;
-	var gf:OldCharacter;
+	var bf:BaseCharacter;
+	var dad:BaseCharacter;
+	var gf:BaseCharacter;
 
 	var strumLine:FlxSprite;
 	var strumLineNotes:FlxTypedGroup<FlxSprite>;
@@ -110,11 +110,17 @@ class GameplayCustomizeState extends MusicBeatState
 
 		var camFollow = new FlxObject(0, 0, 1, 1);
 
-		dad = new OldCharacter(100, 100, 'dad');
+		dad = CharacterFactory.buildCharacter('dad');
+		dad.x = 100;
+		dad.y = 100;
 
-		bf = new Boyfriend(770, 450, 'bf');
+		bf = CharacterFactory.buildCharacter('bf');
+		bf.x = 770;
+		bf.y = 450;
 
-		gf = new OldCharacter(400, 130, 'gf');
+		gf = CharacterFactory.buildCharacter('gf');
+		gf.x = 400;
+		gf.y = 130;
 		gf.scrollFactor.set(0.95, 0.95);
 
 		var camPos:FlxPoint = new FlxPoint(dad.getGraphicMidpoint().x + 400, dad.getGraphicMidpoint().y);
@@ -259,13 +265,13 @@ class GameplayCustomizeState extends MusicBeatState
 
 		if (curBeat % 2 == 0)
 		{
-			bf.dance();
-			dad.dance();
+			bf.onPlayIdle();
+			dad.onPlayIdle();
 		}
-		else if (dad.curCharacter == 'spooky' || dad.curCharacter == 'gf')
-			dad.dance();
+		else if (dad.characterId == 'spooky' || dad.characterId == 'gf')
+			dad.onPlayIdle();
 
-		gf.dance();
+		gf.onPlayIdle();
 		FlxG.camera.zoom += 0.015;
 		camHUD.zoom += 0.010;
 

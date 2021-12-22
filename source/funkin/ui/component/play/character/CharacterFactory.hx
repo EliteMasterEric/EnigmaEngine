@@ -32,7 +32,10 @@ class CharacterFactory
 	{
 		var data:CharacterData = CharacterDataHandler.fetch(charId);
 		if (data == null)
+		{
+			Debug.logError('CharacterFactory: No data found for character ID: $charId');
 			return null;
+		}
 
 		switch (data.atlasType)
 		{
@@ -40,14 +43,17 @@ class CharacterFactory
 			// case 'adobeatlas':
 			// case 'spine':
 			// case 'dragonbones':
-			// case 'multisparrow':
-			// tex = GraphicsAssets.loadPackerAtlas(data.asset, 'shared');
+			case 'multisparrow':
+				Debug.logInfo('CharacterFactory: Creating MultiSparrow character');
+				return new MultiSparrowCharacter(data);
 			case 'packer':
-				// return new PackerCharacter();
-				return new SparrowCharacter(data);
+				Debug.logInfo('CharacterFactory: Creating Packer character');
+				return new PackerCharacter(data);
 			case 'sparrow':
+				Debug.logInfo('CharacterFactory: Creating Sparrow character');
 				return new SparrowCharacter(data);
 			default:
+				Debug.logWarn('CharacterFactory: Unknown atlas type (${data.atlasType}), defaulting to Sparrow...');
 				return new SparrowCharacter(data);
 		}
 	}

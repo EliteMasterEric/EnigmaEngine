@@ -140,11 +140,13 @@ class WindowUtil
 	/**
 	 * Crashes the game, like Bob does at the end of ONSLAUGHT.
 	 * Only works on SYS platforms like Windows/Mac/Linux/Android/iOS
+	 * 
+	 * @param nice If false, the game will crash with a non-zero exit code, if you care about that.
 	 */
-	public static function crashTheGame()
+	public static function crashTheGame(?nice:Bool = true)
 	{
 		#if sys
-		Sys.exit(0);
+		Sys.exit(nice ? 0 : 1);
 		#end
 	}
 

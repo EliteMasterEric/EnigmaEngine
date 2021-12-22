@@ -34,7 +34,7 @@ class DifficultyDataHandler
 	 * If this ID does not exist (due to the song not having it or the difficulty being removed),
 	 * the first available difficulty will be used instead.
 	 */
-	public static final defaultDifficulty = "normal";
+	public static final defaultDifficulty:String = "normal";
 
 	/**
 	 * Contains all the difficulty data elements.

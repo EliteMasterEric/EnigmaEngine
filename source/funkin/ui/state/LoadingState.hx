@@ -206,7 +206,7 @@ class LoadingState extends MusicBeatState
 
 	static function initSongsManifest()
 	{
-		// TODO: Hey, wait, does this break ModCore?
+		// TODO: Hey, wait, does this break PolymodHandler?
 
 		var id = "songs";
 		var promise = new Promise<AssetLibrary>();

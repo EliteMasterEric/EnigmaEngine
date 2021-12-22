@@ -1,7 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TextureAtlas imagePath="FNF_main_menu_assets.png">
-	<!-- Created with Adobe Animate version 20.0.0.17400 -->
-	<!-- http://www.adobe.com/products/animate.html -->
 	<SubTexture name="donate basic0000" x="0" y="0" width="444" height="117"/>
 	<SubTexture name="donate basic0001" x="0" y="0" width="444" height="117"/>
 	<SubTexture name="donate basic0002" x="0" y="0" width="444" height="117"/>

@@ -1,0 +1,21 @@
+// Defines the behavior of the 'gf' character.
+
+function onCreate() {
+	Debug.logInfo('[POLYMOD] Beep bloop, GF character created.');
+}
+
+function onPlayAnimation(name:String) {
+	// Called when playing an animation.
+	// Return false to skip the default animation handling,
+	// then you can handle playing the animation yourself.
+	Debug.logInfo('[POLYMOD] Beep bloop, GF character played animation: $name');
+	return true;
+}
+
+function onPlayIdle() {
+	// Called when playing the idle animation.
+	// Return false to skip the default animation handling,
+	// then you can handle playing the animation yourself.
+	Debug.logInfo('[POLYMOD] Beep bloop, GF character played onIdle');
+	return true;
+}

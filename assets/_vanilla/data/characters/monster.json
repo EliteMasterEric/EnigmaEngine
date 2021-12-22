@@ -1,0 +1,46 @@
+{
+  "name": "Monster",
+  "isGF": false,
+  "isPlayer": false,
+  "flipX": false,
+  "asset": "characters/Monster_Assets",
+  "barColor": "#F3FF6E",
+  "startingAnim": "idle",
+  "animations": [
+    {
+      "name": "idle",
+      "prefix": "monster idle",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [0, 0]
+    },
+    {
+      "name": "singUP",
+      "prefix": "monster up note",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [-20, 94]
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "monster down",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [-50, -80]
+    },
+    {
+      "name": "singLEFT",
+      "prefix": "Monster left note",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [-30, 20]
+    },
+    {
+      "name": "singRIGHT",
+      "prefix": "Monster Right note",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [-51, 30]
+    }
+  ]
+}

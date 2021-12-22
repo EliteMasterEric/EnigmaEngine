@@ -41,8 +41,8 @@ import funkin.behavior.modchart.LuaClass.LuaSprite;
 import funkin.behavior.modchart.LuaClass.LuaWindow;
 import funkin.behavior.options.Options;
 import funkin.behavior.play.Conductor;
-import funkin.ui.component.play.character.Boyfriend;
-import funkin.ui.component.play.character.OldCharacter;
+import funkin.ui.component.play.character.BaseCharacter;
+import funkin.ui.component.play.character.CharacterFactory;
 import funkin.ui.effects.WiggleEffect;
 import funkin.ui.state.menu.FreeplayState;
 import funkin.ui.state.play.PlayState;
@@ -305,7 +305,9 @@ class ModchartHandler
 		var olddadx = PlayState.cpuChar.x;
 		var olddady = PlayState.cpuChar.y;
 		PlayState.instance.removeObject(PlayState.cpuChar);
-		PlayState.cpuChar = new OldCharacter(olddadx, olddady, id);
+		PlayState.cpuChar = CharacterFactory.buildCharacter(id);
+		PlayState.cpuChar.x = olddadx;
+		PlayState.cpuChar.y = olddady;
 		PlayState.instance.addObject(PlayState.cpuChar);
 		PlayState.instance.healthIconCPU.changeIcon(id);
 	}
@@ -315,7 +317,9 @@ class ModchartHandler
 		var oldboyfriendx = PlayState.playerChar.x;
 		var oldboyfriendy = PlayState.playerChar.y;
 		PlayState.instance.removeObject(PlayState.playerChar);
-		PlayState.playerChar = new Boyfriend(oldboyfriendx, oldboyfriendy, id);
+		PlayState.playerChar = CharacterFactory.buildCharacter(id);
+		PlayState.playerChar.x = oldboyfriendx;
+		PlayState.playerChar.y = oldboyfriendy;
 		PlayState.instance.addObject(PlayState.playerChar);
 		PlayState.instance.healthIconPlayer.changeIcon(id);
 	}

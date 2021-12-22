@@ -96,10 +96,10 @@ class Enigma extends MusicBeatState
 	];
 
 	/**
-	 * If you don't want to have a double-wide charter for placing 9-key notes,
+	 * If you want to be able to access the buggy charter,
 	 * flip this lever.
 	 */
-	public static final USE_CUSTOM_CHARTER = false;
+	public static final ALLOW_CHARTER = false;
 
 	/**
 	 * If you want to bypass all "isWeekUnlocked" logic,

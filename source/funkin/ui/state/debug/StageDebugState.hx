@@ -35,8 +35,7 @@ import flixel.group.FlxGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxCollision;
 import flixel.util.FlxColor;
-import funkin.ui.component.play.character.Boyfriend;
-import funkin.ui.component.play.character.OldCharacter;
+import funkin.ui.component.play.character.BaseCharacter;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
 import openfl.net.FileReference;
@@ -52,9 +51,9 @@ class StageDebugState extends FlxState
 
 	var _file:FileReference;
 
-	var gfChar:OldCharacter;
-	var playerChar:Boyfriend;
-	var cpuChar:OldCharacter;
+	var gfChar:BaseCharacter;
+	var playerChar:BaseCharacter;
+	var cpuChar:BaseCharacter;
 	var STAGE:Stage;
 	var camFollow:FlxObject;
 	var posText:FlxText;

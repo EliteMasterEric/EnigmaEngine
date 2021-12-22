@@ -21,13 +21,14 @@
  */
 package funkin.ui.state.play;
 
+import funkin.ui.component.play.character.BaseCharacter;
+import funkin.ui.component.play.character.CharacterFactory;
 import funkin.behavior.options.Options.InstantRespawnOption;
 import funkin.util.assets.AudioAssets;
 import funkin.util.assets.Paths;
 import funkin.ui.state.menu.FreeplayState;
 import funkin.ui.state.menu.StoryMenuState;
 import funkin.behavior.play.Conductor;
-import funkin.ui.component.play.character.Boyfriend;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.util.FlxColor;
@@ -35,29 +36,20 @@ import flixel.util.FlxTimer;
 
 class GameOverSubstate extends MusicBeatSubstate
 {
-	var playerChar:Boyfriend;
+	var playerChar:BaseCharacter;
 	var camFollow:FlxObject;
 
 	var stageSuffix:String = "";
 
 	public function new(x:Float, y:Float)
 	{
-		var daStage = PlayState.STAGE.stageId;
-		var daBf:String = '';
-		switch (PlayState.playerChar.curCharacter)
-		{
-			case 'bf-pixel':
-				stageSuffix = '-pixel';
-				daBf = 'bf-pixel-dead';
-			default:
-				daBf = 'bf';
-		}
-
 		super();
 
 		Conductor.songPosition = 0;
 
-		playerChar = new Boyfriend(x, y, daBf);
+		playerChar = CharacterFactory.buildCharacter(PlayState.playerChar.characterId);
+		playerChar.x = x;
+		playerChar.y = y;
 		add(playerChar);
 
 		camFollow = new FlxObject(playerChar.getGraphicMidpoint().x, playerChar.getGraphicMidpoint().y, 1, 1);
@@ -69,7 +61,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		FlxG.camera.scroll.set();
 		FlxG.camera.target = null;
 
-		playerChar.playAnim('firstDeath');
+		playerChar.playAnimation('firstDeath');
 	}
 
 	var startVibin:Bool = false;
@@ -101,12 +93,13 @@ class GameOverSubstate extends MusicBeatSubstate
 			PlayState.stageTesting = false;
 		}
 
-		if (playerChar.getCurAnimation() == 'firstDeath' && playerChar.getCurAnimFrame() == 12)
+		// TODO: Unhardcode this logic.
+		if (playerChar.getAnimation() == 'firstDeath' && playerChar.getAnimationFrame() == 12)
 		{
 			FlxG.camera.follow(camFollow, LOCKON, 0.01);
 		}
 
-		if (playerChar.getCurAnimation() == 'firstDeath' && playerChar.isCurAnimationFinished())
+		if (playerChar.getAnimation() == 'firstDeath' && playerChar.isAnimationFinished())
 		{
 			AudioAssets.playMusic(Paths.music('gameOver$stageSuffix'), true, true, 1);
 			startVibin = true;
@@ -124,7 +117,8 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		if (startVibin && !isEnding)
 		{
-			playerChar.playAnim('deathLoop', true);
+			// Force?
+			playerChar.playAnimation('deathLoop');
 		}
 		FlxG.log.add('beat');
 	}
@@ -140,7 +134,8 @@ class GameOverSubstate extends MusicBeatSubstate
 		{
 			PlayState.startTime = 0;
 			isEnding = true;
-			playerChar.playAnim('deathConfirm', true);
+			// Force?
+			playerChar.playAnimation('deathConfirm');
 			AudioAssets.stopMusic();
 			FlxG.sound.play(Paths.music('gameOverEnd' + stageSuffix));
 			new FlxTimer().start(0.7, function(tmr:FlxTimer)

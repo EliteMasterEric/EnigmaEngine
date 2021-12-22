@@ -501,7 +501,7 @@
 	<haxelib name="tjson" />
 	<!-- An FMOD wrapper for Haxe. Includes APIs for sound manipulation. -->
 	<!-- <haxelib name="haxefmod" /> -->
-	<!-- Allows for atomic mod loading and asset replacement. Powers the ModCore system. -->
+	<!-- Allows for atomic mod loading and asset replacement. Powers the Polymod system. -->
 	<haxelib name="polymod" />
 	<!-- Discord API, powers presence integration. -->
 	<haxelib name="discord_rpc"
@@ -576,9 +576,13 @@
 	<!-- Defines whether the file system can be read/written directly. Does not work in browser. -->
 	<haxedef name="FEATURE_FILESYSTEM"
 					 if="desktop" />
-	<haxedef name="FEATURE_MULTITHREADING" if="desktop" />
 	<echo value="Platform supports feature: File System Access"
 				if="FEATURE_FILESYSTEM" />
+	<!-- Defines whether the program supports parallelization. -->
+	<haxedef name="FEATURE_MULTITHREADING"
+					 if="desktop" />
+	<echo value="Platform supports feature: Multithreading"
+				if="FEATURE_MULTITHREADING" />
 	<!-- Defines whether Lua Modcharts should be enabled. Only works on Windows. -->
 	<haxedef name="FEATURE_LUAMODCHART"
 					 if="windows" unless="neko || hl" />
@@ -590,10 +594,10 @@
 	<echo value="Platform supports feature: WebM"
 				if="FEATURE_WEBM" />
 	<!-- Defines whether mods are supported on this platform. -->
-	<haxedef name="FEATURE_MODCORE"
+	<haxedef name="FEATURE_POLYMOD"
 					 if="desktop" />
-	<echo value="Platform supports feature: ModCore"
-				if="FEATURE_MODCORE" />
+	<echo value="Platform supports feature: Polymod"
+				if="FEATURE_POLYMOD" />
 	<!-- Defines whether GameJolt integration is supported on this platform. -->
 	<haxedef name="FEATURE_GAMEJOLT"
 					 if="html5" />

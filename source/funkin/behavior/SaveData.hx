@@ -104,7 +104,8 @@ class SaveData
 		if (FlxG.save.data.weeksUnlocked == null)
 			FlxG.save.data.weeksUnlocked = {};
 
-		FlxG.save.data.weeksUnlocked.set(id, shouldUnlock);
+		var weeksUnlocked:haxe.DynamicAccess<Dynamic> = FlxG.save.data.weeksUnlocked;
+		weeksUnlocked.set(id, shouldUnlock);
 		FlxG.save.flush();
 	}
 

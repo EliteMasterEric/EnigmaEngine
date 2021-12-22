@@ -189,7 +189,7 @@ class PauseSubState extends MusicBeatSubstate
 
 					PlayState.instance.clean();
 
-					AudioAssets.playMusic(Paths.music('freakyMenu'), true, true, 1);
+					AudioAssets.playMusic(Paths.music('freakyMenu'), true, true, 1, true);
 					Conductor.changeBPM(102);
 
 					if (PlayState.isStoryMode())

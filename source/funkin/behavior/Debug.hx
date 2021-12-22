@@ -24,22 +24,24 @@
  */
 package funkin.behavior;
 
-import funkin.util.SystemSpecUtil;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import funkin.util.concurrency.ThreadUtil;
+import flixel.group.FlxSpriteGroup;
 import flixel.system.debug.log.LogStyle;
 import flixel.system.debug.watch.Tracker.TrackerProfile;
 import flixel.util.FlxStringUtil;
-import funkin.behavior.play.Song;
 import funkin.behavior.data.SongData;
+import funkin.behavior.play.Song;
 import funkin.const.Enigma;
-import funkin.ui.component.play.character.OldCharacter;
+import funkin.ui.component.play.character.BaseCharacter;
 import funkin.ui.component.play.HealthIcon;
 import funkin.ui.component.play.Note;
 import funkin.ui.state.menu.FreeplayState;
 import funkin.ui.state.play.PlayState;
+import funkin.util.concurrency.ThreadUtil;
+import funkin.util.SystemSpecUtil;
 import funkin.util.Util;
+import funkin.util.WindowUtil;
 import haxe.CallStack;
 import haxe.Log;
 import haxe.PosInfos;
@@ -276,7 +278,7 @@ class Debug
 		crashLogLines.push('  Friday Night Funkin\' version: ${Enigma.GAME_VERSION}');
 		crashLogLines.push('  Git commit: ${Enigma.COMMIT_HASH}');
 		crashLogLines.push('System telemetry:');
-		crashLogLines.push('  OS: ${SystemUtil.getOS()}');
+		crashLogLines.push('  OS: ${SystemSpecUtil.getOS()}');
 
 		crashLogLines.push('');
 
@@ -312,7 +314,7 @@ class Debug
 			ERROR_REPORT_URL);
 
 		// Commit sudoku.
-		Sys.exit(1);
+		WindowUtil.crashTheGame(false);
 		#else
 		displayAlert('Catastrophic Error',
 			'An error has occurred and the game is forced to close.\nWe cannot write a log file though. Tell the developers:\n' + ERROR_REPORT_URL);
@@ -359,7 +361,7 @@ class Debug
 	static function defineTrackerProfiles()
 	{
 		// Example: This will display all the properties that FlxSprite does, along with curCharacter and barColor.
-		FlxG.debugger.addTrackerProfile(new TrackerProfile(OldCharacter, ["curCharacter", "isPlayer", "barColor"], [FlxSprite]));
+		FlxG.debugger.addTrackerProfile(new TrackerProfile(BaseCharacter, ["curCharacter", "isPlayer", "barColor"], [FlxSpriteGroup]));
 		FlxG.debugger.addTrackerProfile(new TrackerProfile(HealthIcon, ["char", "isPlayer", "isOldIcon"], [FlxSprite]));
 		FlxG.debugger.addTrackerProfile(new TrackerProfile(Note, ["x", "y", "strumTime", "mustPress", "rawNoteData", "sustainLength"], []));
 		FlxG.debugger.addTrackerProfile(new TrackerProfile(Song, [
@@ -545,10 +547,10 @@ class DebugLogWriter
 	 */
 	public function write(input:Array<Dynamic>, logLevel = 'TRACE'):Void
 	{
-		ThreadUtil.doInBackground(function():Void
-		{
-			writeSync(input, logLevel);
-		});
+		writeSync(input, logLevel);
+		// ThreadUtil.doInBackground(function():Void
+		// {
+		// });
 	}
 
 	/**

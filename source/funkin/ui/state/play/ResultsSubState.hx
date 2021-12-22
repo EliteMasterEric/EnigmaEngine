@@ -248,7 +248,7 @@ class ResultsSubState extends FlxSubState
 			if (PlayState.isStoryMode())
 			{
 				// Move back to the main menu after completing a story week.
-				AudioAssets.playMusic(Paths.music('freakyMenu'), true, true, 1);
+				AudioAssets.playMusic(Paths.music('freakyMenu'), true, true, 1, true);
 				Conductor.changeBPM(102);
 				FlxG.switchState(new MainMenuState());
 			}

@@ -31,7 +31,8 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxAxes;
 import funkin.behavior.play.Scoring;
-import funkin.ui.component.play.character.OldCharacter;
+import funkin.ui.component.play.character.BaseCharacter;
+import funkin.ui.component.play.character.CharacterFactory;
 import funkin.ui.component.play.Note;
 import funkin.ui.component.play.stage.OldStage;
 import funkin.ui.component.play.StrumlineArrow;
@@ -1117,12 +1118,12 @@ class LuaCharacter extends LuaClass
 { // again, stolen from andromeda but improved a lot for better thinking interoperability (I made that up)
 	private static var state:State;
 
-	public var char:OldCharacter;
+	public var char:BaseCharacter;
 	public var isPlayer:Bool = false;
 
 	public static var ListOfCharacters:Array<LuaCharacter> = [];
 
-	public function new(connectedCharacter:OldCharacter, name:String)
+	public function new(connectedCharacter:BaseCharacter, name:String)
 	{
 		super();
 		className = name;
@@ -1299,7 +1300,7 @@ class LuaCharacter extends LuaClass
 		Lua.getfield(state, 1, "id");
 		var index = Lua.tostring(state, -1);
 
-		var char:OldCharacter = null;
+		var char:BaseCharacter = null;
 
 		for (i in ListOfCharacters)
 		{
@@ -1329,7 +1330,7 @@ class LuaCharacter extends LuaClass
 		Lua.getfield(state, 1, "id");
 		var index = Lua.tostring(state, -1);
 
-		var char:OldCharacter = null;
+		var char:BaseCharacter = null;
 
 		for (i in ListOfCharacters)
 		{
@@ -1359,7 +1360,7 @@ class LuaCharacter extends LuaClass
 		Lua.getfield(state, 1, "id");
 		var index = Lua.tostring(state, -1);
 
-		var char:OldCharacter = null;
+		var char:BaseCharacter = null;
 
 		for (i in ListOfCharacters)
 		{
@@ -1391,7 +1392,7 @@ class LuaCharacter extends LuaClass
 		Lua.getfield(state, 1, "id");
 		var index = Lua.tostring(state, -1);
 
-		var char:OldCharacter = null;
+		var char:BaseCharacter = null;
 		var property:LuaCharacter = null;
 
 		for (i in ListOfCharacters)
@@ -1413,7 +1414,9 @@ class LuaCharacter extends LuaClass
 
 		PlayState.instance.remove(char);
 
-		PlayState.cpuChar = new OldCharacter(x, y, newName, char.isPlayer);
+		PlayState.cpuChar = CharacterFactory.buildCharacter(newName);
+		PlayState.cpuChar.x = x;
+		PlayState.cpuChar.y = y;
 
 		property.char = PlayState.cpuChar;
 
@@ -1431,7 +1434,7 @@ class LuaCharacter extends LuaClass
 		Lua.getfield(state, 1, "id");
 		var index = Lua.tostring(state, -1);
 
-		var char:OldCharacter = null;
+		var char:BaseCharacter = null;
 
 		for (i in ListOfCharacters)
 		{
@@ -1447,7 +1450,7 @@ class LuaCharacter extends LuaClass
 			return 0;
 		}
 
-		char.playAnim(anim);
+		char.playAnimation(anim);
 
 		return 0;
 	}

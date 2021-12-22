@@ -21,10 +21,8 @@
  */
 package funkin.ui.state.play;
 
-import funkin.behavior.SaveData;
-import funkin.ui.component.GameCamera;
-import funkin.behavior.mods.IHook;
-import funkin.util.assets.AudioAssets;
+import funkin.ui.component.play.character.CharacterFactory;
+import funkin.const.Enigma;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.effects.chainable.FlxEffectSprite;
 import flixel.addons.effects.chainable.FlxWaveEffect;
@@ -57,29 +55,30 @@ import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import flixel.util.FlxStringUtil;
 import flixel.util.FlxTimer;
+import funkin.behavior.data.Section.SwagSection;
+import funkin.behavior.data.SongData;
+import funkin.behavior.data.SongEvent;
 import funkin.behavior.EtternaFunctions;
 import funkin.behavior.media.GlobalVideo;
 import funkin.behavior.media.WebmHandler;
+import funkin.behavior.mods.IHook;
 import funkin.behavior.options.CustomControls;
 import funkin.behavior.options.Options;
 import funkin.behavior.play.Conductor;
-import funkin.data.DifficultyData;
 import funkin.behavior.play.EnigmaNote;
 import funkin.behavior.play.Highscore;
 import funkin.behavior.play.Replay;
 import funkin.behavior.play.Replay.ReplayInput;
 import funkin.behavior.play.Scoring;
 import funkin.behavior.play.Scoring.SongScore;
-import funkin.behavior.data.Section.SwagSection;
 import funkin.behavior.play.Song;
-import funkin.behavior.data.SongData;
-import funkin.behavior.data.SongEvent;
 import funkin.behavior.play.TimingStruct;
+import funkin.behavior.SaveData;
+import funkin.data.DifficultyData;
 import funkin.data.WeekData;
-import funkin.ui.audio.MainMenuMusic;
 import funkin.ui.component.Cursor;
-import funkin.ui.component.play.character.Boyfriend;
-import funkin.ui.component.play.character.OldCharacter;
+import funkin.ui.component.GameCamera;
+import funkin.ui.component.play.character.BaseCharacter;
 import funkin.ui.component.play.DialogueBox;
 import funkin.ui.component.play.HealthIcon;
 import funkin.ui.component.play.Note;
@@ -97,6 +96,7 @@ import funkin.ui.state.menu.StoryMenuState;
 import funkin.ui.state.options.OptionsMenu;
 import funkin.ui.state.play.GameOverSubstate;
 import funkin.ui.state.play.PauseSubState;
+import funkin.util.assets.AudioAssets;
 import funkin.util.assets.DataAssets;
 import funkin.util.assets.GraphicsAssets;
 import funkin.util.assets.GraphicsAssets;
@@ -111,6 +111,7 @@ import lime.graphics.Image;
 import lime.media.AudioContext;
 import lime.media.AudioManager;
 import lime.media.openal.AL;
+import openfl.Assets;
 import openfl.display.BitmapData;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
@@ -120,7 +121,6 @@ import openfl.events.KeyboardEvent;
 import openfl.filters.ShaderFilter;
 import openfl.geom.Matrix;
 import openfl.Lib;
-import openfl.Assets;
 import openfl.media.Sound;
 import openfl.ui.Keyboard;
 import openfl.ui.KeyLocation;
@@ -473,17 +473,17 @@ class PlayState extends MusicBeatState implements IHook
 	/**
 	 * The sprite of the CPU character.
 	 */
-	public static var cpuChar:OldCharacter;
+	public static var cpuChar:BaseCharacter;
 
 	/**
 	 * The sprite of the background character.
 	 */
-	public static var gfChar:OldCharacter;
+	public static var gfChar:BaseCharacter;
 
 	/**
 	 * The sprite of the player character.
 	 */
-	public static var playerChar:Boyfriend;
+	public static var playerChar:BaseCharacter;
 
 	/**
 	 * The health icon for the player character.
@@ -858,31 +858,35 @@ class PlayState extends MusicBeatState implements IHook
 
 		if (!stageTesting)
 		{
-			gfChar = new OldCharacter(400, 130, gfCheck);
+			gfChar = CharacterFactory.buildCharacter(gfCheck);
+			gfChar.x = 400;
+			gfChar.y = 130;
 			if (!gfChar.isValid())
 			{
-				Debug.logWarn(["Couldn't load gf: " + gfCheck + ". Loading default gf"]);
-				gfChar = new OldCharacter(400, 130, 'gf');
+				Debug.logWarn("Couldn't load gf: " + gfCheck + ". Loading default girlfriend");
+				gfChar = CharacterFactory.buildCharacter('gf');
+				gfChar.x = 400;
+				gfChar.y = 130;
 			}
-			playerChar = new Boyfriend(770, 450, PlayState.SONG.player1);
+			playerChar = CharacterFactory.buildCharacter(PlayState.SONG.player1);
+			playerChar.x = 770;
+			playerChar.y = 450;
 			if (!playerChar.isValid())
 			{
-				#if debug
-				Debug.logWarn([
-					"Couldn't load player character: " + PlayState.SONG.player1 + ". Loading default boyfriend"
-				]);
-				#end
-				playerChar = new Boyfriend(770, 450, 'bf');
+				Debug.logWarn("Couldn't load player character: " + PlayState.SONG.player1 + ". Loading default boyfriend");
+				playerChar = CharacterFactory.buildCharacter('bf');
+				playerChar.x = 770;
+				playerChar.y = 450;
 			}
-			cpuChar = new OldCharacter(100, 100, PlayState.SONG.player2);
+			cpuChar = CharacterFactory.buildCharacter(PlayState.SONG.player2);
+			cpuChar.x = 100;
+			cpuChar.y = 100;
 			if (!cpuChar.isValid())
 			{
-				#if debug
-				Debug.logWarn([
-					"Couldn't load CPU opponent: " + PlayState.SONG.player2 + ". Loading default dad"
-				]);
-				#end
-				cpuChar = new OldCharacter(100, 100, 'dad');
+				Debug.logWarn("Couldn't load CPU opponent: " + PlayState.SONG.player2 + ". Loading default dad");
+				cpuChar = CharacterFactory.buildCharacter('dad');
+				cpuChar.x = 100;
+				cpuChar.y = 100;
 			}
 			STAGE = new Stage(SONG.stage);
 		}
@@ -892,7 +896,7 @@ class PlayState extends MusicBeatState implements IHook
 		{
 			for (char => pos in positions)
 				for (person in [playerChar, gfChar, cpuChar])
-					if (person.curCharacter == char)
+					if (person.characterId == char)
 						person.setPosition(pos[0], pos[1]);
 		}
 		for (i in STAGE.toAdd)
@@ -920,7 +924,7 @@ class PlayState extends MusicBeatState implements IHook
 				}
 			}
 		camPos = new FlxPoint(cpuChar.getGraphicMidpoint().x, cpuChar.getGraphicMidpoint().y);
-		switch (cpuChar.curCharacter)
+		switch (cpuChar.characterId)
 		{
 			case 'gf':
 				if (!stageTesting)
@@ -940,13 +944,6 @@ class PlayState extends MusicBeatState implements IHook
 			case 'senpai-angry':
 				camPos.set(cpuChar.getGraphicMidpoint().x + 300, cpuChar.getGraphicMidpoint().y);
 			case 'spirit':
-				if (DistractionsAndEffectsOption.get())
-				{
-					if (!MinimalModeOption.get())
-					{
-						cpuChar.trailEnabled = true;
-					}
-				}
 				camPos.set(cpuChar.getGraphicMidpoint().x + 300, cpuChar.getGraphicMidpoint().y);
 		}
 		if (PlayState.replayActive)
@@ -1160,10 +1157,10 @@ class PlayState extends MusicBeatState implements IHook
 			add(botPlayState);
 		}
 
-		this.healthIconPlayer = new HealthIcon(playerChar.curCharacter, true);
+		this.healthIconPlayer = new HealthIcon(playerChar.characterId, true);
 		this.healthIconPlayer.y = healthBar.y - (this.healthIconPlayer.height / 2);
 		add(this.healthIconPlayer);
-		this.healthIconCPU = new HealthIcon(cpuChar.curCharacter, false);
+		this.healthIconCPU = new HealthIcon(cpuChar.characterId, false);
 		this.healthIconCPU.y = healthBar.y - (this.healthIconCPU.height / 2);
 		add(this.healthIconCPU);
 		strumLineNotes.cameras = [camHUD];
@@ -1386,16 +1383,26 @@ class PlayState extends MusicBeatState implements IHook
 		{
 			// this just based on beatHit stuff but compact
 			if (allowedToHeadbang && swagCounter % gfSpeed == 0)
-				gfChar.dance();
+			{
+				gfChar.onPlayIdle();
+			}
 			if (swagCounter % idleBeat == 0)
 			{
-				if (idleToBeat && !playerChar.getCurAnimation().startsWith("sing"))
-					playerChar.dance(forcedToIdle);
-				if (idleToBeat && !cpuChar.getCurAnimation().startsWith("sing"))
-					cpuChar.dance(forcedToIdle);
+				if (idleToBeat && !playerChar.getAnimation().startsWith("sing"))
+				{
+					// playerChar.dance(forcedToIdle);
+					playerChar.onPlayIdle();
+				}
+				if (idleToBeat && !cpuChar.getAnimation().startsWith("sing"))
+				{
+					// cpuChar.dance(forcedToIdle);
+					cpuChar.onPlayIdle();
+				}
 			}
-			else if ((cpuChar.curCharacter == 'spooky' || cpuChar.curCharacter == 'gf') && !cpuChar.getCurAnimation().startsWith("sing"))
-				cpuChar.dance();
+			else if ((cpuChar.characterId == 'spooky' || cpuChar.characterId == 'gf') && !cpuChar.getAnimation().startsWith("sing"))
+			{
+				cpuChar.onPlayIdle();
+			}
 
 			var altSuffix = "";
 			if (SONG.noteStyle.endsWith('pixel'))
@@ -1638,7 +1645,7 @@ class PlayState extends MusicBeatState implements IHook
 		// This has to come before judgement logic resets the combo.
 		if (Scoring.currentScore.currentCombo > 5 && gfChar.hasAnimation('sad'))
 		{
-			gfChar.playAnim('sad');
+			gfChar.playAnimation('sad');
 		}
 
 		// Save the miss in the highscore.
@@ -1669,9 +1676,9 @@ class PlayState extends MusicBeatState implements IHook
 
 		// GF gets sad if you drop a long combo.
 		// This has to come before judgement logic resets the combo.
-		if (Scoring.currentScore.currentCombo > 5 && gfChar.animOffsets.exists('sad'))
+		if (Scoring.currentScore.currentCombo > 5 && gfChar.hasAnimation('sad'))
 		{
-			gfChar.playAnim('sad');
+			gfChar.playAnimation('sad');
 		}
 
 		if (PlayState.replayActive)
@@ -1749,7 +1756,8 @@ class PlayState extends MusicBeatState implements IHook
 			FlxG.sound.play(Paths.soundRandom(PlayState.SONG.noteStyle.endsWith('pixel') ? 'missnote-pixel' : 'missNote', 1, 3), FlxG.random.float(0.1, 0.2));
 
 		// Play the proper note animation.
-		playerChar.playAnim(EnigmaNote.getSingAnim(currentNote, PlayState.SONG.strumlineSize, true), true);
+		// TODO: Does this need to be forced?
+		playerChar.playAnimation(EnigmaNote.getSingAnim(currentNote, PlayState.SONG.strumlineSize, true));
 
 		// Tell the modchart the player missed a note.
 		#if FEATURE_LUAMODCHART
@@ -1853,7 +1861,8 @@ class PlayState extends MusicBeatState implements IHook
 
 		// getSingAnim figures out the exact animation the player character should sing,
 		// taking into account direction, note type, alt note, etc.
-		playerChar.playAnim(EnigmaNote.getSingAnim(currentNote, PlayState.SONG.strumlineSize), true);
+		// TODO: Does this need to be forced?
+		playerChar.playAnimation(EnigmaNote.getSingAnim(currentNote, PlayState.SONG.strumlineSize));
 
 		// Let the modchart know the player hit a note.
 		#if FEATURE_LUAMODCHART
@@ -1903,7 +1912,7 @@ class PlayState extends MusicBeatState implements IHook
 		if (!currentNote.isSustainNote || (currentNote.isSustainNote && !currentNote.isEndNote()))
 		{
 			// Is either a single note, the beginning of a sustain, or the middle of a sustain.
-			cpuChar.playAnim(EnigmaNote.getSingAnim(currentNote, PlayState.SONG.strumlineSize), true);
+			cpuChar.playAnimation(EnigmaNote.getSingAnim(currentNote, PlayState.SONG.strumlineSize));
 		}
 
 		if (CPUStrumOption.get())
@@ -1945,11 +1954,19 @@ class PlayState extends MusicBeatState implements IHook
 
 		// have them all dance when the song starts
 		if (allowedToHeadbang)
-			gfChar.dance();
-		if (idleToBeat && !playerChar.getCurAnimation().startsWith("sing"))
-			playerChar.dance(forcedToIdle);
-		if (idleToBeat && !cpuChar.getCurAnimation().startsWith("sing"))
-			cpuChar.dance(forcedToIdle);
+		{
+			gfChar.onPlayIdle();
+		}
+		if (idleToBeat && !playerChar.getAnimation().startsWith("sing"))
+		{
+			// playerChar.dance(forcedToIdle);
+			playerChar.onPlayIdle();
+		}
+		if (idleToBeat && !cpuChar.getAnimation().startsWith("sing"))
+		{
+			// cpuChar.dance(forcedToIdle);
+			cpuChar.onPlayIdle();
+		}
 
 		// Song check real quick
 		switch (curSong)
@@ -2439,7 +2456,7 @@ class PlayState extends MusicBeatState implements IHook
 		{
 			removeBackgroundVideo();
 
-			FlxG.switchState(new AnimationDebug(cpuChar.curCharacter));
+			FlxG.switchState(new AnimationDebug(cpuChar.characterId));
 			clean();
 			PlayState.stageTesting = false;
 			destroyEventListeners();
@@ -2450,14 +2467,22 @@ class PlayState extends MusicBeatState implements IHook
 		// Keybind: Press 7 to switch to the Charting state.
 		if (FlxG.keys.justPressed.SEVEN && songStarted)
 		{
-			removeBackgroundVideo();
-			ignoreDeath = true;
+			if (Enigma.ALLOW_CHARTER)
+			{
+				removeBackgroundVideo();
+				ignoreDeath = true;
 
-			FlxG.switchState(new ChartingState());
-			clean();
-			PlayState.stageTesting = false;
-			destroyEventListeners();
-			endModchart();
+				FlxG.switchState(new ChartingState());
+				clean();
+				PlayState.stageTesting = false;
+				destroyEventListeners();
+				endModchart();
+			}
+			else
+			{
+				Debug.logWarn("Song charting is disabled in this build of Enigma Engine.");
+				FlxG.sound.play(Paths.sound('cancelMenu'));
+			}
 		}
 
 		// Keybind: In debug builds, press 8 to switch to the Stage Debug state.
@@ -2486,7 +2511,7 @@ class PlayState extends MusicBeatState implements IHook
 					remove(cpuChar);
 					remove(gfChar);
 				});
-				FlxG.switchState(new StageDebugState(STAGE.stageId, gfChar.curCharacter, playerChar.curCharacter, cpuChar.curCharacter));
+				FlxG.switchState(new StageDebugState(STAGE.stageId, gfChar.characterId, playerChar.characterId, cpuChar.characterId));
 				clean();
 				destroyEventListeners();
 				endModchart();
@@ -2501,7 +2526,7 @@ class PlayState extends MusicBeatState implements IHook
 		#if debug
 		if (FlxG.keys.justPressed.ZERO)
 		{
-			FlxG.switchState(new AnimationDebug(playerChar.curCharacter));
+			FlxG.switchState(new AnimationDebug(playerChar.characterId));
 			clean();
 			PlayState.stageTesting = false;
 			destroyEventListeners();
@@ -2809,10 +2834,10 @@ class PlayState extends MusicBeatState implements IHook
 		// pressing a key, go back to idle.
 		if (playerChar.holdTimer > Conductor.stepCrochet * 4 * 0.001 && (BotPlayOption.get() || !currentKeysPressed.contains(true)))
 		{
-			if (playerChar.getCurAnimation().startsWith('sing')
-				&& !playerChar.getCurAnimation().endsWith('miss')
-				&& (playerChar.getCurAnimFrame() >= 10 || playerChar.isCurAnimationFinished()))
-				playerChar.dance();
+			if (playerChar.getAnimation().startsWith('sing')
+				&& !playerChar.getAnimation().endsWith('miss')
+				&& (playerChar.getAnimationFrame() >= 10 || playerChar.isAnimationFinished()))
+				playerChar.onPlayIdle();
 		}
 
 		// Gameplay: Determine when to end the song and move to the results screen..
@@ -3126,9 +3151,7 @@ class PlayState extends MusicBeatState implements IHook
 			if (allowedToCheer)
 			{
 				// Don't animate GF if something else is already animating her (eg. train passing)
-				if (gfChar.getCurAnimation() == 'danceLeft'
-					|| gfChar.getCurAnimation() == 'danceRight'
-					|| gfChar.getCurAnimation() == 'idle')
+				if (gfChar.getAnimation() == 'danceLeft' || gfChar.getAnimation() == 'danceRight' || gfChar.getAnimation() == 'idle')
 				{
 					// Per song treatment since some songs will only have the 'Hey' at certain times
 					switch (curSong)
@@ -3146,7 +3169,7 @@ class PlayState extends MusicBeatState implements IHook
 											// Just a garantee that it'll trigger just once
 											if (!triggeredAlready)
 											{
-												gfChar.playAnim('cheer');
+												gfChar.playAnimation('cheer');
 												triggeredAlready = true;
 											}
 										}
@@ -3164,7 +3187,7 @@ class PlayState extends MusicBeatState implements IHook
 									{
 										if (!triggeredAlready)
 										{
-											gfChar.playAnim('cheer');
+											gfChar.playAnimation('cheer');
 											triggeredAlready = true;
 										}
 									}
@@ -3182,7 +3205,7 @@ class PlayState extends MusicBeatState implements IHook
 										{
 											if (!triggeredAlready)
 											{
-												gfChar.playAnim('cheer');
+												gfChar.playAnimation('cheer');
 												triggeredAlready = true;
 											}
 										}
@@ -3201,7 +3224,7 @@ class PlayState extends MusicBeatState implements IHook
 										{
 											if (!triggeredAlready)
 											{
-												gfChar.playAnim('cheer');
+												gfChar.playAnimation('cheer');
 												triggeredAlready = true;
 											}
 										}
@@ -3218,7 +3241,7 @@ class PlayState extends MusicBeatState implements IHook
 									{
 										if (!triggeredAlready)
 										{
-											gfChar.playAnim('cheer');
+											gfChar.playAnimation('cheer');
 											triggeredAlready = true;
 										}
 									}
@@ -3250,7 +3273,7 @@ class PlayState extends MusicBeatState implements IHook
 				if (luaModchart != null)
 					luaModchart.executeState('playerTwoTurn', []);
 				#end
-				switch (cpuChar.curCharacter)
+				switch (cpuChar.characterId)
 				{
 					case 'mom' | 'mom-car':
 						camFollow.y = cpuChar.getMidpoint().y;
@@ -3461,7 +3484,7 @@ class PlayState extends MusicBeatState implements IHook
 
 		if (offsetTesting)
 		{
-			AudioAssets.playMusic(Paths.music('freakyMenu'), true, true, 1);
+			AudioAssets.playMusic(Paths.music('freakyMenu'), true, true, 1, true);
 			Conductor.changeBPM(102);
 			offsetTesting = false;
 			LoadingState.loadAndSwitchState(new OptionsMenu());
@@ -3523,7 +3546,7 @@ class PlayState extends MusicBeatState implements IHook
 					}
 					else
 					{
-						AudioAssets.playMusic(Paths.music('freakyMenu'), true, true, 1);
+						AudioAssets.playMusic(Paths.music('freakyMenu'), true, true, 1, true);
 						Conductor.changeBPM(102);
 						FlxG.switchState(new StoryMenuState());
 						clean();
@@ -3996,8 +4019,11 @@ class PlayState extends MusicBeatState implements IHook
 
 				if (playerChar.holdTimer > Conductor.stepCrochet * 4 * 0.001 && (!holdArray.contains(true) || BotPlayOption.get()))
 				{
-					if (playerChar.getCurAnimation().startsWith('sing') && !playerChar.getCurAnimation().endsWith('miss'))
-						playerChar.dance();
+					if (playerChar.getAnimation().startsWith('sing') && !playerChar.getAnimation().endsWith('miss'))
+					{
+						// playerChar.dance();
+						playerChar.onPlayIdle();
+					}
 				}
 				else if (AntiMashOption.get())
 				{
@@ -4145,13 +4171,22 @@ class PlayState extends MusicBeatState implements IHook
 		{
 			if (curBeat % idleBeat == 0)
 			{
-				if (idleToBeat && !cpuChar.getCurAnimation().startsWith('sing'))
-					cpuChar.dance(forcedToIdle, currentSection.CPUAltAnim);
-				if (idleToBeat && !playerChar.getCurAnimation().startsWith('sing'))
-					playerChar.dance(forcedToIdle, currentSection.playerAltAnim);
+				if (idleToBeat && !cpuChar.getAnimation().startsWith('sing'))
+				{
+					cpuChar.onPlayIdle();
+					// cpuChar.dance(forcedToIdle, currentSection.CPUAltAnim);
+				}
+				if (idleToBeat && !playerChar.getAnimation().startsWith('sing'))
+				{
+					// playerChar.dance(forcedToIdle, currentSection.playerAltAnim);
+					playerChar.onPlayIdle();
+				}
 			}
-			else if (cpuChar.curCharacter == 'spooky' || cpuChar.curCharacter == 'gf')
-				cpuChar.dance(forcedToIdle, currentSection.CPUAltAnim);
+			else if (cpuChar.characterId == 'spooky' || cpuChar.characterId == 'gf')
+			{
+				// cpuChar.dance(forcedToIdle, currentSection.CPUAltAnim);
+				cpuChar.onPlayIdle();
+			}
 		}
 		wiggleEffect.update(Conductor.crochet);
 
@@ -4159,22 +4194,19 @@ class PlayState extends MusicBeatState implements IHook
 		{
 			if (allowedToHeadbang && curBeat % gfSpeed == 0)
 			{
-				gfChar.dance();
+				// gfChar.dance();
+				gfChar.onPlayIdle();
 			}
 
 			if (curBeat % 8 == 7 && curSong == 'Bopeebo')
 			{
-				playerChar.playAnim('hey', true);
+				playerChar.playAnimation('hey', true);
 			}
 
-			if (curBeat % 16 == 15
-				&& PlayState.SONG.songId == 'tutorial'
-				&& cpuChar.curCharacter == 'gf'
-				&& curBeat > 16
-				&& curBeat < 48)
+			if (curBeat % 16 == 15 && PlayState.SONG.songId == 'tutorial' && cpuChar.characterId == 'gf' && curBeat > 16 && curBeat < 48)
 			{
-				playerChar.playAnim('hey', true);
-				cpuChar.playAnim('cheer', true);
+				playerChar.playAnimation('hey', true);
+				cpuChar.playAnimation('cheer', true);
 			}
 
 			if (MinimalModeOption.get())

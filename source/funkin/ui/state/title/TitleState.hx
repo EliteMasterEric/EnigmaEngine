@@ -46,7 +46,7 @@ import funkin.behavior.SaveData;
 import funkin.const.Enigma;
 import funkin.ui.component.Alphabet;
 import funkin.ui.component.Cursor;
-import funkin.ui.component.play.character.OldCharacter;
+import funkin.ui.component.play.character.BaseCharacter;
 import funkin.ui.state.menu.MainMenuState;
 import funkin.util.assets.DataAssets;
 import funkin.util.assets.GraphicsAssets;
@@ -201,9 +201,6 @@ class TitleState extends MusicBeatState implements IHook
 	{
 		trace('Started initializing TitleState...');
 		buildTitleScreenHooks();
-
-		// No reason not to do this step as early as possible.
-		DifficultyCache.initDifficulties();
 
 		@:privateAccess
 		{
@@ -393,7 +390,7 @@ class TitleState extends MusicBeatState implements IHook
 			transOut = FlxTransitionableState.defaultTransOut;
 
 			// Play the title music. Gettin' freaky on a friday night!
-			AudioAssets.playMusic(Paths.music('freakyMenu'), true, false, 0);
+			AudioAssets.playMusic(Paths.music('freakyMenu'), true, false, 0, true);
 
 			// Music fades in.
 			FlxG.sound.music.fadeIn(4, 0, 0.7);

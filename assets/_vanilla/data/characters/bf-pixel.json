@@ -1,0 +1,88 @@
+{
+  "name": "Boyfriend (Pixel)",
+  "isGF": false,
+  "isPlayer": true,
+  "flipX": false,
+  "asset": "characters/bfPixel",
+  "barColor": "#31B0D1",
+  "startingAnim": "idle",
+  "atlasType": "multisparrow",
+  // TODO: The code has width and height -= 100, is that needed?
+  "animations": [
+    {
+      "name": "idle",
+      "prefix": "BF IDLE",
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "singUP",
+      "prefix": "BF UP NOTE",
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "singLEFT",
+      "prefix": "BF LEFT NOTE",
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "singRIGHT",
+      "prefix": "BF RIGHT NOTE",
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "BF DOWN NOTE",
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "singUPmiss",
+      "prefix": "BF UP MISS",
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "singLEFTmiss",
+      "prefix": "BF LEFT MISS",
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "singRIGHTmiss",
+      "prefix": "BF RIGHT MISS",
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "singDOWNmiss",
+      "prefix": "BF DOWN MISS",
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "firstDeath",
+      "prefix": "BF Dies pixel",
+      "asset": "characters/bfPixelsDEAD",
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "deathLoop",
+      "prefix": "Retry Loop",
+      "asset": "characters/bfPixelsDEAD",
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "deathConfirm",
+      "prefix": "RETRY CONFIRM",
+      "asset": "characters/bfPixelsDEAD",
+      "frameRate": 24,
+      "looped": false
+    }
+  ]
+}

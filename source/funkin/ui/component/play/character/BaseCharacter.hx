@@ -19,6 +19,8 @@ class BaseCharacter extends FlxSpriteGroup implements IHook
 	public final idleOnBeat:Bool = false;
 	public final charType:String = '';
 	public final barColor:FlxColor;
+	public final isPlayer:Bool = false;
+	public final isGF:Bool = false;
 
 	public static final DEFAULT_PLAYER_BAR_COLOR:FlxColor = FlxColor.fromString("#66FF33");
 	public static final DEFAULT_ENEMY_BAR_COLOR:FlxColor = FlxColor.fromString("#FF0000");
@@ -44,13 +46,14 @@ class BaseCharacter extends FlxSpriteGroup implements IHook
 
 	/**
 	 * Called when the game attempts to play the idle animation for the character.
-	 * You can call your own logic, then return true to prevent the idle animation from playing.
+	 * You can call your own logic, then return false to prevent the idle animation from playing.
 	 * For example, characters like Spooky and Girlfriend override this to dance left and right.
 	 */
 	private var cbOnPlayIdle:() -> Bool;
 
 	/**
 	 * Called when the game attempts to play any animation.
+	 * You can call your own logic, then return false to prevent the animation itself from playing.
 	 */
 	private var cbOnPlayAnimation:(String) -> Bool;
 
@@ -64,6 +67,7 @@ class BaseCharacter extends FlxSpriteGroup implements IHook
 	 */
 	@:hscript({
 		pathName: buildPathName, // Path name is generated at the time the function is called.
+		optional: false,
 	})
 	function buildCharacterHooks():Void
 	{
@@ -92,6 +96,9 @@ class BaseCharacter extends FlxSpriteGroup implements IHook
 
 		this.charType = charData.atlasType;
 		this.barColor = FlxColor.fromString(charData.barColor);
+		this.characterId = charData.id;
+		this.isPlayer = charData.isPlayer;
+		this.isGF = charData.isGF;
 
 		buildCharacterHooks();
 
@@ -108,8 +115,9 @@ class BaseCharacter extends FlxSpriteGroup implements IHook
 	 * @param restart If true, the animation will forcibly restart even if it's already playing.
 	 * @return Whether the animation was played.
 	 */
-	public function playAnimation(animName:String, ?restart:Bool = false):Bool
+	public function playAnimation(animName:String, ?restart:Bool = false):Void
 	{
+		// When implementing, remember to add the cancellable cbOnPlayAnimation!
 		throw 'playAnimation has not been implemented! ($characterId:$charType:$animName)';
 	}
 
@@ -132,13 +140,82 @@ class BaseCharacter extends FlxSpriteGroup implements IHook
 		throw 'getAnimation has not been implemented! ($characterId:$charType)';
 	}
 
+	/**
+	 * Gets the current frame number of the character's current animation.
+	 */
+	public function getAnimationFrame():Int
+	{
+		throw 'getAnimationFrame has not been implemented! ($characterId:$charType)';
+	}
+
+	/**
+	 * Returns true if the current animation is finished playing.
+	 */
 	public function isAnimationFinished():Bool
 	{
 		throw 'isAnimationFinished has not been implemented! ($characterId:$charType)';
 	}
 
 	/**
-	 * Manages characters dancing to the beat, or playing their idle animation.
+	 * Sets the amount that the character moves relative to the camera.
+	 * @param x Scroll factor in the x direction.
+	 * @param y Scroll factor in the y direction.
+	 */
+	public function setScrollFactor(x:Float = 1, y:Float = 1):Void
+	{
+		throw 'setScrollFactor has not been implemented! ($characterId:$charType)';
+	}
+
+	/**
+	 * Sets the visiblity of this character.
+	 * @param visible Whether the character should be visible.
+	 */
+	public function setVisible(visible:Bool):Void
+	{
+		throw 'setVisible has not been implemented! ($characterId:$charType)';
+	}
+
+	/**
+	 * Retrieves a list of all the animations which this character supports playing.
+	 * @return A list of animation names.
+	 */
+	public function getAnimations():Array<String>
+	{
+		throw 'getAnimations has not been implemented! ($characterId:$charType)';
+	}
+
+	/**
+	 * Gets the X and Y offsets of the character for the specified animation.
+	 * Offsets should normally be only handled internally; this function should only be used by the Animation Debugger.
+	 */
+	public function getAnimationOffsets(name:String):Array<Int>
+	{
+		throw 'getAnimationOffsets has not been implemented! ($characterId:$charType:$name)';
+	}
+
+	/**
+	 * Sets the X and Y offsets of the character for the specified animation.
+	 * Offsets should normally be only handled internally; this function should only be used by the Animation Debugger.
+	 */
+	public function setAnimationOffsets(name:String, value:Array<Int>):Void
+	{
+		throw 'setAnimationOffsets has not been implemented! ($characterId:$charType:$name)';
+	}
+
+	/**
+	 * Returns true if the current character is valid.
+	 * @return Bool
+	 */
+	public function isValid():Bool
+	{
+		Debug.logError('isValid has not been implemented! ($characterId:$charType)');
+		return false;
+	}
+
+	/**
+	 * Call this to have the character play their idle animation.
+	 * For example, on GF and the Spooky Kids, this plays the dance animation,
+	 * and on Boyfriend, it plays the idle animation.
 	 */
 	public function onPlayIdle():Void
 	{

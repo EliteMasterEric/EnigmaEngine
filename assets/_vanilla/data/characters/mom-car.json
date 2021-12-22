@@ -1,0 +1,56 @@
+{
+  "name": "Mommy Mearest (Car)",
+  "isGF": false,
+  "isPlayer": false,
+  "flipX": false,
+  "asset": "characters/momCar",
+  "barColor": "#D8558E",
+  "startingAnim": "idle",
+  "animations": [
+    {
+      "name": "idle",
+      "prefix": "Mom Idle",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [0, 0]
+    },
+    {
+      "name": "singUP",
+      "prefix": "Mom Up Pose",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [14, 71]
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "MOM DOWN POSE",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [20, -160]
+    },
+    {
+      "name": "singLEFT",
+      "prefix": "Mom Left Pose",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [250, -23]
+    },
+    {
+      "name": "singRIGHT",
+      // ANIMATION IS CALLED MOM LEFT POSE BUT ITS FOR THE RIGHT
+      // CUZ DAVE IS DUMB!
+      "prefix": "Mom Pose Left",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [10, -60]
+    },
+    {
+      "name": "idleHair",
+      "prefix": "Mom Idle",
+      "frameIndices": [10, 11, 12, 13],
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [0, 0]
+    }
+  ]
+}

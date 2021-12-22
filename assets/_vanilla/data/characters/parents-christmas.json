@@ -1,0 +1,65 @@
+{
+  "name": "Parents (Xmas)",
+  "isGF": false,
+  "isPlayer": false,
+  "flipX": false,
+  "asset": "characters/mom_dad_christmas_assets",
+  "barColor": "#9A00F8",
+  "startingAnim": "idle",
+  "animations": [
+    {
+      "name": "idle",
+      "prefix": "Parent Christmas Idle",
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "singUP",
+      "prefix": "Parent Up Note Dad",
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "Parent Down Note Dad",
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "singLEFT",
+      "prefix": "Parent Left Note Dad",
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "singRIGHT",
+      "prefix": "Parent Right Note Dad",
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "singUP-alt",
+      "prefix": "Parent Up Note Mom",
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "singDOWN-alt",
+      "prefix": "Parent Down Note Mom",
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "singLEFT-alt",
+      "prefix": "Parent Left Note Mom",
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "singRIGHT-alt",
+      "prefix": "Parent Right Note Mom",
+      "frameRate": 24,
+      "looped": false
+    }
+  ]
+}

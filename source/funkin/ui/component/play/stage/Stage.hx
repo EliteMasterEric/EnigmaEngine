@@ -92,9 +92,9 @@ class Stage extends FlxTypedGroup<FlxBasic> implements IHook
 		this.stageId = stageId;
 	}
 
-	public function addCharacter(id:Int, charId:String):OldCharacter
+	public function addCharacter(id:Int, charId:String):BaseCharacter
 	{
-		var character:OldCharacter = new OldCharacter(charId);
+		var character:BaseCharacter = CharacterFactory.buildCharacter(charId);
 		characters.set(id, character);
 		return character;
 	}

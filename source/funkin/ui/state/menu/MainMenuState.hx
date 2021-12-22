@@ -121,7 +121,7 @@ class MainMenuState extends MusicBeatState implements IHook
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 
-		AudioAssets.playMusic(Paths.music('freakyMenu'), true, false, 1);
+		AudioAssets.playMusic(Paths.music('freakyMenu'), true, false, 1, true);
 		Conductor.changeBPM(102);
 
 		// Load the player's keybinds.

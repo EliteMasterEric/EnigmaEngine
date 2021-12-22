@@ -1,0 +1,48 @@
+{
+  "name": "Senpai (Angry)",
+  "isGF": false,
+  "isPlayer": false,
+  "flipX": false,
+  "isPixel": true,
+  // Same file as base Senpai
+  "asset": "characters/senpai",
+  "barColor": "#FFAA6F",
+  "startingAnim": "idle",
+  "animations": [
+    {
+      "name": "idle",
+      "prefix": "Angry Senpai Idle",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [0, 0]
+    },
+    {
+      "name": "singUP",
+      "prefix": "Angry Senpai UP NOTE",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [5, 37]
+    },
+    {
+      "name": "singLEFT",
+      "prefix": "Angry Senpai LEFT NOTE",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [40, 0]
+    },
+    {
+      "name": "singRIGHT",
+      "prefix": "Angry Senpai RIGHT NOTE",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [0, 0]
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "Angry Senpai DOWN NOTE",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [14, 0]
+    }
+  ]
+}

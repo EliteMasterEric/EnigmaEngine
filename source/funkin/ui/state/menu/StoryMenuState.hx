@@ -21,12 +21,6 @@
  */
 package funkin.ui.state.menu;
 
-import funkin.data.DifficultyData.DifficultyDataHandler;
-import funkin.data.WeekData;
-import funkin.behavior.options.Options.AntiAliasingOption;
-import funkin.behavior.play.Scoring;
-import funkin.behavior.play.Scoring.SongScore;
-import funkin.util.assets.GraphicsAssets;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -39,20 +33,25 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import funkin.behavior.play.Week;
-import funkin.util.assets.AudioAssets;
-import funkin.util.assets.Paths;
-import funkin.behavior.play.Song;
+import funkin.behavior.options.Options.AntiAliasingOption;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.Conductor;
 import funkin.behavior.play.Highscore;
+import funkin.behavior.play.Scoring;
+import funkin.behavior.play.Scoring.SongScore;
+import funkin.behavior.play.Song;
 import funkin.const.Enigma;
+import funkin.data.DifficultyData.DifficultyDataHandler;
+import funkin.data.WeekData;
 import funkin.ui.component.menu.MenuCharacter;
 import funkin.ui.component.menu.StoryWeekDifficultyItem;
 import funkin.ui.component.menu.StoryWeekMenuItem;
 import funkin.ui.state.play.PlayState;
-import funkin.util.Util;
+import funkin.util.assets.AudioAssets;
 import funkin.util.assets.DataAssets;
+import funkin.util.assets.GraphicsAssets;
+import funkin.util.assets.Paths;
+import funkin.util.Util;
 #if FEATURE_DISCORD
 import funkin.behavior.api.Discord.DiscordClient;
 #end
@@ -157,8 +156,7 @@ class StoryMenuState extends MusicBeatState
 		DiscordClient.changePresence("In the Story Mode Menu", null);
 		#end
 
-		// Load the filtered week list.
-		weekIds = WeekDataHandler.weekIds;
+		weekIds = WeekDataHandler.storyWeekIds;
 
 		if (weekIds.length == 0)
 		{
@@ -198,9 +196,14 @@ class StoryMenuState extends MusicBeatState
 
 		for (i in 0...weekIds.length)
 		{
-			Debug.logTrace('Rendering entry for week ${weekIds[i]}');
-
 			var weekDataEntry:WeekData = WeekDataHandler.fetch(weekIds[i]);
+			if (weekDataEntry.isHidden())
+			{
+				Debug.logInfo('Skipping hidden week ${weekDataEntry.id}');
+				continue;
+			}
+
+			Debug.logTrace('Rendering entry for week ${weekIds[i]}');
 
 			var weekMenuItem:StoryWeekMenuItem = new StoryWeekMenuItem(0, 56 + 400 + 10, weekDataEntry);
 			weekMenuItem.y += ((weekMenuItem.height + 20) * i);
@@ -520,7 +523,7 @@ class StoryMenuState extends MusicBeatState
 
 	function getCurrentWeek():WeekData
 	{
-		return WeekDataHandler.getByIndex(curWeekIndex);
+		return WeekDataHandler.fetch(weekIds[curWeekIndex]);
 	}
 
 	/**

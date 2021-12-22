@@ -49,7 +49,7 @@
 	<!-- An FMOD wrapper for Haxe. Includes APIs for sound manipulation. -->
 	<!--<haxelib name="haxefmod" />-->
 
-	<!-- Allows for atomic mod loading and asset replacement. Powers the ModCore system. -->
+	<!-- Allows for atomic mod loading and asset replacement. Powers the Polymod system. -->
 	<haxelib name="polymod"/>
 
 	<!-- Discord API, powers presence integration. -->

@@ -21,6 +21,7 @@
  */
 package funkin.data;
 
+import funkin.util.WindowUtil;
 import funkin.util.assets.Paths;
 import flixel.util.FlxColor;
 import funkin.util.concurrency.ThreadUtil;
@@ -39,14 +40,21 @@ class WeekDataHandler
 	static var cache(default, null):Map<String, WeekData> = new Map<String, WeekData>();
 
 	/**
-	 * Contains a list of all valid character IDs.
+	 * Contains a list of all week IDs with valid data files.
+	 * These are NOT in order!
 	 */
 	public static var weekIds(default, null):Array<String> = [];
 
 	/**
-	 * Load the character data directly from JSON.
+	 * Contains a list of the week IDs to use for story mode.
+	 * These ARE in order but some of them might be invalid.
+	 */
+	public static var storyWeekIds(default, null):Array<String> = [];
+
+	/**
+	 * Load the week data directly from JSON.
 	 * @param id 
-	 * @return CharacterData
+	 * @return WeekData
 	 */
 	static function loadWeekData(id:String):Null<WeekData>
 	{
@@ -88,17 +96,44 @@ class WeekDataHandler
 	 */
 	public static function cacheWithProgress(progressCb:(Int, Int) -> Void)
 	{
-		var allWeeks = WeekDataHandler.listIds();
-		weekIds = allWeeks;
+		weekIds = WeekDataHandler.listIds();
 
-		for (weekIndex in 0...allWeeks.length)
+		for (weekIndex in 0...weekIds.length)
 		{
-			cacheWeek(allWeeks[weekIndex]);
-			progressCb(weekIndex, allWeeks.length);
+			cacheWeek(weekIds[weekIndex]);
+			progressCb(weekIndex, weekIds.length);
 		}
-		progressCb(allWeeks.length, allWeeks.length);
+		progressCb(weekIds.length, weekIds.length);
 
-		Debug.logInfo('Loaded ${allWeeks.length} weeks into cache.');
+		Debug.logInfo('Loaded ${weekIds.length} weeks into cache.');
+
+		storyWeekIds = DataAssets.loadLinesFromFile(Paths.txt('data/weekOrder'));
+		var fullLength = storyWeekIds.length;
+		Debug.logInfo('Story mode uses $fullLength of those weeks.');
+		storyWeekIds = storyWeekIds.filter((id) ->
+		{
+			return cache.get(id) != null;
+		});
+
+		if (storyWeekIds.length == 0)
+		{
+			Debug.logError('Story mode has no valid weeks! Check your data files.');
+			Debug.logTrace('weekIds: ${weekIds}');
+			Debug.logTrace('storyWeekIds: ${storyWeekIds}');
+			Debug.displayAlert("Fatal Error", "Story mode has no valid weeks! Check your data files.");
+			WindowUtil.crashTheGame(false);
+		}
+		else
+		{
+			if (storyWeekIds.length < fullLength)
+			{
+				Debug.logWarn('Story can only use ${storyWeekIds.length} out of ${fullLength} weeks.');
+			}
+			else
+			{
+				Debug.logInfo('Story mode can use all ${fullLength} weeks.');
+			}
+		}
 	}
 
 	/**
@@ -294,7 +329,8 @@ class WeekData
 		// Is unlocked in save data?
 		if (FlxG.save.data.weeksUnlocked != null)
 		{
-			if (FlxG.save.data.weeksUnlocked.get(this.id))
+			var weeksUnlocked:haxe.DynamicAccess<Dynamic> = FlxG.save.data.weeksUnlocked;
+			if (weeksUnlocked.get(this.id))
 				return true;
 		}
 

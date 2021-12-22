@@ -4,7 +4,7 @@ class ThreadUtil
 {
 	public static function doInBackground(cb:Void->Void)
 	{
-		#if threads
+		#if FEATURE_MULTITHREADING
 		sys.thread.Thread.create(() ->
 		{
 			// Run in the background.

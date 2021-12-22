@@ -29,7 +29,7 @@ import flixel.util.FlxColor;
 import funkin.util.Util;
 import funkin.behavior.Debug;
 import funkin.behavior.media.WebmHandler;
-import funkin.behavior.mods.ModCore;
+import funkin.behavior.mods.PolymodHandler;
 import funkin.behavior.options.Options;
 import funkin.const.GameDimensions;
 import funkin.ui.component.Cursor;
@@ -149,7 +149,7 @@ class Main extends Sprite
 
 		#if FEATURE_FILESYSTEM
 		Debug.logTrace("App has access to file system. Begin mod check and precaching...");
-		if (ModCore.hasMods())
+		if (PolymodHandler.hasMods())
 		{
 			initialState = ModSplashState;
 		}

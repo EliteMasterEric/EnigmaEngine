@@ -23,7 +23,7 @@ package funkin.ui.state.modding;
 import funkin.util.Util;
 import funkin.ui.component.base.XMLLayoutState;
 import flixel.addons.ui.FlxUIButton;
-import funkin.behavior.mods.ModCore;
+import funkin.behavior.mods.PolymodHandler;
 import funkin.ui.component.modding.ModList;
 import flixel.addons.ui.interfaces.IFlxUIWidget;
 import funkin.ui.state.title.CachingState;
@@ -102,12 +102,12 @@ class ModMenuState extends XMLLayoutState // extends MusicBeatState
 		unloadedModsUI.cbAddToOtherList = loadedModsUI.addMod.bind();
 		loadedModsUI.cbAddToOtherList = unloadedModsUI.addMod.bind();
 
-		var modDatas = ModCore.getAllMods().filter(function(m)
+		var modDatas = PolymodHandler.getAllMods().filter(function(m)
 		{
 			return m != null;
 		});
 
-		var loadedModIds = ModCore.getConfiguredMods();
+		var loadedModIds = PolymodHandler.getConfiguredMods();
 
 		var loadedMods:Array<ModMetadata> = [];
 		var unloadedMods:Array<ModMetadata> = [];
@@ -165,7 +165,7 @@ class ModMenuState extends XMLLayoutState // extends MusicBeatState
 	function loadMainGame()
 	{
 		// Gotta load any configured mods.
-		ModCore.loadConfiguredMods();
+		PolymodHandler.loadConfiguredMods();
 		#if FEATURE_FILESYSTEM
 		FlxG.switchState(new CachingState());
 		#else

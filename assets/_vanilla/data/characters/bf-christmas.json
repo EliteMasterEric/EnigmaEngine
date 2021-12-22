@@ -1,0 +1,81 @@
+{
+  "name": "Boyfriend (Xmas)",
+  "isGF": false,
+  "isPlayer": true,
+  "flipX": false,
+  "asset": "characters/BOYFRIEND",
+  "barColor": "#31B0D1",
+  "startingAnim": "idle",
+  "animations": [
+    {
+      "name": "idle",
+      "prefix": "BF idle dance",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [-5, 0]
+    },
+    {
+      "name": "singUP",
+      "prefix": "BF NOTE UP0",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [-29, 27]
+    },
+    {
+      "name": "singLEFT",
+      "prefix": "BF NOTE LEFT0",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [12, -6]
+    },
+    {
+      "name": "singRIGHT",
+      "prefix": "BF NOTE RIGHT0",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [-38, -7]
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "BF NOTE DOWN0",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [-10, -50]
+    },
+    {
+      "name": "singUPmiss",
+      "prefix": "BF NOTE UP MISS",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [-29, 27]
+    },
+    {
+      "name": "singLEFTmiss",
+      "prefix": "BF NOTE LEFT MISS",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [12, 24]
+    },
+    {
+      "name": "singRIGHTmiss",
+      "prefix": "BF NOTE RIGHT MISS",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [-30, 21]
+    },
+    {
+      "name": "singDOWNmiss",
+      "prefix": "BF NOTE DOWN MISS",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [-11, -19]
+    },
+    {
+      "name": "hey",
+      "prefix": "BF HEY",
+      "frameRate": 24,
+      "looped": false,
+      "offsets": [7, 4]
+    }
+  ]
+}

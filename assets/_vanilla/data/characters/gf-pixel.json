@@ -1,6 +1,7 @@
 {
   "name": "Girlfriend (Pixel)",
   "isGF": true,
+  "isPlayer": false,
   "isPixel": true,
   "scale": 6,
   "asset": "characters/gfPixel",

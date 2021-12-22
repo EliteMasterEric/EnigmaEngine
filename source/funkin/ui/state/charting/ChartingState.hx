@@ -57,8 +57,7 @@ import funkin.data.DifficultyData.DifficultyDataHandler;
 import funkin.ui.component.charting.ChartingBox;
 import funkin.ui.component.charting.SectionRender;
 import funkin.ui.component.Cursor;
-import funkin.ui.component.play.character.Boyfriend;
-import funkin.ui.component.play.character.OldCharacter;
+import funkin.ui.component.play.character.BaseCharacter;
 import funkin.ui.component.play.character.CharacterFactory;
 import funkin.ui.component.play.HealthIcon;
 import funkin.ui.component.play.Note;
@@ -152,8 +151,8 @@ class ChartingState extends MusicBeatState
 	var gridBlackLine:FlxSprite;
 	var vocals:FlxSound;
 
-	var player2:OldCharacter = new OldCharacter(0, 0, "dad");
-	var player1:Boyfriend = new Boyfriend(0, 0, "bf");
+	var player2:BaseCharacter = CharacterFactory.buildCharacter("dad");
+	var player1:BaseCharacter = CharacterFactory.buildCharacter("bf");
 
 	public static var leftIcon:HealthIcon;
 
@@ -3121,10 +3120,7 @@ class ChartingState extends MusicBeatState
 		// Offset by the current chart position. Make sure we use parenthesis, math is hard!
 		var mouseNoteData = Math.floor((FlxG.mouse.x - GRID_X_OFFSET) / GRID_SIZE);
 		// Fix values for 9K.
-		if (Enigma.USE_CUSTOM_CHARTER)
-		{
-			mouseNoteData = EnigmaNote.getNoteDataFromCharterColumn(mouseNoteData);
-		}
+		mouseNoteData = EnigmaNote.getNoteDataFromCharterColumn(mouseNoteData);
 		var noteSus = 0;
 
 		if (n != null)
@@ -3145,7 +3141,7 @@ class ChartingState extends MusicBeatState
 			note.sustainLength = noteSus;
 			note.setGraphicSize(Math.floor(GRID_SIZE), Math.floor(GRID_SIZE));
 			note.updateHitbox();
-			note.x = Math.floor(NoteUtil.getStrumlineIndex(note.noteData, Enigma.USE_CUSTOM_CHARTER ? 9 : 4, true) * GRID_SIZE);
+			note.x = Math.floor(NoteUtil.getStrumlineIndex(note.noteData, 9, true) * GRID_SIZE);
 			note.x += GRID_X_OFFSET;
 
 			if (curSelectedNoteObject != null)
@@ -3177,7 +3173,7 @@ class ChartingState extends MusicBeatState
 			note.sustainLength = noteSus;
 			note.setGraphicSize(Math.floor(GRID_SIZE), Math.floor(GRID_SIZE));
 			note.updateHitbox();
-			note.x = Math.floor(NoteUtil.getStrumlineIndex(n.noteData, Enigma.USE_CUSTOM_CHARTER ? 9 : 4) * GRID_SIZE);
+			note.x = Math.floor(NoteUtil.getStrumlineIndex(n.noteData, 9) * GRID_SIZE);
 			note.x += GRID_X_OFFSET;
 
 			if (curSelectedNoteObject != null)
