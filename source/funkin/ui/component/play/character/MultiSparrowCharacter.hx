@@ -207,6 +207,10 @@ class MultiSparrowCharacter extends BaseCharacter
 
 	public override function playAnimation(animName:String, ?restart:Bool = false):Void
 	{
+		// An animation is already playing.
+		if (forceAnimation)
+			return;
+
 		if (cbOnPlayAnimation != null)
 		{
 			if (!cbOnPlayAnimation(animName))
@@ -272,10 +276,5 @@ class MultiSparrowCharacter extends BaseCharacter
 	public override function isValid():Bool
 	{
 		return true;
-	}
-
-	public override function toString():String
-	{
-		return 'Character[${characterId}][MultiSparrow]';
 	}
 }

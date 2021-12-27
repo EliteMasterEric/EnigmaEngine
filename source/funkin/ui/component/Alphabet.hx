@@ -243,8 +243,9 @@ class Alphabet extends FlxSpriteGroup
 				// What is this for?
 				if (FlxG.random.bool(40))
 				{
-					var daSound:String = "GF_";
-					FlxG.sound.play(Paths.soundRandom(daSound, 1, 4));
+					var index = FlxG.random.int(1, 4);
+					var daSound:String = 'sounds/GF_$index';
+					FlxG.sound.play(Paths.sound(daSound));
 				}
 
 				add(letter);

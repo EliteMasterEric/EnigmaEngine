@@ -177,7 +177,16 @@ class PlayState extends MusicBeatState implements IHook
 	//
 	// STATE
 	//
-
+	/**
+	 * DEVELOPER NOTE
+	 * Note that several variables of the PlayState are static,
+	 * while others are instanced. This is intentional, and designed to
+	 * minimize the work involved in restarting a level.
+	 * 
+	 * The rule of thumb is:
+	 * - If it stays the same when you reset the song (song data, difficulty, etc), it should be a STATIC variable.
+	 * - If it changes or gets re-initialized when you reset the song (current health, etc.) it should be an INSTANCED variable.
+	 */
 	/**
 	 * Allow any part of the application to statically access the current PlayState, if it exists.
 	 */
@@ -194,7 +203,7 @@ class PlayState extends MusicBeatState implements IHook
 	 * The current STAGE we are on!
 	 * Should handle all its own graphics, parts, and animations.
 	 */
-	public static var STAGE:Stage;
+	public static var STAGE:OldStage;
 
 	/**
 	 * The current story week being used.
@@ -227,6 +236,20 @@ class PlayState extends MusicBeatState implements IHook
 	 * Disables note processing logic.
 	 */
 	public var isDying:Bool = false;
+
+	public var currentBeat(get, null):Int = 0;
+
+	function get_currentBeat()
+	{
+		return curBeat;
+	}
+
+	public var currentStep(get, null):Int = 0;
+
+	function get_currentStep()
+	{
+		return curStep;
+	}
 
 	/**
 	 * The current position in the story playlist.
@@ -645,24 +668,6 @@ class PlayState extends MusicBeatState implements IHook
 	public static var startTime = 0.0;
 
 	/**
-	 * A publicly accessible method to add a Flixel object to the stage.
-	 * @param object The object to add.
-	 */
-	public function addObject(object:FlxBasic)
-	{
-		add(object);
-	}
-
-	/**
-	 * A publicly accessible method to remove a Flixel object from the stage.
-	 * @param object The object to remove.
-	 */
-	public function removeObject(object:FlxBasic)
-	{
-		remove(object);
-	}
-
-	/**
 	 * Called when the PlayState stage is initialized.
 	 */
 	public override function create()
@@ -888,63 +893,74 @@ class PlayState extends MusicBeatState implements IHook
 				cpuChar.x = 100;
 				cpuChar.y = 100;
 			}
-			STAGE = new Stage(SONG.stage);
-		}
-		var positions = STAGE.positions[STAGE.stageId];
-
-		if (positions != null && !stageTesting)
-		{
-			for (char => pos in positions)
-				for (person in [playerChar, gfChar, cpuChar])
-					if (person.characterId == char)
-						person.setPosition(pos[0], pos[1]);
-		}
-		for (i in STAGE.toAdd)
-		{
-			add(i);
-		}
-		if (!MinimalModeOption.get())
-			for (index => array in STAGE.layInFront)
+			// TODO: Debug method!
+			if (SONG.stage == 'spooky')
 			{
-				switch (index)
-				{
-					case 0:
-						add(gfChar);
-						gfChar.setScrollFactor(0.95, 0.95);
-						for (bg in array)
-							add(bg);
-					case 1:
-						add(cpuChar);
-						for (bg in array)
-							add(bg);
-					case 2:
-						add(playerChar);
-						for (bg in array)
-							add(bg);
-				}
+				STAGE2 = new Stage(SONG.stage);
 			}
-		camPos = new FlxPoint(cpuChar.getGraphicMidpoint().x, cpuChar.getGraphicMidpoint().y);
-		switch (cpuChar.characterId)
+			else
+			{
+				STAGE = new Stage(SONG.stage);
+			}
+		}
+		if (STAGE != null)
 		{
-			case 'gf':
-				if (!stageTesting)
-					cpuChar.setPosition(gfChar.getPosition().x, gfChar.getPosition().y);
-				gfChar.setVisible(false);
-				if (isStoryMode())
+			var positions = STAGE.positions[STAGE.stageId];
+			if (positions != null && !stageTesting)
+			{
+				for (char => pos in positions)
+					for (person in [playerChar, gfChar, cpuChar])
+						if (person.characterId == char)
+							person.setPosition(pos[0], pos[1]);
+			}
+			for (i in STAGE.toAdd)
+			{
+				add(i);
+			}
+
+			if (!MinimalModeOption.get())
+				for (index => array in STAGE.layInFront)
 				{
-					camPos.x += 600;
-					tweenCamIn();
+					switch (index)
+					{
+						case 0:
+							add(gfChar);
+							gfChar.setScrollFactor(0.95, 0.95);
+							for (bg in array)
+								add(bg);
+						case 1:
+							add(cpuChar);
+							for (bg in array)
+								add(bg);
+						case 2:
+							add(playerChar);
+							for (bg in array)
+								add(bg);
+					}
 				}
-			case 'dad':
-				camPos.x += 400;
-			case 'pico':
-				camPos.x += 600;
-			case 'senpai':
-				camPos.set(cpuChar.getGraphicMidpoint().x + 300, cpuChar.getGraphicMidpoint().y);
-			case 'senpai-angry':
-				camPos.set(cpuChar.getGraphicMidpoint().x + 300, cpuChar.getGraphicMidpoint().y);
-			case 'spirit':
-				camPos.set(cpuChar.getGraphicMidpoint().x + 300, cpuChar.getGraphicMidpoint().y);
+			camPos = new FlxPoint(cpuChar.getGraphicMidpoint().x, cpuChar.getGraphicMidpoint().y);
+			switch (cpuChar.characterId)
+			{
+				case 'gf':
+					if (!stageTesting)
+						cpuChar.setPosition(gfChar.getPosition().x, gfChar.getPosition().y);
+					gfChar.setVisible(false);
+					if (isStoryMode())
+					{
+						camPos.x += 600;
+						tweenCamIn();
+					}
+				case 'dad':
+					camPos.x += 400;
+				case 'pico':
+					camPos.x += 600;
+				case 'senpai':
+					camPos.set(cpuChar.getGraphicMidpoint().x + 300, cpuChar.getGraphicMidpoint().y);
+				case 'senpai-angry':
+					camPos.set(cpuChar.getGraphicMidpoint().x + 300, cpuChar.getGraphicMidpoint().y);
+				case 'spirit':
+					camPos.set(cpuChar.getGraphicMidpoint().x + 300, cpuChar.getGraphicMidpoint().y);
+			}
 		}
 		if (PlayState.replayActive)
 		{
@@ -1753,7 +1769,11 @@ class PlayState extends MusicBeatState implements IHook
 
 		// Record scratch.
 		if (MissSoundsOption.get())
-			FlxG.sound.play(Paths.soundRandom(PlayState.SONG.noteStyle.endsWith('pixel') ? 'missnote-pixel' : 'missNote', 1, 3), FlxG.random.float(0.1, 0.2));
+		{
+			var index = FlxG.random.int(1, 3);
+			var soundPath = PlayState.SONG.noteStyle.endsWith('pixel') ? 'missnote-pixel$index' : 'missNote$index';
+			AudioAssets.playSound(soundPath, true, false, FlxG.random.float(0.4, 0.5));
+		}
 
 		// Play the proper note animation.
 		// TODO: Does this need to be forced?

@@ -149,14 +149,8 @@ class Main extends Sprite
 
 		#if FEATURE_FILESYSTEM
 		Debug.logTrace("App has access to file system. Begin mod check and precaching...");
-		if (PolymodHandler.hasMods())
-		{
-			initialState = ModSplashState;
-		}
-		else
-		{
-			initialState = CachingState;
-		}
+		// The ModSplashState will handle initializing Polymod.
+		initialState = ModSplashState;
 		game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
 		#else
 		Debug.logTrace("App has no access to file system. Starting game...");

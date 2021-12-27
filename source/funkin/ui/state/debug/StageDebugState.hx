@@ -54,7 +54,7 @@ class StageDebugState extends FlxState
 	var gfChar:BaseCharacter;
 	var playerChar:BaseCharacter;
 	var cpuChar:BaseCharacter;
-	var STAGE:Stage;
+	var STAGE:OldStage;
 	var camFollow:FlxObject;
 	var posText:FlxText;
 	var currentChar:FlxSprite;

@@ -144,31 +144,7 @@ class Paths
 	 */
 	public static function sound(key:String, ?library:String)
 	{
-		return getPath('sounds/$key.$SOUND_EXT', SOUND, library);
-	}
-
-	public static inline function musicBank(key:String, ?library:String)
-	{
-		return getPath('music/$key.bank', BINARY, library);
-	}
-
-	public static inline function soundBank(key:String, ?library:String)
-	{
-		return getPath('sounds/$key.bank', BINARY, library);
-	}
-
-	/**
-	 * Retrieve a sound file suffixed with a random int from `min` to `max`.
-	 * For example, `soundRandom('hello', 1, 3)` might return the full path to `hello3.mp3`.
-	 */
-	public static inline function soundRandom(key:String, min:Int, max:Int, ?library:String)
-	{
-		return sound(key + FlxG.random.int(min, max), library);
-	}
-
-	public static inline function music(key:String, ?library:String)
-	{
-		return getPath('music/$key.$SOUND_EXT', MUSIC, library);
+		return getPath('$key.$SOUND_EXT', SOUND, library);
 	}
 
 	public static inline function voices(song:String)

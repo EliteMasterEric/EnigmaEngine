@@ -42,16 +42,26 @@ class ModSplashState extends MusicBeatState
 
 	override function create()
 	{
+		super.create();
+
 		#if FEATURE_POLYMOD
+		// Are there even mods in the mods folder?
+		if (!PolymodHandler.hasMods())
+		{
+			// If not, skip the splash screen.
+			Debug.logInfo('No mods installed, skipping mod splash screen.');
+			playWithNoMods();
+		}
 		var modsToLoad = PolymodHandler.getConfiguredMods();
+
 		configFound = (modsToLoad != null && modsToLoad.length > 0);
 		#else
-		configFound = false;
+		// If not, skip the splash screen.
+		Debug.logInfo('Polymod not supported, skipping mod splash screen.');
+		playWithNoMods();
 		#end
 
 		Debug.logInfo('Loading mod splash screen. Was an existing mod config found? ${configFound}');
-
-		super.create();
 
 		var gameLogo:FlxSprite = new FlxSprite(FlxG.width, 0).loadGraphic(GraphicsAssets.loadImage('logo'));
 		gameLogo.scale.y = 0.3;
@@ -104,24 +114,18 @@ class ModSplashState extends MusicBeatState
 			if (configFound)
 			{
 				Debug.logInfo("User chose to enable configured mods.");
-				// Gotta run this before any assets get loaded.
-				PolymodHandler.loadConfiguredMods();
-				loadMainGame();
+				playWithConfiguredMods();
 			}
 			else
 			{
 				Debug.logInfo("User chose to enable ALL available mods.");
-				// Gotta run this before any assets get loaded.
-				PolymodHandler.loadAllMods();
-				loadMainGame();
+				playWithAllMods();
 			}
 		}
 		else if (FlxG.keys.justPressed.TWO)
 		{
 			Debug.logInfo("User chose to DISABLE mods.");
-			// Make sure to init debug callbacks etc if we aren't loading mods.
-			PolymodHandler.loadNoMods();
-			loadMainGame();
+			playWithNoMods();
 		}
 		else if (FlxG.keys.justPressed.THREE)
 		{
@@ -130,6 +134,27 @@ class ModSplashState extends MusicBeatState
 		}
 
 		super.update(elapsed);
+	}
+
+	function playWithNoMods()
+	{
+		// Make sure to init debug callbacks etc if we aren't loading mods.
+		PolymodHandler.loadNoMods();
+		loadMainGame();
+	}
+
+	function playWithConfiguredMods()
+	{
+		// Gotta run this before any assets get loaded.
+		PolymodHandler.loadConfiguredMods();
+		loadMainGame();
+	}
+
+	function playWithAllMods()
+	{
+		// Gotta run this before any assets get loaded.
+		PolymodHandler.loadAllMods();
+		loadMainGame();
 	}
 
 	function loadMainGame()

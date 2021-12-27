@@ -92,7 +92,7 @@ class ResultsSubState extends FlxSubState
 
 		if (!PlayState.instance.inResults)
 		{
-			music = AudioAssets.playSound(Paths.music('gamePaused'), true, true, 0);
+			music = AudioAssets.playSound('music/gamePaused', true, true, 0);
 			music.volume = FlxG.random.int(0, Std.int(music.length / 2));
 		}
 
@@ -248,7 +248,7 @@ class ResultsSubState extends FlxSubState
 			if (PlayState.isStoryMode())
 			{
 				// Move back to the main menu after completing a story week.
-				AudioAssets.playMusic(Paths.music('freakyMenu'), true, true, 1, true);
+				AudioAssets.playMusic('music/freakyMenu', true, true, 1, true);
 				Conductor.changeBPM(102);
 				FlxG.switchState(new MainMenuState());
 			}

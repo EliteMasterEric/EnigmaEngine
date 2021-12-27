@@ -26,6 +26,7 @@ import lime.tools.*;
 import sys.FileSystem;
 
 class Project extends HXProject {
+	// List of possible features, which are enabled or disabled based on platform.
 	static final FEATURE_DISCORD:String = "FEATURE_DISCORD";
 	static final FEATURE_POLYMOD:String = "FEATURE_POLYMOD";
 	static final FEATURE_LUAMODCHART:String = "FEATURE_LUAMODCHART";
@@ -35,8 +36,15 @@ class Project extends HXProject {
 	static final FEATURE_MODCORE:String = "FEATURE_MODCORE";
 	static final FEATURE_GAMEJOLT:String = "FEATURE_GAMEJOLT";
 
-	public function new () {       
-		super ();
+	// List of possible compile defines, which can be specified from the command line.
+	// Example: `-DnullSafety` 
+	static final DEFINE_EMBEDASSETS:String = "embedAssets";
+	static final DEFINE_EXCLUDEEXAMPLEMODS:String = "excludeExampleMods";
+	static final DEFINE_INCLUDEDEFAULTWEEKS:String = "includeDefaultWeeks";
+	static final DEFINE_NULLSAFETY:String = "nullSafety";
+
+	public function new () {  
+		super();
 			
 		// Display ASCII art.
 		// flair();
@@ -55,6 +63,9 @@ class Project extends HXProject {
 
 		// Configure library dependencies.
 		configureLibraries();
+
+		// Inject metadata into existing classes.
+		configureMetadata();
 
 		// Configure favicons.
 		configureIcons();
@@ -193,12 +204,16 @@ class Project extends HXProject {
 		haxedefs.set("HXCPP_CHECK_POINTER", "true");
 		haxedefs.set("HXCPP_STACK_LINE", "true");
 		haxedefs.set("FLX_NO_FOCUS_LOST_SCREEN", "true");
+
+		if (defines.exists(DEFINE_NULLSAFETY)) {
+			setNullSafe('funkin');
+		}
 	}
 
 	function configureOutputDir() {
 		// Set the output directory. Depends on the target platform and build type.
 		var architecture = is64Bit() ? "x64" : "x86";
-		var includeDefaultWeeks = defines.exists("includeDefaultWeeks");
+		var includeDefaultWeeks = defines.exists(DEFINE_INCLUDEDEFAULTWEEKS);
 		var buildDir = 'export/${debug ? 'debug' : 'release'}/${includeDefaultWeeks ? 'vanilla' : 'base'}/$architecture'; // /$target
 
 		info('Output directory is $buildDir');
@@ -275,6 +290,12 @@ class Project extends HXProject {
 		// flushHaxelibs();
 	}
 
+	function configureMetadata() {
+		// Run the HaxeFlxZLevel macro on FlxBasic.
+		// We can inject new variables into existing classes at build time! Neat!
+		// addMetadataToClass("flixel.FlxBasic", "@:build(funkin.util.macro.HaxeFlxZLevel.build())");
+	}
+
 	/**
 	 * Configures the application window.
 	 */
@@ -333,9 +354,9 @@ class Project extends HXProject {
 	 * Configure the asset folders to be used by the project.
 	 */
 	function configureAssets() {
-		var shouldEmbed = defines.exists("embedAssets");
-		var includeDefaultWeeks = defines.exists("includeDefaultWeeks");
-		var includeExampleMods = !defines.exists("excludeExampleMods");
+		var shouldEmbed = defines.exists(DEFINE_EMBEDASSETS);
+		var includeDefaultWeeks = defines.exists(DEFINE_INCLUDEDEFAULTWEEKS);
+		var includeExampleMods = !defines.exists(DEFINE_EXCLUDEEXAMPLEMODS);
 		// Only use OGG on desktop and MP3 on web.
 		var excludeExt = isWeb() ? ["*.md", "*.ogg"] : ["*.md", "*.mp3"];
 
@@ -557,6 +578,27 @@ class Project extends HXProject {
 
 		var assetLibrary = new Library(sourcePath, name, type, embed, preload, generate, prefix);
 		libraries.push(assetLibrary);
+	}
+
+	/**
+	 * Inform Haxe that null safety should be enforced for a given package,
+	 * and all its subpackages.
+	 */
+	function setNullSafe(targetPackage:String) {
+		addMacro('nullSafety(\'$targetPackage\')');
+	}
+
+	/**
+	 * Apply the given annotation string to the given class.
+	 * @param className The name of the class to apply to.
+	 * @param meta The value to apply.
+	 */
+	function addMetadataToClass(className:String, meta:String) {
+		addMacro('addMetadata(\'$className\', \'$meta\')');
+	}
+
+	function addMacro(macroValue:String) {
+		haxeflags.push('--macro $macroValue');
 	}
 
 	function addAsset(path:String, library:String = "default", rename:String = null, embed:Bool = false) {

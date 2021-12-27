@@ -110,6 +110,10 @@ class SparrowCharacter extends BaseCharacter
 
 	public override function playAnimation(animName:String, ?restart:Bool = false):Void
 	{
+		// An animation is already playing.
+		if (forceAnimation)
+			return;
+
 		if (cbOnPlayAnimation != null)
 		{
 			if (!cbOnPlayAnimation(animName))
@@ -189,13 +193,13 @@ class SparrowCharacter extends BaseCharacter
 		return this.baseSprite.animation.frameIndex;
 	}
 
+	public override function isAnimationFinished():Bool
+	{
+		return this.baseSprite.animation.finished;
+	}
+
 	public override function isValid():Bool
 	{
 		return this.baseSprite != null && this.baseSprite.frames != null;
-	}
-
-	public override function toString():String
-	{
-		return 'Character[${characterId}][Sparrow]';
 	}
 }

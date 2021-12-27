@@ -45,15 +45,17 @@ class AudioAssets
 	public static function playSound(soundPath:String, shouldCache = false, shouldLoop = false, volume:Float = 1,
 			onComplete:Null<() -> Void> = null):Null<FlxSound>
 	{
-		if (shouldCache)
-			cacheSound(soundPath);
+		var fullSoundPath = Paths.sound(soundPath);
 
-		if (LibraryAssets.soundExists(soundPath))
+		if (shouldCache)
+			cacheSound(fullSoundPath);
+
+		if (LibraryAssets.soundExists(fullSoundPath))
 		{
 			var result = AudioAssets.loadSound(soundPath, true, true);
 			if (result == null)
 			{
-				Debug.logWarn('Could not play sound ($soundPath): Unknown error.');
+				Debug.logWarn('Could not play sound ($fullSoundPath): Unknown error.');
 				return null;
 			}
 
@@ -63,7 +65,7 @@ class AudioAssets
 		}
 		else
 		{
-			Debug.logWarn('Could not play sound ($soundPath): File does not exist.');
+			Debug.logWarn('Could not play sound ($fullSoundPath): File does not exist.');
 			return null;
 		}
 	}
@@ -75,12 +77,14 @@ class AudioAssets
 	 */
 	public static function loadSound(soundPath:String, shouldCache = false, shouldLoop = false):Null<FlxSound>
 	{
-		if (shouldCache)
-			cacheSound(soundPath);
+		var fullSoundPath = Paths.sound(soundPath);
 
-		if (LibraryAssets.soundExists(soundPath))
+		if (shouldCache)
+			cacheSound(fullSoundPath);
+
+		if (LibraryAssets.soundExists(fullSoundPath))
 		{
-			var result = new FlxSound().loadEmbedded(soundPath, shouldLoop);
+			var result = new FlxSound().loadEmbedded(fullSoundPath, shouldLoop);
 			return result;
 		}
 		else
@@ -109,17 +113,19 @@ class AudioAssets
 			}
 		}
 
-		if (shouldCache)
-			cacheSound(songPath);
+		var fullSongPath = Paths.sound(songPath);
 
-		if (LibraryAssets.soundExists(songPath))
+		if (shouldCache)
+			cacheSound(fullSongPath);
+
+		if (LibraryAssets.soundExists(fullSongPath))
 		{
-			FlxG.sound.playMusic(songPath, volume, looped);
+			FlxG.sound.playMusic(fullSongPath, volume, looped);
 			return FlxG.sound.music;
 		}
 		else
 		{
-			Debug.logError('Could not play music ($songPath) because the file does not exist.');
+			Debug.logError('Could not play music ($fullSongPath) because the file does not exist.');
 			return null;
 		}
 	}

@@ -104,6 +104,10 @@ class PackerCharacter extends BaseCharacter
 
 	public override function playAnimation(animName:String, ?restart:Bool = false):Void
 	{
+		// An animation is already playing.
+		if (forceAnimation)
+			return;
+
 		if (cbOnPlayAnimation != null)
 		{
 			if (!cbOnPlayAnimation(animName))
@@ -182,10 +186,5 @@ class PackerCharacter extends BaseCharacter
 	{
 		this.baseSprite.scrollFactor.x = x;
 		this.baseSprite.scrollFactor.y = y;
-	}
-
-	public override function toString():String
-	{
-		return 'Character[${characterId}][Packer]';
 	}
 }

@@ -77,7 +77,6 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		if (InstantRespawnOption.get())
 		{
-			// Create a new PlayState while preserving the values of static variables.
 			LoadingState.loadAndSwitchState(new PlayState());
 		}
 

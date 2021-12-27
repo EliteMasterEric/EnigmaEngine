@@ -17,6 +17,7 @@ This release, and all subsequent releases, will provide two builds for each plat
 - [ ] Add the `spine` atlas type, which allows for the use of Spine characters rather than Sparrow spritesheets.
   - [Spine](http://esotericsoftware.com/spine-demos) is a software tool created by Esoteric Software for creating 2D character animations.
 ### Changes
+- Any references to `ModCore` have been changed to Polymod to reduce confusion.
 - All vanilla characters are now fully softcoded.
 - [ ] Rework the character class to abstract the logic of the character from the rendering, making it possible to create and maintain new atlas types.
   - This includes the new Spine atlas type.
@@ -44,10 +45,12 @@ This release, and all subsequent releases, will provide two builds for each plat
 - Fixed a bug where pausing the game and returning to the menu would cause the game to crash.
 - Fixed a bug where rescaling the window would cause the play UI to be rendered off-center.
 - [ ] Fix a bug where Bopeedo is missing it's 'HEY' animations.
+- [ ] Fix a bug where notes are counting for twice as much for combo meter.
 - [ ] Fix a bug where custom health icons are not displayed properly.
+- [ ] Fix a bug where missing a note shows the "Good!" judgement sprite.
+- [ ] Fix a bug where song vocal play during the death animation.
 - [ ] Fix a bug where the "appear" animation for the results screen appears twice.
 - [ ] Fix a crash bug when opening the Free Play menu.
 
 ## Work-in-Progress
-
-
+- [ ] Enable null safety

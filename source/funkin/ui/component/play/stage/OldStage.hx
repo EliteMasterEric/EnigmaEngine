@@ -15,7 +15,7 @@
  */
 
 /*
- * Stage.hx
+ * OldStage.hx
  * An object which handles the graphics and layers for a given stage.
  */
 package funkin.ui.component.play.stage;
@@ -37,7 +37,7 @@ import funkin.ui.state.play.PlayState;
 import funkin.util.assets.GraphicsAssets;
 import funkin.util.assets.Paths;
 
-class Stage extends MusicBeatState
+class OldStage extends MusicBeatState
 {
 	/**
 	 * The internal ID of the current stage.
@@ -94,19 +94,6 @@ class Stage extends MusicBeatState
 
 		switch (this.stageId)
 		{
-			case 'halloween':
-				{
-					var backgroundTexture = GraphicsAssets.loadSparrowAtlas('images/stages/halloween/background');
-
-					var background = new FlxSprite(-200, -80);
-					background.frames = backgroundTexture;
-					background.animation.addByPrefix('idle', 'idle');
-					background.animation.addByPrefix('lightning', 'lightning', 24, false);
-					background.animation.play('idle');
-					background.antialiasing = AntiAliasingOption.get();
-					swagBacks['halloweenBG'] = background;
-					toAdd.push(background);
-				}
 			case 'philly':
 				{
 					var bg:FlxSprite = new FlxSprite(-100).loadGraphic(GraphicsAssets.loadImage('philly/sky', 'week3'));
@@ -506,15 +493,6 @@ class Stage extends MusicBeatState
 		{
 			switch (this.stageId)
 			{
-				case 'halloween':
-					if (FlxG.random.bool(Conductor.bpm > 320 ? 100 : 10) && curBeat > lightningStrikeBeat + lightningOffset)
-					{
-						if (DistractionsAndEffectsOption.get())
-						{
-							doLightningStrike();
-							trace('spooky');
-						}
-					}
 				case 'school':
 					if (DistractionsAndEffectsOption.get())
 					{
@@ -565,21 +543,7 @@ class Stage extends MusicBeatState
 	}
 
 	// Variables and Functions for Stages
-	var lightningStrikeBeat:Int = 0;
-	var lightningOffset:Int = 8;
 	var curLight:Int = 0;
-
-	function doLightningStrike():Void
-	{
-		FlxG.sound.play(Paths.soundRandom('thunder_', 1, 2));
-		swagBacks['halloweenBG'].animation.play('lightning');
-
-		lightningStrikeBeat = curBeat;
-		lightningOffset = FlxG.random.int(8, 24);
-
-		PlayState.playerChar.playAnimation('scared', true);
-		PlayState.gfChar.playAnimation('scared', true);
-	}
 
 	var trainMoving:Bool = false;
 	var trainFrameTiming:Float = 0;
@@ -661,7 +625,8 @@ class Stage extends MusicBeatState
 	{
 		if (DistractionsAndEffectsOption.get())
 		{
-			FlxG.sound.play(Paths.soundRandom('carPass', 0, 1), 0.7);
+			var index = FlxG.random.int(0, 1);
+			AudioAssets.playSound('sounds/weeks/mom/carPass$index', true, false, 0.7);
 
 			swagBacks['fastCar'].velocity.x = (FlxG.random.int(170, 220) / FlxG.elapsed) * 3;
 			fastCarCanDrive = false;

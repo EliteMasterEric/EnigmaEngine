@@ -60,8 +60,8 @@ jobs:
           haxelib list
       - name: build windows
         run: |
-          haxelib run lime build windows -DembedAssets -DexcludeExampleMods -DpreloadAssets -DincludeDefaultWeeks 
-          haxelib run lime build windows -DembedAssets -DexcludeExampleMods -DpreloadAssets
+          haxelib run lime build windows -DembedAssets -DexcludeExampleMods -DincludeDefaultWeeks 
+          haxelib run lime build windows -DembedAssets -DexcludeExampleMods
       - name: test windows
         run: |          
           cd ./test
@@ -129,8 +129,8 @@ jobs:
           haxelib list
       - name: build linux
         run: |
-          haxelib run lime build linux -DembedAssets -DexcludeExampleMods -DpreloadAssets -DincludeDefaultWeeks 
-          haxelib run lime build linux -DembedAssets -DexcludeExampleMods -DpreloadAssets
+          haxelib run lime build linux -DembedAssets -DexcludeExampleMods -DincludeDefaultWeeks 
+          haxelib run lime build linux -DembedAssets -DexcludeExampleMods
       - name: test linux
         run: |
           cd ./test

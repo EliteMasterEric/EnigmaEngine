@@ -1,6 +1,59 @@
 // Defines the layout and behavior of the 'spooky' stage.
 
+var spookyBG;
+var lightningStrikeBeat:Int = 0;
+var lightningOffset:Int = 8;
+
 function onCreate() {
 	// Here we need to define our script objects,
 	// as well as the base positions of our characters.
+	spookyBG = new FlxSprite(-200, -80);
+	var spookyTex = GraphicsAssets.loadSparrowAtlas('images/stages/halloween/background');
+	spookyBG.frames = backgroundTexture;
+
+	spookyBG.animation.addByPrefix('idle', 'idle');
+	spookyBG.animation.addByPrefix('lightning', 'lightning', 24, false);
+
+	spookyBG.animation.play('idle');
+
+	// Q: Wait, FlxSprite doesn't have a z-index attribute!
+	// A: It does now, shut up.
+	spookyBG.zIndex = -100;
+
+	// Position the characters in the scene.
+	getBoyfriend().x = 770;
+	getBoyfriend().y = 450;
+
+	getGirlfriend().x = 400;
+	getGirlfriend().y = 130;
+
+	getDad().x = 100;
+	getDad().y = 300;
+
+	add(spookyBG);
+}
+
+function doLightningStrike() {
+	// Choose a number between 1 and 2, inclusive.
+	var thunderIndex = FlxG.random.int(1, 2);
+	var soundPath = 'sounds/thunder_$thunderIndex';
+
+	AudioAssets.playSound(soundPath);
+
+	spookyBG.animation.play('lightning');
+
+	lightningStrikeBeat = curBeat;
+	lightningOffset = FlxG.random.int(8, 24);
+
+	getBoyfriend().playAnimation('scared', true);
+	getGirlfriend().playAnimation('scared', true);
+}
+
+function onBeatHit() {
+	if (FlxG.random.bool(Conductor.bpm > 320 ? 100 : 10) && curBeat > lightningStrikeBeat + lightningOffset) {
+		if (distractions) {
+			trace('[MODHOOK] Lightning strike. Spooky!');
+			doLightningStrike();
+		}
+	}
 }

@@ -86,8 +86,8 @@ class MainMenuState extends MusicBeatState implements IHook
 	 * Mod hook called when the credits sequence starts.
 	 */
 	@:hscript({
-		pathName: "menu/MainMenuScreen",
 		optional: true,
+		pathName: "menu/MainMenuScreen",
 	})
 	public function buildMainMenuScreenHooks():Void
 	{

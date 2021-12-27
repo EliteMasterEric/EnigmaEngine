@@ -11,7 +11,7 @@ import openfl.Assets;
 using hx.strings.Strings;
 
 @:hscript({
-	context: [],
+	context: [playAnimation],
 })
 class BaseCharacter extends FlxSpriteGroup implements IHook
 {
@@ -21,6 +21,9 @@ class BaseCharacter extends FlxSpriteGroup implements IHook
 	public final barColor:FlxColor;
 	public final isPlayer:Bool = false;
 	public final isGF:Bool = false;
+
+	var forceAnimation:Bool = null;
+	var forceAnimationDuration:Float = 0;
 
 	public static final DEFAULT_PLAYER_BAR_COLOR:FlxColor = FlxColor.fromString("#66FF33");
 	public static final DEFAULT_ENEMY_BAR_COLOR:FlxColor = FlxColor.fromString("#FF0000");
@@ -67,7 +70,7 @@ class BaseCharacter extends FlxSpriteGroup implements IHook
 	 */
 	@:hscript({
 		pathName: buildPathName, // Path name is generated at the time the function is called.
-		optional: false,
+		optional: true,
 	})
 	function buildCharacterHooks():Void
 	{
@@ -76,6 +79,10 @@ class BaseCharacter extends FlxSpriteGroup implements IHook
 		{
 			Debug.logInfo('Found character hook: onCreate');
 			cbOnCreate = script_variables.get('onCreate');
+		}
+		else
+		{
+			Debug.logWarn('Could not find character hook: onCreate');
 		}
 		if (script_variables.get('onPlayIdle') != null)
 		{
@@ -117,8 +124,26 @@ class BaseCharacter extends FlxSpriteGroup implements IHook
 	 */
 	public function playAnimation(animName:String, ?restart:Bool = false):Void
 	{
-		// When implementing, remember to add the cancellable cbOnPlayAnimation!
-		throw 'playAnimation has not been implemented! ($characterId:$charType:$animName)';
+		// When implementing, remember to add the following:
+		// - Check forceAnimation and cancel if it returns false.
+		// - Call cbOnPlayAnimation and cancel if it returns false.
+		throw 'playAnimation has not been implemented! (${this.toString()}:$animName)';
+	}
+
+	/**
+	 * Forces the character to play the specified animation.
+	 * It should ignore calls to playAnimation() (such as attempts to play the idle animation)
+	 * until either the specified duration elapses (in seconds) or the animation finishes.
+	 * 
+	 * @param animName 
+	 * @param duration 
+	 */
+	public function forceAnimation(animName:String, ?duration:Float = -1):Void
+	{
+		forceAnimation = false;
+		playAnimation(animName, true);
+		forceAnimation = true;
+		forceAnimationDuration = duration;
 	}
 
 	/**
@@ -128,7 +153,7 @@ class BaseCharacter extends FlxSpriteGroup implements IHook
 	 */
 	public function hasAnimation(animName:String):Bool
 	{
-		throw 'hasAnimation has not been implemented! ($characterId:$charType:$animName)';
+		throw 'hasAnimation has not been implemented! (${this.toString()}:$animName)';
 	}
 
 	/**
@@ -137,7 +162,7 @@ class BaseCharacter extends FlxSpriteGroup implements IHook
 	 */
 	public function getAnimation():String
 	{
-		throw 'getAnimation has not been implemented! ($characterId:$charType)';
+		throw 'getAnimation has not been implemented! (${this.toString()})';
 	}
 
 	/**
@@ -145,7 +170,7 @@ class BaseCharacter extends FlxSpriteGroup implements IHook
 	 */
 	public function getAnimationFrame():Int
 	{
-		throw 'getAnimationFrame has not been implemented! ($characterId:$charType)';
+		throw 'getAnimationFrame has not been implemented! (${this.toString()})';
 	}
 
 	/**
@@ -153,7 +178,7 @@ class BaseCharacter extends FlxSpriteGroup implements IHook
 	 */
 	public function isAnimationFinished():Bool
 	{
-		throw 'isAnimationFinished has not been implemented! ($characterId:$charType)';
+		throw 'isAnimationFinished has not been implemented! (${this.toString()})';
 	}
 
 	/**
@@ -163,7 +188,7 @@ class BaseCharacter extends FlxSpriteGroup implements IHook
 	 */
 	public function setScrollFactor(x:Float = 1, y:Float = 1):Void
 	{
-		throw 'setScrollFactor has not been implemented! ($characterId:$charType)';
+		throw 'setScrollFactor has not been implemented! (${this.toString()})';
 	}
 
 	/**
@@ -172,7 +197,7 @@ class BaseCharacter extends FlxSpriteGroup implements IHook
 	 */
 	public function setVisible(visible:Bool):Void
 	{
-		throw 'setVisible has not been implemented! ($characterId:$charType)';
+		throw 'setVisible has not been implemented! (${this.toString()})';
 	}
 
 	/**
@@ -181,7 +206,7 @@ class BaseCharacter extends FlxSpriteGroup implements IHook
 	 */
 	public function getAnimations():Array<String>
 	{
-		throw 'getAnimations has not been implemented! ($characterId:$charType)';
+		throw 'getAnimations has not been implemented! (${this.toString()})';
 	}
 
 	/**
@@ -190,7 +215,7 @@ class BaseCharacter extends FlxSpriteGroup implements IHook
 	 */
 	public function getAnimationOffsets(name:String):Array<Int>
 	{
-		throw 'getAnimationOffsets has not been implemented! ($characterId:$charType:$name)';
+		throw 'getAnimationOffsets has not been implemented! (${this.toString()}:$name)';
 	}
 
 	/**
@@ -199,7 +224,7 @@ class BaseCharacter extends FlxSpriteGroup implements IHook
 	 */
 	public function setAnimationOffsets(name:String, value:Array<Int>):Void
 	{
-		throw 'setAnimationOffsets has not been implemented! ($characterId:$charType:$name)';
+		throw 'setAnimationOffsets has not been implemented! (${this.toString()}:$name)';
 	}
 
 	/**
@@ -208,7 +233,7 @@ class BaseCharacter extends FlxSpriteGroup implements IHook
 	 */
 	public function isValid():Bool
 	{
-		Debug.logError('isValid has not been implemented! ($characterId:$charType)');
+		Debug.logError('isValid has not been implemented! (${this.toString()})');
 		return false;
 	}
 
@@ -235,9 +260,34 @@ class BaseCharacter extends FlxSpriteGroup implements IHook
 	 */
 	override function update(elapsed:Float):Void
 	{
+		if (forceAnimation)
+		{
+			// Check if we are done forcing the animation.
+			if (forceAnimationDuration > 0)
+			{
+				forceAnimationDuration -= elapsed;
+
+				if (forceAnimation < 0)
+				{
+					// Allow normal animations if the duration has elapsed.
+					forceAnimation = false;
+					forceAnimationDuration = 0;
+				}
+			}
+			else
+			{
+				if (isAnimationFinished())
+				{
+					// Allow normal animations if the current animation has finished.
+					forceAnimation = false;
+					forceAnimationDuration = 0;
+				}
+			}
+		}
+
 		if (getAnimation() == null)
 		{
-			Debug.logWarn('getAnimation returned null! Is your character metadata complete?');
+			Debug.logWarn('getAnimation returned null! Is your character (${this.toString()}) metadata complete?');
 			return;
 		}
 

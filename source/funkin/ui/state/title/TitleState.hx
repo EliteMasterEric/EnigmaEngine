@@ -215,9 +215,6 @@ class TitleState extends MusicBeatState implements IHook
 		// Initialize the player settings.
 		PlayerSettings.init();
 
-		// Load the list of characters for the Charter.
-		Character.initCharacterList();
-
 		// Load the player's save data.
 		SaveData.initSave();
 		#end

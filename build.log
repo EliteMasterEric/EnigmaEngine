@@ -510,3 +510,831 @@
 [2021-12-22 01:49:46] [INFO] Lua Modchart integration is enabled, adding libraries.
 [2021-12-22 01:49:46] [INFO] NOTICE: Including assets alongside executable...
 [2021-12-22 01:49:46] [INFO] NOTICE: Including default weeks...
+[2021-12-22 23:54:33] [INFO] Platform is Linux
+[2021-12-22 23:54:33] [INFO] Architecture is x64
+[2021-12-22 23:54:33] [INFO] Output directory is export/debug/vanilla/x64
+[2021-12-22 23:54:33] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-22 23:54:33] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-22 23:54:33] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-22 23:54:33] [INFO] NOTICE: Embedding assets into executable...
+[2021-12-22 23:54:33] [INFO] NOTICE: Including default weeks...
+[2021-12-23 00:10:06] [INFO] Platform is Linux
+[2021-12-23 00:10:06] [INFO] Architecture is x64
+[2021-12-23 00:10:06] [INFO] Output directory is export/debug/vanilla/x64
+[2021-12-23 00:10:06] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 00:10:06] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 00:10:06] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 00:10:06] [INFO] NOTICE: Embedding assets into executable...
+[2021-12-23 00:10:06] [INFO] NOTICE: Including default weeks...
+[2021-12-23 00:18:41] [INFO] Platform is Linux
+[2021-12-23 00:18:41] [INFO] Architecture is x64
+[2021-12-23 00:18:41] [INFO] Output directory is export/debug/vanilla/x64
+[2021-12-23 00:18:41] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 00:18:41] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 00:18:41] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 00:18:41] [INFO] NOTICE: Embedding assets into executable...
+[2021-12-23 00:18:41] [INFO] NOTICE: Including default weeks...
+[2021-12-23 00:26:48] [INFO] Platform is Linux
+[2021-12-23 00:26:48] [INFO] Architecture is x64
+[2021-12-23 00:26:48] [INFO] Output directory is export/debug/vanilla/x64
+[2021-12-23 00:26:48] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 00:26:48] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 00:26:48] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 00:26:48] [INFO] NOTICE: Embedding assets into executable...
+[2021-12-23 00:26:48] [INFO] NOTICE: Including default weeks...
+[2021-12-23 14:44:36] [INFO] Platform is Linux
+[2021-12-23 14:44:36] [INFO] Architecture is x64
+[2021-12-23 14:44:36] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 14:44:36] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 14:44:36] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 14:44:36] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 14:44:36] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 14:44:36] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 14:44:44] [INFO] Platform is Linux
+[2021-12-23 14:44:44] [INFO] Architecture is x64
+[2021-12-23 14:44:44] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 14:44:44] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 14:44:44] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 14:44:44] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 14:44:44] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 14:44:44] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 16:07:02] [INFO] Platform is Linux
+[2021-12-23 16:07:02] [INFO] Architecture is x64
+[2021-12-23 16:07:02] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 16:07:02] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 16:07:02] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 16:07:02] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 16:07:02] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 16:07:02] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 16:07:02] [INFO] Platform is Linux
+[2021-12-23 16:07:02] [INFO] Architecture is x64
+[2021-12-23 16:07:02] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 16:07:02] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 16:07:02] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 16:07:02] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 16:07:02] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 16:07:02] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 16:07:08] [INFO] Platform is Linux
+[2021-12-23 16:07:08] [INFO] Architecture is x64
+[2021-12-23 16:07:08] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 16:07:08] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 16:07:08] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 16:07:08] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 16:07:08] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 16:07:08] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 16:07:18] [INFO] Platform is Linux
+[2021-12-23 16:07:18] [INFO] Architecture is x64
+[2021-12-23 16:07:18] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 16:07:18] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 16:07:18] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 16:07:18] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 16:07:18] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 16:07:18] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 16:22:52] [INFO] Platform is Linux
+[2021-12-23 16:22:52] [INFO] Architecture is x64
+[2021-12-23 16:22:52] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 16:22:52] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 16:22:52] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 16:22:52] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 16:22:52] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 16:22:52] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 16:23:00] [INFO] Platform is Linux
+[2021-12-23 16:23:00] [INFO] Architecture is x64
+[2021-12-23 16:23:00] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 16:23:00] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 16:23:00] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 16:23:00] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 16:23:00] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 16:23:00] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 16:37:23] [INFO] Platform is Linux
+[2021-12-23 16:37:23] [INFO] Architecture is x64
+[2021-12-23 16:37:23] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 16:37:23] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 16:37:23] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 16:37:23] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 16:37:23] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 16:37:23] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 16:37:54] [INFO] Platform is Linux
+[2021-12-23 16:37:54] [INFO] Architecture is x64
+[2021-12-23 16:37:54] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 16:37:54] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 16:37:54] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 16:37:54] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 16:37:54] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 16:37:54] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 16:38:04] [INFO] Platform is Linux
+[2021-12-23 16:38:04] [INFO] Architecture is x64
+[2021-12-23 16:38:04] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 16:38:04] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 16:38:04] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 16:38:04] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 16:38:04] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 16:38:04] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 16:40:58] [INFO] Platform is Linux
+[2021-12-23 16:40:58] [INFO] Architecture is x64
+[2021-12-23 16:40:58] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 16:40:58] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 16:40:58] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 16:40:58] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 16:40:58] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 16:40:58] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 16:41:52] [INFO] Platform is Linux
+[2021-12-23 16:41:52] [INFO] Architecture is x64
+[2021-12-23 16:41:52] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 16:41:52] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 16:41:52] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 16:41:52] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 16:41:52] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 16:41:52] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 16:42:01] [INFO] Platform is Linux
+[2021-12-23 16:42:01] [INFO] Architecture is x64
+[2021-12-23 16:42:01] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 16:42:01] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 16:42:01] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 16:42:01] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 16:42:01] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 16:42:01] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 16:43:07] [INFO] Platform is Linux
+[2021-12-23 16:43:07] [INFO] Architecture is x64
+[2021-12-23 16:43:07] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 16:43:07] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 16:43:07] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 16:43:07] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 16:43:07] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 16:43:07] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 16:43:16] [INFO] Platform is Linux
+[2021-12-23 16:43:16] [INFO] Architecture is x64
+[2021-12-23 16:43:16] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 16:43:16] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 16:43:16] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 16:43:16] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 16:43:16] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 16:43:16] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 16:47:12] [INFO] Platform is Linux
+[2021-12-23 16:47:12] [INFO] Architecture is x64
+[2021-12-23 16:47:12] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 16:47:12] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 16:47:12] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 16:47:12] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 16:47:12] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 16:47:12] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 16:54:41] [INFO] Platform is Linux
+[2021-12-23 16:54:41] [INFO] Architecture is x64
+[2021-12-23 16:54:41] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 16:54:41] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 16:54:41] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 16:54:41] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 16:54:41] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 16:54:41] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 16:58:49] [INFO] Platform is Linux
+[2021-12-23 16:58:49] [INFO] Architecture is x64
+[2021-12-23 16:58:49] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 16:58:49] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 16:58:49] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 16:58:49] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 16:58:49] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 16:58:49] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 17:00:34] [INFO] Platform is Linux
+[2021-12-23 17:00:34] [INFO] Architecture is x64
+[2021-12-23 17:00:34] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 17:00:34] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 17:00:34] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 17:00:34] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 17:00:34] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 17:00:34] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 17:00:43] [INFO] Platform is Linux
+[2021-12-23 17:00:43] [INFO] Architecture is x64
+[2021-12-23 17:00:43] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 17:00:43] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 17:00:43] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 17:00:43] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 17:00:43] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 17:00:43] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 17:02:43] [INFO] Platform is Linux
+[2021-12-23 17:02:43] [INFO] Architecture is x64
+[2021-12-23 17:02:43] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 17:02:43] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 17:02:43] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 17:02:43] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 17:02:43] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 17:02:43] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 17:02:55] [INFO] Platform is Linux
+[2021-12-23 17:02:55] [INFO] Architecture is x64
+[2021-12-23 17:02:55] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 17:02:55] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 17:02:55] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 17:02:55] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 17:02:55] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 17:02:55] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 17:03:39] [INFO] Platform is Linux
+[2021-12-23 17:03:39] [INFO] Architecture is x64
+[2021-12-23 17:03:39] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 17:03:39] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 17:03:39] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 17:03:39] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 17:03:39] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 17:03:39] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 17:04:31] [INFO] Platform is Linux
+[2021-12-23 17:04:31] [INFO] Architecture is x64
+[2021-12-23 17:04:31] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 17:04:31] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 17:04:31] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 17:04:31] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 17:04:31] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 17:04:31] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 17:04:57] [INFO] Platform is Linux
+[2021-12-23 17:04:57] [INFO] Architecture is x64
+[2021-12-23 17:04:57] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 17:04:57] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 17:04:57] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 17:04:57] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 17:04:57] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 17:04:57] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 17:14:52] [INFO] Platform is Linux
+[2021-12-23 17:14:52] [INFO] Architecture is x64
+[2021-12-23 17:14:52] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 17:14:52] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 17:14:52] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 17:14:52] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 17:14:52] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 17:14:52] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 17:15:01] [INFO] Platform is Linux
+[2021-12-23 17:15:01] [INFO] Architecture is x64
+[2021-12-23 17:15:01] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 17:15:01] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 17:15:01] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 17:15:01] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 17:15:01] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 17:15:01] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 17:16:40] [INFO] Platform is Linux
+[2021-12-23 17:16:40] [INFO] Architecture is x64
+[2021-12-23 17:16:40] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 17:16:40] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 17:16:40] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 17:16:40] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 17:16:40] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 17:16:40] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 17:16:47] [INFO] Platform is Linux
+[2021-12-23 17:16:47] [INFO] Architecture is x64
+[2021-12-23 17:16:47] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 17:16:47] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 17:16:47] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 17:16:47] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 17:16:47] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 17:16:47] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 17:19:41] [INFO] Platform is Linux
+[2021-12-23 17:19:41] [INFO] Architecture is x64
+[2021-12-23 17:19:41] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 17:19:41] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 17:19:41] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 17:19:41] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 17:19:41] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 17:19:41] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 17:19:49] [INFO] Platform is Linux
+[2021-12-23 17:19:49] [INFO] Architecture is x64
+[2021-12-23 17:19:49] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 17:19:49] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 17:19:49] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 17:19:49] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 17:19:49] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 17:19:49] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 17:21:34] [INFO] Platform is Linux
+[2021-12-23 17:21:34] [INFO] Architecture is x64
+[2021-12-23 17:21:34] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 17:21:34] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 17:21:34] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 17:21:34] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 17:21:34] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 17:21:34] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 17:23:51] [INFO] Platform is Linux
+[2021-12-23 17:23:51] [INFO] Architecture is x64
+[2021-12-23 17:23:51] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 17:23:51] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 17:23:51] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 17:23:51] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 17:23:51] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 17:23:51] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 17:24:00] [INFO] Platform is Linux
+[2021-12-23 17:24:00] [INFO] Architecture is x64
+[2021-12-23 17:24:00] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 17:24:00] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 17:24:00] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 17:24:00] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 17:24:00] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 17:24:00] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 17:25:08] [INFO] Platform is Linux
+[2021-12-23 17:25:08] [INFO] Architecture is x64
+[2021-12-23 17:25:08] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 17:25:08] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 17:25:08] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 17:25:08] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 17:25:08] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 17:25:08] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 17:27:56] [INFO] Platform is Linux
+[2021-12-23 17:27:56] [INFO] Architecture is x64
+[2021-12-23 17:27:56] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 17:27:56] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 17:27:56] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 17:27:56] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 17:27:56] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 17:27:56] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 17:28:53] [INFO] Platform is Linux
+[2021-12-23 17:28:53] [INFO] Architecture is x64
+[2021-12-23 17:28:53] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 17:28:53] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 17:28:53] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 17:28:53] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 17:28:53] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 17:28:53] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 17:29:02] [INFO] Platform is Linux
+[2021-12-23 17:29:02] [INFO] Architecture is x64
+[2021-12-23 17:29:02] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 17:29:02] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 17:29:02] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 17:29:02] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 17:29:02] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 17:29:02] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 18:07:47] [INFO] Platform is Linux
+[2021-12-23 18:07:47] [INFO] Architecture is x64
+[2021-12-23 18:07:47] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 18:07:47] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 18:07:47] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 18:07:47] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 18:07:47] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 18:07:47] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 18:12:23] [INFO] Platform is Linux
+[2021-12-23 18:12:23] [INFO] Architecture is x64
+[2021-12-23 18:12:23] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 18:12:23] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 18:12:23] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 18:12:23] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 18:12:23] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 18:12:23] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 18:12:32] [INFO] Platform is Linux
+[2021-12-23 18:12:32] [INFO] Architecture is x64
+[2021-12-23 18:12:32] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 18:12:32] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 18:12:32] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 18:12:32] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 18:12:32] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 18:12:32] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 18:14:58] [INFO] Platform is Linux
+[2021-12-23 18:14:58] [INFO] Architecture is x64
+[2021-12-23 18:14:58] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 18:14:58] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 18:14:58] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 18:14:58] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 18:14:58] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 18:14:58] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 18:15:10] [INFO] Platform is Linux
+[2021-12-23 18:15:10] [INFO] Architecture is x64
+[2021-12-23 18:15:10] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 18:15:10] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 18:15:10] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 18:15:10] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 18:15:10] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 18:15:10] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 18:57:03] [INFO] Platform is Linux
+[2021-12-23 18:57:03] [INFO] Architecture is x64
+[2021-12-23 18:57:03] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 18:57:03] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 18:57:03] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 18:57:03] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 18:57:03] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 18:57:03] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 18:57:15] [INFO] Platform is Linux
+[2021-12-23 18:57:15] [INFO] Architecture is x64
+[2021-12-23 18:57:15] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 18:57:15] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 18:57:15] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 18:57:15] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 18:57:15] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 18:57:15] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 19:20:54] [INFO] Platform is Linux
+[2021-12-23 19:20:54] [INFO] Architecture is x64
+[2021-12-23 19:20:54] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 19:20:54] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 19:20:54] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 19:20:54] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 19:20:54] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 19:20:54] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 19:20:59] [INFO] Platform is Linux
+[2021-12-23 19:20:59] [INFO] Architecture is x64
+[2021-12-23 19:20:59] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 19:20:59] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 19:20:59] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 19:20:59] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 19:20:59] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 19:20:59] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 19:22:45] [INFO] Platform is Linux
+[2021-12-23 19:22:45] [INFO] Architecture is x64
+[2021-12-23 19:22:45] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 19:22:45] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 19:22:45] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 19:22:45] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 19:22:45] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 19:22:45] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 19:22:53] [INFO] Platform is Linux
+[2021-12-23 19:22:53] [INFO] Architecture is x64
+[2021-12-23 19:22:53] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 19:22:53] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 19:22:53] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 19:22:53] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 19:22:53] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 19:22:53] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 19:23:46] [INFO] Platform is Linux
+[2021-12-23 19:23:46] [INFO] Architecture is x64
+[2021-12-23 19:23:46] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 19:23:46] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 19:23:46] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 19:23:46] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 19:23:46] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 19:23:46] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 19:23:54] [INFO] Platform is Linux
+[2021-12-23 19:23:54] [INFO] Architecture is x64
+[2021-12-23 19:23:54] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 19:23:54] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 19:23:54] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 19:23:54] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 19:23:54] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 19:23:54] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 19:26:58] [INFO] Platform is Linux
+[2021-12-23 19:26:58] [INFO] Architecture is x64
+[2021-12-23 19:26:58] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 19:26:58] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 19:26:58] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 19:26:58] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 19:26:58] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 19:26:58] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 19:34:38] [INFO] Platform is Linux
+[2021-12-23 19:34:38] [INFO] Architecture is x64
+[2021-12-23 19:34:38] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 19:34:38] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 19:34:38] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 19:34:38] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 19:34:38] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 19:34:38] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 19:50:44] [INFO] Platform is Linux
+[2021-12-23 19:50:44] [INFO] Architecture is x64
+[2021-12-23 19:50:45] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 19:50:45] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 19:50:45] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 19:50:45] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 19:50:45] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 19:50:45] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 19:50:54] [INFO] Platform is Linux
+[2021-12-23 19:50:54] [INFO] Architecture is x64
+[2021-12-23 19:50:54] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 19:50:54] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 19:50:54] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 19:50:54] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 19:50:54] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 19:50:54] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 19:53:37] [INFO] Platform is Linux
+[2021-12-23 19:53:37] [INFO] Architecture is x64
+[2021-12-23 19:53:37] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 19:53:37] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 19:53:37] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 19:53:37] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 19:53:37] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 19:53:37] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 19:53:45] [INFO] Platform is Linux
+[2021-12-23 19:53:45] [INFO] Architecture is x64
+[2021-12-23 19:53:45] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 19:53:45] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 19:53:45] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 19:53:45] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 19:53:45] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 19:53:45] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 19:54:59] [INFO] Platform is Linux
+[2021-12-23 19:54:59] [INFO] Architecture is x64
+[2021-12-23 19:54:59] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 19:54:59] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 19:54:59] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 19:54:59] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 19:54:59] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 19:54:59] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 19:55:08] [INFO] Platform is Linux
+[2021-12-23 19:55:08] [INFO] Architecture is x64
+[2021-12-23 19:55:08] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 19:55:08] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 19:55:08] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 19:55:08] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 19:55:08] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 19:55:08] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 19:56:08] [INFO] Platform is Linux
+[2021-12-23 19:56:08] [INFO] Architecture is x64
+[2021-12-23 19:56:08] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 19:56:08] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 19:56:08] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 19:56:08] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 19:56:08] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 19:56:08] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 19:56:18] [INFO] Platform is Linux
+[2021-12-23 19:56:18] [INFO] Architecture is x64
+[2021-12-23 19:56:18] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 19:56:18] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 19:56:18] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 19:56:18] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 19:56:18] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 19:56:18] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 20:01:01] [INFO] Platform is Linux
+[2021-12-23 20:01:01] [INFO] Architecture is x64
+[2021-12-23 20:01:01] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 20:01:01] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 20:01:01] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 20:01:01] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 20:01:01] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 20:01:01] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 20:01:09] [INFO] Platform is Linux
+[2021-12-23 20:01:09] [INFO] Architecture is x64
+[2021-12-23 20:01:09] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 20:01:09] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 20:01:09] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 20:01:09] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 20:01:09] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 20:01:09] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 20:02:50] [INFO] Platform is Linux
+[2021-12-23 20:02:50] [INFO] Architecture is x64
+[2021-12-23 20:02:50] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 20:02:50] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 20:02:50] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 20:02:50] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 20:02:50] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 20:02:50] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 20:02:58] [INFO] Platform is Linux
+[2021-12-23 20:02:58] [INFO] Architecture is x64
+[2021-12-23 20:02:58] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 20:02:58] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 20:02:58] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 20:02:58] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 20:02:58] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 20:02:58] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 20:05:13] [INFO] Platform is Linux
+[2021-12-23 20:05:13] [INFO] Architecture is x64
+[2021-12-23 20:05:13] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 20:05:13] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 20:05:13] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 20:05:13] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 20:05:13] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 20:05:13] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 20:05:21] [INFO] Platform is Linux
+[2021-12-23 20:05:21] [INFO] Architecture is x64
+[2021-12-23 20:05:21] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 20:05:21] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 20:05:21] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 20:05:21] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 20:05:21] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 20:05:21] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 20:06:13] [INFO] Platform is Linux
+[2021-12-23 20:06:13] [INFO] Architecture is x64
+[2021-12-23 20:06:13] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 20:06:13] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 20:06:13] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 20:06:13] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 20:06:13] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 20:06:13] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 20:06:21] [INFO] Platform is Linux
+[2021-12-23 20:06:21] [INFO] Architecture is x64
+[2021-12-23 20:06:21] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 20:06:21] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 20:06:21] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 20:06:21] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 20:06:21] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 20:06:21] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 20:06:54] [INFO] Platform is Linux
+[2021-12-23 20:06:54] [INFO] Architecture is x64
+[2021-12-23 20:06:54] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 20:06:54] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 20:06:54] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 20:06:54] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 20:06:54] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 20:06:54] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 20:07:02] [INFO] Platform is Linux
+[2021-12-23 20:07:02] [INFO] Architecture is x64
+[2021-12-23 20:07:02] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 20:07:02] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 20:07:02] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 20:07:02] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 20:07:02] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 20:07:02] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 20:49:56] [INFO] Platform is Linux
+[2021-12-23 20:49:56] [INFO] Architecture is x64
+[2021-12-23 20:49:56] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 20:49:56] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 20:49:56] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 20:49:56] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 20:49:56] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 20:49:56] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 20:50:04] [INFO] Platform is Linux
+[2021-12-23 20:50:04] [INFO] Architecture is x64
+[2021-12-23 20:50:04] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 20:50:04] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 20:50:04] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 20:50:04] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 20:50:04] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 20:50:04] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 21:09:50] [INFO] Platform is Linux
+[2021-12-23 21:09:50] [INFO] Architecture is x64
+[2021-12-23 21:09:50] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 21:09:50] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 21:09:50] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 21:09:50] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 21:09:50] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 21:09:50] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 21:09:59] [INFO] Platform is Linux
+[2021-12-23 21:09:59] [INFO] Architecture is x64
+[2021-12-23 21:09:59] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 21:09:59] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 21:09:59] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 21:09:59] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 21:09:59] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 21:09:59] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 21:13:15] [INFO] Platform is Linux
+[2021-12-23 21:13:15] [INFO] Architecture is x64
+[2021-12-23 21:13:15] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 21:13:15] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 21:13:15] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 21:13:15] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 21:13:15] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 21:13:15] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 21:13:24] [INFO] Platform is Linux
+[2021-12-23 21:13:24] [INFO] Architecture is x64
+[2021-12-23 21:13:24] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 21:13:24] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 21:13:24] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 21:13:24] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 21:13:24] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 21:13:24] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 21:13:59] [INFO] Platform is Linux
+[2021-12-23 21:13:59] [INFO] Architecture is x64
+[2021-12-23 21:13:59] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 21:13:59] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 21:13:59] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 21:13:59] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 21:13:59] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 21:13:59] [INFO] NOTICE: Excluding default weeks...
+[2021-12-23 21:14:06] [INFO] Platform is Linux
+[2021-12-23 21:14:06] [INFO] Architecture is x64
+[2021-12-23 21:14:06] [INFO] Output directory is export/debug/base/x64
+[2021-12-23 21:14:06] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-23 21:14:06] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-23 21:14:06] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-23 21:14:06] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-23 21:14:06] [INFO] NOTICE: Excluding default weeks...
+[2021-12-24 13:06:16] [INFO] Platform is HTML5
+[2021-12-24 13:06:16] [INFO] Output directory is export/debug/vanilla/x86
+[2021-12-24 13:06:16] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-24 13:06:16] [INFO] NOTICE: Including default weeks...
+[2021-12-24 20:41:15] [INFO] Platform is Linux
+[2021-12-24 20:41:15] [INFO] Architecture is x64
+[2021-12-24 20:41:15] [INFO] Output directory is export/debug/base/x64
+[2021-12-24 20:41:15] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-24 20:41:15] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-24 20:41:15] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-24 20:41:15] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-24 20:41:15] [INFO] NOTICE: Excluding default weeks...
+[2021-12-24 20:41:18] [INFO] Platform is Linux
+[2021-12-24 20:41:18] [INFO] Architecture is x64
+[2021-12-24 20:41:18] [INFO] Output directory is export/debug/vanilla/x64
+[2021-12-24 20:41:18] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-24 20:41:18] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-24 20:41:18] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-24 20:41:18] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-24 20:41:18] [INFO] NOTICE: Including default weeks...
+[2021-12-24 20:41:52] [INFO] Platform is Linux
+[2021-12-24 20:41:52] [INFO] Architecture is x64
+[2021-12-24 20:41:52] [INFO] Output directory is export/debug/base/x64
+[2021-12-24 20:41:52] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-24 20:41:52] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-24 20:41:52] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-24 20:41:52] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-24 20:41:52] [INFO] NOTICE: Excluding default weeks...
+[2021-12-24 20:42:00] [INFO] Platform is Linux
+[2021-12-24 20:42:00] [INFO] Architecture is x64
+[2021-12-24 20:42:00] [INFO] Output directory is export/debug/base/x64
+[2021-12-24 20:42:00] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-24 20:42:01] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-24 20:42:01] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-24 20:42:01] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-24 20:42:01] [INFO] NOTICE: Excluding default weeks...
+[2021-12-24 20:43:54] [INFO] Platform is Linux
+[2021-12-24 20:43:54] [INFO] Architecture is x64
+[2021-12-24 20:43:54] [INFO] Output directory is export/debug/vanilla/x64
+[2021-12-24 20:43:54] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-24 20:43:54] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-24 20:43:54] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-24 20:43:54] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-24 20:43:54] [INFO] NOTICE: Including default weeks...
+[2021-12-24 21:00:08] [INFO] Platform is Linux
+[2021-12-24 21:00:08] [INFO] Architecture is x64
+[2021-12-24 21:00:08] [INFO] Output directory is export/debug/vanilla/x64
+[2021-12-24 21:00:08] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-24 21:00:08] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-24 21:00:08] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-24 21:00:08] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-24 21:00:08] [INFO] NOTICE: Including default weeks...
+[2021-12-24 21:00:33] [INFO] Platform is Linux
+[2021-12-24 21:00:33] [INFO] Architecture is x64
+[2021-12-24 21:00:33] [INFO] Output directory is export/debug/vanilla/x64
+[2021-12-24 21:00:33] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-24 21:00:33] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-24 21:00:33] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-24 21:00:33] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-24 21:00:33] [INFO] NOTICE: Including default weeks...
+[2021-12-24 21:00:50] [INFO] Platform is Linux
+[2021-12-24 21:00:50] [INFO] Architecture is x64
+[2021-12-24 21:00:50] [INFO] Output directory is export/debug/base/x64
+[2021-12-24 21:00:50] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-24 21:00:50] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-24 21:00:50] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-24 21:00:50] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-24 21:00:50] [INFO] NOTICE: Excluding default weeks...
+[2021-12-24 21:00:56] [INFO] Platform is Linux
+[2021-12-24 21:00:56] [INFO] Architecture is x64
+[2021-12-24 21:00:56] [INFO] Output directory is export/debug/base/x64
+[2021-12-24 21:00:56] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-24 21:00:56] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-24 21:00:56] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-24 21:00:56] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-24 21:00:56] [INFO] NOTICE: Excluding default weeks...
+[2021-12-24 21:01:21] [INFO] Platform is Linux
+[2021-12-24 21:01:21] [INFO] Architecture is x64
+[2021-12-24 21:01:21] [INFO] Output directory is export/debug/vanilla/x64
+[2021-12-24 21:01:21] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-24 21:01:21] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-24 21:01:21] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-24 21:01:21] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-24 21:01:21] [INFO] NOTICE: Including default weeks...
+[2021-12-24 21:01:49] [INFO] Platform is Linux
+[2021-12-24 21:01:49] [INFO] Architecture is x64
+[2021-12-24 21:01:49] [INFO] Output directory is export/debug/base/x64
+[2021-12-24 21:01:49] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-24 21:01:49] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-24 21:01:49] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-24 21:01:49] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-24 21:01:49] [INFO] NOTICE: Excluding default weeks...
+[2021-12-24 21:01:58] [INFO] Platform is Linux
+[2021-12-24 21:01:58] [INFO] Architecture is x64
+[2021-12-24 21:01:58] [INFO] Output directory is export/debug/base/x64
+[2021-12-24 21:01:58] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-24 21:01:58] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-24 21:01:58] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-24 21:01:58] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-24 21:01:58] [INFO] NOTICE: Excluding default weeks...
+[2021-12-24 22:07:27] [INFO] Platform is Linux
+[2021-12-24 22:07:27] [INFO] Architecture is x64
+[2021-12-24 22:07:27] [INFO] Output directory is export/debug/vanilla/x64
+[2021-12-24 22:07:27] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-24 22:07:27] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-24 22:07:27] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-24 22:07:27] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-24 22:07:27] [INFO] NOTICE: Including default weeks...
+[2021-12-24 22:08:06] [INFO] Platform is Linux
+[2021-12-24 22:08:06] [INFO] Architecture is x64
+[2021-12-24 22:08:06] [INFO] Output directory is export/debug/base/x64
+[2021-12-24 22:08:06] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-24 22:08:06] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-24 22:08:06] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-24 22:08:06] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-24 22:08:06] [INFO] NOTICE: Excluding default weeks...
+[2021-12-24 22:08:23] [INFO] Platform is Linux
+[2021-12-24 22:08:23] [INFO] Architecture is x64
+[2021-12-24 22:08:23] [INFO] Output directory is export/debug/base/x64
+[2021-12-24 22:08:23] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-24 22:08:23] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-24 22:08:23] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-24 22:08:23] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-24 22:08:23] [INFO] NOTICE: Excluding default weeks...
+[2021-12-24 22:08:35] [INFO] Platform is Linux
+[2021-12-24 22:08:35] [INFO] Architecture is x64
+[2021-12-24 22:08:35] [INFO] Output directory is export/debug/base/x64
+[2021-12-24 22:08:35] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-24 22:08:35] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-24 22:08:35] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-24 22:08:35] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-24 22:08:35] [INFO] NOTICE: Excluding default weeks...
+[2021-12-24 22:08:59] [INFO] Platform is Linux
+[2021-12-24 22:08:59] [INFO] Architecture is x64
+[2021-12-24 22:08:59] [INFO] Output directory is export/debug/base/x64
+[2021-12-24 22:08:59] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-24 22:08:59] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-24 22:08:59] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-24 22:08:59] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-24 22:08:59] [INFO] NOTICE: Excluding default weeks...
+[2021-12-24 22:44:52] [INFO] Platform is Linux
+[2021-12-24 22:44:52] [INFO] Architecture is x64
+[2021-12-24 22:44:52] [INFO] Output directory is export/debug/vanilla/x64
+[2021-12-24 22:44:52] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-24 22:44:52] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-24 22:44:52] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-24 22:44:52] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-24 22:44:52] [INFO] NOTICE: Including default weeks...
+[2021-12-24 23:00:16] [INFO] Platform is Linux
+[2021-12-24 23:00:16] [INFO] Architecture is x64
+[2021-12-24 23:00:16] [INFO] Output directory is export/debug/vanilla/x64
+[2021-12-24 23:00:16] [INFO] Discord integration is enabled, adding libraries.
+[2021-12-24 23:00:16] [INFO] WEBM integration is enabled, adding DESKTOP libraries.
+[2021-12-24 23:00:16] [INFO] Lua Modchart integration is enabled, adding libraries.
+[2021-12-24 23:00:16] [INFO] NOTICE: Including assets alongside executable...
+[2021-12-24 23:00:16] [INFO] NOTICE: Including default weeks...
